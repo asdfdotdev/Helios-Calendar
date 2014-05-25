@@ -1,0 +1,10 @@
+/**
+ * @package Helios Calendar
+ * @license http://www.gnu.org/licenses/gpl-2.0.html
+ */
+
+/*	Style & Layout Fixes for TinyMCE 4 */
+
+.mce-tinymce {width:82%;float:left;display:inline;margin:7px 0 7px 2px;font-size:10em;}
+.mce-i-browse:before {font-family:'tinymce';}
+.mce-label, .moxman-label {text-indent:0;}

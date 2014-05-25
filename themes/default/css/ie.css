@@ -1,0 +1,9 @@
+/**
+ * @package Helios Calendar
+ * @subpackage Default Theme
+ */
+
+#location {clear:right;}
+table.hc_cpBorder {border:solid 1px #ACACAC;padding:3px;}
+a.cmnt_cnt:hover {text-decoration:underline;}
+aside #hc_l, aside #hc_r, aside nav ul, aside nav ul li:last-child a:hover {border-radius: 0 0 0 0;}

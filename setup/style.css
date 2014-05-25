@@ -1,0 +1,46 @@
+html {overflow-y: scroll;}
+html,body{font-family:Verdana,sans-serif;font-size:12px;margin:0;padding:0;font-smooth:always;}
+body {background:#F5F6F7;}
+.hl {background:#EFEFEF;}
+.hl_frm {background:#FFFFFF;}
+h1 {font-family:inherit;font-size:14px;font-weight:bold;margin:0px;padding:5px 0px 7px 0px;color:#000000;}
+h2 {clear:both;font-size:13px;margin:15px 0px 3px 0px;padding:5px 0px 0px 0px;border-top:solid 1px #CCCCCC;}
+h2 span {font-size:11px;letter-spacing:1px;}
+h3 {margin:0;}
+a:link, a:visited {text-decoration:underline;color:#3D3F3E;}
+a:hover {text-decoration:none;color:#FF6600;}
+a:active {text-decoration:underline;color:#FF6600;}
+aside {float:left;margin:15px auto 0 0;width:25%;line-height:20px;}
+aside ul {margin:0;padding:0;list-style:none;}
+aside ul li {margin:0;padding:0;}
+aside ul li span {float:left;width:100px;font-weight:bold;}
+section {margin:auto;width:980px;}
+article p {clear:both;padding-top:0;}
+article {float:left;margin:25px 15px 0 auto;padding:5px;width:72%;min-height:450px;background:#FFFFFF;border:solid 1px #666666;}
+article ul {margin:10px 0 10px 0;padding:0;list-style:none;}
+article ul.bulleted {margin:10px 0 10px 25px;padding:0;list-style:square;}
+article ol {clear:both;margin:10px 0 10px 25px;padding:0;}
+article ul li, article ol li {clear:both;float:left;margin:0;padding:0;}
+article ul li span, article ol li span {float:left;width:150px;font-weight:bold;line-height:20px;}
+footer {clear:both;margin:0 0 25px 0;padding:10px 0 0 0;}
+.active {font-weight:bold;color:#DC143C;}
+.agreed {margin-top:10px;text-align:left;vertical-align:middle;line-height:20px;width:680px;vertical-align:middle;}
+#agree {margin-top:3px;}
+#progress {font-size:13px;border-bottom:solid 1px #CCCCCC;margin:5px 0 15px 0;padding:0 0 10px 0;color:#000;}
+fieldset {clear:both;margin:0 0 5px 0;padding:0 0 10px 0;border:0px;border-bottom:solid 1px #CCCCCC;}
+legend {font-size:12px;font-weight:bold;color:#000000;background:transparent;margin:1px;padding:0px 10px 2px 0px;}
+label {clear:both;float:left;width:150px;margin:3px 0 3px 0;padding:0px 10px 0px 0px;text-align:right;}
+label.upgrade {width:90%;text-align:left;padding:0 0 0 5px;text-indent: 5px;}
+input {float:left;margin:0 0 3px 0;}
+.output {float:left;margin:3px 0 3px 0;}
+fieldset div input, textarea, select{font-family:Verdana, sans-serif;font-size:11px;border-top:1px solid #555;border-left:1px solid #555;border-bottom:1px solid #ccc;border-right:1px solid #ccc;padding:1px;color:#333;vertical-align:middle;font-size:11px;}
+fieldset div.frmReq,fieldset div.frmReq input, textarea, select{font-weight:bold;}
+fieldset div.frmOpt,fieldset div.frmOpt input, textarea, select{font-weight:normal;}
+#submit, #button {clear:both;margin:0 0 10px 0;}
+#begin {clear:none;float:left;margin:0 0 0 10px;}
+.ok {color:#009F6B;}
+.error {color:#DC143C;font-weight:bold;}
+.old {color:#FFB90F;font-weight:bold;}
+.old:after {color:#000000;font-weight:normal;font-style:italic;content:' - Support for this version is limited and/or discontinued. Please upgrade soon.';}
+.notice {border: solid 1px #666666;background:#FEFFE6;padding:0 10px 0 10px;line-height:12px;}
+.utitle {clear:both;margin:5px 0 5px 0;padding-left:5px;line-height:15px;font-weight:bold;}

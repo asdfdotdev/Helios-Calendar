@@ -1,0 +1,13 @@
+/**
+ * @package Helios Calendar
+ */
+
+#map_canvas_single li, #map_canvas li {float:none;}
+#map_canvas_single input, #map_canvas input {margin:0;padding:0;}
+#map_canvas_single label, #map_canvas label {width:auto;float:none;position:relative;padding:0 0 3px 3px;margin:0;text-align:left;}
+#map_canvas .menu ul {list-style-type:none;padding:0;margin:0;}
+#map_canvas .menu ul li {float:left;margin:5px;}
+#map_list {float:left;width:25%;height:600px;overflow-x:hidden;overflow-y:auto;}
+div.iw {width:350px;height:250px;margin:0;padding:0;overflow:hidden;}
+div.iw_menu {height:20px;margin:0 0 7px 0;padding:3px 0 3px 5px;}
+div.iw_menu img {float:left;margin:2px 3px 0 3px;}
