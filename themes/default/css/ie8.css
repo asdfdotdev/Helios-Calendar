@@ -1,0 +1,7 @@
+/**
+ * @package Helios Calendar
+ * @subpackage Default Theme
+ */
+
+a.cmnt_cnt {line-height:18px;}
+a.cmnt_cnt:after {top:4px;}

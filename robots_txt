@@ -1,0 +1,6 @@
+Sitemap: /sitemap/index.php
+
+User-agent: *
+Disallow: /admin/
+Disallow: /cache/
+Disallow: /uploads/
