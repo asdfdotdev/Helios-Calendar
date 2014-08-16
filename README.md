@@ -7,3 +7,8 @@ For more information, and to join the Helios Calendar community, please visit ht
 ----
 ## License
 Helios Calendar is made available under the [GPL](http://www.gnu.org/licenses/gpl-2.0.html).
+
+---
+## Help & Documentation
+- [Helios Project Forum](http://helioscalendar.org/forum)
+- [Helios Calendar Documentation](http://helioscalendar.org/documentation)
