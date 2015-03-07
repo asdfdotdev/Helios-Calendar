@@ -41,4 +41,16 @@
 			'.$fwd.'
 		</div>';
 	}
+	
+	function my_tools_submenu(){
+		global $hc_cfg;
+		
+		if($hc_cfg[54] == 1){
+			echo '
+				<li><a href="<?php echo cal_url();?>/index.php?com=newsletter">Newsletter:</a></li>
+				<li><a href="<?php echo cal_url();?>/index.php?com=archive">Archive</a></li>
+				<li><a href="<?php echo cal_url();?>/index.php?com=signup">Subscribe</a></li>
+			';
+		}
+	}
 ?>

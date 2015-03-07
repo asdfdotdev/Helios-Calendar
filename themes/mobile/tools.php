@@ -24,10 +24,8 @@
 	
 	<nav class="sub">
 		<ul>
-			<li>&nbsp;</li>
-			<li><a href="<?php echo cal_url();?>/index.php?com=newsletter">Newsletter:</a></li>
-			<li><a href="<?php echo cal_url();?>/index.php?com=archive">Archive</a></li>
-			<li><a href="<?php echo cal_url();?>/index.php?com=signup">Subscribe</a></li>
+				<li>&nbsp;</li>
+				<?php	my_tools_submenu();?>
 		</ul>
 	</nav>
 	
