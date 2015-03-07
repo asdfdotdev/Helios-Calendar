@@ -439,8 +439,9 @@
 		toolbar_items_size : "small",'.($width != '' ? '
 		width: "'.$width.'",':'').'
 		plugins: [
-			"'.($admin == 1 ? 'media ':'').'advlist anchor autolink autoresize charmap code contextmenu directionality emoticons hr image insertdatetime layer",
-			"link lists nonbreaking noneditable pagebreak paste preview print searchreplace spellchecker tabfocus table visualblocks wordcount"
+			"'.($admin == 1 ? 'media ':'').'advlist anchor autolink autoresize charmap code colorpicker contextmenu directionality emoticons fullscreen fullpage",
+			"hr image insertdatetime layer link lists nonbreaking noneditable pagebreak paste preview print searchreplace tabfocus table template textcolor textpattern",
+			"visualblocks visualchars wordcount"
 		],
 		toolbar1: "'.($admin == 1 ? 'insertfile ':'').'image | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | emoticons",
 		extended_valid_elements: ""
