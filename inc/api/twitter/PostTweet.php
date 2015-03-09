@@ -35,7 +35,6 @@
 	} else {
 		$read = "";
 		$request = "POST $path?status=" . $paramsRaw['status'] . " HTTP/1.1\r\n";
-		//	The following line of code, which sets the User-Agent for the API request, cannot be edited. Modifing this line of code violates the Helios Calendar SLA.
 		$request .= "User-Agent: Helios Calendar ".HCVersion." \r\n";
 		$request .= "Host: $site \r\n";
 		$request .= "Accept: */* \r\n";
