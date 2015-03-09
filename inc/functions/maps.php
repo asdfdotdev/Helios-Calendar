@@ -493,7 +493,7 @@
 	}";
 	}
 	/**
-	 * Output JavaScript for single tile provider's layers for use with OpenLayers library. DO NOT modify this function to output multiple tile providers together. Such modification violates the Helios Calendar SLA and some Third Party's Terms of Service.
+	 * Output JavaScript for single tile provider's layers for use with OpenLayers library. DO NOT modify this function to output multiple tile providers together. Such modification may violate some Third Party's Terms of Service.
 	 * @param string $lat Latitude for embedded map centerpoint.
 	 * @param string $lon Longitude for embedded map centerpoint.
 	 * @param integer $provider map provider to use for generated layers for (1 = Google, 2 = Bing, 3 = Yahoo, 4 = MapQuest)
