@@ -15,45 +15,25 @@
 		}
 	}
 	function killAdminSession(){
+		global $session_a;
+		
 		if(isset($_SESSION['AdminPkID']))
 			doQuery("UPDATE " . HC_TblPrefix . "admin SET Access = NULL WHERE PkID = '" . cIn($_SESSION['AdminPkID']) . "'");
 
-		unset($_SESSION['AdminLoggedIn']);
-		unset($_SESSION['AdminPkID']);
-		unset($_SESSION['AdminFirstName']);
-		unset($_SESSION['AdminLastName']);
-		unset($_SESSION['AdminEmail']);
-		unset($_SESSION['Instructions']);
-		unset($_SESSION['hc_SessionReset']);
-		unset($_SESSION['hc_whoami']);
-		unset($_SESSION['isLoggedIn']);
-		unset($_SESSION['imagemanager.preview.wwwroot']);
-		unset($_SESSION['imagemanager.preview.urlprefix']);
-		unset($_SESSION['imagemanager.filesystem.rootpath']);
+		$session_a->end();
 	}
 	function startNewSession(){
-		global $hc_cfg;
+		global $session_a, $hc_cfg;
 		$aUser = (isset($_SESSION['AdminPkID'])) ? cIn($_SESSION['AdminPkID']) : 0;
 		
 		$resultAS = doQuery("SELECT Access FROM " . HC_TblPrefix . "admin WHERE PkID = '" . $aUser . "'");
 		$knownSession = (hasRows($resultAS)) ? mysql_result($resultAS,0,0) : NULL;
+		
 		if($knownSession != md5(session_id()))
 			killAdminSession();
-		else
-			$_SESSION['hc_SessionReset'] = (date("U") + mt_rand(60,900));
 		
-		$old_session = session_id();
-		session_regenerate_id();
-		$new_session = session_id();
-		session_write_close();
-		session_id($new_session);
-		session_name($hc_cfg[200]);
-		session_start();
-		$_SESSION['hc_whoami'] = md5($_SERVER['REMOTE_ADDR'] . session_id());
-
-		if(isset($_COOKIE[$old_session])) 
-		    setcookie($old_session, '', time()-86400, '/');
-
+		$session_a->start(true);
+		
 		doQuery("UPDATE " . HC_TblPrefix . "admin SET Access = '" . cIn(md5(session_id())) . "' WHERE PkID = '" . $aUser . "'");
 	}
 	function appInstructions($noSwitch, $codex, $title, $message){

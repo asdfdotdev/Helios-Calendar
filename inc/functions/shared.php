@@ -240,8 +240,12 @@
 	 */
 	function post_only(){
 		if($_SERVER['REQUEST_METHOD'] != 'POST'){
-			header('HTTP/1.1 405 Method Not Allowed');
-			exit;}
+			if(function_exists('http_response_code'))
+				http_response_code(405);
+			else
+				header('HTTP/1.1 405 Method Not Allowed');
+			exit;
+		}
 	}
 	/**
 	 * Output tweet with current hashtag setting.

@@ -386,24 +386,9 @@
 	 * @return void
 	 */
 	function user_kill_session(){
-		if($_SESSION['UserLevel'] > 0){
-			unset($_SESSION['isLoggedIn']);
-			unset($_SESSION['imagemanager.preview.wwwroot']);
-			unset($_SESSION['imagemanager.preview.urlprefix']);
-			unset($_SESSION['imagemanager.filesystem.rootpath']);
-		}
+		global $session;
 		
-		unset($_SESSION['UserLoggedIn']);
-		unset($_SESSION['UserNetType']);
-		unset($_SESSION['UserNetName']);
-		unset($_SESSION['UserNetID']);
-		unset($_SESSION['UserNetToken']);
-		unset($_SESSION['UserNetSecret']);
-		unset($_SESSION['UserPkID']);
-		unset($_SESSION['UserLevel']);
-		unset($_SESSION['new_user']);
-		unset($_SESSION['new_user_bday']);
-		unset($_SESSION['new_user_email']);
+		$session->end();
 	}
 	/**
 	 * Regenerate the user's session id, end old session & expire old session cookie if present.
@@ -412,18 +397,9 @@
 	 * @return void
 	 */
 	function user_new_session(){
-		global $hc_cfg;
+		global $session, $hc_cfg;
 		
-		$old_session = session_id();
-		session_regenerate_id();
-		$new_session = session_id();
-		session_write_close();
-		session_id($new_session);
-		session_name($hc_cfg[201]);
-		session_start();
-		
-		if(isset($_COOKIE[$old_session])) 
-		    setcookie($old_session, '', time()-86400, '/');
+		$session->start(true);
 		
 		$_SESSION['UserLoginTime'] = date("U");
 	}

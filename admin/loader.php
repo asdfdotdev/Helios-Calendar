@@ -31,24 +31,19 @@
 	include_once(HCPATH . '/cache/settings.php');
 	
 	header("X-Frame-Options: SAMEORIGIN");
-	if(function_exists('ini_set')){
-		ini_set("session.cookie_httponly", true);
-		ini_set("session.hash_function", 1);
-	}
 	
-	session_name($hc_cfg[200]);
-	session_start();
+	include_once(HCPATH.'/inc/cl_session.php');
+	$session_a = new cl_session($hc_session_settings = [
+			'name'      =>  $hc_cfg[200],
+			'hash'			=>	1,
+			'path'			=>	'/',
+			'min'				=>	1,
+			'max'				=>	10,
+			'decoy'     =>  true]);
+	$session_a->start();
 	
 	if(!isset($_SESSION['LangSet']))
 		$_SESSION['LangSet'] = $hc_cfg[28];
-	
-	if(!isset($_SESSION['hc_whoami']))
-		$_SESSION['hc_whoami'] = md5($_SERVER['REMOTE_ADDR'] . session_id());
-	elseif(md5($_SERVER['REMOTE_ADDR'] . session_id()) != $_SESSION['hc_whoami'])
-		killAdminSession();
-	
-	if(isset($_SESSION['hc_SessionReset']) && $_SESSION['hc_SessionReset'] < date("U"))
-		startNewSession();
 	
 	define('HCVersion',$hc_cfg[49]);
 	/** Local Path to Active Language Pack*/

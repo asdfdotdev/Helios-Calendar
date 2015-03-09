@@ -19,7 +19,7 @@
 	$password = (isset($_POST['password'])) ? md5(md5(cIn(strip_tags($_POST['password']))) . $username) : '';
 	$com = (isset($_POST['com'])) ? cIn(htmlspecialchars(strip_tags($_POST['com']))) : '';
 	$msg = $unlocked = 1;
-
+	
 	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "admin WHERE email = '" . $username ."' AND IsActive = 1");
 
 	if(hasRows($result)){
@@ -55,9 +55,9 @@
 					
 					doQuery("UPDATE " . HC_TblPrefix . "admin SET LoginCnt = LoginCnt + 1, PCKey = NULL, Access = '" . cIn(md5(session_id())) . "', LastLogin = NOW() WHERE PkID = '" . cIn($_SESSION['AdminPkID']) . "'");
 					doQuery("INSERT INTO " . HC_TblPrefix . "adminloginhistory(AdminID, IP, Client, LoginTime) Values('" . $_SESSION['AdminPkID'] . "', '" . cIn(strip_tags($_SERVER["REMOTE_ADDR"])) . "', '" . cIn(strip_tags($_SERVER["HTTP_USER_AGENT"])) . "', NOW())");
-
+					
 					startNewSession();
-
+					
 					header('Location: ' . AdminRoot . '/index.php?com=' . $com);
 					exit();
 				}

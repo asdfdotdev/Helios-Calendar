@@ -7,11 +7,13 @@
 	
 	header("X-Frame-Options: SAMEORIGIN");
 	
-	if(function_exists('ini_set'))
-		ini_set("session.cookie_httponly", true);
-	
-	session_name($hc_cfg[201]);
-	session_start();
+	include_once(HCPATH.'/inc/cl_session.php');
+	$session = new cl_session($hc_session_settings = [
+			'name'      =>  $hc_cfg[201],
+			'hash'			=>	1,
+			'path'			=>	'/',
+			'decoy'     =>  false]);
+	$session->start();
 	
 	if(user_check_status() && (($_SESSION['UserLoginTime']+300) < date("U")))
 		user_update_status($_SESSION['UserNetType'],$_SESSION['UserNetName'],$_SESSION['UserNetID'],$_SESSION['UserLoggedIn']);
