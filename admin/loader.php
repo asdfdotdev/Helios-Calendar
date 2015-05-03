@@ -33,13 +33,11 @@
 	header("X-Frame-Options: SAMEORIGIN");
 	
 	include_once(HCPATH.'/inc/cl_session.php');
-	$session_a = new cl_session($hc_session_settings = [
+	$session_a = new cl_session($hc_session_settings = array(
 			'name'      =>  $hc_cfg[200],
 			'hash'			=>	1,
 			'path'			=>	'/',
-			'min'				=>	1,
-			'max'				=>	10,
-			'decoy'     =>  true]);
+			'decoy'     =>  true));
 	$session_a->start();
 	
 	if(!isset($_SESSION['LangSet']))

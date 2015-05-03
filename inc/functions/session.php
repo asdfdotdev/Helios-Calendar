@@ -8,11 +8,11 @@
 	header("X-Frame-Options: SAMEORIGIN");
 	
 	include_once(HCPATH.'/inc/cl_session.php');
-	$session = new cl_session($hc_session_settings = [
+	$session = new cl_session($hc_session_settings = array(
 			'name'      =>  $hc_cfg[201],
 			'hash'			=>	1,
 			'path'			=>	'/',
-			'decoy'     =>  false]);
+			'decoy'     =>  false));
 	$session->start();
 	
 	if(user_check_status() && (($_SESSION['UserLoginTime']+300) < date("U")))

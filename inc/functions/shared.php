@@ -443,7 +443,7 @@
 		toolbar_items_size : "small",'.($width != '' ? '
 		width: "'.$width.'",':'').'
 		plugins: [
-			"'.($admin == 1 ? 'media ':'').'advlist anchor autolink autoresize charmap code colorpicker contextmenu directionality emoticons fullscreen fullpage",
+			"'.($admin == 1 ? 'media ':'').'advlist anchor autolink autoresize charmap code colorpicker contextmenu directionality emoticons fullscreen",
 			"hr image insertdatetime layer link lists nonbreaking noneditable pagebreak paste preview print searchreplace tabfocus table template textcolor textpattern",
 			"visualblocks visualchars wordcount"
 		],
