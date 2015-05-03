@@ -17,7 +17,7 @@
 
 class cl_session
 {
-	const VERSION = '0.1.1';
+	const VERSION = '0.1.2';
 	
 	protected $key, $path, $secure, $decoy, $min_time, $max_time;
 	protected $failmsg = 'Session generation failed.';
@@ -170,7 +170,7 @@ class cl_session
 	protected function checkLifespan(){
 		if($this->getValue('lifespan') == ''){
 			$this->resetLifespan();
-		}elseif($this->getValue('lifespan') < date("U")){
+		} elseif($this->getValue('lifespan') < date("U")) {
 			$this->regenerate();
 		}
 	}
@@ -211,6 +211,7 @@ class cl_session
 		
 		$this->validateFingerprint($this->getValue('fingerprint'));
 		$this->checkLifespan($this->getValue('lifespan'));
+		$this->setValue('session_load',date("U"));
 	}
 	/**
 	 * Get session variable value
