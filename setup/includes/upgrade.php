@@ -8,11 +8,11 @@
 		return(-1);
 	}
 	
+	$dbc = mysql_connect(DB_HOST, DB_USER, DB_PASS);
+	mysql_select_db(DB_NAME,$dbc);
+	
 	if(!isset($_POST['uID'])){
 		try {
-			$dbc = mysql_connect(DB_HOST, DB_USER, DB_PASS);
-			mysql_select_db(DB_NAME,$dbc);
-			
 			$result = mysql_query("SELECT SettingValue, VERSION() FROM " . HC_TblPrefix."settings WHERE PkID = 49");
 			if(mysql_result($result,0,0) != ''){
 				$_SESSION['mysql_version'] = mysql_result($result,0,1);
