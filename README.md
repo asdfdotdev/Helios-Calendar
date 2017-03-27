@@ -10,7 +10,7 @@ After cloning or forking this repo [checkout the setup instructions](https://git
 
 ## Documentation
 
-The "semi-official" Helios Calendar documentation is [available in the repo wiki](https://github.com/chrislarrycarl/Helios-Calendar/wiki).
+The "official" Helios Calendar documentation is [available in the repo wiki](https://github.com/chrislarrycarl/Helios-Calendar/wiki).
 
 ## Contributing
 
