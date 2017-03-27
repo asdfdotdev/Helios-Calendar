@@ -31,7 +31,7 @@ Find a bug? Have an idea? Want to build/fix it yourself? Even better! [Submit a 
 1. Fork the repository and clone locally
 2. Create a branch using the `git checkout -b $BRANCH_NAME`. Replace `$BRANCH_NAME` with your branch name
 3. Add commits to your branch using the `git add .` and `git commit -m ""` commands. Push your commits to your branch with `git push origin $BRANCH_NAME`
-4. Open a Pull Request using the https://help.github.com/articles/using-pull-requests/GitHub UI.
+4. Open a Pull Request.
 5. Discuss and review your code in the [GitHub UI](https://help.github.com/articles/using-pull-requests/)
 6. Once your Pull Request has been reviewed and approved, one of the site owners will merge and deploy your Pull Request
 
