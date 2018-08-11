@@ -1,0 +1,59 @@
+/*
+	Helios Calendar - Professional Event Management System
+	Copyright © 2006 Refresh Web Development [http://www.refreshwebdev.com]
+	
+	Developed By: Chris Carlevato <chris@refreshwebdev.com>
+	
+	For the most recent version, visit the Helios Calendar website:
+	[http://www.helioscalendar.com]
+	
+	License Information is found in docs/license.html
+*/
+
+/*	Required Classes For Helios RSS Feed
+	You can edit these to customize the Helios RSS feed, but they should not be removed	*/
+
+rss {
+	display: block;
+	font-family: Verdana, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	}
+title {
+	display: block;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	margin: 5px;
+	padding: 2px;
+	border-bottom: 1px solid #666666;
+	}
+link {
+	display: block;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	padding-left: 10px;
+	}
+item {
+	display: block;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	padding: 2px 20px 2px 20px;
+	}
+docs {
+	display: block;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	background-color: #EFEFEF;
+	margin: 20px;
+	text-align: center;
+	padding: 5px;
+	color: #000000;
+	border: solid 1px #666666;
+	}
+copyright, 
+generator, 
+language, 
+guid, 
+description {
+	display: none;
+	}
