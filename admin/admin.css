@@ -1,0 +1,575 @@
+/*
+	Helios Calendar - Professional Event Management System
+	Copyright © 2005 Refresh Web Development [http://www.refreshwebdev.com]
+	
+	Developed By: Chris Carlevato <chris@refreshwebdev.com>
+	
+	For the most recent version, visit the Helios Calendar website:
+	[http://www.helioscalendar.com]
+	
+	License Information is found in docs/license.html
+*/
+
+/* Begin Required Classes For Administration Site */
+
+body {
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	margin: 0px;
+	padding: 0px;
+	}
+#container {
+	background: url('images/mnuBg.gif');
+	background-repeat: repeat-x;
+	margin: auto;
+	padding: 0px;
+	}
+#menu {
+	width: 770px;
+	margin: auto;
+	}
+#content {
+	width: 770px;
+	padding: 0px;
+	margin: auto;
+	clear: both;
+	}
+#cMain {
+	float: left;
+	width: 554px;
+	padding: 3px;
+	}
+#cSub {
+	float: left;
+	width: 205px;
+	padding: 0px 0px 0px 5px;
+	text-align: center;
+	}
+#login {
+	margin: auto;
+	width: 300px;
+	padding: 15px;
+	border: 1px solid #3D3F3E;
+	background: #EFEFEF;
+	}
+.eventMain {
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	}
+.loginform{
+	font-weight: bold;
+	background: url('images/login.gif');
+	background-repeat: no-repeat;
+	padding: 65px 0px 0px 0px;
+	}
+.footer {
+	clear: both;
+	font-size: 10px;
+	color: #777777;
+	padding: 20px 0px 0px 0px;
+	}
+.eventListDate {
+	clear: both;
+	font-size: 11px;
+	font-weight: bold;
+	border-bottom: 1px solid #000000;
+	padding: 7px 0px 0px 0px;
+	}
+.eventListTime {
+	float: left;
+	width: 130px;
+	line-height: 20px;
+	}	
+.eventListTimeHL {
+	margin: auto;
+	float: left;
+	width: 130px;
+	line-height: 20px;
+	background: #EFEFEF;
+	}
+.eventListTitle,
+.recentTitle {
+	float: left;
+	width: 300px;
+	line-height: 20px;
+	}
+.eventListTitleHL,
+.recentTitleHL {
+	margin: auto;
+	float: left;
+	width: 300px;
+	line-height: 20px;
+	background: #EFEFEF;
+	}
+.eventListCheckbox {
+	float: left;
+	width: 35px;
+	line-height: 20px;
+	text-align: right;
+	}
+.eventListCheckboxHL {
+	float: left;
+	width: 35px;
+	line-height: 20px;
+	text-align: right;
+	background: #EFEFEF;
+	}
+.billboardList,
+.pendingList,
+.orphanList,
+.categoryList,
+.userList,
+.newsletterList,
+.adminList,
+.mostPopularList,
+.recentList {
+	clear: both;
+	font-size: 11px;
+	font-weight: bold;
+	border-bottom: solid 1px #000000;
+	padding: 10px 0px 0px 0px;
+	line-height: 18px;
+	}
+.billboardListTitle,	
+.pendingListTitle,
+.orphanListTitle,
+.newsletterTitle,
+.mostPopularTitle {
+	float: left;
+	width: 350px;
+	line-height: 20px;
+	}
+.billboardListTitleHL,
+.pendingListTitleHL,
+.orphanListTitleHL,
+.newsletterTitleHL,
+.mostPopularTitleHL {
+	float: left;
+	width: 350px;
+	line-height: 20px;
+	background: #EFEFEF;
+	}
+.billboardListDate,	
+.pendingListDate,
+.orphanListDate {
+	float: left;
+	width: 125px;
+	line-height: 20px;
+	}
+.billboardListDateHL,
+.pendingListDateHL,
+.orphanListDateHL {
+	float: left;
+	width: 125px;
+	line-height: 20px;
+	background: #EFEFEF;
+	}
+.eventListTools,
+.pendingListTools,
+.orphanListTools,
+.categoryListTools,
+.userListTools,
+.newsletterTools,
+.adminTools,
+.mostPopularDate,
+.mostPopularTools,
+.recentDateA,
+.recentDateO,
+.recentTools {
+	float: left;
+	width: 75px;
+	line-height: 20px;
+	text-align: center;
+	}
+.eventListToolsHL,
+.pendingListToolsHL,
+.orphanListToolsHL,
+.categoryListToolsHL,
+.userListToolsHL,
+.newsletterToolsHL,
+.adminToolsHL,
+.mostPopularDateHL,
+.mostPopularToolsHL,
+.recentDateAHL,
+.recentDateOHL,
+.recentToolsHL {
+	float: left;
+	width: 75px;
+	line-height: 20px;
+	text-align: center;
+	background: #EFEFEF;
+	}
+.billboardListTools,	
+.billboardListViews,
+.mostPopularViews {
+	float: left;
+	width: 36px;
+	line-height: 20px;
+	text-align: center;
+	}
+.billboardListToolsHL,
+.billboardListViewsHL,
+.mostPopularViewsHL {
+	float: left;
+	width: 36px;
+	line-height: 20px;
+	text-align: center;
+	background: #EFEFEF;
+	}
+.categoryListTitle,
+.userListName,
+.userListEmail,
+.adminName,
+.adminEmail {
+	float: left;
+	width: 200px;
+	line-height: 20px;
+	}
+.categoryListTitleHL,
+.userListNameHL,
+.userListEmailHL,
+.adminNameHL,
+.adminEmailHL {
+	float: left;
+	width: 200px;
+	line-height: 20px;
+	background: #EFEFEF;
+	}
+.overviewDetails {
+	float: left;
+	width: 440px;
+	line-height: 20px;
+	}
+.overviewDetailsHL {
+	float: left;
+	width: 440px;
+	line-height: 20px;
+	background: #EFEFEF;
+	}
+.overviewCount {
+	float: left;
+	width: 110px;
+	line-height: 20px;
+	text-align: right;
+	}
+.overviewCountHL {
+	float: left;
+	width: 110px;
+	line-height: 20px;
+	text-align: right;
+	background: #EFEFEF;
+	}
+.overviewAverage,
+.overviewTotal {
+	float: left;
+	width: 55px;
+	line-height: 20px;
+	text-align: right;
+	}
+.overviewAverageHL,
+.overviewTotalHL {
+	float: left;
+	width: 55px;
+	line-height: 20px;
+	text-align: right;
+	background: #EFEFEF;
+	}
+.overviewDetailS {
+	float: left;
+	width: 415px;
+	line-height: 20px;
+	}
+.overviewDetailSHL {
+	float: left;
+	width: 415px;
+	line-height: 20px;
+	background: #EFEFEF;
+	}
+.overviewDate {
+	float: left;
+	width: 80px;
+	line-height: 20px;
+	}
+.overviewDateHL {
+	float: left;
+	width: 80px;
+	line-height: 20px;
+	background: #EFEFEF;
+	}
+.overviewDetailS2 {
+	float: left;
+	width: 390px;
+	line-height: 20px;
+	}
+.overviewDetailS2HL {
+	float: left;
+	width: 390px;
+	line-height: 20px;
+	background: #EFEFEF;
+	}
+.overviewName {
+	float: left;
+	width: 170px;
+	line-height: 20px;
+	}
+.overviewNameHL {
+	float: left;
+	width: 170px;
+	line-height: 20px;
+	background: #EFEFEF;
+	}
+.overviewEmail {
+	float: left;
+	width: 300px;
+	line-height: 20px;
+	}
+.overviewEmailHL {
+	float: left;
+	width: 300px;
+	line-height: 20px;
+	background: #EFEFEF;
+	}
+a.main{
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	color: #3D3F3E;
+	}
+a.main:hover{
+	text-decoration: none;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	color: #FF6600;
+	}
+a.copyright{
+	text-decoration: none;
+	font-family: Verdana, sans-serif;
+	font-size: 10px;
+	color: #777777;
+	}
+a.copyright:hover{
+	text-decoration: underline;
+	font-family: Verdana, sans-serif;
+	font-size: 10px;
+	color: #006532;
+	}	
+.instructions{
+	border: solid #BDBDBD 1px;
+	background-color: #EFEFEF;
+	padding: 5px;
+	}
+	
+/*	Begin Input Classes
+	*/
+fieldset {
+	clear: both;
+    border: none;
+    border-top: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+	}
+fieldset legend {
+	font-size: 11px;
+	font-weight: bold;
+	color: #000000;
+	background: transparent;
+	margin: 1px;
+	padding: 0px 10px 2px 10px;
+	}
+fieldset label {
+    float: left;
+    width: 80px;
+    padding: 2px 10px 0px 0px;
+    text-align: left;
+	} 
+fieldset label.radio {
+    padding: 0px 0px 0px 0px;
+    text-align: left;
+	} 
+fieldset label.radioWide{
+    float: left;
+    width: 200px;
+    padding: 0px 10px 0px 0px;
+    text-align: left;
+	}
+fieldset label.category {
+    padding: 0px 0px 0px 0px;
+    text-align: left;
+	width: 175px;
+	} 
+fieldset label.settingsLabel {
+    padding: 0px 0px 0px 0px;
+    text-align: left;
+	width: 175px;
+	line-height: 20px;
+	}
+fieldset label.adminEditLabel {
+    padding: 0px 0px 0px 0px;
+    text-align: left;
+	width: 110px;
+	line-height: 20px;
+	}
+fieldset label.adminEditRadio{
+    float: left;
+    width: 65px;
+    padding: 0px 10px 0px 0px;
+    text-align: left;
+	} 
+fieldset div { 
+    margin-bottom: 7px;
+	}
+fieldset div input, textarea, select {
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+    border-top: 1px solid #555555;
+    border-left: 1px solid #555555;
+    border-bottom: 1px solid #cccccc;
+    border-right: 1px solid #cccccc;
+    padding: 1px;
+    color: #333333;
+	}
+fieldset input:focus, textarea:focus, select:focus {
+    background: #efefef;
+    color: #000;
+	}
+
+div.frmReq,
+div.frmReq input, textarea, select {
+    font-weight: bold;
+	}
+div.frmOpt,
+div.frmOpt input, textarea, select {
+	font-weight: normal;
+	}
+input[type="radio"],
+input[type="checkbox"] {
+	padding-left: 0px;
+	text-align: left;
+	vertical-align: middle;
+	}
+.loginInput {
+	width: 275px;
+	font-size: 13px;
+    border-top: 1px solid #555555;
+    border-left: 1px solid #555555;
+    border-bottom: 1px solid #cccccc;
+    border-right: 1px solid #cccccc;
+    padding: 2px;
+    color: #333333;
+	}
+.loginButton {
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	padding: 1px 0px 1px 0px;
+	width: 150px;
+	}
+.button {
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	padding: 0px;
+	color: #000000;
+	}
+.tblListHL {
+	background: #EFEFEF;
+	}
+/*	End Input Classes
+	*/
+
+	
+/* Begin Required Classes For Feedback and Instructions */	
+
+.info{
+	clear: both;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 3px;
+	text-align: center;
+	background: #EFEFEF;
+	border: solid 2px #008E0D;
+	}
+.warning{
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 3px;
+	text-align: center;
+	background: #EFEFEF;
+	border: solid 2px #FFDA00;
+	}
+.error{
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 3px;
+	text-align: center;
+	background: #EFEFEF;
+	border: solid 2px #E40000;
+	}
+/*	End For Feedback
+*/
+
+/*	Begin Classes For Menu
+*/
+.menu {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+	}
+.menu li:hover ul {
+	 display: block;
+	}
+.menu li {
+	display: block;
+	float: left;
+	padding: 0px;
+	}
+.menu li:hover {
+	background: #EFEFEF;
+	}
+.menu li a {
+	text-decoration: none;
+	font-weight: bold;
+	padding: 3px 7px 4px 7px;
+	display: block;
+	color: #3D3F3E;
+	}
+.menu li a:hover {
+	text-decoration: none;
+	font-weight: bold;
+	padding: 3px 7px 4px 7px;
+	}
+.subMenu {
+	margin: auto;
+	display: none;
+	padding: 0px 0px 0px 0px;
+	background-color: #EFEFEF;
+	border-left: solid #3D3F3E 1px;
+	border-right: solid #3D3F3E 1px;
+	border-bottom: solid #3D3F3E 1px;
+	position: absolute;
+	}
+.subMenu li {
+	float: none;
+	}
+.subMenu li a {
+	color: #3D3F3E;
+	display: block;
+	padding: 3px 10px 3px 5px;
+	}
+.subMenu li a:hover {
+	color: #FFFFFF;
+	background-color: #FF6600;
+	padding: 3px 10px 3px 5px;
+	}
+/*	End Classes For Menu
+*/
+
+/*	Begin IE Hacks
+*/
+input.noBorderIE{
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	border: 0px;
+	}
+/*	End IE Hacks
+*/
