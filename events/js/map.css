@@ -1,0 +1,15 @@
+/*
+	Helios Calendar Location Map Syndication Default Styles
+*/
+#hc_GmapLoc {float:left;width:75%;height:650px;}
+.GmapLocMenu{width:300px;height:20px;border-bottom:solid 1px #ACACAC;}
+.GmapLocPane{font-family:Verdana,sans-serif;font-size:11px;width:300px;height:200px;overflow:auto;padding:3px 0px 0px 0px;}
+.GmapLocMenu{font-family:Verdana,sans-serif;font-size:11px;}
+.GmapLocPane {width:300px;height:200px;overflow:auto;padding:3px 0px 0px 0px;}
+a.locMenu{text-decoration:underline;color:#0000FF;}
+a.locMenu:hover{text-decoration:none;color:#666666;}
+a.eventDetailLink{text-decoration:underline;line-height:25px;color:#3D3F3E;}
+a.eventDetailLink:hover {text-decoration:none;line-height:25px;color:#FF6600;}
+a.eventMain{text-decoration:underline;color:#3D3F3E;}
+a.eventMain:hover{text-decoration:none;color:#FF6600;}
+img{border:0px;}

@@ -1,0 +1,17 @@
+/*
+	Helios Calendar
+	Copyright (C) 2004-2010 Refresh Web Development, LLC. [www.RefreshMy.com]
+
+	This file is part of Helios Calendar, it's usage is governed by
+	the Helios Calendar SLA found at www.HeliosCalendar.com/license.html
+*/
+
+/*	"Fixes" for IE7 & IE6
+*/
+.cSubLock{position:relative;padding:11px 0px 0px 18px;}
+.eventListTools,.pendingListTools,.orphanListTools,.userListTools,.newsletterTools,.adminTools,.mostPopularDate,.mostPopularTools,.recentDateA,.recentDateO,.recentTools,.locTools,.tempExpTools,.duplicateTools,.billboardListTools,.oidTools,.commentTools{line-height:2px;}
+.eventListToolsHL,.pendingListToolsHL,.orphanListToolsHL,.userListToolsHL,.newsletterToolsHL,.adminToolsHL,.mostPopularDateHL,.mostPopularToolsHL,.recentDateAHL,.recentDateOHL,.recentToolsHL,.locToolsHL,.tempExpToolsHL,.duplicateToolsHL,.billboardListToolsHL,.oidToolsHL,.commentToolsHL{line-height:0px;}
+.categoryListTools{line-height:5px;}
+.categoryListToolsHL{line-height:5px;}
+.commentTools{clear:both;text-align:right;line-height:5px;}
+.lostPwd{clear:both;text-align:right;padding:5px 0px 0px 0px;}
