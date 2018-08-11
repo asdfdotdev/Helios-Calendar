@@ -31,7 +31,7 @@ $hc_lang_search = array(
 'RegSelect'			=>	'All States',
 
 //	Form Placeholders
-'PlaceKeywords'		=>	'Enter at leat four (4) characters.',
+'PlaceKeywords'		=>	'Enter at least four (4) characters.',
 
 //	Search Results
 'ResultLabel'		=>	'Your Search Results',

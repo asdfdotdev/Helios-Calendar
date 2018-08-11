@@ -16,10 +16,11 @@ $hc_lang_config = array(
 'OccupationFile'	=>	'selectOccupation.php',
 'CharSet'			=>	'ISO-8859-1',
 'MobileCharSet'		=>	'ISO-8859-1',
-'HTMLTemplate'		=>	'en_US',
+'HTMLTemplate'		=>	'en-US',
 'Direction'			=>	'1',					// 0 = Right-to-Left, 1 = Left-to-Right
 'LocaleOptions'		=>	array('en_US', 'English', 'USA', 'United States'),
 'MiniCalDays'		=>	array(0 => "S", 1 => "M", 2 => "T", 3 => "W", 4 => "T", 5 => "F", 6 => "S"),
+'MiniCalDaysLong'	=>	array(0 => "Sunday", 1 => "Monday", 2 => "Tuesday", 3 => "Wednesday", 4 => "Thursday", 5 => "Friday", 6 => "Saturday"),
 'TinyMCELang'		=>	'en',
 'TinyMCESpell'		=>	'Danish=da,Dutch=nl,+English=en,Finnish=fi,French=fr,German=de,Italian=it,Polish=pl,Portuguese=pt,Spanish=es,Swedish=sv',
 );?>
