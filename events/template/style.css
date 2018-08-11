@@ -1,0 +1,46 @@
+/*
+	Helios Calendar
+	Copyright (C) 2004-2010 Refresh Web Development, LLC. [www.RefreshMy.com]
+
+	This file is part of Helios Calendar, it's usage is governed by
+	the Helios Calendar SLA found at www.HeliosCalendar.com/license.html
+*/
+
+/*	Helios Default Template Classes
+	You can edit this file however you'd like for your template,
+	or create a new one and delete it.	*/
+
+/*	Replicated Default Classes
+	Override Helios Default Styles
+	*/
+#menu ul{display:block;list-style-type:none;margin:0;padding-left: 0px;text-align: left;}
+#menu ul li{display:block;float:left;border-left:3px solid #AEAEAE;}
+#menu ul li:hover{border-left:3px solid #3D3F3E;}
+a.eventMenu{text-decoration:none;font-weight:bold;font-size:12px;color:#3D3F3E;padding-left:3px;padding-right:7px;}
+a.eventMenu:hover{text-decoration:none;font-size:12px;background-color:#FF6600;color:#FFFFFF;padding-left:3px;padding-right:7px;}
+ul.rssLinks li{display:block;float:left;padding-left:5px;}
+.rssLinksAll{float:left;background-image:url(../images/rss/feedIcon.gif);background-repeat:no-repeat;padding:1px 5px 4px 20px;}
+.rssLinksNew,.rssLinksBillboard,.rssLinksPopular,.rssLinksDiscuss{background:none;float:left;padding:1px 5px 4px 5px;border-left: dotted 1px #666666;}
+.iCalLinksSubscribe{clear:both;display:none;}
+.login{text-align:right;padding:5px;width:72%;}
+/*	End Replicated Classes	*/
+
+/*	Classes Unique to Default Template
+	*/
+html, body {margin: 0;padding: 0;background:#F5F6F7;color: #000000;font-family: Verdana, sans-serif;font-size: 11px;}
+#menu {text-align:center;width:100%;height:25px;}
+#container {margin: auto auto auto auto ; width: 980px; padding: 0;color: #000000;}
+#content {float: left; text-align: left; padding: 5px;width: 72%;background:#FFFFFF;border: solid 1px #666666;}
+#controls {float: left;padding: 0px 5px 5px 5px;width: 25%;}
+#categories{float:left;width:25%;}
+#core{float:left;width:70%;}
+#language {text-align: center;padding: 10px 0 15px 0;}
+#billboard,#popular,#newest{text-align: left;padding: 10px 0 10px 0;}
+#rssLinks {width: 760px; padding: 0;margin: auto auto auto auto ; }
+#copyright {clear: both; color: #666666;padding: 5px 0px 5px 0px;line-height: 17px;}
+a.copyright,a.copyrightR {text-decoration: none;color: #666666;}
+a.copyright:hover {text-decoration: underline;color: #FF6600;}
+a.copyrightR:hover {text-decoration: underline;color: #006532;}
+.listHeader{font-family:Garamond, Georgia, serif;font-size: 17px;font-weight: bold;color: #4396CA;}
+.setupText{font-family: Verdana, sans-serif;font-size: 11px;border-top: 1px solid #555; border-left: 1px solid #555; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc; padding: 1px; color: #333; vertical-align: center;}
+a.twitter{color:#4396CA;}

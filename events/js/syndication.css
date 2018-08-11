@@ -1,0 +1,6 @@
+/*
+	Helios Calendar JavaScript Syndication Default Styles
+*/
+.eventDate {font-weight: bold;padding-top: 5px;}
+a.eventLink {text-decoration: none;font-family: Verdana, sans-serif;font-size: 11px;color: #0000FF;line-height: 15px;}
+a.eventLink:hover {text-decoration: underline;font-family: Verdana, sans-serif;font-size: 11px;color: #3D3F3E;line-height: 15px;}
