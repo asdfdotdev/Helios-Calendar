@@ -1,0 +1,17 @@
+Helios Calendar 1.0
+[www.HeliosCalendar.com]
+_____________________________________________
+Installation Instructions
+
+NOTE: If your site already has a root index.php file or an admin directory do not upload the Helios root index.php file and rename the admin directory. If you upload the entire zip you may overwrite your existing admin or root page. This could break your site.
+
+1) Upload the contents of the Helios ZIP to your webserver.
+2) Create Your Helios database & database user account (user must have create permissions)
+3) Create a copy of (or rename) the globals_dist.php, /events/includes/globals_dist.php, and name it globals.php. Configure this file with your server/site settings.
+4) Run the Helios web setup /events/setup (You should be prompted for this by trying to open Helios in your browser)
+_____________________________________________
+Need Help?
+
+If you need assistance setting up or using Helios
+please consult the Helios Codex [codex.HeliosCalendar.com]
+or visit the Helios Forum [forum.HeliosCalendar.com]
