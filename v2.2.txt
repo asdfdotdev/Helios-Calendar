@@ -1,0 +1,3 @@
+This release was identical to v3 but with cumbersome commercial code that was removed when Helios Calendar transitioned to open source.
+
+For the v2.2 copy a file please reference the v3.0 branch.
