@@ -1,0 +1,190 @@
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<style type="text/css">
+html, body {
+	margin: 0;
+	padding: 0px 0 10px 0;
+	background: #EFEFEF;
+	color: #000000;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	}
+#container {
+	margin: auto auto auto auto ; 
+	width: 760px; 
+	padding: 0;
+	border: 1px solid #CCCCCC;
+	background: #FFFFFF;
+	color: #000000;
+	}
+#content {
+	float: left; 
+	text-align: left; 
+	padding: 5px;
+	width: 513px;
+	}
+#controls {
+	float: left;
+	padding: 5px 5px 20px 5px;
+	width: 225px;
+	}
+#billboard {
+	text-align: left;
+	padding: 10px 0 10px 0;
+	}
+#popular {
+	text-align: left;
+	padding: 10px 0 10px 0;
+	}
+#valid {
+	text-align: center;
+	}
+#copyright {
+	clear: both; 
+	color: #666666;
+	background: #FFFFFF;
+	padding: 5px 0px 5px 15px;
+	line-height: 17px;
+	}
+h2{
+	font-family: Verdana, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	}
+a.eventMain{
+	text-decoration: underline;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	color: #3D3F3E;
+	}
+a.eventMain:hover{
+	text-decoration: none;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	color: #FF6600;
+	}
+a.copyright {
+	text-decoration: none;
+	color: #666666;
+	background: #FFFFFF;
+	}
+a.copyright:hover {
+	text-decoration: underline;
+	color: #FF6600;
+	background: #FFFFFF;
+	}
+a.copyrightR {
+	text-decoration: none;
+	color: #666666;
+	background: #FFFFFF;
+	}
+a.copyrightR:hover {
+	text-decoration: underline;
+	color: #006532;
+	background: #FFFFFF;
+	}
+.setupText{
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+    border-top: 1px solid #555; 
+    border-left: 1px solid #555; 
+    border-bottom: 1px solid #ccc; 
+    border-right: 1px solid #ccc; 
+    padding: 1px; 
+    color: #333; 
+	vertical-align: center;
+	}
+</style>
+	<title>Helios Calendar Event Management System -- Startup Docs</title>
+	<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+
+<body>
+<br />
+<div id="container">
+	<div id="content">
+		<h2>Installing Helios</h2>
+		<div style="padding: 0px 0px 0px 10px;">
+		<div style="border: solid 1px #666666;background: #EFEFEF;padding: 10px;margin: 20px;">
+			<b>Note:</b> If your site already has any of the three files below do not upload the coresponding Helios files without renaming them.
+			If you upload the entire zip you may overwrite your existing files which could break your site.
+			
+			<br /><br />
+			root <b>index.php</b><br />
+			<b>/events</b> directory<br />
+			<b>/admin</b> directory
+		</div>
+		
+		<ol>
+			<li> Upload the contents of the Helios ZIP to your webserver.
+			<li> Create Your Helios database & database user account<br />(user must have create &amp; alter permissions)
+			<li> Rename globals_dist.php to globals.php and configure your Helios settings by editing your globals.php file in a text editor.
+			<li> Run the Helios web setup (You will be prompted for this by trying to open Helios in your browser)
+		</ol><br />
+		
+		Step by Step instructions are available in the
+		<a href="http://www.helioscalendar.com/documentation/index.php?title=Setup" class="eventMain" target="_blank">Helios Documentation</a>.
+		</div>
+		
+		<br />
+		<h2>Upgrading Helios</h2>
+		<div style="padding: 0px 0px 0px 10px;">
+		<div style="border: solid 1px #666666;background: #EFEFEF;padding: 10px;margin: 20px;">
+			<b>NOTE:</b> Do not copy the /events/index.php file or you will overwrite your existing Helios template
+			and revert any customizations you've made.
+			<br /><br />
+			It is recommended you make a backup of all files and your Helios database before upgrading.
+		</div>
+		
+		<ol>
+			<li> Upload the contents of the Helios Zip (all except the /events/setup directory) to your webserver.
+			<li> Upload /events/setup/upgrade.php to /events/upgrade.php
+			<li> Point your browser to YourHeliosInstall/events/upgrade.php and run the appropriate upgrade.
+			<li> Delete the upgrade.php file from your webserver.
+		</ol>
+		
+		<b>Users Upgrading from 1.1.4 (Or Earlier)</b><br />
+		Add the following to your template (/events/index.php) where you want<br />your RSS feed links to appear:<br />
+		<textarea rows="1" cols="50">&lt;?php include(HC_Links);?&gt;</textarea>
+		
+		<br /><br />
+		Add the following to your Helios stylesheet (/events/cs/helios.css):<br />
+		<textarea rows="5" cols="50">ul.rssLinks{
+	list-style-type: none;
+	margin: 0;
+	padding-left: 0px;
+}</textarea>
+		
+		<br /><br />
+		<b>Users Upgrading from 1.1.2 (Or Earlier)</b><br />
+		Add the following class to your Helios stylesheet (/events/css/helios.css):<br />
+		<textarea rows="4" cols="50">#hc_Gmap {
+	width: 95%;
+	height: 250px;
+}</textarea>
+		
+		<br /><br />
+		<b>Users Upgrading from 1.0.x</b><br />
+		Add the following to your globals.php file (/events/includes/globals.php): <br />
+		<textarea rows="2" cols="50">define("HC_StateLabel", "State");
+define("HC_StateInclude", "selectStates.php");</textarea>
+
+		</div>
+		<br />
+	</div>
+	<div id="controls">
+		<br />
+		<h2>Related Links</h2>
+		<a href="http://www.helioscalendar.com/documentation/" class="eventMain" target="_blank">Helios Documentation</a><br /><br />
+		<a href="http://www.helioscalendar.com/forum/" class="eventMain" target="_blank">Support Forums</a><br /><br />
+	</div>
+	<div id="copyright">
+		<a href="http://www.helioscalendar.com" class="copyright">Helios Calendar</a> Copyright 2004-2007 <a href="http://www.refreshwebdev.com" class="copyrightR">Refresh Web Development</a>
+	</div>
+</div>
+
+</body>
+</html>
