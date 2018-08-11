@@ -1,0 +1,30 @@
+/*
+	Helios Calendar - Professional Event Management System
+	Copyright © 2007 Refresh Web Development [http://www.refreshwebdev.com]
+	
+	Developed By: Chris Carlevato <chris@refreshwebdev.com>
+	
+	For the most recent version, visit the Helios Calendar website:
+	[http://www.helioscalendar.com]
+	
+	License Information is found in docs/license.html
+*/
+
+.eventDate {
+	font-weight: bold;
+	padding-top: 5px;
+	}
+a.eventLink {
+	text-decoration: none;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	color: #0000FF;
+	line-height: 15px;
+	}
+a.eventLink:hover {
+	text-decoration: underline;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	color: #3D3F3E;
+	line-height: 15px;
+	}
