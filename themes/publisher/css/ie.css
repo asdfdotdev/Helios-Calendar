@@ -1,0 +1,7 @@
+/**
+ * @package Helios Calendar
+ * @subpackage Publisher Theme
+ */
+
+table.hc_cpBorder {border:solid 1px #ACACAC;padding:3px;}
+a.cmnt_cnt:hover {text-decoration:underline;}

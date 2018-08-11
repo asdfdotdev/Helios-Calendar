@@ -1,0 +1,13 @@
+#map_canvas {font-family:Verdana,sans-serif;font-size:11px;width:500px;height:500px;margin:10px;}
+#map_canvas img {border:0;}
+#map_canvas a {text-decoration:none;color:#666666;}
+#map_canvas a:hover {text-decoration:underline;color:#FF6600;}
+#map_canvas .menu ul {list-style-type:none;padding:0;margin:0;}
+#map_canvas .menu ul li {float:left;margin:5px;}
+div.iw {width:260px;height:200px;margin:0px;padding:0;}
+div.iw_menu {height:20px;margin:0px 0px 7px 0px;padding:3px 0px 3px 5px;border-bottom:solid 1px #ACACAC;}
+div.iw_menu img {float:left;margin:2px 3px 0px 3px;}
+#map_controls {margin:3px 0px 10px 0px}
+#map_controls a {text-decoration:none;}
+#map_controls a:hover {color:#FF6600;}
+#pb_button {font-family:Arial,sans-serif;font-size:12px;font-weight:bold;cursor:pointer;border:solid 1px #A9BBDF;height:16px;padding:2px 5px 1px 5px;text-align:center;border-radius:5px; -khtml-border-radius:5px; -moz-border-radius:2px; -webkit-border-radius:2px;background: #FFFFFF;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FDFDFD', endColorstr='#F3F3F3');background: -webkit-gradient(linear, left top, left bottom, from(#FDFDFD), to(#F3F3F3));background: -moz-linear-gradient(top,  #FDFDFD,  #F3F3F3);-moz-box-shadow:100px 100px 1px #000000;-webkit-box-shadow:1px 1px 5px rgba(0,0,0,.5);-goog-ms-box-shadow:1px 1px 5px rgba(0,0,0,.5);box-shadow:2px 2px 3px #A9A7A3;}

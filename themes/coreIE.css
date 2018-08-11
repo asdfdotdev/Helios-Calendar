@@ -1,0 +1,7 @@
+/**
+ * @package Helios Calendar
+ * @license GNU General Public License version 2 or later; see LICENSE
+ */
+.frm_ctrls {float:left;line-height:25px;}
+#monthly .frm_ctrls {clear:both;float:left;margin:0;}
+.catCol{float:left;width:170px;line-height:20px;}
