@@ -1,0 +1,88 @@
+/*
+	Helios Calendar - Professional Event Management System
+	Copyright © 2007 Refresh Web Development [http://www.refreshwebdev.com]
+	
+	Developed By: Chris Carlevato <chris@refreshwebdev.com>
+	
+	For the most recent version, visit the Helios Calendar website:
+	[http://www.helioscalendar.com]
+	
+	License Information is found in docs/license.html
+*/
+
+/*	Helios Default Template Classes
+	You can edit this file however you'd like for your template,
+	or create a new one and delete it.	*/
+	
+html, body {
+	margin: 0;
+	padding: 0px 0 10px 0;
+	background: #EFEFEF;
+	color: #000000;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	}
+#container {
+	margin: auto auto auto auto ; 
+	width: 760px; 
+	padding: 0;
+	border: 1px solid #CCCCCC;
+	background: #FFFFFF;
+	color: #000000;
+	}
+#content {
+	float: left; 
+	text-align: left; 
+	padding: 5px;
+	width: 513px;
+	}
+#controls {
+	float: left;
+	padding: 5px 5px 20px 5px;
+	width: 225px;
+	}
+#billboard,
+#popular {
+	text-align: left;
+	padding: 10px 0 10px 0;
+	}
+#rssLinks {
+	width: 760px; 
+	padding: 0;
+	margin: auto auto auto auto ; 
+	
+	}
+#copyright {
+	clear: both; 
+	color: #666666;
+	background: #FFFFFF;
+	padding: 5px 0px 5px 15px;
+	line-height: 17px;
+	}
+a.copyright,
+a.copyrightR {
+	text-decoration: none;
+	color: #666666;
+	background: #FFFFFF;
+	}
+a.copyright:hover {
+	text-decoration: underline;
+	color: #FF6600;
+	background: #FFFFFF;
+	}
+a.copyrightR:hover {
+	text-decoration: underline;
+	color: #006532;
+	background: #FFFFFF;
+	}
+.setupText{
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+    border-top: 1px solid #555; 
+    border-left: 1px solid #555; 
+    border-bottom: 1px solid #ccc; 
+    border-right: 1px solid #ccc; 
+    padding: 1px; 
+    color: #333; 
+	vertical-align: center;
+	}

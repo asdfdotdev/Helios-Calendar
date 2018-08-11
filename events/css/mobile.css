@@ -1,0 +1,14 @@
+/*
+	Helios Calendar - Professional Event Management System
+	Copyright © 2007 Refresh Web Development [http://www.refreshwebdev.com]
+	License Information is found in docs/license.html
+*/
+body {font-family: Verdana, sans-serif;font-size: 11px;margin: 0;padding: 0px;}
+.menu {border: solid 1px #000000;background: #EFEFEF;border: solid 1px #CCCCCC;padding: 0px 0px 0px 3px;}
+.content {padding: 1px 0px 1px 6px;}
+.footer {padding: 0px 0px 0px 3px;color: #ACACAC;text-align: center;}
+.eventDate {font-weight: bold;padding: 0px 0px 0px 0px;}
+.eventLink {padding: 0px 0px 0px 6px;}
+.eventLabel {font-weight: bold;padding: 10px 0px 0px 0px;}
+a.mnu {color: #0000FF}
+.txtInput,.btnInput {font-family: Verdana, sans-serif;font-size: 10px;}
