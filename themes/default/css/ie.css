@@ -1,0 +1,11 @@
+/**
+ * @package Helios Calendar
+ * @subpackage Classic Theme
+ */
+#location {clear:right;}
+aside nav ul {filter: none;}
+aside nav ul a.menu {font-family:Helvetica,sans-serif;font-size:16px;}
+aside #hc_l {border-top-left-radius:0px;-khtml-border-top-left-radius:0px;-moz-border-radius-topleft:0px;-webkit-border-top-left-radius:0px;}
+aside #hc_r {border-top-right-radius:0px;-khtml-border-top-right-radius:0px;-moz-border-radius-topright:0px;-webkit-border-top-right-radius:0px;}
+table.hc_cpBorder {border:solid 1px #ACACAC;padding:3px;}
+a.cmnt_cnt:hover {text-decoration:underline;}
