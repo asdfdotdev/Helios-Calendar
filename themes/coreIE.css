@@ -1,0 +1,12 @@
+/**
+ * This file is part of Helios Calendar, it's use is governed by the Helios Calendar Software License Agreement.
+ *
+ * @author Refresh Web Development LLC
+ * @link http://www.refreshmy.com
+ * @copyright (C) 2004-2012 Refresh Web Development
+ * @license http://www.helioscalendar.com/license.html
+ * @package Helios Calendar
+ */
+.frm_ctrls {float:left;line-height:25px;}
+#monthly .frm_ctrls {clear:both;float:left;margin:0;}
+.catCol{float:left;width:170px;line-height:20px;}

@@ -1,0 +1,50 @@
+<?php
+/**
+ * This file is part of Helios Calendar, it's use is governed by the Helios Calendar Software License Agreement.
+ *
+ * @author Refresh Web Development LLC
+ * @link http://www.refreshmy.com
+ * @copyright (C) 2004-2012 Refresh Web Development
+ * @license http://www.helioscalendar.com/license.html
+ * @package Helios Calendar
+ * @subpackage Mobile Theme Hacks
+ */
+	function my_menu($active_p){
+		$url_root = cal_url();
+		$primary = array('/index.php?com=digest' => '<img src="'.theme_dir().'/img/home.png'.'" width="16" height="16" alt="" />', '/index.php' => 'Events','/index.php?com=location' => 'Venues','/index.php?com=tools' => 'Tools');
+		$x = 0;
+		echo '
+	<nav>
+		<ul>';
+		foreach($primary as $link => $label){
+			echo '
+			<li><a href="'.$url_root.$link.'" class="'.(($x == $active_p) ? 'on' : 'off').'">'.$label.'</a></li>';
+			++$x;
+		}
+		echo '
+		</ul>
+	</nav>';
+	}
+	function my_menu_user(){
+		echo (!user_check_status()) ? '
+		<li><a href="'.cal_url().'/index.php?com=signin">Sign In</a></li>' : '
+		<li><a href="'.cal_url().'/index.php?com=acc&amp;sec=edit" class="user_menu">Edit Acc.</a></li>
+		<li><a href="'.cal_url().'/index.php?com=acc&amp;sec=list" class="user_menu">My Events</a></li>
+		<li><a href="'.cal_url().'/signout.php" class="user_menu">Sign Out</a></li>';
+	}
+	function my_news_archive_nav($prev,$next,$start){
+		global $hc_cfg, $hc_lang_news;
+		
+		$bak = (strtotime($hc_cfg['News']) <= strtotime($start)) ?
+			'<a href="'.CalRoot.'/index.php?com=archive&amp;n='.$prev.'" class="mnu">&laquo;Prev</a>':
+			'<a href="#" class="mnu">&nbsp;</a>';
+		$fwd = ($next <= SYSDATE && strtotime($hc_cfg['News']) <= strtotime($next)) ?
+			'<a href="'.CalRoot.'/index.php?com=archive&amp;n='.$next.'" class="mnu">Next&raquo;</a>':
+			'<a href="#" class="mnu">&nbsp;</a>';
+		return '
+		<div class="nav">
+			'.$bak.'
+			'.$fwd.'
+		</div>';
+	}
+?>
