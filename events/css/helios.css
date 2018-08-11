@@ -1,0 +1,578 @@
+/*
+	Helios Calendar - Professional Event Management System
+	Copyright © 2006 Refresh Web Development [http://www.refreshwebdev.com]
+	
+	Developed By: Chris Carlevato <chris@refreshwebdev.com>
+	
+	For the most recent version, visit the Helios Calendar website:
+	[http://www.helioscalendar.com]
+	
+	License Information is found in docs/license.html
+*/
+
+/*	Required Classes For Helios
+	You can edit these to customize Helios, but they should not be removed	*/
+	
+#menu ul {
+	display: block;
+	list-style-type: none;
+	margin: 0;
+	padding-left: 0px;
+	text-align: left;
+	}
+#menu ul li {
+	display: block;
+	float: left;
+	border-left: 3px solid #AEAEAE;
+	}
+#menu ul li:hover {
+	display: block;
+	float: left;
+	border-left: 3px solid #3D3F3E;
+	background-color: #FF6600;
+	color: #FFFFFF;
+	}
+a.eventMain{
+	text-decoration: underline;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	color: #3D3F3E;
+	}
+a.eventMain:hover{
+	text-decoration: none;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	color: #FF6600;
+	}
+a.eventMenu{
+	text-decoration: none;
+	font-weight: bold;
+	font-family: Verdana, sans-serif;
+	font-size: 12px;
+	background-color: #FFFFFF;
+	color: #3D3F3E;
+	padding-left: 3px;
+	padding-right: 7px;
+	}
+a.eventMenu:hover{
+	text-decoration: none;
+	font-family: Verdana, sans-serif;
+	font-size: 12px;
+	background-color: #FF6600;
+	color: #FFFFFF;
+	padding-left: 3px;
+	padding-right: 7px;
+	}
+img { 
+	border: 0; 
+	}
+ul.billboard {
+	list-style-type: none;
+	margin: 0;
+	padding-left: 0px;
+	text-align: left;
+	}
+li.billboardDate {
+	font-weight: bold;
+	}
+li.billboard {
+	padding-left: 5px;
+	padding-top: 5px;
+	}
+a.billboard {
+	text-decoration: underline;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	color: #3D3F3E;
+	}
+a.billboard:hover {
+	text-decoration: none;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	color: #FF6600;
+	}
+ul.popular {
+	list-style-type: none;
+	margin: 0;
+	padding-left: 0px;
+	text-align: left;
+	}
+li.popularDate {
+	font-weight: bold;
+	}
+li.popular {
+	padding-left: 5px;
+	padding-top: 5px;
+	}
+a.popular {
+	text-decoration: underline;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	color: #3D3F3E;
+	}
+a.popular:hover {
+	text-decoration: none;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	color: #FF6600;
+	}
+#controlPanel {
+	width: 225px;
+	}
+img.controlPanel {
+	padding-bottom: 5px;
+	vertical-align: middle;
+	}
+a.controlPanel {
+	font-family: Verdana, sans-serif;
+	font-weight: bold;
+	text-decoration: none;
+	line-height: 25px;
+	color: #FF6600;
+	}
+a.controlPanel:hover {
+	font-family: Verdana, sans-serif;
+	text-decoration: none;
+	font-weight: bold;
+	line-height: 25px;
+	color: #3D3F3E;
+	}
+#nav-top {
+	clear: both;
+	text-align: right;
+	padding-top: 10px;
+	}
+#nav-bottom {
+	clear: both;
+	text-align: right;
+	padding-top: 5px;
+	}
+.eventDateTitle {
+	clear: both;
+	font-family: Verdana, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	border-bottom: 1px solid #3D3F3E;
+	color: #000000;
+	padding: 10px 0px 0px 0px;
+	}
+.eventListTime {
+	float: left;
+	width: 130px;
+	line-height: 20px;
+	}
+.eventListTimeHL {
+	float: left;
+	width: 130px;
+	background: #EFEFEF;
+	line-height: 20px;
+	}
+.eventListTitle {
+	float: left;
+	width: 383px;
+	line-height: 20px;
+	}
+.eventListTitleHL {
+	float: left;
+	width: 383px;
+	background: #EFEFEF;
+	line-height: 20px;
+	}
+a.eventListTitle {
+	text-decoration: underline;
+	font-family: Verdana, sans-serif;
+	font-weight: bold;
+	font-size: 11px;
+	color: #3D3F3E;
+	}
+a.eventListTitle:hover {
+	text-decoration: none;
+	font-family: Verdana, sans-serif;
+	font-weight: bold;
+	font-size: 11px;
+	color: #FF6600;
+	}
+.eventReqTag{
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #DC143C;
+	}
+.eventDetailTitle {
+	clear: both;
+	font-family: Verdana, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	border-bottom: 1px solid #3D3F3E;
+	color: #000000;
+	padding: 15px 0px 0px 0px;
+	}
+.eventDetailDesc {
+	clear: both;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	color: #000000;
+	padding: 0px 5px 10px 5px;
+	}
+.eventDetailDate {
+	font-family: Verdana, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	color: #000000;
+	}
+.eventDetailDatePast {
+	font-family: Verdana, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	color: #DC143C;
+	}
+.eventDetailTime {
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	color: #000000;
+	padding-left: 10px;
+	}
+#eventDetailInfo{
+	float: left;
+	padding-right: 13px;
+	width: 250px;
+	}
+#eventDetailTools{
+	float: left;
+	width: 250px;
+	}
+#eventDetailToolbox {
+	padding: 10px;
+	border: 1px solid #666666;
+	background: #EEEEEE;
+	width: 200px;
+	}
+img.eventDetailToolbox {
+	padding-bottom: 5px;
+	vertical-align: middle;
+	}
+a.eventDetailToolbox {
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	text-decoration: none;
+	line-height: 30px;
+	color: #3D3F3E;
+	}
+a.eventDetailToolbox:hover {
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	text-decoration: none;
+	line-height: 30px;
+	color: #FF6600;
+	}
+.HotListTitle {
+	padding: 5px 3px 5px 5px;
+	}
+.HotListTeaser {
+	clear: both;
+	border-top: 1px solid #666666;
+	padding: 5px 5px 5px 5px;
+	}
+.HotListTitleHL {
+	padding-bottom: 3px;
+	padding: 5px 3px 5px 5px;
+	background: #EFEFEF;
+	}
+.HotListTeaserHL {
+	clear: both;
+	border-top: 1px solid #666666;
+	padding: 5px 5px 5px 5px;
+	background: #EFEFEF;
+	}
+#rssMenu ul {
+	display: block;
+	list-style-type: none;
+	margin: 0;
+	padding-left: 0px;
+	text-align: left;
+	}
+#rssMenu ul li {
+	line-height: 20px;
+	}
+.rssTitle {
+	clear: both;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 12px 0px 3px 0px;
+	}
+div.rssSynd {
+	display: block;
+	float: left;
+	width: 160px;
+	text-align: center;
+	padding: 5px 0px 5px 0px;
+	}
+a.rssSynd {
+	text-decoration: none;
+	line-height: 25px;
+	}
+img.rssReader {
+	padding-bottom: 5px;
+	vertical-align: middle;
+	}
+a.rssReader {
+	font-family: Verdana, sans-serif;
+	font-weight: bold;
+	text-decoration: none;
+	line-height: 25px;
+	color: #FF6600;
+	}
+a.rssReader:hover {
+	font-family: Verdana, sans-serif;
+	text-decoration: none;
+	font-weight: bold;
+	line-height: 25px;
+	color: #3D3F3E;
+	}
+#eventShare li {
+	display: block;
+	list-style-type: none;
+	float: left;
+	padding: 3px 12px 7px 12px;
+	}
+.button {
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	padding: 0px 10px 0px 10px;
+	color: #000000;
+	}
+
+/*	Begin Input Classes
+	*/
+fieldset {
+	clear: both;
+    border: none;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+	}
+legend {
+	font-family: Verdana, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #FF6600;
+	padding-bottom: 5px;
+	background: transparent; 
+	margin: 1px;
+	padding: 0px 10px 2px 10px;
+	}
+label {
+    float: left; 
+    width: 100px; 
+    padding: 0px 10px 0px 0px; 
+    text-align: right; 
+	} 
+label.radio {
+    padding: 0px 0px 0px 0px; 
+    text-align: left; 
+	} 
+label.category {
+    padding: 0px 0px 0px 0px; 
+    text-align: left; 
+	width: 180px;
+	} 
+fieldset div { 
+    margin-bottom: 5px; 
+	}
+fieldset div input, textarea, select{
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+    border-top: 1px solid #555; 
+    border-left: 1px solid #555; 
+    border-bottom: 1px solid #ccc; 
+    border-right: 1px solid #ccc; 
+    padding: 1px; 
+    color: #333; 
+	vertical-align: center;
+	} 
+input:focus, textarea:focus, select:focus{ 
+    background: #efefef; 
+    color: #000; 
+	}
+fieldset div.frmReq{ 
+    font-weight: bold; 
+	}
+fieldset div.frmReq input, textarea, select{ 
+    font-weight: bold; 
+	}
+fieldset div.frmOpt{
+	font-weight: normal;
+	}
+fieldset div.frmOpt input, textarea, select{
+	font-weight: normal;
+	}
+input[type="submit"] {
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	width: 150px;
+	color: #000000;
+	}
+input[type="reset"] {
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	width: 150px;
+	color: #000000;
+	}
+input[type="button"] {
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	width: 150px;
+	color: #000000;
+	}
+input[type="radio"] {
+	padding-left: 0px;
+	text-align: left;
+	vertical-align: middle;
+	}
+input[type="checkbox"] {
+	padding-left: 0px;
+	text-align: left;
+	vertical-align: middle;
+	}
+/*	End Input Classes
+	*/
+
+/*	Begin Mini-Calendar Classes
+	*/
+.miniCalTable {
+	border-collapse: collapse;
+	empty-cells: show;
+	width: 175px;
+	text-align: center;
+	}
+.miniCalTitle {
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	border: 1px solid #ACACAC;
+	background-color: #EFEFEF;
+	}
+.miniCalJump{
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	border: 0px solid #ACACAC;
+	background-color: #EEEEEE;
+	color: #993300;
+	}
+.miniCalNav {
+	font-family: Verdana, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	border: 1px solid #ACACAC;
+	background-color: #EEEEEE;
+	color: #993300;
+	cursor: pointer;
+	}
+.miniCalDOW {
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	text-align: center;
+	border: 1px solid #ACACAC;
+	background-color: #EEEEEE;
+	width: 20px;
+	}	
+.miniCal {
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	text-align: center;
+	border: 1px solid #ACACAC;
+	width: 20px;
+	cursor: pointer;
+	}
+.miniCalToday {
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	text-align: center;
+	background: #FF6600;
+	border: 1px solid #ACACAC;
+	width: 20px;
+	cursor: pointer;
+	}
+.miniCalToday:hover {
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	text-align: center;
+	background: #FF6600;
+	border: 1px solid #ACACAC;
+	width: 20px;
+	cursor: pointer;
+	}
+.miniCalEvents {
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	text-align: center;
+	border: 1px solid #ACACAC;
+	background: #C8C8AC;
+	width: 20px;
+	cursor: pointer;
+	text-align: center;
+	}
+.miniCalEvents:hover {
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	text-align: center;
+	border: 1px solid #ACACAC;
+	background: #B8B89B;
+	width: 20px;
+	cursor: pointer;
+	}
+.miniCalFiller {
+	border: 1px solid #ACACAC;
+	background: #FFFFFF;
+	cursor: pointer;
+	}
+/*	End Mini-Calendar Classes
+	*/
+
+/*	Begin Required Classes For Feedback	
+	You shouldn't need to edit these and they should not be removed.	*/
+
+.info{
+	clear: both;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 3px;
+	text-align: center;
+	background: #EFEFEF;
+	border: solid 2px #008E0D;
+	}
+.warning{
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 3px;
+	text-align: center;
+	background: #EFEFEF;
+	border: solid 2px #FFDA00;
+	}
+.error{
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 3px;
+	text-align: center;
+	background: #EFEFEF;
+	border: solid 2px #E40000;
+	}
+/*	End Required Classes For Feedback	
+*/
+
+
+/*	Begin IE Hacks
+*/
+input.noBorderIE{
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	border: 0px;
+	}
+/*	End IE Hacks
+*/
