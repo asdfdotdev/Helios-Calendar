@@ -1,0 +1,29 @@
+/*
+	Helios Calendar
+	Copyright (C) 2004-2010 Refresh Web Development, LLC. [www.RefreshMy.com]
+
+	This file is part of Helios Calendar, it's usage is governed by
+	the Helios Calendar SLA found at www.HeliosCalendar.com/license.html
+*/
+body{font-family:Verdana,sans-serif;margin:0;padding:0px;}
+a{-webkit-tap-highlight-color:rgba(0,0,0,0);}
+a.main{color:#0000FF;}
+a.main:hover{text-decoration:none;color:#DC143C;}
+#about,#search,#language{font-size:medium;padding:5px 0px 10px 5px;}
+#header{font-size:medium;background:#666666;color:#FFFFFF;text-align:center;padding:3px;}
+#menu{font-size:medium;background:#EFEFEF;border-bottom: solid 1px #CCCCCC;padding: 5px;text-align:center;}
+#menu a{text-decoration:none;color:#FF5C00;}
+#menu a:hover{color:#000000;}
+#content{width:100%;padding:0px;background:#FFFFFF;}
+#content ul {display:block;list-style-type:none;margin:0px;padding-left:0px;width:100%;}
+#content ul li.date{background:#CCCCCC;line-height:160%;}
+#content ul li a{font-size:medium;display: block;background:#FFFFFF;border-bottom:solid 1px #CCCCCC;color:#FF5C00;line-height:225%;padding-left:5px;}
+#content ul li a:hover{background:#EFEFEF;color:#000000;}
+#footer{font-size:medium;background:#CCCCCC;color:#000000;padding:5px;text-align:center;}
+#footer a{text-decoration:none;padding:3px 0px 3px 0px;color:#000000;}
+#footer a:hover{color:#FFFFFF;}
+.footerLogo{vertical-align:middle;}
+#logo{padding: 15px 0px 5px 0px;font-size:small;color: #FF5C00;text-align:center;}
+#logo img{border:0px;}
+.eventLabel {font-weight: bold;padding: 10px 0px 0px 0px;}
+.txtInput,.btnInput {font-family: Verdana, sans-serif;font-size:medium;}

@@ -1,0 +1,16 @@
+/*
+	Helios Calendar
+	Copyright (C) 2004-2010 Refresh Web Development, LLC. [www.RefreshMy.com]
+
+	This file is part of Helios Calendar, it's usage is governed by
+	the Helios Calendar SLA found at www.HeliosCalendar.com/license.html
+*/
+img{border:0px;}
+td.miniCalNav{cursor: hand;}
+td.miniCal{cursor: hand;}
+td.miniCalToday{cursor: hand;}
+td.miniCalToday:hover{cursor: hand;}
+td.miniCalEvents{cursor: hand;}
+td.miniCalEvents:hover{cursor: hand;}
+td.miniCalFiller{cursor: hand;}
+.datePicker{position: absolute;visibility: hidden;background-color:#FFFFFF;layer-background-color:#FFFFFF;}
