@@ -1,0 +1,153 @@
+/*
+	Helios Calendar
+	Copyright (C) 2004-2010 Refresh Web Development, LLC. [www.RefreshMy.com]
+
+	This file is part of Helios Calendar, it's usage is governed by
+	the Helios Calendar SLA found at www.HeliosCalendar.com/license.html
+*/
+#menu ul{display: block;list-style-type: none;margin: 0;padding:0px;text-align: left;}
+#menu ul li{display: block;float: left;border-left: 3px solid #AEAEAE;}
+#menu ul li:hover{border-left:3px solid #3D3F3E;}
+a.eventMenu{text-decoration:none;font-weight:bold;font-size:12px;color:#3D3F3E;padding-left:3px;padding-right:7px;}
+a.eventMenu:hover{text-decoration:none;font-size:12px;background-color:#FF6600;color:#FFFFFF;padding-left:3px;padding-right:7px;}
+a.eventMain{text-decoration:underline;color:#3D3F3E;}
+a.eventMain:hover{text-decoration:none;color:#FF6600;}
+img{border:0;}
+ul.billboard,ul.popular,ul.rssLinks,ul.catLinks{list-style-type:none;margin:0;padding:0px;}
+li.billboardDate,li.popularDate{font-weight:bold;}
+li.billboard,li.popular{padding-left:5px;padding-top:5px;}
+a.billboard,a.popular{text-decoration:underline;color:#3D3F3E;}
+a.billboard:hover,a.popular:hover{text-decoration:none;color:#FF6600;}
+img.controlPanel{padding-bottom:5px;vertical-align:middle;}
+a.controlPanel{text-decoration:none;font-weight:bold;color:#FF6600;}
+a.controlPanel:hover{text-decoration:none;color:#3D3F3E;}
+.rssLinksAll,.rssLinksNew,.rssLinksBillboard,.rssLinksPopular.rssLinksDiscuss{background-image:url(../images/rss/feedIcon.gif);background-repeat:no-repeat;padding:1px 0px 4px 20px;}
+.iCalLinksSubscribe{background-image:url(../images/icons/iconiCal.png);background-repeat:no-repeat;padding:1px 0px 4px 20px;}
+.openID{background-image:url(../images/openid/icon.png);background-repeat:no-repeat;padding-left:25px;font-size:13px;}
+.openID:focus{background-image:url(../images/openid/icon.png);background-repeat:no-repeat;}
+.oidUserCom{font-weight:bold;font-size:12px;}
+a.openid{text-decoration:underline;line-height:20px;color:#666666;}
+a.openid:hover{text-decoration:none;color:#FF6600;}
+a.oidLink{text-decoration:none;color:#666666;}
+a.oidLink:hover{text-decoration:underline;color:#FF6600;}
+a.oidMenu{text-decoration:underline;color:#3D3F3E;}
+a.oidMenu:hover{text-decoration:none;color:#FF6600;}
+a.commentLogin{text-decoration:none;color:#ACACAC;font-size:13px;}
+a.commentLogin:hover{text-decoration:none;color:#666666;font-size:13px;}
+a.commentIdentity,a.commentUser{text-decoration:none;color:#000000;font-weight:bold;}
+a.commentIdentity:hover,a.commentUser:hover{text-decoration:underline;color:#666666;}
+a.commentReport{text-decoration:none;color:#FFFFFF;}
+a.commentReport:hover{text-decoration:none;color:#DC143C;}
+a.commentShow{padding-left:20px;color:#666666;}
+a.commentShow:hover{color:#000000;}
+.commentFooter{clear:both;border-top:solid 1px #CCCCCC;}
+.commentFrame{clear:both;border-top:solid 1px #CCCCCC;padding:10px 0px 0px 5px;}
+.commentFrame-hidden{clear:both;border-top:solid 1px #CCCCCC;height:30px;padding:10px 0px 0px 5px;background:#EFEFEF;}
+.commentTools{float:right;width:150px;padding: 0px 5px 5px 5px;color:#666666;text-align:right;line-height:15px;}
+.commentTools-hidden{float:right;width:100px;padding: 0px 5px 5px 5px;color:#666666;text-align:right;font-weight:bold;}
+.comment-hidden{display:none;}
+.comment{padding-bottom:10px;}
+.commentDate{clear:both;text-align:right;font-weight:bold;font-style:italic;padding:5px 5px 0px 0px;}
+.commentDate-hidden{display:none;}
+img.recomnds-hidden{display:none;}
+#nav-top{clear:both;text-align:right;}
+#nav-bottom{clear:both;text-align:right;padding-top:7px;}
+.eventDateTitle{clear:both;font-size:13px;font-weight:bold;border-bottom:1px solid #3D3F3E;color:#000000;padding:10px 0px 0px 0px;}
+h1.summary{font-size:13px;font-weight:bold;padding:0;margin:0;}
+.eventSkipComments{font-weight:normal;font-size:11px;float:right;}
+.eventListTime{float:left;width:25%;line-height:20px;}
+.eventListTimeHL{float:left;width:25%;background:#EFEFEF;line-height:20px;}
+.eventListTitle{float:left;width:75%;line-height:20px;}
+.eventListTitleHL{float:left;width:75%;background:#EFEFEF;line-height:20px;}
+a.eventListTitle{text-decoration:underline;width:100%;font-weight:bold;color:#3D3F3E;}
+a.eventListTitle:hover{text-decoration:none;font-weight:bold;color:#FF6600;}
+.eventReqTag{font-weight:bold;color:#DC143C;}
+#eventDetailTitle{clear:both;font-size:13px;font-weight:bold;border-bottom:1px solid #3D3F3E;color:#000000;padding:10px 0px 3px 0px;}
+#eventDetailDesc{clear:both;color:#000000;padding:0px 5px 10px 5px;}
+.eventDetailDate,
+.eventDetailPrice{font-size:13px;font-weight:bold;color:#000000;}
+.eventDetailDatePast{font-size:13px;font-weight:bold;color:#DC143C;}
+.eventDetailTime{color:#000000;padding-left:10px;}
+.locDetailHeader,
+.eventDetailHeader{border-top:solid 1px #CCCCCC;font-size:13px;font-weight:bold;line-height:30px;}
+#eventDetailInfo{float:left;padding-right:13px;width:50%;}
+#eventDetailTools{float:left;width:45%;}
+.eventDetailToolbox{padding:10px;border:1px solid #666666;background:#EEEEEE;width:95%;}
+.eventDetailReg{padding:10px;width:80%;}
+a.eventShare{text-decoration:none;line-height:25px;padding:0px 5px 0px 0px;color:#0000FF;}
+img.eventDetailLink{line-height:25px;padding-bottom:5px;vertical-align:middle;}
+a.eventDetailLink{text-decoration:underline;line-height:25px;color:#3D3F3E;}
+a.eventDetailLink:hover {text-decoration:none;line-height:25px;color:#FF6600;}
+a.eventDetailDates{text-decoration:underline;line-height:20px;color:#3D3F3E;}
+a.eventDetailDates:hover{text-decoration:none;line-height:20px;color:#FF6600;}
+#rssMenu ul{display:block;list-style-type:none;margin:0;padding-left:0px;text-align:left;}
+#rssMenu ul li{line-height:20px;}
+.rssTitle{clear:both;font-weight:bold;padding:12px 0px 3px 0px;}
+div.rssSynd{display:block;float:left;width:160px;text-align:center;padding:5px 0px 5px 0px;}
+a.rssSynd{text-decoration:none;line-height:25px;}
+img.rssReader{padding-bottom:5px;vertical-align:middle;}
+a.rssReader{font-weight:bold;text-decoration:none;line-height:25px;color:#FF6600;}
+a.rssReader:hover {text-decoration:none;font-weight:bold;line-height:25px;color:#3D3F3E;}
+#eventShare li{display:block;list-style-type:none;float:left;padding:3px 12px 7px 12px;}
+.button{font-size:11px;padding:0px 10px 0px 10px;color:#000000;}
+.locDetails {width:45%;min-width:175px;float:left;padding:0px 5px 0px 0px;clear:both;}
+#hc_Gmap{clear:both;padding-top:20px;width:100%;height:250px;}
+#hc_GmapLoc {float:left;width:75%;height:650px;}
+#hc_GmapLocDetail {float:left;width:370px;height:250px;margin-bottom:7px;}
+.GmapLocMenu{width:300px;height:20px;border-bottom:solid 1px #ACACAC;}
+.GmapLocPane {width:300px;height:200px;overflow:auto;padding:3px 0px 0px 0px;}
+a.locMenu{text-decoration:underline;color:#0000FF;}
+a.locMenu:hover{text-decoration:none;color:#666666;}
+a.locListReset, #locListLink{text-decoration:none;font-weight:bold;color:#000000;vertical-align:middle;}
+a.locListReset:hover, #locListLink:hover{text-decoration:none;color:#FF6600;}
+a.locList{text-decoration:underline;color:#000000;}
+a.locList:hover{text-decoration:none;color:#FF6600;}
+.locTitle{font-size:12px;font-weight:bold;font-style:italic;}
+#locRest{float:right;width:100px;}
+#locList ul{display:block;list-style-type:none;margin:0;padding-left:5px;}
+#locList ul li{padding:3px 0px 4px 0px;text-align:left;}
+#locList{overflow:auto;float:left;width:25%;height:650px;}
+img.locList{padding-bottom:5px;vertical-align:middle;}
+a.searchLoc{text-decoration:underline;font-size:13px;color:#FF6600;}
+a.searchLoc:hover{text-decoration:underline;font-size:13px;color:#CCCCCC;}
+.datePicker{position:absolute;visibility:hidden;background-color:#FFFFFF;}
+.tel {width:200px;float:left;}
+abbr{border:none;}
+.category{margin:0;padding:0;border:none;list-style:none;display:block;}
+a.email{text-decoration:underline;color:#3D3F3E;}
+a.email:hover{text-decoration:none;color:#FF6600;}
+fieldset{clear:both;border:none;border-top:1px solid #ccc;border-bottom:1px solid #ccc;}
+legend{font-size:12px;font-weight:bold;color:#FF6600;padding-bottom:5px;background:transparent;margin:1px;padding:0px 10px 2px 10px;}
+label{float:left;width:100px;padding:0px 10px 0px 0px;text-align:right;font-size:11px;}
+label.radio{padding:0px;text-align:left;font-size:11px;}
+label.radioWide{padding:0px;text-align:left;width:200px;font-size:11px;}
+label.category{padding:0px;text-align:left;width:180px;font-size:11px;}
+label.subcategory{padding: 0px 0px 0px 15px;text-align: left;width: 175px;clear:both;font-size:11px;}
+fieldset div{margin-bottom:5px;}
+fieldset div input, textarea, select{font-family:Verdana, sans-serif;font-size:11px;border-top:1px solid #555;border-left:1px solid #555;border-bottom:1px solid #ccc;border-right:1px solid #ccc;padding:1px;color:#333;vertical-align:middle;font-size:11px;}
+input:focus, textarea:focus, select:focus{background:#efefef;color:#000;}
+fieldset div.frmReq,fieldset div.frmReq input, textarea, select{font-weight:bold;}
+fieldset div.frmOpt,fieldset div.frmOpt input, textarea, select{font-weight:normal;}
+div.frmReq,div.frmOpt{clear:both;}
+input[type="submit"],input[type="reset"],input[type="button"]{font-size:11px;width:150px;color:#000000;}
+input[type="checkbox"]{border: 0px;}
+.miniCalTable{border-collapse:collapse;empty-cells:show;width:175px;font-size:11px;}
+.miniCalTable td{cursor:pointer;text-align:center;}
+.miniCalTitle{border:1px solid #ACACAC;background-color:#EEEEEE;text-align:center;}
+.miniCalJump{background-color:#EEEEEE;font-family:Verdana, sans-serif;border:0px;color:#993300;}
+.miniCalNav{font-size:13px;font-weight:bold;border:1px solid #ACACAC;background-color:#EEEEEE;color:#993300;}
+.miniCalDOW{border:1px solid #ACACAC;background-color:#FFFFFF;color:#993300;}	
+.miniCal{background:#FFFFFF;border:1px solid #ACACAC;}
+.miniCalToday{font-weight:bold;background:#FF6600;border:1px solid #ACACAC;}
+.miniCalToday:hover{font-weight:bold;background:#FF6600;border:1px solid #ACACAC;}
+.miniCalEvents{border:1px solid #ACACAC;background:#C8C8AC;}
+.miniCalEvents:hover{text-align:center;border:1px solid #ACACAC;background:#B8B89B;}
+.miniCalFiller{border:1px solid #ACACAC;background:#FFFFFF;}
+.info{clear:both;font-weight:bold;padding:3px;text-align:center;background:#eef7ef;border: solid 2px #008E0D;}
+.warning{clear:both;font-weight:bold;padding:3px;text-align:center;background:#fffcee;border: solid 2px #FFDA00;}
+.error{clear:both;font-weight:bold;padding:3px;text-align:center;background:#fceeee;border: solid 2px #E40000;}
+input.noBorderIE{border:0px;}
+label.locSearch1{line-height:20px;width:400px;text-align:left;}
+label.locSearch0{line-height:20px;width:400px;text-align:left;background:#EFEFEF;}
+#eventDetailShareMore{padding-top:5px;}
+.tweetToo{text-align:left;width:75%;}
