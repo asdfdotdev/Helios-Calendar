@@ -15,7 +15,7 @@ $hc_lang_register = array(
 'Email'				=>	'Email:',
 'Phone'				=>	'Phone:',
 'Address'			=>	'Address:',
-'Address2'			=>	'&nbsp;',
+'Address2'			=>	'<span class="sr-only">Address Line 2</span>',
 'City'				=>	'City:',
 'Postal'			=>	'Zip Code:',
 'RegisterNow'		=>	'Register Now',

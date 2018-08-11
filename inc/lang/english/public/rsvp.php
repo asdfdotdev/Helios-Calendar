@@ -21,7 +21,7 @@ $hc_lang_rsvp = array(
 'Alone'				=>	'Just Me',
 'Myself'			=>	'Myself',
 'Address'			=>	'Address:',
-'Address2'			=>	'&nbsp;',
+'Address2'			=>	'<span class="sr-only">Address Line 2</span>',
 'City'				=>	'City:',
 'Postal'			=>	'Zip Code:',
 'Country'			=>	'Country:',
