@@ -1,0 +1,23 @@
+/**
+ * This file is part of Helios Calendar, it's use is governed by the Helios Calendar Software License Agreement.
+ *
+ * @author Refresh Web Development, LLC.
+ * @link http://www.refreshmy.com
+ * @copyright (C) 2004-2011 Refresh Web Development
+ * @license http://www.helioscalendar.com/license.html
+ * @package Helios Calendar
+ */
+
+/*	"Fixes" for IE7 & IE6
+*/
+.cSubLock{position:relative;padding:11px 0px 0px 18px;}
+.eventListTools,.pendingListTools,.orphanListTools,.userListTools,.newsletterTools,.adminTools,.mostPopularDate,.mostPopularTools,.recentDateA,.recentDateO,.recentTools,.locTools,.tempExpTools,.duplicateTools,.billboardListTools,.oidTools,.commentTools{line-height:2px;}
+.eventListToolsHL,.pendingListToolsHL,.orphanListToolsHL,.userListToolsHL,.newsletterToolsHL,.adminToolsHL,.mostPopularDateHL,.mostPopularToolsHL,.recentDateAHL,.recentDateOHL,.recentToolsHL,.locToolsHL,.tempExpToolsHL,.duplicateToolsHL,.billboardListToolsHL,.oidToolsHL,.commentToolsHL{line-height:0px;}
+.categoryListTools{line-height:5px;}
+.categoryListToolsHL{line-height:5px;}
+.commentTools{clear:both;text-align:right;line-height:5px;}
+.lostPwd{clear:both;text-align:right;padding:5px 0px 0px 0px;}
+#menu{width:950px;margin:auto;z-index:1000;}
+.menuLock{width:950px;height:21px;position:fixed;background:url('../images/bgMnu.png');background-repeat:repeat-x;background-attachment:fixed;z-index:3000;}
+#cMain{float:left;width:73%;padding:3px;min-height:250px;}
+.cSubLock{position:relative;padding:11px 0px 0px 10px;}

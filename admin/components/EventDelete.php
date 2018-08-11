@@ -1,0 +1,47 @@
+<?php
+/**
+ * This file is part of Helios Calendar, it's use is governed by the Helios Calendar Software License Agreement.
+ *
+ * @author Refresh Web Development, LLC.
+ * @link http://www.refreshmy.com
+ * @copyright (C) 2004-2011 Refresh Web Development
+ * @license http://www.helioscalendar.com/license.html
+ * @package Helios Calendar
+ */
+	$isAction = 1;
+	include('../includes/include.php');
+	checkIt(1);
+	$msgID = 1;
+	
+	$delIDs = (isset($_POST['eventID'])) ? cIn(implode(',', $_POST['eventID'])) : cIn($_GET['dID']);
+
+	doQuery("UPDATE " . HC_TblPrefix . "events SET IsActive = 0 WHERE PkID IN(" . cIn($delIDs) . ")");
+	doQuery("UPDATE " . HC_TblPrefix . "comments SET IsActive = 0 WHERE TypeID = 1 AND EntityID IN(" . cIn($delIDs) . ")");
+	
+	$result = doQuery("SELECT PkID FROM " . HC_TblPrefix . "comments WHERE TypeID = 1 AND EntityID IN(" . cIn($delIDs) . ")");
+	while($row = mysql_fetch_row($result)){
+		doQuery("UPDATE " . HC_TblPrefix . "commentsreportlog SET IsActive = 0 WHERE CommentID = '" . cIn($row[0]) . "'");
+	}//end while
+	
+	$resultD = doQuery("SELECT NetworkID, NetworkType FROM " . HC_TblPrefix . "eventnetwork WHERE EventID IN (" . $delIDs . ") ORDER BY NetworkType");
+	while($row = mysql_fetch_row($resultD)){
+		$netID = $row[0];
+		if($row[1] == 1){
+			include('../../events/includes/api/eventful/EventDelete.php');
+		} elseif($row[1] == 2){
+			include('../../events/includes/api/eventbrite/EventDelete.php');
+		}//end if
+	}//end if
+
+	clearCache();
+
+	if(isset($_GET['oID']) OR isset($_POST['oID'])) {
+		header("Location: " . CalAdminRoot . "/index.php?com=eventorphan&msg=1");
+	} elseif(isset($_POST['pID'])) {
+		header("Location: " . CalAdminRoot . "/index.php?com=eventpending&msg=5");
+	} elseif(isset($_GET['dpID'])){
+		header("Location: " . CalAdminRoot . "/index.php?com=reportdup&msg=1");
+	} else {
+		header("Location: " . CalAdminRoot . "/index.php?com=eventsearch&sID=2&msg=" . $msgID);
+	}//end if
+?>

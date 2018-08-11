@@ -1,0 +1,23 @@
+/**
+ * This file is part of Helios Calendar, it's use is governed by the Helios Calendar Software License Agreement.
+ *
+ * @author Refresh Web Development, LLC.
+ * @link http://www.refreshmy.com
+ * @copyright (C) 2004-2011 Refresh Web Development
+ * @license http://www.helioscalendar.com/license.html
+ * @package Helios Calendar
+ */
+.hc_cpYearNavigation,.hc_cpMonthNavigation{background-color:#EFEFEF;text-align:center;vertical-align:center;text-decoration:none;color:#000;font-weight:bold;}
+.hc_cpDayColumnHeader,.hc_cpYearNavigation,.hc_cpMonthNavigation,.hc_cpCurrentMonthDate,.hc_cpCurrentMonthDateDisabled,.hc_cpOtherMonthDate,.hc_cpOtherMonthDateDisabled,.hc_cpCurrentDate,.hc_cpCurrentDateDisabled,.hc_cpTodayText,.hc_cpTodayTextDisabled,.hc_cpText{font-family:Verdana,sans-serif;font-size:10px;}
+TD.hc_cpDayColumnHeader{text-align:right;}
+.hc_cpCurrentMonthDate,.hc_cpOtherMonthDate,.hc_cpCurrentDate{text-align:right;text-decoration:none;}
+.hc_cpCurrentMonthDateDisabled,.hc_cpOtherMonthDateDisabled,.hc_cpCurrentDateDisabled{color:#D0D0D0;text-align:right;text-decoration:line-through;}
+.hc_cpCurrentMonthDate{color:#000000;font-weight:bold;}
+.hc_cpCurrentDate{color: #FFFFFF;font-weight:bold;}
+.hc_cpOtherMonthDate{color:#808080;}
+TD.hc_cpCurrentDate{color:#FFFFFF;background-color: #FF6600;border:solid 1px #000000;}
+TD.hc_cpTodayText,TD.hc_cpTodayTextDisabled{border:solid 1px #666;}
+A.hc_cpTodayText,SPAN.hc_cpTodayTextDisabled{height:20px;}
+A.hc_cpTodayText{color:#666666;font-weight:bold;}
+SPAN.hc_cpTodayTextDisabled{color:#D0D0D0;}
+.hc_cpBorder{border:solid 1px #CCCCCC;}
