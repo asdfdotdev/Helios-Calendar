@@ -1,0 +1,276 @@
+/*
+	Helios Calendar - Professional Event Management System
+	Copyright © 2005 Refresh Web Development [http://www.refreshwebdev.com]
+	
+	Developed By: Chris Carlevato <chris@refreshwebdev.com>
+	
+	For the most recent version, visit the Helios Calendar website:
+	[http://www.helioscalendar.com]
+	
+	License Information is found in docs/license.html
+*/
+
+/* Begin Required Classes For Administration Site */
+
+body{
+	margin: 0px;
+	}
+	
+a.main{
+	font-family: Verdana;
+	font-size: 11px;
+	color: #3D3F3E;
+	}
+
+a.main:hover{
+	text-decoration: none;
+	font-family: Verdana;
+	font-size: 11px;
+	color: #FF6600;
+	}
+	
+a.approve{
+	color: #000000;
+	font-size: 11px;
+	font-family: Verdana, Arial, sans-serif;
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: none;
+	}
+	
+a.approve:hover{
+	color: #FF3300;
+	font-size: 11px;
+	font-family: Verdana, Arial, sans-serif;
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: underline;
+	}
+	
+a.copyright{
+	text-decoration: none;
+	font-family: Verdana;
+	font-size: 10px;
+	color: #777777;
+	}
+	
+a.copyright:hover{
+	text-decoration: underline;
+	font-family: Verdana;
+	font-size: 10px;
+	color: #FF6600;
+	}
+	
+.main{
+	font-family: Verdana;
+	font-size: 11px;
+	}
+	
+.footer{
+	font-family: Verdana;
+	font-size: 10px;
+	color: #777777;
+	}
+	
+.eventMain{
+	font-family: Verdana;
+	font-size: 11px;
+	}
+
+.eventReqTag{
+	font-family: Verdana;
+	font-size: 11px;
+	font-weight: bold;
+	color: #DC143C;
+	}
+
+.eventSeparator{
+	background: #BDBDBD;
+	}
+	
+td.eventListDate{
+	font-family: Verdana;
+	font-size: 11px;
+	}
+
+td.eventDetails{
+	font-family: Verdana;
+	font-size: 11px;
+	}
+
+td.eventListTime{
+	font-family: Verdana;
+	font-size: 11px;
+	}
+	
+td.eventActivityReport{
+	border: solid #BDBDBD 1px;
+	background-color: #EFEFEF;
+	padding: 5px;
+	font-family: Verdana;
+	font-size: 11px;
+	}
+
+td.tblListHL{
+	font-family: Verdana;
+	font-size: 11px;
+	background: #EFEFEF;
+	}
+	
+/* End Required Classes For Calendar */
+
+
+	
+/* Begin Required Classes For Feedback and Instructions */	
+
+.feedback{
+	background: #EFEFEF;
+	font-family: Verdana;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 3px;
+	text-align: center;
+	}
+	
+.info{
+	background: #EFEFEF;
+	border: solid 2px #008E0D;
+	}
+	
+.warning{
+	background: #EFEFEF;
+	border: solid 2px #FFDA00;
+	}
+
+.error{
+	background: #EFEFEF;
+	border: solid 2px #E40000;
+	}
+	
+/*	End Required Classes For Feedback	*/
+
+/*	Begin Required Classes For Menu	*/
+
+td.topMenu{
+	background: url(images/bg_menu.gif);
+	background-repeat: repeat-x;
+	}
+
+.menu {
+	display: block;
+	font-family: Verdana;
+	font-size: 11px;
+	}
+
+.menu a {
+	text-decoration: none;
+	color: #3D3F3E;
+	font-weight: bold;
+	}
+
+.menu li {
+	display: block;
+	float: left;
+	padding: 1px 7px 1px 7px;
+	}
+
+.menu li a {
+	display: block;
+	padding: 3px;
+	}
+
+.menu li a:hover {
+	text-decoration: underline;
+	color: #3D3F3E;
+	font-weight: bold;
+	}
+
+.subMenu {
+	display: block;
+	padding: 1px 1px 1px 1px;
+	background-color: #CCCCCC;
+	border-top: solid #CCCCCC 1px;
+	border-left: solid #3D3F3E 1px;
+	border-right: solid #3D3F3E 1px;
+	border-bottom: solid #3D3F3E 1px;
+	}
+
+.subMenu li {
+	display: block;
+	float: none;
+	padding: 0px 0px 1px 0px;
+	text-align: left;
+	vertical-align: middle;
+	}
+
+.subMenu li a {
+	color: #3D3F3E;
+	display: block;
+	padding-left: 10px;
+	padding-bottom: 5px;
+	padding-right: 10px;
+	}
+
+.subMenu li a:hover {
+	color: #FFFFFF;
+	background-color: #FF6600;
+	border: 0px;
+	}
+
+.menu {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+	}
+
+.subMenu {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+	display: none;
+	position: absolute;
+	}
+
+.menu li:hover > ul {
+	 display: block;
+	}
+	
+/*	End Required Classes For Menu	*/
+	
+.statsHeader{
+	font-family: Verdana;
+	font-size: 11px;
+	font-weight: bold;
+	text-align: center;
+	}
+	
+.instructions{
+	border: solid #BDBDBD 1px;
+	background-color: #EFEFEF;
+	}
+
+.instructionText{
+	font-family: Verdana;
+	font-size: 11px;
+	}
+	
+table.about{
+	border: solid #BDBDBD 1px;
+	}
+	
+.button{
+	font-family: Verdana;
+	font-size: 11px;
+	}
+	
+.input{
+	border: solid #BDBDBD 1px;
+	font-family: Verdana;
+	font-size: 11px;
+	}
+	
+.eventInput{
+	border: solid #BDBDBD 1px;
+	font-family: Verdana;
+	font-size: 11px;
+	}
