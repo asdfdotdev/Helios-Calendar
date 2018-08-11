@@ -4,6 +4,10 @@ A PHP & MySQL powered web calendar that endeavors to make event publishing and p
 
 The Helios Calendar project is a continuation of the commercial version of Helios, but released as open-source.
 
+## About this repo
+
+This repository contains branches for every release of Helios Calendar - including old commercial releases that are in no way supported. All old release contain bugs, some include known security issues that were fixed in subsequent releases. We **strongly** discourage the use of old versions for any purpose, however, they are provided here for equal parts nostalgia and reference.  
+
 ## Getting Started
 
 After cloning or forking this repo [checkout the setup instructions](https://github.com/christopherldotcom/Helios-Calendar/wiki/Technical-Setup) to get your calendar up and running.
@@ -29,4 +33,4 @@ Find a bug? Have an idea? Want to tell us about it? Great! [Submit an issue](./.
 Find a bug? Have an idea? Want to build/fix it yourself? Even better! [Submit a pull request](./.github/CONTRIBUTING.md).
 
 ## License
-Helios Calendar is released under the [GPL](http://www.gnu.org/licenses/gpl-2.0.html).
+All code in the Helios Calendar repository is released under the [GPL](http://www.gnu.org/licenses/gpl-2.0.html).
