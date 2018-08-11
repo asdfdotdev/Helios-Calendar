@@ -1,0 +1,158 @@
+/*
+	Helios Calendar - Professional Event Management System
+	Copyright © 2005 Refresh Web Development [http://www.refreshwebdev.com]
+	
+	Developed By: Chris Carlevato <chris@refreshwebdev.com>
+	
+	For the most recent version, visit the Helios Calendar website:
+	[http://www.helioscalendar.com]
+	
+	License Information is found in docs/license.html
+*/
+
+/*	Helios Template Classes
+	You can remove these if you don't with to use them in your template	*/
+body{
+	margin: 0px;
+	}
+	
+.main{
+	font-family: Verdana;
+	font-size: 10px;
+	}
+	
+.footer{
+	font-family: Verdana;
+	font-size: 10px;
+	color: #777777;
+	}
+	
+a.copyright{
+	text-decoration: none;
+	font-family: Verdana;
+	font-size: 10px;
+	color: #777777;
+	}
+	
+a.copyright:hover{
+	text-decoration: underline;
+	font-family: Verdana;
+	font-size: 10px;
+	color: #FF6600;
+	}
+	
+	
+/*	Required Classes For Helios 	
+	You can edit these to customize Helios, but they should not be removed	*/
+a.main{
+	font-family: Verdana;
+	font-size: 11px;
+	color: #666666;
+	}
+	
+a.main:hover{
+	text-decoration: none;
+	font-family: Verdana;
+	font-size: 11px;
+	color: #FF6600;
+	}
+
+.eventMain{
+	font-family: Verdana;
+	font-size: 11px;
+	}
+
+.eventListHL{
+	font-family: Verdana;
+	font-size: 11px;
+	background: #EFEFEF;
+	}
+
+.eventButton{
+	font-family: Verdana;
+	font-size: 11px;
+	}
+	
+.eventInput{
+	border: solid #BDBDBD 1px;
+	font-family: Verdana;
+	font-size: 11px;
+	}
+
+.eventReqTag{
+	font-family: Verdana;
+	font-size: 11px;
+	font-weight: bold;
+	color: crimson;
+	}
+
+.eventSeparator{
+	background: #BDBDBD;
+	}
+	
+td.MenuCell{
+	text-decoration: none;
+	font-family: Verdana;
+	font-size: 11px;
+	color: #3D3F3E;
+	}
+	
+a.eventMenu{
+	text-decoration: none;
+	font-weight: bold;
+	font-family: Verdana;
+	font-size: 11px;
+	color: #3D3F3E;
+	}
+
+a.eventMenu:hover{
+	text-decoration: underline;
+	font-family: Verdana;
+	font-size: 11px;
+	color: #666666;
+	}
+	
+a.eventMain{
+	font-family: Verdana;
+	font-size: 11px;
+	color: #666666;
+	}
+	
+a.eventMain:hover{
+	text-decoration: none;
+	font-family: Verdana;
+	font-size: 11px;
+	color: #FF6600;
+	}
+	
+/*	End Required Classes For Calendar	*/
+
+	
+/*	Begin Required Classes For Feedback	
+	You shouldn't need to edit these	*/
+
+.feedback{
+	background: #EFEFEF;
+	font-family: Verdana;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 3px;
+	text-align: center;
+	}
+	
+.info{
+	background: #EFEFEF;
+	border: solid 2px #008E0D;
+	}
+	
+.warning{
+	background: #EFEFEF;
+	border: solid 2px #FFDA00;
+	}
+
+.error{
+	background: #EFEFEF;
+	border: solid 2px #E40000;
+	}
+	
+/*	End Required Classes For Feedback	*/
