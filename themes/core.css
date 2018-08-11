@@ -1,0 +1,71 @@
+/**
+ * This file is part of Helios Calendar, it's use is governed by the Helios Calendar Software License Agreement.
+ *
+ * @author Refresh Web Development LLC
+ * @link http://www.refreshmy.com
+ * @copyright (C) 2004-2012 Refresh Web Development
+ * @license http://www.helioscalendar.com/license.html
+ * @package Helios Calendar
+ */
+.icon {background-repeat:no-repeat;background-position:top left;padding:0 0 3px 20px;text-decoration:underline;color:#3D3F3E;}
+.iconR {background-repeat:no-repeat;background-position:top right;padding:0 20px 3px 0;text-decoration:underline;color:#3D3F3E;}
+.archive {background-image:url(../img/icons/archive.png);}
+.calendar {background-image:url(../img/icons/calendar.png);}
+.comment {background-image:url(../img/icons/comments.png);}
+.directions {background-image:url(../img/icons/car.png);}
+.email {background-image:url(../img/icons/email.png);}
+.emaile{background-image:url(../img/icons/emailedit.png);}
+.google_cal {background-image:url(../img/cal/google.png);}
+.ical {background-image:url(../img/icons/ical.png);}
+.live {background-image:url(../img/cal/windows.png);}
+.map {background-image:url(../img/icons/map.png);}
+.qr {background-image:url(../img/icons/qr.png);}
+.rsvp {background-image:url(../img/icons/register.png);}
+.rss {background-image:url(../img/feed.png);}
+.vcal {background-image:url(../img/icons/vcal.png);}
+.weather {background-image:url(../img/icons/weather.png);}
+.yahoo {background-image:url(../img/cal/yahoo.png);}
+.regFull {height:7px;border-left:.5px solid #000000;border-top:.5px solid #000000;}
+.regAvailable {height:7px;border-right:.5px solid #000000;border-top:.5px solid #000000;}
+.regOver {height:7px;border:.5px solid #000000;}
+img {border:0;}
+label {text-indent:-15px;clear:both;width:100px;float:left;text-align:right;margin:5px 0 0 0;padding:0 5px 0 0;}
+input, select, textarea{float:left;margin:3px 0 5px 3px;}
+input[type=checkbox], radio {margin:5px 50px 0 0;}
+textarea {width:80%;resize:vertical;}
+.output, label.output {float:left;margin:5px 0 3px 0;}
+.req2 {color:#0000FF;}
+.req3 {color:#008000;}
+input[type="submit"], input[type="button"] {margin:5px 10px 0 0;}
+.frm_ctrls {float:left;line-height:20px;}
+.frm_ctrls label {float:left;width:auto;text-align:right;padding:0 0 0 5px;margin:0;white-space:nowrap;text-indent:0;}
+.frm_ctrls label input, #loc_results input {margin:3px 5px 3px 0;}
+.frm_grp label {float:left;width:100%;text-align:left;padding:5px 0 10px 5px;margin:0;}
+#loc_results{float:left;}
+#loc_results label {float:left;width:100%;text-align:left;padding:4px 0 0 2px;margin:5px 0 0 0;height:40px;text-indent:0;}
+#loc_results label img {vertical-align:top;float:right;padding:5px 5px 0 0;}
+ #loc_results .loc_name, #loc_results .loc_add {display:block;}
+#loc_results #pages {clear:both;text-align:center;}
+.no_loc {color:#DC143C;}
+#custom_notice {float:left;}
+#recur_chk {float:left;width:80%;}
+.time {clear:both;float:left;width:16px;height:8px;}
+.tup {background-image:url(../img/time_up.gif);margin:5px 0 0 0;}
+.tdown {background-image:url(../img/time_down.gif);margin:2px 0 0 0;}
+a.ds {margin:5px 0 0 5px;float:left;width:16px;height:16px;}
+#dsCal {position:absolute;visibility:hidden;background-color:#FFFFFF;border:0;}
+#daily, #weekly, #monthly {float:left;width:auto;margin:0 0 0 20px;}
+#dailyDays, #recWeekly, #monthlyDays, #monthlyMonths, #monthlyMonthOrder, #monthlyMonthDOW,#monthlyMonthRepeat {float:none;margin:0 3px 0 3px;}
+.series_today {font-style:italic;}
+.feedback {clear:both;padding:5px;text-align:center;margin:15px 0 15px 0;}
+.feedback img {vertical-align:middle;}
+.success{background:#eef7ef;border: solid 2px #008E0D;}
+.warning{background:#fffcee;border: solid 2px #FFDA00;}
+.error{background:#fceeee;border: solid 2px #E40000;}
+fieldset {clear:both;}
+#no_events li {margin:0 0 15px 25px;}
+#no_events a {display:inline;vertical-align:top;}
+
+/*	TinyMCE */
+.o2k7Skin {position:relative;float:left;margin:3px 0 3px 3px;width:80%;}
+.o2k7Skin textarea {height:350px}

@@ -1,0 +1,45 @@
+<?php
+/**
+ * This file is part of Helios Calendar, it's use is governed by the Helios Calendar Software License Agreement.
+ *
+ * @author Refresh Web Development LLC
+ * @link http://www.refreshmy.com
+ * @copyright (C) 2004-2011 Refresh Web Development
+ * @license http://www.helioscalendar.com/license.html
+ * @package Helios Calendar
+ */
+	if(!defined('isHC')){exit(-1);}
+	
+	// Development -1, Production 0
+	error_reporting(0);
+	
+	/** MySQL Hostname. Typically localhost, however, it may vary for your environment.*/
+	define("DB_HOST", "localhost");
+	/** MySQL Database Name*/
+	define("DB_NAME", "");
+	/** MySQL Server Username.*/
+	define("DB_USER", "");
+	/** MySQL Server Password. */
+	define("DB_PASS", "");
+	/** MySQL Table Prefix. Should only be edited prior to installation. */
+	define("HC_TblPrefix", "hc_");
+	
+	/** Calendar URL. */
+	define("CalRoot", "");
+	/** Admin Console URL */
+	define("AdminRoot", "");
+	/** Calendar Name */
+	define("CalName", "Our Calendar");
+	
+	/**
+	 * A random string used to create cookies named uniquely for your calendar.
+	 * A length of at least 40 random characters is recommended. Generator available at link.
+	 * @link http://www.refreshmy.com/rando/
+	 */
+	define("HC_Rando", "");
+	
+	/**
+	 * Access key to perform installation and upgrades.
+	 */	
+	define("HC_Install", "");
+?>
