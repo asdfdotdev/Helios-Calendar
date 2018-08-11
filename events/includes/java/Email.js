@@ -1,0 +1,1 @@
+function chkEmail(obj){var x = obj.value;var filter  = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;if (filter.test(x)) {return 1;} else {return 0;}}

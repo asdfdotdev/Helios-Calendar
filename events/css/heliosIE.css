@@ -1,0 +1,17 @@
+/*
+	Helios Calendar - Professional Event Management System
+	Copyright © 2004-2009 Refresh Web Development [www.RefreshMy.com]
+	
+	For the most recent version, visit the Helios Calendar website:
+	[www.HeliosCalendar.com]
+	
+	This file is part of Helios Calendar, usage governed by the Helios Calendar SLA
+*/
+td.miniCalNav{cursor: hand;}
+td.miniCal{cursor: hand;}
+td.miniCalToday{cursor: hand;}
+td.miniCalToday:hover{cursor: hand;}
+td.miniCalEvents{cursor: hand;}
+td.miniCalEvents:hover{cursor: hand;}
+td.miniCalFiller{cursor: hand;}
+.datePicker{position: absolute;visibility: hidden;background-color:#FFFFFF;layer-background-color:#FFFFFF;}
