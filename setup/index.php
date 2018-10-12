@@ -1,6 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 /**
  * @package Helios Calendar
  * @license GNU General Public License version 2 or later; see LICENSE
