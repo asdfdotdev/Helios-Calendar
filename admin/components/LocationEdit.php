@@ -21,25 +21,25 @@
 	if(hasRows($result)){
 		$hc_Side[] = array(CalRoot . '/index.php?com=location&amp;lID=' . $lID,'card.png',$hc_lang_locations['LinkProfile'],1);
 		$whereAmI = $hc_lang_locations['Edit'];
-		$name = cOut(mysql_result($result,0,1));
-		$address = cOut(mysql_result($result,0,2));
-		$address2 = cOut(mysql_result($result,0,3));
-		$city = cOut(mysql_result($result,0,4));
-		$state = cOut(mysql_result($result,0,5));
-		$country = cOut(mysql_result($result,0,6));
-		$postal = cOut(mysql_result($result,0,7));
-		$website = cOut(mysql_result($result,0,8));
-		$phone = cOut(mysql_result($result,0,9));
-		$email = cOut(mysql_result($result,0,10));
-		$descript = cOut(mysql_result($result,0,11));
-		$status = cOut(mysql_result($result,0,12));
-		$lat = cOut(mysql_result($result,0,15));
-		$lon = cOut(mysql_result($result,0,16));
-		$geoAccuracy = cOut(mysql_result($result,0,17));
-		$shortURL = cOut(mysql_result($result,0,18));
-		$imageURL = cOut(mysql_result($result,0,21));
-		$followup = (mysql_result($result,0,22) != '') ? 1 : 0;
-		$fnote = cOut(mysql_result($result,0,23));
+		$name = cOut(Amysqlresult($result,0,1));
+		$address = cOut(Amysqlresult($result,0,2));
+		$address2 = cOut(Amysqlresult($result,0,3));
+		$city = cOut(Amysqlresult($result,0,4));
+		$state = cOut(Amysqlresult($result,0,5));
+		$country = cOut(Amysqlresult($result,0,6));
+		$postal = cOut(Amysqlresult($result,0,7));
+		$website = cOut(Amysqlresult($result,0,8));
+		$phone = cOut(Amysqlresult($result,0,9));
+		$email = cOut(Amysqlresult($result,0,10));
+		$descript = cOut(Amysqlresult($result,0,11));
+		$status = cOut(Amysqlresult($result,0,12));
+		$lat = cOut(Amysqlresult($result,0,15));
+		$lon = cOut(Amysqlresult($result,0,16));
+		$geoAccuracy = cOut(Amysqlresult($result,0,17));
+		$shortURL = cOut(Amysqlresult($result,0,18));
+		$imageURL = cOut(Amysqlresult($result,0,21));
+		$followup = (Amysqlresult($result,0,22) != '') ? 1 : 0;
+		$fnote = cOut(Amysqlresult($result,0,23));
 		$helpDoc = "Editing_Locations";
 		$helpText = $hc_lang_locations['InstructEdit'];
 	}
@@ -139,14 +139,14 @@
 	</fieldset>';
 	
 	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "settings WHERE PkID IN(5,6,46,47,57,58);");
-	$goEventbrite = (mysql_result($result,0,1) != '' && mysql_result($result,1,1) != '') ? 1 : 0;
-	$goTwitter = (mysql_result($result,2,1) != '' && mysql_result($result,3,1) != '') ? 1 : 0;
-	$goBitly = (mysql_result($result,4,1) && mysql_result($result,5,1)) ? 1 : 0;
+	$goEventbrite = (Amysqlresult($result,0,1) != '' && Amysqlresult($result,1,1) != '') ? 1 : 0;
+	$goTwitter = (Amysqlresult($result,2,1) != '' && Amysqlresult($result,3,1) != '') ? 1 : 0;
+	$goBitly = (Amysqlresult($result,4,1) && Amysqlresult($result,5,1)) ? 1 : 0;
 	$ebID = $tweetLnks = '';
 	$tweets = array();
 	$resultD = doQuery("SELECT * FROM " . HC_TblPrefix . "locationnetwork WHERE LocationID = '" . $lID . "'");
 	if(hasRows($resultD)){
-		while($row = mysql_fetch_row($resultD)){
+		while($row = Amysqlfetchrow($resultD)){
 			switch($row[2]){
 				case 1:
 					//	Nothing

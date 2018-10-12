@@ -25,9 +25,9 @@
 	$welcomeMsg = '';
 	
 	if(hasRows($result)){
-		$status = cOut(mysql_result($result,0,1));
-		$welcomeMsg = cOut(mysql_result($result,1,1));
-		$newFor = cOut(mysql_result($result,2,1));
+		$status = cOut(Amysqlresult($result,0,1));
+		$welcomeMsg = cOut(Amysqlresult($result,1,1));
+		$newFor = cOut(Amysqlresult($result,2,1));
 	}
 	
 	echo '

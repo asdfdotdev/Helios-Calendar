@@ -70,7 +70,7 @@
 	$query .= " ORDER BY e.StartDate, e.TBD, e.StartTime, e.Title";
 	
 	$result = doQuery($query);
-	$row_cnt = mysql_num_rows($result);
+	$row_cnt = Amysqlnumrows($result);
 	
 	if(hasRows($result)){
 		$cnt = $curDate = 0;
@@ -86,7 +86,7 @@
 		set_form_token();
 		echo '
 		<ul class="data">';
-		while($row = mysql_fetch_row($result)){
+		while($row = Amysqlfetchrow($result)){
 			if($curDate != $row[2]){
 				$cnt = 1;
 				$curDate = $row[2];

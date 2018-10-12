@@ -72,7 +72,7 @@
 					<div style="width:12%;">'.$hc_lang_event['Submitted'].'</div>
 					<div style="width:10%;">'.$hc_lang_event['Happens'].'</div>
 				</li>';
-				while($row = mysql_fetch_row($resultI)){
+				while($row = Amysqlfetchrow($resultI)){
 					$sinceSubmit = daysDiff(date("Y-m-d"), $row[4]) - 1;
 					$untilHappens = daysDiff($row[2], date("Y-m-d"), 0) - 1;
 					$name = ($row[7] > 0) ? $row[8] : $row[5];
@@ -94,7 +94,7 @@
 				}
 			}
 			if(hasRows($resultS)){
-				while($row = mysql_fetch_row($resultS)){
+				while($row = Amysqlfetchrow($resultS)){
 					$sinceSubmit = daysDiff(date("Y-m-d"), $row[4]) - 1;
 					$untilHappens = daysDiff($row[2], date("Y-m-d"), 0) - 1;
 					$name = ($row[7] > 0) ? $row[8] : $row[5];
@@ -189,10 +189,10 @@
 			$series = cIn(strip_tags($_GET['sID']));
 			$resultS = doQuery("SELECT GROUP_CONCAT(DISTINCT PkID ORDER BY PkID SEPARATOR ','), GROUP_CONCAT(StartDate ORDER BY StartDate SEPARATOR ',')
 							FROM " . HC_TblPrefix . "events WHERE SeriesID = '".$series."'");
-			$events = (hasRows($result)) ? explode(',',mysql_result($resultS,0,0)) : array();
+			$events = (hasRows($result)) ? explode(',',Amysqlresult($resultS,0,0)) : array();
 			$events = array_filter($events,'is_numeric');
 			$editString = implode(',',$events);
-			$dates = (hasRows($result)) ? explode(',',mysql_result($resultS,0,1)) : array();
+			$dates = (hasRows($result)) ? explode(',',Amysqlresult($resultS,0,1)) : array();
 			$cnt = 1;
 			foreach($dates as $val){
 				$dateString .= ($cnt % 8 == 0) ? stampToDate($val, $hc_cfg[24]).'<br />' : stampToDate($val, $hc_cfg[24]).', ';
@@ -213,43 +213,43 @@
 		if(!hasRows($result)){
 			echo '<p>'.$hc_lang_event['ApproveWarning'].'</p>';
 		} else {
-			$eID = (isset($eID) && $eID > 1) ? $eID : cOut(mysql_result($result,0,0));
-			$eventTitle = cOut(mysql_result($result,0,1));
-			$eventDesc = cOut(mysql_result($result,0,8));
-			$tbd = cOut(mysql_result($result,0,11));
-			$eventDate = stampToDate(mysql_result($result,0,9), $hc_cfg[24]);
-			$contactName = cOut(mysql_result($result,0,13));
-			$contactEmail = cOut(mysql_result($result,0,14));
-			$contactPhone = cOut(mysql_result($result,0,15));
-			$contactURL = (mysql_result($result,0,24) != '') ? cOut(mysql_result($result,0,24)) : '';
-			$views = cOut(mysql_result($result,0,26));
-			$imageURL = cOut(mysql_result($result,0,38));
-			$featured = cOut(mysql_result($result,0,40));
-			$expire = (mysql_result($result,0,41) > 0) ? cOut(mysql_result($result,0,41)) : $hc_cfg[134];
-			$locID = cOut(mysql_result($result,0,33));
-			$locName = ($locID == 0) ? cOut(mysql_result($result,0,2)) : cOut(mysql_result($result,0,43));
-			$locAddress = ($locID == 0) ? cOut(mysql_result($result,0,3)) : cOut(mysql_result($result,0,44));
-			$locAddress2 = ($locID == 0) ? cOut(mysql_result($result,0,4)) : cOut(mysql_result($result,0,45));
-			$locCity = ($locID == 0) ? cOut(mysql_result($result,0,5)) : cOut(mysql_result($result,0,46));
-			$state = ($locID == 0) ? cOut(mysql_result($result,0,6)) : cOut(mysql_result($result,0,47));
-			$locPostal = ($locID == 0) ? cOut(mysql_result($result,0,7)) : cOut(mysql_result($result,0,48));
-			$locCountry = ($locID == 0) ? cOut(mysql_result($result,0,35)) : cOut(mysql_result($result,0,49));
-			$cost = cOut(mysql_result($result,0,34));
-			$rsvp_type = cOut(mysql_result($result,0,51));
-			$rsvp_space = cOut(mysql_result($result,0,55));
-			$rsvp_disp = cOut(mysql_result($result,0,56));
-			$rsvp_notice = cOut(mysql_result($result,0,57));
-			$rsvp_open = stampToDate(mysql_result($result,0,53), $hc_cfg[24]);
-			$rsvp_close = stampToDate(mysql_result($result,0,54), $hc_cfg[24]);
-			$followup = (mysql_result($result,0,58) != '') ? 1 : 0;
-			$fnote = cOut(mysql_result($result,0,59));
-			$eventStatus = cOut(mysql_result($result,0,17));
-			$eventBillboard = cOut(mysql_result($result,0,18));
-			$shortURL = cOut(mysql_result($result,0,36));
-			$message = cOut(mysql_result($result,0,27));
-			$subName = (mysql_result($result,0,41) > 0) ? cOut(mysql_result($result,0,60)) : cOut(mysql_result($result,0,20));
-			$subEmail = (mysql_result($result,0,41) > 0) ? cOut(mysql_result($result,0,61)) : cOut(mysql_result($result,0,21));
-			$subLink = (mysql_result($result,0,41) > 0) ? '<a href="'.AdminRoot.'/index.php?com=useredit&uID='.mysql_result($result,0,41).'" target="_blank"><img src="'.AdminRoot.'/img/icons/user_edit.png" widt="16" height="16" style="vertical-align:middle;" /></a>&nbsp;':'';							
+			$eID = (isset($eID) && $eID > 1) ? $eID : cOut(Amysqlresult($result,0,0));
+			$eventTitle = cOut(Amysqlresult($result,0,1));
+			$eventDesc = cOut(Amysqlresult($result,0,8));
+			$tbd = cOut(Amysqlresult($result,0,11));
+			$eventDate = stampToDate(Amysqlresult($result,0,9), $hc_cfg[24]);
+			$contactName = cOut(Amysqlresult($result,0,13));
+			$contactEmail = cOut(Amysqlresult($result,0,14));
+			$contactPhone = cOut(Amysqlresult($result,0,15));
+			$contactURL = (Amysqlresult($result,0,24) != '') ? cOut(Amysqlresult($result,0,24)) : '';
+			$views = cOut(Amysqlresult($result,0,26));
+			$imageURL = cOut(Amysqlresult($result,0,38));
+			$featured = cOut(Amysqlresult($result,0,40));
+			$expire = (Amysqlresult($result,0,41) > 0) ? cOut(Amysqlresult($result,0,41)) : $hc_cfg[134];
+			$locID = cOut(Amysqlresult($result,0,33));
+			$locName = ($locID == 0) ? cOut(Amysqlresult($result,0,2)) : cOut(Amysqlresult($result,0,43));
+			$locAddress = ($locID == 0) ? cOut(Amysqlresult($result,0,3)) : cOut(Amysqlresult($result,0,44));
+			$locAddress2 = ($locID == 0) ? cOut(Amysqlresult($result,0,4)) : cOut(Amysqlresult($result,0,45));
+			$locCity = ($locID == 0) ? cOut(Amysqlresult($result,0,5)) : cOut(Amysqlresult($result,0,46));
+			$state = ($locID == 0) ? cOut(Amysqlresult($result,0,6)) : cOut(Amysqlresult($result,0,47));
+			$locPostal = ($locID == 0) ? cOut(Amysqlresult($result,0,7)) : cOut(Amysqlresult($result,0,48));
+			$locCountry = ($locID == 0) ? cOut(Amysqlresult($result,0,35)) : cOut(Amysqlresult($result,0,49));
+			$cost = cOut(Amysqlresult($result,0,34));
+			$rsvp_type = cOut(Amysqlresult($result,0,51));
+			$rsvp_space = cOut(Amysqlresult($result,0,55));
+			$rsvp_disp = cOut(Amysqlresult($result,0,56));
+			$rsvp_notice = cOut(Amysqlresult($result,0,57));
+			$rsvp_open = stampToDate(Amysqlresult($result,0,53), $hc_cfg[24]);
+			$rsvp_close = stampToDate(Amysqlresult($result,0,54), $hc_cfg[24]);
+			$followup = (Amysqlresult($result,0,58) != '') ? 1 : 0;
+			$fnote = cOut(Amysqlresult($result,0,59));
+			$eventStatus = cOut(Amysqlresult($result,0,17));
+			$eventBillboard = cOut(Amysqlresult($result,0,18));
+			$shortURL = cOut(Amysqlresult($result,0,36));
+			$message = cOut(Amysqlresult($result,0,27));
+			$subName = (Amysqlresult($result,0,41) > 0) ? cOut(Amysqlresult($result,0,60)) : cOut(Amysqlresult($result,0,20));
+			$subEmail = (Amysqlresult($result,0,41) > 0) ? cOut(Amysqlresult($result,0,61)) : cOut(Amysqlresult($result,0,21));
+			$subLink = (Amysqlresult($result,0,41) > 0) ? '<a href="'.AdminRoot.'/index.php?com=useredit&uID='.Amysqlresult($result,0,41).'" target="_blank"><img src="'.AdminRoot.'/img/icons/user_edit.png" widt="16" height="16" style="vertical-align:middle;" /></a>&nbsp;':'';							
 			$bitChk = '';
 			$bitShow = ' style="display:none;"';
 			$bitLabel = $hc_lang_event['BitlyLabel'];
@@ -258,7 +258,7 @@
 				$resultR = doQuery("SELECT COUNT(r.EventID) as RegCnt 
 									FROM " . HC_TblPrefix . "registrants r
 								WHERE r.EventID = '" . cIn($eID) . "' AND r.IsActive = 1");
-				$rsvp_taken = (hasRows($resultR)) ? mysql_result($resultR,0,0) : 0;
+				$rsvp_taken = (hasRows($resultR)) ? Amysqlresult($resultR,0,0) : 0;
 			}
 			if(strpos($shortURL,'http://') !== false){
 				$bitChk = ' checked="checked"';
@@ -273,16 +273,16 @@
 					</ul>';
 			}
 			if($tbd == 0){
-				$startTimeHour = date($hc_time['format'], strtotime(mysql_result($result,0,9).' '.mysql_result($result,0,10)));
-				$startTimeMins = date("i", strtotime(mysql_result($result,0,9).' '.mysql_result($result,0,10)));
-				$startTimeAMPM = date("A", strtotime(mysql_result($result,0,9).' '.mysql_result($result,0,10)));
-				if(mysql_result($result,0,12) != ''){
-					$endTimeHour = date($hc_time['format'], strtotime(mysql_result($result,0,9).' '.mysql_result($result,0,12)));
-					$endTimeMins = date("i", strtotime(mysql_result($result,0,9).' '.mysql_result($result,0,12)));
-					$endTimeAMPM = date("A", strtotime(mysql_result($result,0,9).' '.mysql_result($result,0,12)));
+				$startTimeHour = date($hc_time['format'], strtotime(Amysqlresult($result,0,9).' '.Amysqlresult($result,0,10)));
+				$startTimeMins = date("i", strtotime(Amysqlresult($result,0,9).' '.Amysqlresult($result,0,10)));
+				$startTimeAMPM = date("A", strtotime(Amysqlresult($result,0,9).' '.Amysqlresult($result,0,10)));
+				if(Amysqlresult($result,0,12) != ''){
+					$endTimeHour = date($hc_time['format'], strtotime(Amysqlresult($result,0,9).' '.Amysqlresult($result,0,12)));
+					$endTimeMins = date("i", strtotime(Amysqlresult($result,0,9).' '.Amysqlresult($result,0,12)));
+					$endTimeAMPM = date("A", strtotime(Amysqlresult($result,0,9).' '.Amysqlresult($result,0,12)));
 				} else {
-					$endTimeHour = date($hc_time['format'], strtotime(mysql_result($result,0,9).' '.mysql_result($result,0,10).' +1 hour'));
-					$endTimeAMPM = date("A", strtotime(mysql_result($result,0,9).' '.mysql_result($result,0,10).' +1 hour'));
+					$endTimeHour = date($hc_time['format'], strtotime(Amysqlresult($result,0,9).' '.Amysqlresult($result,0,10).' +1 hour'));
+					$endTimeAMPM = date("A", strtotime(Amysqlresult($result,0,9).' '.Amysqlresult($result,0,10).' +1 hour'));
 					$noEndTime = 1;
 				}
 			}
@@ -533,19 +533,19 @@
 			</fieldset>';
 			
 			$result = doQuery("SELECT * FROM " . HC_TblPrefix . "settings WHERE PkID IN(5,6,46,47,57,58,120,123)");
-			$goEventbrite = (mysql_result($result,0,1) != '' && mysql_result($result,1,1) != '') ? 1 : 0;
-			$goTwitter = (mysql_result($result,2,1) != '' && mysql_result($result,3,1) != '') ? 1 : 0;
-			$goBitly = (mysql_result($result,4,1) && mysql_result($result,5,1)) ? 1 : 0;
+			$goEventbrite = (Amysqlresult($result,0,1) != '' && Amysqlresult($result,1,1) != '') ? 1 : 0;
+			$goTwitter = (Amysqlresult($result,2,1) != '' && Amysqlresult($result,3,1) != '') ? 1 : 0;
+			$goBitly = (Amysqlresult($result,4,1) && Amysqlresult($result,5,1)) ? 1 : 0;
 			$ebOrganziers = ($goEventbrite == 1) ? eventbrite_get_organizers() : array();
 			$goPaypal = ($goEventbrite == 1 && $hc_cfg[103] != '') ? 1 : 0;
 			$goGoogleC = ($goEventbrite == 1 && $hc_cfg[104] != '' && $hc_cfg[105] != '') ? 1 : 0;
-			$goFacebook = (mysql_result($result,6,1) != '' && mysql_result($result,7,1) != '') ? 1 : 0;
+			$goFacebook = (Amysqlresult($result,6,1) != '' && Amysqlresult($result,7,1) != '') ? 1 : 0;
 			$ebID = $tweetLnks = $fbID = $fbStatLnks = '';
 			$tweets = $statuses = array();
 			
 			$resultD = doQuery("SELECT * FROM " . HC_TblPrefix . "eventnetwork WHERE EventID = '" . cIn($eID) . "'");
 			if(hasRows($resultD)){
-				while($row = mysql_fetch_row($resultD)){
+				while($row = Amysqlfetchrow($resultD)){
 					switch($row[2]){
 						case 1:
 							//	Nothing

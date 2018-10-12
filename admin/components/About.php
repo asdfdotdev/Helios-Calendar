@@ -34,7 +34,7 @@
 			<label><b>PHP Version:</b></label>
 			<span>'.phpversion().' (<a href="'.AdminRoot.'/components/AboutPHP.php" target="_blank">About PHP</a>)</span>
 			<label><b>MySQL Version:</b></label>
-			<span>'.mysql_result($resultV,0,0).'</span>
+			<span>'.Amysqlresult($resultV,0,0).'</span>
 			'.((isset($load[1]) && $load[1] != '') ? '<label><b>Load Average:</b></label>
 			<span>'.$load[1].'</span>':'').'
 			<label><b>SSL Support:</b></label>

@@ -44,7 +44,7 @@
 			</li>';
 
 			$cnt = 0;
-			while($row = mysql_fetch_row($result)){
+			while($row = Amysqlfetchrow($result)){
 				$hl = ($cnt % 2 == 1) ? ' hl':'';
 				echo '
 			<li class="row'.$hl.'">
@@ -83,8 +83,8 @@
 						WHERE m.PkID = '" . $mID . "' AND m.IsActive = 1");
 		if(hasRows($result)){
 			$now = date("Y-m-d");
-			$mStart = ($now > mysql_result($result,0,3)) ? $now : mysql_result($result,0,3);
-			$mEnd = mysql_result($result,0,4);
+			$mStart = ($now > Amysqlresult($result,0,3)) ? $now : Amysqlresult($result,0,3);
+			$mEnd = Amysqlresult($result,0,4);
 			$groups = '';
 			$cnt = $allSub = $subCnt = 0;
 
@@ -96,7 +96,7 @@
 							 Group By mg.PkID, mg.Name, m.PkID
 							 ORDER BY mg.Name");
 			if(hasRows($resultG)){
-				while($row = mysql_fetch_row($resultG)){
+				while($row = Amysqlfetchrow($resultG)){
 					if($row[2] != ''){
 						$allSub += ($row[0] == 1) ? 1 : 0;
 						$groups .= ($cnt > 0) ? ', ' : '';
@@ -117,7 +117,7 @@
 									LEFT JOIN " . HC_TblPrefix . "subscribers s ON (s.PkID = sgs.UserID)
 								WHERE m.PkID = '" . $mID . "' AND s.IsConfirm = 1");
 			}
-			$subCnt = mysql_result($resultS,0,0);
+			$subCnt = Amysqlresult($resultS,0,0);
 			
 			$resultE = doQuery("SELECT COUNT(DISTINCT e.PkID)
 							FROM " . HC_TblPrefix . "events e
@@ -125,13 +125,13 @@
 								LEFT JOIN " . HC_TblPrefix . "categories c ON (c.PkID = ec.CategoryID)
 							WHERE e.IsActive = 1 AND e.IsApproved = 1 AND (ec.EventID IS NOT NULL AND c.IsActive = 1)
 							AND e.StartDate BETWEEN '" . cIn($mStart) . "' AND '" . cIn($mEnd) . "'");
-			$eCnt = ($now > $mEnd) ? 0 : mysql_result($resultE,0,0);
+			$eCnt = ($now > $mEnd) ? 0 : Amysqlresult($resultE,0,0);
 				
 			appInstructions(0, "Create_Newsletter", $hc_lang_news['TitleCreate'], $hc_lang_news['InstructCreateB']);
 			
 			$stop = ($subCnt == 0) ? 4 : 0;
 			$stop = ($groups == '') ? 2 : $stop;
-			$stop = (mysql_result($result,0,7) == '') ? 3 : $stop;
+			$stop = (Amysqlresult($result,0,7) == '') ? 3 : $stop;
 			$stopMsg = ($stop > 0) ? '<span class="alert">' . $hc_lang_news['NewsStop'] . ' ' . $hc_lang_news['NewsStop' . $stop] . '</span>' : '';
 			
 			echo '
@@ -150,29 +150,29 @@
 			<fieldset>
 				<legend>'.$hc_lang_news['Settings'].'</legend>
 				<label>'.$hc_lang_news['MailName'].'</label>
-				<span class="output">'.mysql_result($result,0,1).'</span>
+				<span class="output">'.Amysqlresult($result,0,1).'</span>
 				<label>' . $hc_lang_news['MailSubject'] . '</label>
-				<span class="output">'.mysql_result($result,0,2).'</span>
+				<span class="output">'.Amysqlresult($result,0,2).'</span>
 				<label>' . $hc_lang_news['Dates'].'</label>';
 			
-			if(mysql_result($result,0,3) != ''){
-				echo (mysql_result($result,0,3) < date("Y-m-d")) ? '<span class="output alert">'.stampToDate(mysql_result($result,0,3), $hc_cfg[24]).'</span>' : '<span class="output">'.stampToDate(mysql_result($result,0,3), $hc_cfg[24]).'</span>';
+			if(Amysqlresult($result,0,3) != ''){
+				echo (Amysqlresult($result,0,3) < date("Y-m-d")) ? '<span class="output alert">'.stampToDate(Amysqlresult($result,0,3), $hc_cfg[24]).'</span>' : '<span class="output">'.stampToDate(Amysqlresult($result,0,3), $hc_cfg[24]).'</span>';
 			}
-			if(mysql_result($result,0,4) != ''){
-				echo (mysql_result($result,0,4) < date("Y-m-d")) ? '<span class="output alert">&nbsp;-&nbsp;'.stampToDate(mysql_result($result,0,4), $hc_cfg[24]).'</span>' : '<span class="output">&nbsp;-&nbsp;'.stampToDate(mysql_result($result,0,4), $hc_cfg[24]).'</span>';
+			if(Amysqlresult($result,0,4) != ''){
+				echo (Amysqlresult($result,0,4) < date("Y-m-d")) ? '<span class="output alert">&nbsp;-&nbsp;'.stampToDate(Amysqlresult($result,0,4), $hc_cfg[24]).'</span>' : '<span class="output">&nbsp;-&nbsp;'.stampToDate(Amysqlresult($result,0,4), $hc_cfg[24]).'</span>';
 			}
 			
 			echo '
 				<label>'.$hc_lang_news['Groups'].'</label>
 				'.(($groups == '') ? '<span class="output alert">'.$hc_lang_news['NoGroups'].'</span>' : '<span class="output">'.$groups.'</span>').'
 				<label>'.$hc_lang_news['Template'].'</label>
-				'.((mysql_result($result,0,7) == '') ? '<span class="output alert">'.$hc_lang_news['NoTemplate'].'</span>' : '<span class="output">'.mysql_result($result,0,7).'</span>').'
+				'.((Amysqlresult($result,0,7) == '') ? '<span class="output alert">'.$hc_lang_news['NoTemplate'].'</span>' : '<span class="output">'.Amysqlresult($result,0,7).'</span>').'
 				<label>'.$hc_lang_news['ArchStatus'].'</label>
-				<span class="output">'.((mysql_result($result,0,5) == 1) ? $hc_lang_news['ArchStatus1'] : $hc_lang_news['ArchStatus0']).'</span>
+				<span class="output">'.((Amysqlresult($result,0,5) == 1) ? $hc_lang_news['ArchStatus1'] : $hc_lang_news['ArchStatus0']).'</span>
 			</fieldset>
 			<fieldset>
-				<legend>'.$hc_lang_news['Message'].((strpos(mysql_result($result,0,8),'[message]') === false) ? ' '.$hc_lang_news['NoMsgTemp']:'').'</legend>
-				'.((mysql_result($result,0,6) != '') ? mysql_result($result,0,6) : $hc_lang_news['NoMessage']).'
+				<legend>'.$hc_lang_news['Message'].((strpos(Amysqlresult($result,0,8),'[message]') === false) ? ' '.$hc_lang_news['NoMsgTemp']:'').'</legend>
+				'.((Amysqlresult($result,0,6) != '') ? Amysqlresult($result,0,6) : $hc_lang_news['NoMessage']).'
 			</fieldset>
 			<p>'.$stopMsg.'</p>
 			<input name="save" id="save" type="button"'.(($stop > 0) ? ' disabled="disabled"' : '').' value="'.$hc_lang_news['Approve0'].'" onclick="approve(0);return false;" />

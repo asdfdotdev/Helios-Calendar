@@ -18,7 +18,7 @@
 		go_home();
 	
 	header('Content-type: application/csv');
-	header('Content-Disposition: inline; filename="'.clean_filename(cleanQuotes(strip_tags(mysql_result($result,0,0)))).'.csv"');
+	header('Content-Disposition: inline; filename="'.clean_filename(cleanQuotes(strip_tags(Amysqlresult($result,0,0)))).'.csv"');
 	
 	echo fetch_event_rsvp($eID,$hc_lang_core['RSVPHeader']);
 ?>

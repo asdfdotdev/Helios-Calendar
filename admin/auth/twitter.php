@@ -17,8 +17,8 @@
 		
 	$result = doQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(111,112)");
 	if(hasRows($result)){
-		$consumer_key = mysql_result($result,0,0);
-		$consumer_secret = mysql_result($result,1,0);
+		$consumer_key = Amysqlresult($result,0,0);
+		$consumer_secret = Amysqlresult($result,1,0);
 	}
 	
 	if($consumer_key != '' && $consumer_secret != '' && !isset($_GET['denied']) && $_SESSION['APIAuth'] == 1){

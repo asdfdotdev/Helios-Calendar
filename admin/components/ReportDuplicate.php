@@ -46,7 +46,7 @@
 		
 		$cnt = $curID = 0;
 		$foundDup = array();
-		while($row = mysql_fetch_row($result)){
+		while($row = Amysqlfetchrow($result)){
 			if($curID != $row[0] && !in_array($row[0],$foundDup)){
 				$cnt = 0;
 				$curID = $row[0];

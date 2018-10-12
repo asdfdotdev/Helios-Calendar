@@ -25,7 +25,7 @@
 					WHERE IsConfirm = 1
 					ORDER BY LastName, FirstName");
 	if(hasRows($result)){
-		while($row = mysql_fetch_row($result)){
+		while($row = Amysqlfetchrow($result)){
 			$gender = ($row[8] == 1) ? $hc_lang_news['GenderF'] : $hc_lang_news['GenderM'];
 			$reg = explode(' ',$row[5]);
 			echo $row[0].",".$row[1].",".$row[2].",".$row[3].",".$row[4].",".$reg[0].",".$reg[1].",".$row[6].",".$row[7].",".$gender."\n";

@@ -572,7 +572,7 @@
 			if(hasRows($result)){
 				echo '
 	var locations = [';
-				while($row = mysql_fetch_row($result)){
+				while($row = Amysqlfetchrow($result)){
 					echo '
 		["'.$row[0].'","'.cOut($row[1]).'","'.$row[8].'","'.$row[9].'","'.cOut($row[1]).'","'.cOut($row[2]).'","'.cOut($row[3]).'","'.cOut($row[4]).'","'.cOut($row[5]).'","'.cOut($row[6]).'","'.cOut($row[7]).'","'.$row[10].'","'.stampToDate($row[11], $hc_cfg[14]).'","'.(($row[12] != '' && $row[12] != 'http://') ? '1' : '0').'","'.cOut($row[13]).'"],';
 					++$cnt;

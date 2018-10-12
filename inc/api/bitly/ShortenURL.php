@@ -11,18 +11,18 @@
 	elseif(isset($lID) && is_numeric($lID))
 		$resultB = doQuery("SELECT ShortURL FROM " . HC_TblPrefix . "locations WHERE PkID = '" . cIn($lID) . "'");
 	
-	if(hasRows($resultB) && mysql_result($resultB,0,0) != ''){
-		$shortLink = (strpos(mysql_result($resultB,0,0),"http://") !== false) ? mysql_result($resultB,0,0) : $shortLink;
+	if(hasRows($resultB) && Amysqlresult($resultB,0,0) != ''){
+		$shortLink = (strpos(Amysqlresult($resultB,0,0),"http://") !== false) ? Amysqlresult($resultB,0,0) : $shortLink;
 	} else {
 		$resultB = doQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(57,58)");
 		if(!hasRows($resultB)){
 			$errorMsg = 'bitly API Settings Unavailable.';
 		} else {
-			if(mysql_result($resultB,0,0) == '' && mysql_result($resultB,1,0) == ''){
+			if(Amysqlresult($resultB,0,0) == '' && Amysqlresult($resultB,1,0) == ''){
 				$errorMsg = 'bitly API Settings Missing.';
 			} else {
-				$bitlyUser = mysql_result($resultB,0,0);
-				$bitlyAPI = mysql_result($resultB,1,0);
+				$bitlyUser = Amysqlresult($resultB,0,0);
+				$bitlyAPI = Amysqlresult($resultB,1,0);
 				$bSend = "/v3/shorten?format=xml&login=" . $bitlyUser . "&apiKey=" . $bitlyAPI . "&longUrl=" . urlencode($shortLink);
 				
 				$host = 'api-ssl.bitly.com';

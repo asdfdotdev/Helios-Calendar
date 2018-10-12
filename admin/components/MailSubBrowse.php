@@ -10,7 +10,7 @@
 	$token = set_form_token(1);
 	
 	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "subscribers WHERE IsConfirm = 0");
-	$num = (hasRows($result) && mysql_result($result,0,0) > 0) ? mysql_result($result,0,0) : 0;
+	$num = (hasRows($result) && Amysqlresult($result,0,0) > 0) ? Amysqlresult($result,0,0) : 0;
 	$hc_Side[] = array(AdminRoot . '/components/MailSubEditAction.php?dID=uc&a=1&tkn='.$token,'user_delete.png',$hc_lang_news['DeleteNoConfirm'] . ' <b>' . $num . '</b>',0);
 	$hc_Side[] = array(AdminRoot . '/components/MailSubDownload.php?tkn='.$token,'download_csv.png',$hc_lang_news['DownloadSub'],0);
 
@@ -25,7 +25,7 @@
 	}
 	
 	$resultC = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix  . "subscribers WHERE IsConfirm = 1 $queryS");
-	$pages = ceil(mysql_result($resultC,0,0)/$resLimit);
+	$pages = ceil(Amysqlresult($resultC,0,0)/$resLimit);
 	$resOffset = ($pages <= $resOffset && $pages > 0) ? $pages - 1 : $resOffset;
 	
 	if(isset($_GET['msg'])){
@@ -95,7 +95,7 @@
 			</li>';
 		
 		$cnt = 1;
-		while($row = mysql_fetch_row($result)){
+		while($row = Amysqlfetchrow($result)){
 			$hl = ($cnt % 2 == 0) ? ' hl':'';
 			echo '
 			<li class="row'.$hl.'">

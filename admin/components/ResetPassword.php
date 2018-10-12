@@ -22,18 +22,18 @@
 	
 	$result = doQuery("SELECT PkID, Email, LoginCnt, Passwrd FROM " . HC_TblPrefix . "admin WHERE PCKey = '" . $b . "'");
 	if(hasRows($result) && $valid){
-		if(md5(mysql_result($result,0,0).mysql_result($result,0,1).mysql_result($result,0,2)) == $a){
+		if(md5(Amysqlresult($result,0,0).Amysqlresult($result,0,1).Amysqlresult($result,0,2)) == $a){
 			$target = 'Location: ' . AdminRoot . '/index.php?lp=2&k='.$b.'&lmsg=5';
 			if($pass1 == $pass2){
-				if(md5(md5($pass1) . mysql_result($result,0,1)) == mysql_result($result,0,3)){
+				if(md5(md5($pass1) . Amysqlresult($result,0,1)) == Amysqlresult($result,0,3)){
 					$target = 'Location: ' . AdminRoot . '/index.php?lp=2&k='.$b.'&lmsg=6';
 				} else {
-					doQuery("UPDATE " . HC_TblPrefix . "admin SET Passwrd = '" . md5(md5($pass1) . mysql_result($result,0,1)) . "', PCKey = NULL, PAge = '". date("Y-m-d") ."' WHERE PkID = '" . mysql_result($result,0,0) . "'");
+					doQuery("UPDATE " . HC_TblPrefix . "admin SET Passwrd = '" . md5(md5($pass1) . Amysqlresult($result,0,1)) . "', PCKey = NULL, PAge = '". date("Y-m-d") ."' WHERE PkID = '" . Amysqlresult($result,0,0) . "'");
 					$target = 'Location: ' . AdminRoot . '/index.php?lmsg=4';
 				}
 			}
 		} else {
-			doQuery("UPDATE " . HC_TblPrefix . "admin SET PCKey = NULL WHERE PkID = '" . mysql_result($result,0,0) . "'");
+			doQuery("UPDATE " . HC_TblPrefix . "admin SET PCKey = NULL WHERE PkID = '" . Amysqlresult($result,0,0) . "'");
 		}
 	}
 	header($target);

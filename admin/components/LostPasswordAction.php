@@ -37,7 +37,7 @@
 		$message = '<a href="' . AdminRoot . '/index.php?lp=2&k=' . $pwKey . '">'  . AdminRoot . '/index.php?lp=2&k=' . $pwKey . '</a>';
 		$message .= '<br /><br />' . $hc_lang_login['LoginEmail'] . ' <b>' . strip_tags($_SERVER["REMOTE_ADDR"]) . "</b>";
 		
-		reMail(trim(mysql_result($result,0,0).' '.mysql_result($result,0,1)), mysql_result($result,0,2), $subject, $message, $hc_cfg[79], $hc_cfg[78]);
+		reMail(trim(Amysqlresult($result,0,0).' '.Amysqlresult($result,0,1)), Amysqlresult($result,0,2), $subject, $message, $hc_cfg[79], $hc_cfg[78]);
 		
 		header('Location: ' . AdminRoot . '/?lmsg=3');
 	} else {

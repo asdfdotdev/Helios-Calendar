@@ -15,8 +15,8 @@
 		$helpText = $hc_lang_news['InstrcutEditNA'];
 		$result = doQuery("SELECT * FROM " . HC_TblPrefix . "templatesnews WHERE PkID = '" . $nID . "' AND IsActive = 1");
 		if(hasRows($result)){
-			$name = cOut(mysql_result($result,0,1));
-			$source = cOut(mysql_result($result,0,2));
+			$name = cOut(Amysqlresult($result,0,1));
+			$source = cOut(Amysqlresult($result,0,2));
 			$helpText = $hc_lang_news['InstructEditNE'];}
 		
 		appInstructions(0, 'Newsletter_Templates', $hc_lang_news['TitleEditN'], $helpText);
@@ -149,7 +149,7 @@
 			<div style="width:30%;">'.$hc_lang_news['TemplateMsg'].'</div>
 			<div style="width:15%;">&nbsp;</div>
 		</li>';
-			while($row = mysql_fetch_row($result)){
+			while($row = Amysqlfetchrow($result)){
 				$hl = ($cnt % 2 == 1) ? ' hl':'';
 				
 				echo '

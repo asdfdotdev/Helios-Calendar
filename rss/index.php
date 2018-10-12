@@ -70,7 +70,7 @@
 			echo '
 	<title>'.cleanXMLChars($feedName.' - '.CalName).'</title>';
 		$cnt = 0;
-			while($row = mysql_fetch_row($result)){
+			while($row = Amysqlfetchrow($result)){
 				$description = ($hc_cfg[107] > 0) ? clean_truncate($row[2],$hc_cfg[107]) : $row[2];
 				$comment = ($hc_cfg[25] != '') ? '<comments><![CDATA['.CalRoot.'/index.php?eID='.$row[0].'#disqus_thread'.']]></comments>' : '';
 				echo '

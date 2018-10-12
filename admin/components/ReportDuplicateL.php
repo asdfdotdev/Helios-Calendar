@@ -43,7 +43,7 @@
 		
 		$cnt = $curID = 0;
 		$foundDup = array();
-		while($row = mysql_fetch_row($result)){
+		while($row = Amysqlfetchrow($result)){
 			$address = str_replace('<br />',' ',buildAddress($row[2],$row[3],$row[4],$row[5],$row[6],$row[7]));
 				   
 			if($curID != $row[0] && !in_array($row[0],$foundDup)){

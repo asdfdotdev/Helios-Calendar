@@ -7,17 +7,17 @@
 	
 	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "adminpermissions WHERE AdminID = '" . cIn($_SESSION['AdminPkID']) . "' and IsActive = 1");
 	if(hasRows($result)){
-		$adminEventEdit = mysql_result($result,0,"EventEdit");
-		$adminEventPending = mysql_result($result,0,"EventPending");
-		$adminEventCategory = mysql_result($result,0,"EventCategory");
-		$adminUserEdit = mysql_result($result,0,"UserEdit");
-		$adminAdminEdit = mysql_result($result,0,"AdminEdit");
-		$adminNewsletter = mysql_result($result,0,"Newsletter");
-		$adminSettings = mysql_result($result,0,"Settings");
-		$adminTools = mysql_result($result,0,"Tools");
-		$adminReports = mysql_result($result,0,"Reports");
-		$adminLocations = mysql_result($result,0,"Locations");
-		$adminPages = mysql_result($result,0,"Pages");
+		$adminEventEdit = Amysqlresult($result,0,"EventEdit");
+		$adminEventPending = Amysqlresult($result,0,"EventPending");
+		$adminEventCategory = Amysqlresult($result,0,"EventCategory");
+		$adminUserEdit = Amysqlresult($result,0,"UserEdit");
+		$adminAdminEdit = Amysqlresult($result,0,"AdminEdit");
+		$adminNewsletter = Amysqlresult($result,0,"Newsletter");
+		$adminSettings = Amysqlresult($result,0,"Settings");
+		$adminTools = Amysqlresult($result,0,"Tools");
+		$adminReports = Amysqlresult($result,0,"Reports");
+		$adminLocations = Amysqlresult($result,0,"Locations");
+		$adminPages = Amysqlresult($result,0,"Pages");
 		
 		$_SESSION['APIAuth'] = $adminSettings;
 		

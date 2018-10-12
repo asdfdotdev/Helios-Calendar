@@ -22,8 +22,7 @@
 		echo 'Setup directory still present. Please delete it.';
 		exit();}
 	
-	$dbc = mysql_connect(DB_HOST, DB_USER, DB_PASS);
-	mysql_select_db(DB_NAME,$dbc);
+	$dbc = Amysqlconnect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	
 	buildCache(6);
 	buildCache(0);

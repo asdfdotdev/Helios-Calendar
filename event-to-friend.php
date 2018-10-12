@@ -37,24 +37,24 @@
 	
 	if(hasRows($result) && $myName != '' && $myEmail != '' && $friendName != '' && $friendEmail != ''){
 		$message = '<p>' . cOut($sendMsg) . '</p>';
-		$message .= '<p><b>' . mysql_result($result,0,0) . '</b><br />';
+		$message .= '<p><b>' . Amysqlresult($result,0,0) . '</b><br />';
 		
 		if($tID == 0){
 			$where = '/index.php?com=send&eID=';
 			$subject = CalName . " " . $hc_lang_sendtofriend['SubjectE']  . " " . $myName;
-			$message .=  stampToDate(mysql_result($result,0,1), $hc_cfg[14]) . ' - ';
-			if(mysql_result($result,0,3) == 0)
-				$message .= stampToDate("1980-01-01 " . mysql_result($result,0,2), $hc_cfg[23]);
-			elseif(mysql_result($result,0,3) == 1)
+			$message .=  stampToDate(Amysqlresult($result,0,1), $hc_cfg[14]) . ' - ';
+			if(Amysqlresult($result,0,3) == 0)
+				$message .= stampToDate("1980-01-01 " . Amysqlresult($result,0,2), $hc_cfg[23]);
+			elseif(Amysqlresult($result,0,3) == 1)
 				$message .= $hc_lang_sendtofriend['AllDay'];
-			elseif(mysql_result($result,0,3) == 2)
+			elseif(Amysqlresult($result,0,3) == 2)
 				$message .= $hc_lang_sendtofriend['TBA'];
 			
 			$message .= '<br /><a href="' . CalRoot . '/index.php?eID=' . $eID . '">' . CalRoot . '/index.php?eID=' . $eID . '</a></p>';
 		} else {
 			$where = '/index.php?com=send&lID=';
 			$subject = CalName . " " . $hc_lang_sendtofriend['SubjectL']  . " " . $myName;
-			$message .= buildAddress(mysql_result($result,0,1),mysql_result($result,0,2),mysql_result($result,0,3),mysql_result($result,0,4),mysql_result($result,0,5),mysql_result($result,0,6),$hc_lang_config['AddressType']);
+			$message .= buildAddress(Amysqlresult($result,0,1),Amysqlresult($result,0,2),Amysqlresult($result,0,3),Amysqlresult($result,0,4),Amysqlresult($result,0,5),Amysqlresult($result,0,6),$hc_lang_config['AddressType']);
 			$message .= '<br /><a href="' . CalRoot . '/index.php?com=location&lID=' . $eID . '">' . CalRoot . '/index.php?com=location&lID=' . $eID . '</a></p>';
 		}
 		

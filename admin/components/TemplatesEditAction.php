@@ -50,7 +50,7 @@
 					VALUES(	'" . $name . "','" . $content . "','" . $header . "','" . $footer . "','" . $ext . "',
 							'" . $typeID . "','" . $groupBy . "','" . $sortBy . "','" . $dateFormat . "','" . $cleanup . "',1)");
 			$result = doQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "locations");
-			$lID = (hasRows($result)) ? mysql_result($result,0,0) : 0;
+			$lID = (hasRows($result)) ? Amysqlresult($result,0,0) : 0;
 		}
 	} else {
 		$msgID = 3;

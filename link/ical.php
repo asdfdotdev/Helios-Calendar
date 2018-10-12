@@ -42,7 +42,7 @@
 		echo "X-WR-TIMEZONE:".$hc_timezones[$tzSelect]."\r\n";
 		echo "X-PUBLISHED-TTL:PT".$hc_cfg[89]."M\r\n";
 		 
-		while($row = mysql_fetch_row($result)){
+		while($row = Amysqlfetchrow($result)){
 			$dtStamp = date("Ymd\TH:i:sO", mktime(0, 0, 0, 1, 1, 1971));
 			$startdatepart = explode("-", $row[3]);
 			$starttimepart = explode(":", $row[4]);

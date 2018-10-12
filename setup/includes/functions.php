@@ -3,18 +3,19 @@
  * @package Helios Calendar
  * @license GNU General Public License version 2 or later; see LICENSE
  */
-	if(!defined('HCSETUP')){exit(-1);}
 
+	if(!defined('HCSETUP')){exit(-1);}
 	include('../inc/config.php');
-	
+
 	session_name('hc_setup_'.md5(HC_Install));
 	session_start();
 	
-	$curVersion = "3.0";
+	$curVersion = "4.0";
 	$setup = true;
 	$sID = (isset($_GET['step']) && is_numeric($_GET['step'])) ? strip_tags($_GET['step']) : 1;
-	$_SESSION['code_valid'] = ((isset($_POST['start']) && $_POST['start'] == HC_Install && HC_Install != '') || (isset($_SESSION['code_valid']) && $_SESSION['code_valid'] == 1)) ? true : false;
+	$_SESSION['code_valid'] = ((isset($_POST['start']) && $_POST['start'] == HC_Install && HC_Install != '') || (isset($_SESSION['code_valid']) && $_SESSION['code_valid'] == 1)) ? true : false;	
 	$_SESSION['is_install'] = (!isset($_SESSION['is_install'])) ? is_install() : $_SESSION['is_install'];
+
 	
 	function hc_fail(){
 		echo '
@@ -34,10 +35,10 @@
 	function php_abort($version){
 		return ($version != '' && $version < '5.2') ? true : false;
 	}
-	function mysql_current($version){
+	function Amysqlcurrent($version){
 		return ($version != '' && $version >= '5.5') ? true : false;
 	}
-	function mysql_abort($version){
+	function Amysqlabort($version){
 		return ($version != '' && $version < '5.0') ? true : false;
 	}
 	function progress(){
@@ -65,7 +66,7 @@
 			get_step_install();
 	}
 	function get_step_install(){
-		global $sID, $curVersion;
+		global $dbc, $sID, $curVersion;
 		
 		if(!file_exists(HCSETUP.'/includes/step1.php')){
 			echo 'This version of Helios Calendar supports upgrades only.';
@@ -91,7 +92,7 @@
 		}
 	}
 	function get_step_upgrade(){
-		global $curVersion;
+		global $dbc, $curVersion;
 		
 		if(!file_exists(HCSETUP.'/includes/upgrade.php')){
 			echo 'This version of Helios Calendar supports new installation only.';
@@ -99,13 +100,14 @@
 			
 		include(HCSETUP.'/includes/upgrade.php');
 	}
-	function is_install(){
+	function is_install()
+	{
 		try {
-			$dbc = mysql_connect(DB_HOST, DB_USER, DB_PASS);
-			mysql_select_db(DB_NAME,$dbc);
-			$result = mysql_query("SELECT COUNT(*) FROM ".HC_TblPrefix."settings");
-			
-			if($result && mysql_result($result,0,0) > 0)
+			$dbc = Amysqlconnect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+			$result = doQuery("SELECT COUNT(*) FROM ".HC_TblPrefix."settings");
+		
+			if($result && Amysqlresult($result,0,0) > 0)
 				   return false;
 			else
 				return true;
@@ -113,4 +115,5 @@
 			return true;
 		}
 	}
+
 ?>

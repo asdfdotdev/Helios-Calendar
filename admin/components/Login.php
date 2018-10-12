@@ -67,7 +67,7 @@
 		<label for="pass2">' . $hc_lang_login['Passwrd2'] . '</label>
 		<input name="pass2" id="pass2" type="password" maxlength="15" value="" required="required" autocomplete="off" />
 		<label>&nbsp;</label><input type="submit" name="submit" id="submit" value="' . $hc_lang_login['Button3'] . '" />
-		<input type="hidden" name="a" value="' . md5(mysql_result($result,0,0).mysql_result($result,0,1).mysql_result($result,0,2)) . '" />
+		<input type="hidden" name="a" value="' . md5(Amysqlresult($result,0,0).Amysqlresult($result,0,1).Amysqlresult($result,0,2)) . '" />
 		<input type="hidden" name="b" value="' . $k . '" />
 		</form>';
 	} else {

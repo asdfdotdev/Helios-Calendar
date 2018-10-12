@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 /**
  * @package Helios Calendar
  * @license GNU General Public License version 2 or later; see LICENSE
@@ -9,6 +11,7 @@
 	if(!file_exists(HCPATH.'/inc/config.php')){
 		echo 'Config file missing. Cannot continue.';
 		exit(-1);}
+    require_once(HCPATH."/inc/dbwrapper.php");
 	require(HCSETUP.'/includes/functions.php');
 	error_reporting(-1);
 ?>
@@ -46,7 +49,7 @@
 			<h2>Server Profile <span></h2>
 			<ul>
 				<li><span>PHP</span><?php echo phpversion();?></li>
-				<li><span>MySQL</span><?php echo (isset($_SESSION['mysql_version'])) ? $_SESSION['mysql_version'] : 'Checking...';?></li>
+				<li><span>MySQL</span><?php echo (isset($_SESSION['amysqlversion'])) ? $_SESSION['amysqlversion'] : 'Checking...';?></li>
 				<li><span>OS</span><?php echo PHP_OS;?></li>
 				<li><span>Web Server</span><?PHP echo strip_tags($_SERVER['SERVER_SOFTWARE']);?></li>
 			</ul>

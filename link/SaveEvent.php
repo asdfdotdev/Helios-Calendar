@@ -22,27 +22,27 @@
 					doQuery("UPDATE " . HC_TblPrefix . "events SET Downloads = Downloads + 1 WHERE PkID = '" . $eID . "'");
 
 				$link = "http://www.google.com/calendar/event?action=TEMPLATE";
-				if(mysql_result($result,0,11) == 0){
-					if(mysql_result($result,0,12) != ''){
-						$link .= "&dates=" . stampToDate(mysql_result($result,0,9) . " " . mysql_result($result,0,10), "%Y%m%dT%H%M%S") . "/" . stampToDate(mysql_result($result,0,9) . " " . mysql_result($result,0,12), "%Y%m%dT%H%M%S");
+				if(Amysqlresult($result,0,11) == 0){
+					if(Amysqlresult($result,0,12) != ''){
+						$link .= "&dates=" . stampToDate(Amysqlresult($result,0,9) . " " . Amysqlresult($result,0,10), "%Y%m%dT%H%M%S") . "/" . stampToDate(Amysqlresult($result,0,9) . " " . Amysqlresult($result,0,12), "%Y%m%dT%H%M%S");
 					} else {
-						$link .= "&dates=" . stampToDate(mysql_result($result,0,9) . " " . mysql_result($result,0,10), "%Y%m%dT%H%M%S") . "/" . stampToDate(mysql_result($result,0,9) . " " . mysql_result($result,0,10), "%Y%m%dT%H%M%S");
+						$link .= "&dates=" . stampToDate(Amysqlresult($result,0,9) . " " . Amysqlresult($result,0,10), "%Y%m%dT%H%M%S") . "/" . stampToDate(Amysqlresult($result,0,9) . " " . Amysqlresult($result,0,10), "%Y%m%dT%H%M%S");
 					}
 				} else {
-					$link .= "&dates=" . stampToDate(mysql_result($result,0,9), "%Y%m%d") . "/" . stampToDate(mysql_result($result,0,9), "%Y%m%d");
+					$link .= "&dates=" . stampToDate(Amysqlresult($result,0,9), "%Y%m%d") . "/" . stampToDate(Amysqlresult($result,0,9), "%Y%m%d");
 				}
 				
-				$link .= "&text=" . urlencode(mysql_result($result,0,1));
-				if(strlen(mysql_result($result,0,8)) > 400){
-					$link .= "&details=" . urlencode(htmlspecialchars(strip_tags(cOut(substr(mysql_result($result,0,8),0,400)))) . "...<br /><br />Full Description available at: " . CalRoot . "/index.php?eID=" . $eID);
+				$link .= "&text=" . urlencode(Amysqlresult($result,0,1));
+				if(strlen(Amysqlresult($result,0,8)) > 400){
+					$link .= "&details=" . urlencode(htmlspecialchars(strip_tags(cOut(substr(Amysqlresult($result,0,8),0,400)))) . "...<br /><br />Full Description available at: " . CalRoot . "/index.php?eID=" . $eID);
 				} else {
-					$link .= "&details=" . urlencode(htmlspecialchars(strip_tags(cOut(mysql_result($result,0,8)))));
+					$link .= "&details=" . urlencode(htmlspecialchars(strip_tags(cOut(Amysqlresult($result,0,8)))));
 				}
-				if(mysql_result($result,0,35) == 0 || mysql_result($result,0,35) == ''){
-					$link .= "&location=" . urlencode(mysql_result($result,0,3) . " " . mysql_result($result,0,4) . " " . mysql_result($result,0,5) . " " . mysql_result($result,0,6) . " " . mysql_result($result,0,37) . " " . mysql_result($result,0,7));
+				if(Amysqlresult($result,0,35) == 0 || Amysqlresult($result,0,35) == ''){
+					$link .= "&location=" . urlencode(Amysqlresult($result,0,3) . " " . Amysqlresult($result,0,4) . " " . Amysqlresult($result,0,5) . " " . Amysqlresult($result,0,6) . " " . Amysqlresult($result,0,37) . " " . Amysqlresult($result,0,7));
 				} else {
-					$result = doQuery("SELECT * FROM " . HC_TblPrefix . "locations WHERE PkID = '" . cIn(mysql_result($result,0,35)) . "'");
-					$link .= "&location=" . urlencode(mysql_result($result,0,2) . " " . mysql_result($result,0,3) . " " . mysql_result($result,0,4) . " " . mysql_result($result,0,5) . " " . mysql_result($result,0,6) . " " . mysql_result($result,0,7));
+					$result = doQuery("SELECT * FROM " . HC_TblPrefix . "locations WHERE PkID = '" . cIn(Amysqlresult($result,0,35)) . "'");
+					$link .= "&location=" . urlencode(Amysqlresult($result,0,2) . " " . Amysqlresult($result,0,3) . " " . Amysqlresult($result,0,4) . " " . Amysqlresult($result,0,5) . " " . Amysqlresult($result,0,6) . " " . Amysqlresult($result,0,7));
 				}
 				
 				header("Location: $link");
@@ -52,28 +52,28 @@
 					doQuery("UPDATE " . HC_TblPrefix . "events SET Downloads = Downloads + 1 WHERE PkID = '" . $eID . "'");
 
 				$link = "http://calendar.yahoo.com/?v=60&view=d&type=20";
-				if(mysql_result($result,0,11) == 1){
-					$link .= "&st=" . stampToDate(mysql_result($result,0,9), "%Y%m%d");
+				if(Amysqlresult($result,0,11) == 1){
+					$link .= "&st=" . stampToDate(Amysqlresult($result,0,9), "%Y%m%d");
 				} else {
-					$link .= "&st=" . stampToDate(mysql_result($result,0,9) . " " . mysql_result($result,0,10), "%Y%m%dT%H%M%S");
+					$link .= "&st=" . stampToDate(Amysqlresult($result,0,9) . " " . Amysqlresult($result,0,10), "%Y%m%dT%H%M%S");
 				}
-				$link .= "&title=" . urlencode(mysql_result($result,0,1));
+				$link .= "&title=" . urlencode(Amysqlresult($result,0,1));
 				
-				if(strlen(mysql_result($result,0,8)) > 400){
-					$link .= "&desc=" . urlencode(strip_tags(substr(mysql_result($result,0,8),0,400) . "...\n\nFull Description available at: " . CalRoot . "/index.php?eID=" . $eID));
+				if(strlen(Amysqlresult($result,0,8)) > 400){
+					$link .= "&desc=" . urlencode(strip_tags(substr(Amysqlresult($result,0,8),0,400) . "...\n\nFull Description available at: " . CalRoot . "/index.php?eID=" . $eID));
 				} else {
-					$link .= "&description=" . urlencode(strip_tags(mysql_result($result,0,8)));
+					$link .= "&description=" . urlencode(strip_tags(Amysqlresult($result,0,8)));
 				}
 				
-				if(mysql_result($result,0,35) == 0 || mysql_result($result,0,35) == ''){
-					$link .= "&in_loc=" . urlencode(mysql_result($result,0,2));
-					$link .= "&in_st=" . urlencode(mysql_result($result,0,3) . " " . mysql_result($result,0,4));
-					$link .= "&in_csz=" . urlencode(mysql_result($result,0,5) . ", " . mysql_result($result,0,6) . " " . mysql_result($result,0,37) . " " . mysql_result($result,0,7));
+				if(Amysqlresult($result,0,35) == 0 || Amysqlresult($result,0,35) == ''){
+					$link .= "&in_loc=" . urlencode(Amysqlresult($result,0,2));
+					$link .= "&in_st=" . urlencode(Amysqlresult($result,0,3) . " " . Amysqlresult($result,0,4));
+					$link .= "&in_csz=" . urlencode(Amysqlresult($result,0,5) . ", " . Amysqlresult($result,0,6) . " " . Amysqlresult($result,0,37) . " " . Amysqlresult($result,0,7));
 				} else {
-					$result = doQuery("SELECT * FROM " . HC_TblPrefix . "locations WHERE PkID = '" . cIn(mysql_result($result,0,35)) . "'");
-					$link .= "&in_loc=" . urlencode(mysql_result($result,0,1));
-					$link .= "&in_st=" . urlencode(mysql_result($result,0,2) . " " . mysql_result($result,0,3));
-					$link .= "&in_csz=" . urlencode(mysql_result($result,0,4) . ", " . mysql_result($result,0,5) . " " . mysql_result($result,0,6) . " " . mysql_result($result,0,7));
+					$result = doQuery("SELECT * FROM " . HC_TblPrefix . "locations WHERE PkID = '" . cIn(Amysqlresult($result,0,35)) . "'");
+					$link .= "&in_loc=" . urlencode(Amysqlresult($result,0,1));
+					$link .= "&in_st=" . urlencode(Amysqlresult($result,0,2) . " " . Amysqlresult($result,0,3));
+					$link .= "&in_csz=" . urlencode(Amysqlresult($result,0,4) . ", " . Amysqlresult($result,0,5) . " " . Amysqlresult($result,0,6) . " " . Amysqlresult($result,0,7));
 				}
 				header("Location: $link");
 				break;
@@ -102,16 +102,16 @@
 				}
 				
 				$dtStamp = date("Ymd\TH:i:sO", mktime(0, 0, 0, 1, 1, 1971));
-				$starttimepart = explode(":", mysql_result($result,0,10));
-				$startdatepart = explode("-", mysql_result($result,0,9));
-				$endtimepart = explode(":", mysql_result($result,0,12));
+				$starttimepart = explode(":", Amysqlresult($result,0,10));
+				$startdatepart = explode("-", Amysqlresult($result,0,9));
+				$endtimepart = explode(":", Amysqlresult($result,0,12));
 				
 				$allDay = false;
-				if(mysql_result($result,0,10) != ''){
+				if(Amysqlresult($result,0,10) != ''){
 					$startDate = date("Ymd\THis", mktime($starttimepart[0], $starttimepart[1], $starttimepart[2], $startdatepart[1], $startdatepart[2], $startdatepart[0]));
 					
-					if(mysql_result($result,0,12) != ''){
-						if(mysql_result($result,0,10) > mysql_result($result,0,12)){
+					if(Amysqlresult($result,0,12) != ''){
+						if(Amysqlresult($result,0,10) > Amysqlresult($result,0,12)){
 							$endDate = date("Ymd\THis", mktime($endtimepart[0], $endtimepart[1], $endtimepart[2], $startdatepart[1], $startdatepart[2]+1, $startdatepart[0]));
 						} else {
 							$endDate = date("Ymd\THis", mktime($endtimepart[0], $endtimepart[1], $endtimepart[2], $startdatepart[1], $startdatepart[2], $startdatepart[0]));
@@ -125,14 +125,14 @@
 					$endDate = date("Ymd", mktime(0, 0, 0, $startdatepart[1], $startdatepart[2] + 1, $startdatepart[0]));
 				}
 				
-				$summary = mysql_result($result,0,1);
-				$description = ($hc_cfg[109] > 0) ? clean_truncate(strip_tags(mysql_result($result,0,8)),$hc_cfg[109]).' '.$hc_lang_event['ReadMore'].' '.CalRoot.'/?eID='.$eID : mysql_result($result,0,8);
+				$summary = Amysqlresult($result,0,1);
+				$description = ($hc_cfg[109] > 0) ? clean_truncate(strip_tags(Amysqlresult($result,0,8)),$hc_cfg[109]).' '.$hc_lang_event['ReadMore'].' '.CalRoot.'/?eID='.$eID : Amysqlresult($result,0,8);
 				
-				if(mysql_result($result,0,33) == 0 OR mysql_result($result,0,33) == ''){
-					$location = mysql_result($result,0,2) . " - " . mysql_result($result,0,3) . " " . mysql_result($result,0,4) . ", " . mysql_result($result,0,5) . ", " . mysql_result($result,0,6) . " " . mysql_result($result,0,35) . " " . mysql_result($result,0,7);
+				if(Amysqlresult($result,0,33) == 0 OR Amysqlresult($result,0,33) == ''){
+					$location = Amysqlresult($result,0,2) . " - " . Amysqlresult($result,0,3) . " " . Amysqlresult($result,0,4) . ", " . Amysqlresult($result,0,5) . ", " . Amysqlresult($result,0,6) . " " . Amysqlresult($result,0,35) . " " . Amysqlresult($result,0,7);
 				} else {
-					$result = doQuery("SELECT * FROM " . HC_TblPrefix . "locations WHERE PkID = '" . cIn(mysql_result($result,0,33)) . "'");
-					$location = mysql_result($result,0,1) . " - " . mysql_result($result,0,2) . " " . mysql_result($result,0,3) . ", " . mysql_result($result,0,4) . ", " . mysql_result($result,0,5) . " " . mysql_result($result,0,6) . " " . mysql_result($result,0,7);
+					$result = doQuery("SELECT * FROM " . HC_TblPrefix . "locations WHERE PkID = '" . cIn(Amysqlresult($result,0,33)) . "'");
+					$location = Amysqlresult($result,0,1) . " - " . Amysqlresult($result,0,2) . " " . Amysqlresult($result,0,3) . ", " . Amysqlresult($result,0,4) . ", " . Amysqlresult($result,0,5) . " " . Amysqlresult($result,0,6) . " " . Amysqlresult($result,0,7);
 				}
 				
 				$descFooter = "\\n______________________________\\nEvent Downloaded Powered by Helios Calendar";
@@ -181,29 +181,29 @@
 
 				$link = "http://calendar.live.com/calendar/calendar.aspx?rru=addevent";
 
-				if(mysql_result($result,0,11) == 0){
-					if(mysql_result($result,0,12) != ''){
-						$link .= "&dtstart=" . stampToDate(mysql_result($result,0,9) . " " . mysql_result($result,0,10), "%Y%m%dT%H%M%S") . "&dtend=" . stampToDate(mysql_result($result,0,9) . " " . mysql_result($result,0,12), "%Y%m%dT%H%M%S");
+				if(Amysqlresult($result,0,11) == 0){
+					if(Amysqlresult($result,0,12) != ''){
+						$link .= "&dtstart=" . stampToDate(Amysqlresult($result,0,9) . " " . Amysqlresult($result,0,10), "%Y%m%dT%H%M%S") . "&dtend=" . stampToDate(Amysqlresult($result,0,9) . " " . Amysqlresult($result,0,12), "%Y%m%dT%H%M%S");
 					} else {
-						$link .= "&dtstart=" . stampToDate(mysql_result($result,0,9) . " " . mysql_result($result,0,10), "%Y%m%dT%H%M%S") . "&dtend=" . stampToDate(mysql_result($result,0,9) . " " . mysql_result($result,0,10), "%Y%m%dT%H%M%S");
+						$link .= "&dtstart=" . stampToDate(Amysqlresult($result,0,9) . " " . Amysqlresult($result,0,10), "%Y%m%dT%H%M%S") . "&dtend=" . stampToDate(Amysqlresult($result,0,9) . " " . Amysqlresult($result,0,10), "%Y%m%dT%H%M%S");
 					}
 				} else {
-					$link .= "&dtstart=" . stampToDate(mysql_result($result,0,9), "%Y%m%d") . "T000000&dtend=" . stampToDate(mysql_result($result,0,9), "%Y%m%d") . "T000000";
+					$link .= "&dtstart=" . stampToDate(Amysqlresult($result,0,9), "%Y%m%d") . "T000000&dtend=" . stampToDate(Amysqlresult($result,0,9), "%Y%m%d") . "T000000";
 				}
 
-				$link .= "&summary=" . urlencode(mysql_result($result,0,1));
+				$link .= "&summary=" . urlencode(Amysqlresult($result,0,1));
 			
-				if(strlen(mysql_result($result,0,8)) > 400){
-					$link .= "&description=" . urlencode(htmlspecialchars(strip_tags(cOut(substr(mysql_result($result,0,8),0,400)))) . "...\n\nFull Description available at: " . CalRoot . "/index.php?eID=" . $eID);
+				if(strlen(Amysqlresult($result,0,8)) > 400){
+					$link .= "&description=" . urlencode(htmlspecialchars(strip_tags(cOut(substr(Amysqlresult($result,0,8),0,400)))) . "...\n\nFull Description available at: " . CalRoot . "/index.php?eID=" . $eID);
 				} else {
-					$link .= "&description=" . urlencode(htmlspecialchars(strip_tags(cOut(mysql_result($result,0,8)))));
+					$link .= "&description=" . urlencode(htmlspecialchars(strip_tags(cOut(Amysqlresult($result,0,8)))));
 				}
 			
-				if(mysql_result($result,0,35) == 0 || mysql_result($result,0,35) == ''){
-					$link .= "&location=" . urlencode(mysql_result($result,0,3) . " " . mysql_result($result,0,4) . " " . mysql_result($result,0,5) . " " . mysql_result($result,0,6) . " " . mysql_result($result,0,37) . " " . mysql_result($result,0,7));
+				if(Amysqlresult($result,0,35) == 0 || Amysqlresult($result,0,35) == ''){
+					$link .= "&location=" . urlencode(Amysqlresult($result,0,3) . " " . Amysqlresult($result,0,4) . " " . Amysqlresult($result,0,5) . " " . Amysqlresult($result,0,6) . " " . Amysqlresult($result,0,37) . " " . Amysqlresult($result,0,7));
 				} else {
-					$result = doQuery("SELECT * FROM " . HC_TblPrefix . "locations WHERE PkID = '" . cIn(mysql_result($result,0,35)) . "'");
-					$link .= "&location=" . urlencode(mysql_result($result,0,2) . " " . mysql_result($result,0,3) . " " . mysql_result($result,0,4) . " " . mysql_result($result,0,5) . " " . mysql_result($result,0,6) . " " . mysql_result($result,0,7));
+					$result = doQuery("SELECT * FROM " . HC_TblPrefix . "locations WHERE PkID = '" . cIn(Amysqlresult($result,0,35)) . "'");
+					$link .= "&location=" . urlencode(Amysqlresult($result,0,2) . " " . Amysqlresult($result,0,3) . " " . Amysqlresult($result,0,4) . " " . Amysqlresult($result,0,5) . " " . Amysqlresult($result,0,6) . " " . Amysqlresult($result,0,7));
 				}
 				
 				header("Location: $link");

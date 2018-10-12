@@ -23,21 +23,21 @@
 	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "admin WHERE email = '" . $username ."' AND IsActive = 1");
 
 	if(hasRows($result)){
-		$resultF = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "adminloginhistory WHERE AdminID = '" . cIn(mysql_result($result,0,0)) . "' AND LoginTime > subdate(NOW(), INTERVAL 24 HOUR) AND IsFail = 1");
-		if(mysql_result($resultF,0,0) >= $hc_cfg[80]){
+		$resultF = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "adminloginhistory WHERE AdminID = '" . cIn(Amysqlresult($result,0,0)) . "' AND LoginTime > subdate(NOW(), INTERVAL 24 HOUR) AND IsFail = 1");
+		if(Amysqlresult($resultF,0,0) >= $hc_cfg[80]){
 			header('Location: ' . AdminRoot . '/index.php?lmsg=2');
 			exit();
 		} else {
-			if(mysql_result($result,0,4) == $password){
-				if(mysql_result($result,0,5) > 0){
+			if(Amysqlresult($result,0,4) == $password){
+				if(Amysqlresult($result,0,5) > 0){
 					$_SESSION['AdminLoggedIn'] = true;
-					$_SESSION['AdminPkID'] = mysql_result($result,0,0);
-					$_SESSION['AdminFirstName'] = mysql_result($result,0,1);
-					$_SESSION['AdminLastName'] = mysql_result($result,0,2);
-					$_SESSION['AdminEmail'] = mysql_result($result,0,3);
-					$_SESSION['Instructions'] = mysql_result($result,0,9);
+					$_SESSION['AdminPkID'] = Amysqlresult($result,0,0);
+					$_SESSION['AdminFirstName'] = Amysqlresult($result,0,1);
+					$_SESSION['AdminLastName'] = Amysqlresult($result,0,2);
+					$_SESSION['AdminEmail'] = Amysqlresult($result,0,3);
+					$_SESSION['Instructions'] = Amysqlresult($result,0,9);
 					$_SESSION['LangSet'] = strtolower($_POST['langType']);
-					$_SESSION['PasswordWarn'] = (mysql_result($result,0,12) == '' || ($hc_cfg[26] > 0 && daysDiff(mysql_result($result,0,12), date("Y-m-d")) >= $hc_cfg[26])) ? 1 : 0;
+					$_SESSION['PasswordWarn'] = (Amysqlresult($result,0,12) == '' || ($hc_cfg[26] > 0 && daysDiff(Amysqlresult($result,0,12), date("Y-m-d")) >= $hc_cfg[26])) ? 1 : 0;
 
 					if($hc_cfg[30] == 1){
 						//	MCImageManager Session Variables
@@ -62,7 +62,7 @@
 					exit();
 				}
 			} else {
-				doQuery("INSERT INTO " . HC_TblPrefix . "adminloginhistory(AdminID,IP,Client,LoginTime,IsFail) Values('" . cIn(mysql_result($result,0,0)) . "','" . cIn(strip_tags($_SERVER["REMOTE_ADDR"])) . "','" . cIn(strip_tags($_SERVER["HTTP_USER_AGENT"])) . "',NOW(),1)");
+				doQuery("INSERT INTO " . HC_TblPrefix . "adminloginhistory(AdminID,IP,Client,LoginTime,IsFail) Values('" . cIn(Amysqlresult($result,0,0)) . "','" . cIn(strip_tags($_SERVER["REMOTE_ADDR"])) . "','" . cIn(strip_tags($_SERVER["HTTP_USER_AGENT"])) . "',NOW(),1)");
 			}
 			
 			$resultE = doQuery("SELECT a.FirstName, a.LastName, a.Email
@@ -71,7 +71,7 @@
 							WHERE a.IsActive = 1 AND n.IsActive = 1 AND n.TypeID = 2");
 			if(hasRows($resultE)){
 				$toNotice = array();
-				while($row = mysql_fetch_row($resultE)){
+				while($row = Amysqlfetchrow($resultE)){
 					$toNotice[trim($row[0] . ' ' .$row[1])] = $row[2];
 				}
 

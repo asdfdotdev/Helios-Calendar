@@ -8,15 +8,14 @@
 		return(-1);
 	}
 	
-	$dbc = mysql_connect(DB_HOST, DB_USER, DB_PASS);
-	mysql_select_db(DB_NAME,$dbc);
+	$dbc = Amysqlconnect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	
 	if(!isset($_POST['uID'])){
 		try {
-			$result = mysql_query("SELECT SettingValue, VERSION() FROM " . HC_TblPrefix."settings WHERE PkID = 49");
-			if(mysql_result($result,0,0) != ''){
-				$_SESSION['mysql_version'] = mysql_result($result,0,1);
-				$db_ver = mysql_result($result,0,0);
+			$result = doQuery("SELECT SettingValue, VERSION() FROM " . HC_TblPrefix."settings WHERE PkID = 49");
+			if(Amysqlresult($result,0,0) != ''){
+				$_SESSION['amysqlversion'] = Amysqlresult($result,0,1);
+				$db_ver = Amysqlresult($result,0,0);
 			}
 		} catch(Exception $e) {}
 		
@@ -91,7 +90,7 @@
 
 		function doUpgrade($status, $msg, $query){
 			echo '<div style="padding-left:5px;line-height:15px;">' . $msg;
-			if(mysql_query($query)){
+			if(doQuery($query)){
 				echo '<b>Finished</b>';
 			} else {
 				++$status;
@@ -198,7 +197,7 @@
 
 
 			//	All Upgrades
-				mysql_query("UPDATE `" . HC_TblPrefix . "settings` SET `SettingValue` = '" . $curVersion . "' WHERE PkID = '49'");
+				doQuery("UPDATE `" . HC_TblPrefix . "settings` SET `SettingValue` = '" . $curVersion . "' WHERE PkID = '49'");
 				echo '
 			</fieldset>
 

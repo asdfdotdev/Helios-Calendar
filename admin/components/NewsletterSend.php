@@ -18,10 +18,10 @@
 			<legend>'.$hc_lang_news['ProgressLabel'].'</legend>
 			
 			<label>'.$hc_lang_news['MailSubject'].'</label>
-			<span class="output">'.mysql_result($result,0,1).'</span>
+			<span class="output">'.Amysqlresult($result,0,1).'</span>
 
 			<label>'.$hc_lang_news['MailingSize'].'</label>
-			<span class="output">'.number_format(mysql_result($result,0,2),0,'.',',') . ' ' . $hc_lang_news['Subscribers'].'</span>
+			<span class="output">'.number_format(Amysqlresult($result,0,2),0,'.',',') . ' ' . $hc_lang_news['Subscribers'].'</span>
 
 			<label>'.$hc_lang_news['Progress'].'</label>
 			<iframe src="'.AdminRoot.'/components/NewsletterProgress.php?n='.$nID.'" name="progress" id="progress" border="0" scrolling="no"></iframe>

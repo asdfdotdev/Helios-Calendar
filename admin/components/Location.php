@@ -35,7 +35,7 @@
 	
 	appInstructions(0, "Editing_Locations", $hc_lang_locations['TitleBrowse'], $hc_lang_locations['InstructBrowse']);
 	$resultC = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "locations WHERE IsActive = 1 $queryS");
-	$pages = ceil(mysql_result($resultC,0,0)/$resLimit);
+	$pages = ceil(Amysqlresult($resultC,0,0)/$resLimit);
 	if($pages <= $resOffset && $pages > 0){$resOffset = ($pages - 1);}
 	
 	echo '
@@ -89,7 +89,7 @@
 			</li>';
 		
 		$cnt = 0;
-		while($row = mysql_fetch_row($result)){
+		while($row = Amysqlfetchrow($result)){
 			$hl = ($cnt % 2 == 1) ? ' hl' : '';
 			
 			echo '

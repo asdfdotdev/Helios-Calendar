@@ -28,7 +28,7 @@
 		echo '<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 		
-		while($row = mysql_fetch_row($result)){
+		while($row = Amysqlfetchrow($result)){
 			$last = ($row[1] != '') ? '<lastmod>'.stampToDate($row[1], '%Y-%m-%d').'</lastmod>' : '';
 			echo '
   <url>

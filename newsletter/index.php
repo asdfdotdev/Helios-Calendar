@@ -28,13 +28,13 @@
 	<meta http-equiv="expires" content="never" />
 	<link rel="shortcut icon" href="'.CalRoot.'/favicon.ico">
 	<meta http-equiv="generator" content="Helios Calendar ' . $hc_cfg[49] . '" /> <!-- leave this for stats -->
-	<meta name="description" content="' . CalName . ' ' . $hc_lang_news['MetaDesc'] . ' ' . stampToDate(mysql_result($result,0,1), $hc_cfg[24]) . '" />
-	<title>' . html_entity_decode(cOut(mysql_result($result,0,0))) . '</title>
+	<meta name="description" content="' . CalName . ' ' . $hc_lang_news['MetaDesc'] . ' ' . stampToDate(Amysqlresult($result,0,1), $hc_cfg[24]) . '" />
+	<title>' . html_entity_decode(cOut(Amysqlresult($result,0,0))) . '</title>
 </head>
-	'.(!stristr(mysql_result($result,0,2),'<body') ? '
+	'.(!stristr(Amysqlresult($result,0,2),'<body') ? '
 <body>
-'.mysql_result($result,0,2).'
-</body>' : mysql_result($result,0,2)).'
+'.Amysqlresult($result,0,2).'
+</body>' : Amysqlresult($result,0,2)).'
 </html>';
 	} else {
 		header("Location: " . CalRoot);

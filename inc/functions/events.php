@@ -41,7 +41,7 @@
 			return 0;
 		
 		$dates = array();
-		while($row = mysql_fetch_row($result)){
+		while($row = Amysqlfetchrow($result)){
 			$dates[$row[0]] = stampToDate($row[1],$format);}
 		return $dates;
 	}
@@ -89,7 +89,7 @@
 		
 		echo '
 		<ul>';
-		while($row = mysql_fetch_row($result)){
+		while($row = Amysqlfetchrow($result)){
 			echo '
 		<li><a itemprop="eventType" href="'.CalRoot.'/index.php?com=searchresult&amp;t='.$row[0].'" rel="nofollow">'.cOut($row[1]).'</a></li>';
 		}
@@ -129,68 +129,68 @@
 						l.Zip , l.Country , l.URL , l.Phone , l.Email , l.Lat , l.Lon , er.Type , er.OpenDate , er.CloseDate , er.Space , er.RegOption , en.NetworkID, e2.PkID
 						LIMIT 1");
 		
-		$rsvp_opts = (mysql_result($result,0,"RSVPOpts") != '') ? explode('|',mysql_result($result,0,"RSVPOpts")) : array_fill(0,5,NULL);
+		$rsvp_opts = (Amysqlresult($result,0,"RSVPOpts") != '') ? explode('|',Amysqlresult($result,0,"RSVPOpts")) : array_fill(0,5,NULL);
 		
-		if(!hasRows($result) || mysql_result($result,0,0) <= 0 || ((strtotime(mysql_result($result,0,"StartDate")) < strtotime(SYSDATE)) && $hc_cfg[11] == 0))
+		if(!hasRows($result) || Amysqlresult($result,0,0) <= 0 || ((strtotime(Amysqlresult($result,0,"StartDate")) < strtotime(SYSDATE)) && $hc_cfg[11] == 0))
 			go_home();
 		
 		event_add_session_view($eID);
 		
-		if(mysql_result($result,0,6) == 0){
-			$time = (mysql_result($result,0,4) != '') ? stampToDate(mysql_result($result,0,4), $hc_cfg[23]) : '';
-			$time .= (mysql_result($result,0,5) != '') ? ' - ' . stampToDate(mysql_result($result,0,5), $hc_cfg[23]) : '';
-			$stamp = date("Y-m-d\Th:i:00",strtotime(mysql_result($result,0,3) . trim(' '.mysql_result($result,0,4)))) . HCTZ;
+		if(Amysqlresult($result,0,6) == 0){
+			$time = (Amysqlresult($result,0,4) != '') ? stampToDate(Amysqlresult($result,0,4), $hc_cfg[23]) : '';
+			$time .= (Amysqlresult($result,0,5) != '') ? ' - ' . stampToDate(Amysqlresult($result,0,5), $hc_cfg[23]) : '';
+			$stamp = date("Y-m-d\Th:i:00",strtotime(Amysqlresult($result,0,3) . trim(' '.Amysqlresult($result,0,4)))) . HCTZ;
 		} else {
-			$time = (mysql_result($result,0,6) == 1) ? $hc_lang_event['AllDay'] : $hc_lang_event['TimeTBA'];
-			$stamp = date("Y-m-d",strtotime(mysql_result($result,0,3)));}
-		$eBrite = (mysql_result($result,0,"NetworkID") != '') ? '<iframe src="http://www.eventbrite.com/tickets-external?eid='.mysql_result($result,0,"NetworkID").'" class="eventbrite"></iframe>' : '';
+			$time = (Amysqlresult($result,0,6) == 1) ? $hc_lang_event['AllDay'] : $hc_lang_event['TimeTBA'];
+			$stamp = date("Y-m-d",strtotime(Amysqlresult($result,0,3)));}
+		$eBrite = (Amysqlresult($result,0,"NetworkID") != '') ? '<iframe src="http://www.eventbrite.com/tickets-external?eid='.Amysqlresult($result,0,"NetworkID").'" class="eventbrite"></iframe>' : '';
 		$event = array(
-		    'EventID'			=>	mysql_result($result,0,"PkID"),
-		    'Title'			=>	mysql_result($result,0,"Title"),
-		    'Description'		=>	mysql_result($result,0,"Description") . $eBrite,
-		    'Date'			=>	stampToDate(mysql_result($result,0,"StartDate"), $hc_cfg[14]),
+		    'EventID'			=>	Amysqlresult($result,0,"PkID"),
+		    'Title'			=>	Amysqlresult($result,0,"Title"),
+		    'Description'		=>	Amysqlresult($result,0,"Description") . $eBrite,
+		    'Date'			=>	stampToDate(Amysqlresult($result,0,"StartDate"), $hc_cfg[14]),
 		    'Time'			=>	$time,
 		    'Timestamp'		=>	$stamp,
-		    'Contact'			=>	mysql_result($result,0,"ContactName"),
-		    'Contact_Email'		=>	mysql_result($result,0,"ContactEmail"),
-		    'Contact_URL'		=>	(mysql_result($result,0,"ContactURL") != 'http://') ? mysql_result($result,0,"ContactURL") : NULL ,
-		    'Contact_Phone'		=>	mysql_result($result,0,"ContactPhone"),
-		    'RSVP'			=>	mysql_result($result,0,"Type"),		    
+		    'Contact'			=>	Amysqlresult($result,0,"ContactName"),
+		    'Contact_Email'		=>	Amysqlresult($result,0,"ContactEmail"),
+		    'Contact_URL'		=>	(Amysqlresult($result,0,"ContactURL") != 'http://') ? Amysqlresult($result,0,"ContactURL") : NULL ,
+		    'Contact_Phone'		=>	Amysqlresult($result,0,"ContactPhone"),
+		    'RSVP'			=>	Amysqlresult($result,0,"Type"),		    
 		    'RSVP_Spaces'		=>	($rsvp_opts[2] > 0) ? $rsvp_opts[2] : event_lang('Unlimited'),
 		    'RSVP_Taken'		=>	$rsvp_opts[4],
 		    'RSVP_Active'		=>	((strtotime(SYSDATE) >= strtotime($rsvp_opts[0])) && (strtotime(SYSDATE) <= strtotime($rsvp_opts[1]))) ? 1 : 0,
 		    'RSVP_Open'		=>	$rsvp_opts[0],
-		    'RSVP_Close'		=>	(strtotime($rsvp_opts[1]) > strtotime(mysql_result($result,0,"StartDate"))) ? mysql_result($result,0,"StartDate") : $rsvp_opts[1],
+		    'RSVP_Close'		=>	(strtotime($rsvp_opts[1]) > strtotime(Amysqlresult($result,0,"StartDate"))) ? Amysqlresult($result,0,"StartDate") : $rsvp_opts[1],
 		    'RSVP_Type'		=>	$rsvp_opts[3],		    
-		    'VenueID'			=>	(mysql_result($result,0,"LocID") > 0) ? mysql_result($result,0,"LocID") : 0,
-		    'Venue_Name'		=>	(mysql_result($result,0,"LocID") > 0) ? mysql_result($result,0,"Name") : mysql_result($result,0,"LocationName"),
-		    'Venue_Address'		=>	(mysql_result($result,0,"LocID") > 0) ? mysql_result($result,0,"Address") : mysql_result($result,0,"LocationAddress"),
-		    'Venue_Address2'	=>	(mysql_result($result,0,"LocID") > 0) ? mysql_result($result,0,"Address2") : mysql_result($result,0,"LocationAddress2"),
-		    'Venue_City'		=>	(mysql_result($result,0,"LocID") > 0) ? mysql_result($result,0,"City") : mysql_result($result,0,"LocationCity"),
-		    'Venue_Region'		=>	(mysql_result($result,0,"LocID") > 0) ? mysql_result($result,0,"State") : mysql_result($result,0,"LocationState"),
-		    'Venue_Postal'		=>	(mysql_result($result,0,"LocID") > 0) ? mysql_result($result,0,"Zip") : mysql_result($result,0,"LocationZip"),
-		    'Venue_Country'		=>	(mysql_result($result,0,"LocID") > 0) ? mysql_result($result,0,"Country") : mysql_result($result,0,"LocCountry"),
-		    'Venue_Email'		=>	(mysql_result($result,0,"LocID") > 0) ? mysql_result($result,0,"Email") : NULL,
-		    'Venue_URL'		=>	(mysql_result($result,0,"LocID") > 0 && mysql_result($result,0,"URL") != 'http://') ? mysql_result($result,0,"URL") : NULL,
-		    'Venue_Phone'		=>	(mysql_result($result,0,"LocID") > 0) ? mysql_result($result,0,"Phone") : NULL,
-		    'Venue_Lat'		=>	(mysql_result($result,0,"LocID") > 0) ? mysql_result($result,0,"Lat") : NULL,
-		    'Venue_Lon'		=>	(mysql_result($result,0,"LocID") > 0) ? mysql_result($result,0,"Lon") : NULL,
-		    'SeriesID'			=>	mysql_result($result,0,"SeriesID"),
-		    'Cost'			=>	mysql_result($result,0,"Cost"),
-		    'Bitly'			=>	mysql_result($result,0,"ShortURL"),
-		    'CommentsURL'		=>	(mysql_result($result,0,"SeriesID") != '') ? CalRoot.'/index.php?com=series&sID='.mysql_result($result,0,"SeriesID") : CalRoot.'/index.php?eID='.$eID,
-		    'CommentsID'		=>	(mysql_result($result,0,"SeriesID") != '') ? mysql_result($result,0,"SeriesID") : $eID,
-		    'DateRaw'			=>	mysql_result($result,0,"StartDate"),
-		    'LastMod'			=>	mysql_result($result,0,"LastMod"),
-		    'Image'			=>	mysql_result($result,0,"Image"),
-		    'Featured'			=>	mysql_result($result,0,"IsFeature"),
+		    'VenueID'			=>	(Amysqlresult($result,0,"LocID") > 0) ? Amysqlresult($result,0,"LocID") : 0,
+		    'Venue_Name'		=>	(Amysqlresult($result,0,"LocID") > 0) ? Amysqlresult($result,0,"Name") : Amysqlresult($result,0,"LocationName"),
+		    'Venue_Address'		=>	(Amysqlresult($result,0,"LocID") > 0) ? Amysqlresult($result,0,"Address") : Amysqlresult($result,0,"LocationAddress"),
+		    'Venue_Address2'	=>	(Amysqlresult($result,0,"LocID") > 0) ? Amysqlresult($result,0,"Address2") : Amysqlresult($result,0,"LocationAddress2"),
+		    'Venue_City'		=>	(Amysqlresult($result,0,"LocID") > 0) ? Amysqlresult($result,0,"City") : Amysqlresult($result,0,"LocationCity"),
+		    'Venue_Region'		=>	(Amysqlresult($result,0,"LocID") > 0) ? Amysqlresult($result,0,"State") : Amysqlresult($result,0,"LocationState"),
+		    'Venue_Postal'		=>	(Amysqlresult($result,0,"LocID") > 0) ? Amysqlresult($result,0,"Zip") : Amysqlresult($result,0,"LocationZip"),
+		    'Venue_Country'		=>	(Amysqlresult($result,0,"LocID") > 0) ? Amysqlresult($result,0,"Country") : Amysqlresult($result,0,"LocCountry"),
+		    'Venue_Email'		=>	(Amysqlresult($result,0,"LocID") > 0) ? Amysqlresult($result,0,"Email") : NULL,
+		    'Venue_URL'		=>	(Amysqlresult($result,0,"LocID") > 0 && Amysqlresult($result,0,"URL") != 'http://') ? Amysqlresult($result,0,"URL") : NULL,
+		    'Venue_Phone'		=>	(Amysqlresult($result,0,"LocID") > 0) ? Amysqlresult($result,0,"Phone") : NULL,
+		    'Venue_Lat'		=>	(Amysqlresult($result,0,"LocID") > 0) ? Amysqlresult($result,0,"Lat") : NULL,
+		    'Venue_Lon'		=>	(Amysqlresult($result,0,"LocID") > 0) ? Amysqlresult($result,0,"Lon") : NULL,
+		    'SeriesID'			=>	Amysqlresult($result,0,"SeriesID"),
+		    'Cost'			=>	Amysqlresult($result,0,"Cost"),
+		    'Bitly'			=>	Amysqlresult($result,0,"ShortURL"),
+		    'CommentsURL'		=>	(Amysqlresult($result,0,"SeriesID") != '') ? CalRoot.'/index.php?com=series&sID='.Amysqlresult($result,0,"SeriesID") : CalRoot.'/index.php?eID='.$eID,
+		    'CommentsID'		=>	(Amysqlresult($result,0,"SeriesID") != '') ? Amysqlresult($result,0,"SeriesID") : $eID,
+		    'DateRaw'			=>	Amysqlresult($result,0,"StartDate"),
+		    'LastMod'			=>	Amysqlresult($result,0,"LastMod"),
+		    'Image'			=>	Amysqlresult($result,0,"Image"),
+		    'Featured'			=>	Amysqlresult($result,0,"IsFeature"),
 		    );
 		
-		$title = cOut(mysql_result($result,0,"Title"));
-		$desc = cOut(mysql_result($result,0,"Description"));
-		$limit = (mysql_result($result,0,"HideDays") > 0) ? cOut(mysql_result($result,0,"HideDays")) : $hc_cfg[134];
-		$expire = ($limit > 0) ? date("r", (strtotime(mysql_result($result,0,"StartDate")) + ($limit*86400))) : '';
-		$last_mod = date("r", (strtotime(mysql_result($result,0,"LastMod"))));
+		$title = cOut(Amysqlresult($result,0,"Title"));
+		$desc = cOut(Amysqlresult($result,0,"Description"));
+		$limit = (Amysqlresult($result,0,"HideDays") > 0) ? cOut(Amysqlresult($result,0,"HideDays")) : $hc_cfg[134];
+		$expire = ($limit > 0) ? date("r", (strtotime(Amysqlresult($result,0,"StartDate")) + ($limit*86400))) : '';
+		$last_mod = date("r", (strtotime(Amysqlresult($result,0,"LastMod"))));
 		
 		return array_map('cOut', $event);
 	}
@@ -301,7 +301,7 @@
 			no_event_notice();
 			return 0;}
 		
-		while($row = mysql_fetch_row($resultEB)){
+		while($row = Amysqlfetchrow($resultEB)){
 			if(($date != $row[2])){
 				$date = $row[2];
 				echo ($cnt > 0) ? '
@@ -491,8 +491,8 @@
 						WHERE e.SeriesID = '".$sID."' AND e.IsActive = 1 AND e.IsApproved = 1".($type == 0 ? " AND e.StartDate >= '" . cIn(SYSDATE) . "'" : "")."
 						ORDER BY e.Title, e.StartDate, e.TBD, e.StartTime");
 		
-		$title = trim(cOut($hc_lang_event['SeriesTitle'].' '.mysql_result($result,0,1)));
-		$desc = cOut(mysql_result($result,0,6));
+		$title = trim(cOut($hc_lang_event['SeriesTitle'].' '.Amysqlresult($result,0,1)));
+		$desc = cOut(Amysqlresult($result,0,6));
 		
 		return $result;
 	}
@@ -507,7 +507,7 @@
 		if(!hasRows($result))
 			return array();
 		
-		$meta = array(mysql_result($result,0,1),mysql_result($result,0,6),mysql_result($result,0,11));
+		$meta = array(Amysqlresult($result,0,1),Amysqlresult($result,0,6),Amysqlresult($result,0,11));
 		
 		return $meta;
 	}
@@ -525,8 +525,8 @@
 		$date_format = ($date_format == '') ? $hc_cfg[14] : $date_format;
 		$venues = array();
 		
-		mysql_data_seek($result,0);
-		while($row = mysql_fetch_row($result)){
+		Amysqldataseek($result,0);
+		while($row = Amysqlfetchrow($result)){
 			if(strtotime($row[2]) < $start || $start == '')
 				$start = strtotime($row[2]);
 			if(strtotime($row[2]) > $end || $end == '')
@@ -593,8 +593,8 @@
 		$venues = array();
 		$found = array();
 		
-		mysql_data_seek($result,0);		
-		while($row = mysql_fetch_row($result)){
+		Amysqldataseek($result,0);		
+		while($row = Amysqlfetchrow($result)){
 			if(!in_array($row[7], $found)){
 				$venues[] = array($row[7],$row[8],$row[9],$row[10],"","","","","","","","","","");
 				$found[] = $row[7];
@@ -633,7 +633,7 @@
 						WHERE a.IsActive = 1 AND n.IsActive = 1 AND n.TypeID = 0");
 		if(hasRows($resultE)){
 			$toNotice = array();
-			while($row = mysql_fetch_row($resultE)){
+			while($row = Amysqlfetchrow($resultE)){
 				$toNotice[trim($row[0] . ' ' .$row[1])] = $row[2];
 			}
 
@@ -655,8 +655,8 @@
 				$message .= str_replace('<br />', ' ', strip_tags(buildAddress($locAddress,$locAddress2,$locCity,$locState,$locZip,$locCountry,$hc_lang_config['AddressType']),'<br>'));
 			} else {
 				$result = doQuery("SELECT Name, Address, Address2, City, State, Country, Zip FROM " . HC_TblPrefix . "locations WHERE PkID = '" . cIn($locID) . "'");
-				$message .= mysql_result($result,0,0) . ', ';
-				$message .= str_replace('<br />', ' ', strip_tags(buildAddress(mysql_result($result,0,1),mysql_result($result,0,2),mysql_result($result,0,3),mysql_result($result,0,4),mysql_result($result,0,5),mysql_result($result,0,6),$hc_lang_config['AddressType']),'<br>'));
+				$message .= Amysqlresult($result,0,0) . ', ';
+				$message .= str_replace('<br />', ' ', strip_tags(buildAddress(Amysqlresult($result,0,1),Amysqlresult($result,0,2),Amysqlresult($result,0,3),Amysqlresult($result,0,4),Amysqlresult($result,0,5),Amysqlresult($result,0,6),$hc_lang_config['AddressType']),'<br>'));
 			}
 			$message .= '
 </p>

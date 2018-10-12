@@ -12,11 +12,11 @@
 		$apiFail = true;
 		$errorMsg = 'Facebook API Settings Unavailable.';
 	} else {
-		$app_id = mysql_result($result,0,0);
-		$app_secret = mysql_result($result,1,0);
-		$fb_token = mysql_result($result,2,0);
-		$user_token = mysql_result($result,3,0);
-		$fb_id = mysql_result($result,4,0);
+		$app_id = Amysqlresult($result,0,0);
+		$app_secret = Amysqlresult($result,1,0);
+		$fb_token = Amysqlresult($result,2,0);
+		$user_token = Amysqlresult($result,3,0);
+		$fb_id = Amysqlresult($result,4,0);
 		
 		if($app_id == '' || $app_secret == '' || $fb_token == '' || $fb_id == ''){
 			$apiFail = true;

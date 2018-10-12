@@ -167,8 +167,8 @@
 			$cnt = 1;
 			$category .= '
 			<div class="catCol">';
-			while($row = mysql_fetch_row($result)){
-				if($cnt > ceil(mysql_num_rows($result) / $hc_cfg['CatCols']) && $row[2] == 0){
+			while($row = Amysqlfetchrow($result)){
+				if($cnt > ceil(Amysqlnumrows($result) / $hc_cfg['CatCols']) && $row[2] == 0){
 					$category .= ($cnt > 1) ? '
 			</div>' : '';
 					$category .= '
@@ -235,7 +235,7 @@
 		
 		$result = doQuery("SELECT PkID, CategoryName FROM " . HC_TblPrefix . "categories WHERE IsActive = 1 ORDER BY CategoryName");
 		if(hasRows($result)){
-			while($row = mysql_fetch_row($result)){
+			while($row = Amysqlfetchrow($result)){
 				echo '
 		'.$row[0].' = '.$row[1];
 			}

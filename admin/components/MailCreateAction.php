@@ -55,7 +55,7 @@
 						'" . $archive . "',
 						1)");
 			$result = doQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "events");
-			$mID = mysql_result($result,0,0);
+			$mID = Amysqlresult($result,0,0);
 		}
 
 		if(isset($_POST['grpID'])){

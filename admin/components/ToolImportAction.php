@@ -67,7 +67,7 @@
 						doQuery($newEvent);
 						
 						$result = doQuery("SELECT LAST_INSERT_ID()");
-						$newPkID = mysql_result($result,0,0);
+						$newPkID = Amysqlresult($result,0,0);
 						if(isset($_POST['catID'])){
 							$catID = $_POST['catID'];
 							foreach ($catID as $val){
@@ -180,7 +180,7 @@
 					doQuery($query);
 					
 					$result = doQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "events");
-					$newPkID = mysql_result($result,0,0);
+					$newPkID = Amysqlresult($result,0,0);
 					
 					if(isset($_POST['catID'])){
 						$catID = $_POST['catID'];

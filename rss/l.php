@@ -14,7 +14,7 @@
 	$lID = (isset($_GET['lID']) && is_numeric($_GET['lID'])) ? cIn(strip_tags($_GET['lID'])) : -1;
 	$tzRSS = str_replace(':','',HCTZ);
 	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "locations WHERE PkID = '" . $lID . "' AND IsActive = 1");
-	$locName = (hasRows($result)) ? mysql_result($result,0,1) : '';
+	$locName = (hasRows($result)) ? Amysqlresult($result,0,1) : '';
 	$feedName = $locName.' : '.$hc_lang_rss['Location'];
 	$query = "SELECT e.PkID, e.Title, e.Description, e.StartDate, e.StartTime, e.SeriesID
 				FROM " . HC_TblPrefix . "events e
@@ -42,7 +42,7 @@
 		echo '
 	<title>'.cleanXMLChars($feedName.' - '.CalName).'</title>';
 		$cnt = 0;
-		while($row = mysql_fetch_row($result)){
+		while($row = Amysqlfetchrow($result)){
 			$description = ($hc_cfg[107] > 0) ? clean_truncate($row[2],$hc_cfg[107]) : $row[2];
 			$comment = ($hc_cfg[25] != '') ? '<comments><![CDATA['.CalRoot.'/index.php?eID='.$row[0].'#disqus_thread'.']]></comments>' : '';
 			echo '

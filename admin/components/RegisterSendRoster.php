@@ -25,14 +25,14 @@
 					GROUP BY e.Title, e.StartDate, e.StartTime, e.TBD, e.ContactName, e.ContactEmail, er.Space");
 	
 	if(hasRows($result)){
-		$eName = mysql_result($result,0,4);
-		$eEmail = mysql_result($result,0,5);
-		$filename = clean_filename(cleanQuotes(strip_tags(mysql_result($result,0,0))));
-		if(mysql_result($result,0,3) == 0){
-			$eventTime = stampToDate("1980-01-01 " . mysql_result($result,0,2), $hc_cfg[23]);
-		} elseif(mysql_result($result,0,3) == 1){
+		$eName = Amysqlresult($result,0,4);
+		$eEmail = Amysqlresult($result,0,5);
+		$filename = clean_filename(cleanQuotes(strip_tags(Amysqlresult($result,0,0))));
+		if(Amysqlresult($result,0,3) == 0){
+			$eventTime = stampToDate("1980-01-01 " . Amysqlresult($result,0,2), $hc_cfg[23]);
+		} elseif(Amysqlresult($result,0,3) == 1){
 			$eventTime = $hc_lang_register['AllDay'];
-		} elseif(mysql_result($result,0,3) == 2){
+		} elseif(Amysqlresult($result,0,3) == 2){
 			$eventTime = $hc_lang_register['TBA'];
 		}
 		
@@ -48,11 +48,11 @@
 	'.$hc_lang_register['RosterEmailC'].' '.(strftime($hc_cfg[24].' '.$hc_cfg[23],strtotime(SYSDATE.' '.SYSTIME))).'
 </p>
 <p>
-	<b>'.mysql_result($result,0,0).'</b><br />'.stampToDate(mysql_result($result,0,1), $hc_cfg[14]).' - '.$eventTime.'
+	<b>'.Amysqlresult($result,0,0).'</b><br />'.stampToDate(Amysqlresult($result,0,1), $hc_cfg[14]).' - '.$eventTime.'
 	<br /><a href="'.CalRoot.'/index.php?eID='.$eID.'">'.CalRoot.'/index.php?eID='.$eID.'</a>
 </p>
 <p>
-	<b>'.$hc_lang_register['SpacesRequested'].'</b> '.mysql_result($result,0,7).' '.$hc_lang_register['Of'].' '.mysql_result($result,0,6).'
+	<b>'.$hc_lang_register['SpacesRequested'].'</b> '.Amysqlresult($result,0,7).' '.$hc_lang_register['Of'].' '.Amysqlresult($result,0,6).'
 </p>';
 			
 			reMail($eName, $eEmail, $subject, $message, $hc_cfg[79], $hc_cfg[78], $rsvps);

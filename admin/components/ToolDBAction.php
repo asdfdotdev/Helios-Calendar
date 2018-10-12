@@ -15,8 +15,8 @@
 		go_home();
 	
 	$result = doQuery("SELECT GROUP_CONCAT(PkID) FROM " . HC_TblPrefix . "events WHERE IsActive = 0 OR IsApproved = 0 OR StartDate = '0000-00-00'");
-	if(hasRows($result) & mysql_result($result,0,0) != '')
-		doQuery("DELETE FROM " . HC_TblPrefix . "eventnetwork WHERE EventID IN (" . mysql_result($result,0,0) . ")");
+	if(hasRows($result) & Amysqlresult($result,0,0) != '')
+		doQuery("DELETE FROM " . HC_TblPrefix . "eventnetwork WHERE EventID IN (" . Amysqlresult($result,0,0) . ")");
 	
 	doQuery("DELETE FROM " . HC_TblPrefix . "events WHERE IsActive = 0 OR IsApproved = 0 OR StartDate = '0000-00-00'");
 	doQuery("DELETE en FROM " . HC_TblPrefix . "eventnetwork en LEFT JOIN " . HC_TblPrefix . "events e ON (e.PkID = en.EventID) WHERE e.PkID IS NULL OR e.IsActive = 0 OR e.IsApproved = 0");

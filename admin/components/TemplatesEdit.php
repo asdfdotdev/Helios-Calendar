@@ -22,16 +22,16 @@
 	if(hasRows($result)){
 		$whereAmI = $hc_lang_tools['EditT'];
 		$helpText = $hc_lang_tools['InstructEditTExp'];
-		$name = cOut(mysql_result($result,0,1));
-		$content = cOut(mysql_result($result,0,2));
-		$header = cOut(mysql_result($result,0,3));
-		$footer = cOut(mysql_result($result,0,4));
-		$ext = cOut(mysql_result($result,0,5));
-		$typeID = cOut(mysql_result($result,0,6));
-		$groupBy = cOut(mysql_result($result,0,7));
-		$sortBy = cOut(mysql_result($result,0,8));
-		$cleanup = cOut(mysql_result($result,0,9));
-		$dateFormat = cOut(mysql_result($result,0,10));
+		$name = cOut(Amysqlresult($result,0,1));
+		$content = cOut(Amysqlresult($result,0,2));
+		$header = cOut(Amysqlresult($result,0,3));
+		$footer = cOut(Amysqlresult($result,0,4));
+		$ext = cOut(Amysqlresult($result,0,5));
+		$typeID = cOut(Amysqlresult($result,0,6));
+		$groupBy = cOut(Amysqlresult($result,0,7));
+		$sortBy = cOut(Amysqlresult($result,0,8));
+		$cleanup = cOut(Amysqlresult($result,0,9));
+		$dateFormat = cOut(Amysqlresult($result,0,10));
 	}
 	
 	appInstructions(0, $helpDoc, $whereAmI, $helpText);

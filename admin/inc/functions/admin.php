@@ -27,7 +27,7 @@
 		$aUser = (isset($_SESSION['AdminPkID'])) ? cIn($_SESSION['AdminPkID']) : 0;
 		
 		$resultAS = doQuery("SELECT Access FROM " . HC_TblPrefix . "admin WHERE PkID = '" . $aUser . "'");
-		$knownSession = (hasRows($resultAS)) ? mysql_result($resultAS,0,0) : NULL;
+		$knownSession = (hasRows($resultAS)) ? Amysqlresult($resultAS,0,0) : NULL;
 		
 		if($knownSession != md5(session_id()))
 			killAdminSession();
@@ -160,7 +160,7 @@
 		$pending = 0;
 		if(isset($_SESSION['AdminLoggedIn']) && $_SESSION['AdminLoggedIn'] == true){
 			$result = doQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 2");
-			$pending = (mysql_result($result,0,0) > 0) ? 1 : 0;
+			$pending = (Amysqlresult($result,0,0) > 0) ? 1 : 0;
 		}
 		return $pending;
 	}

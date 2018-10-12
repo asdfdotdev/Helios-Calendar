@@ -5,6 +5,8 @@
  */
 	if(!defined('isHC')){exit(-1);}
 	
+	require_once(HCPATH."/inc/dbwrapper.php");
+
 	/**
 	 * Writes cache files.
 	 * @since 2.0.0
@@ -36,7 +38,7 @@
 
 							fwrite($fp, "\$hc_cfg_named = array(\n");
 
-							while($row = mysql_fetch_row($result)){
+							while($row = Amysqlfetchrow($result)){
 								fwrite($fp, "'" . $row[1] . "'\t=>\t\$hc_cfg[".$row[0]."],\n");
 							}
 							fwrite($fp, "'category_columns'\t=>\t\$hc_cfg['CatCols'],\n");
@@ -63,7 +65,7 @@
 					if(hasRows($result)){
 						echo "\n\t" . '<option value="0|"><?php echo $NewAll;?></option>';
 						echo "\n\t" . '<option value="-1">-------------------------</option>';
-						while($row = mysql_fetch_row($result)){
+						while($row = Amysqlfetchrow($result)){
 							echo "\n\t" . '<option value="'.$row[0].'|'.cOut($row[1]).'">' . cOut($row[1]) . '</option>';
 						}
 					} else {
@@ -88,7 +90,7 @@
 					$pairs = array(1 => 1,2 => 2,3 => 'submit',4 => 'search',5 => 'searchresult',6 => 'signup',7 => 'send',8 => 'rsvp',9 => 'tools',10 => 'rss',
 								11 => 'newsletter',12 => 'archive',13 => 'filter', 14 => 'digest', 15 => 'signin', 16 => 'acc');
 					
-					while($row = mysql_fetch_row($result)){
+					while($row = Amysqlfetchrow($result)){
 						fwrite($fp, "\n'".$pairs[$x]."'\t=>\tarray('title' => '".cIn($row[3])."', 'keywords' => '".cIn($row[1])."', 'desc' => '".cIn($row[2])."'),");
 						++$x;
 					}
@@ -157,7 +159,7 @@
 
 						fwrite($fp, "\$hc_cfg = array(\n");
 						
-						while($row = mysql_fetch_row($result)){
+						while($row = Amysqlfetchrow($result)){
 							fwrite($fp, $row[0] . " => \"" . str_replace("\"","'",$row[1]) . "\",\n");
 						}
 						fwrite($fp, "200 => \"hc_" . sha1(md5(CalRoot) . HC_Rando) . "\",\n");
@@ -169,15 +171,15 @@
 						
 						$resultE = doQuery("SELECT MIN(StartDate), MAX(StartDate) FROM " . HC_TblPrefix . "events WHERE IsApproved = 1 AND IsActive = 1");
 						if(hasRows($resultE)){
-							$first = (strtotime(mysql_result($resultE,0,0)) < date("U",mktime(0,0,0,date("m"),date("d"),date("Y")))) ? strtotime(mysql_result($resultE,0,0)) : date("U",mktime(0,0,0,date("m"),date("d"),date("Y")));
+							$first = (strtotime(Amysqlresult($resultE,0,0)) < date("U",mktime(0,0,0,date("m"),date("d"),date("Y")))) ? strtotime(Amysqlresult($resultE,0,0)) : date("U",mktime(0,0,0,date("m"),date("d"),date("Y")));
 							fwrite($fp, "\"First\" => \"" . $first . "\",\n");
-							fwrite($fp, "\"Last\" => \"" . strtotime(mysql_result($resultE,0,1)) . "\",\n");
+							fwrite($fp, "\"Last\" => \"" . strtotime(Amysqlresult($resultE,0,1)) . "\",\n");
 						}
 						
 						$news = date("Y-m-d");
 						$resultN = doQuery("SELECT MIN(SentDate) FROM " . HC_TblPrefix . "newsletters WHERE STATUS > 0 AND IsArchive = 1 AND IsActive = 1 AND ArchiveContents != ''");
-						if(hasRows($resultN) && mysql_result($resultN,0,0) != ''){
-							$news = mysql_result($resultN,0,0);
+						if(hasRows($resultN) && Amysqlresult($resultN,0,0) != ''){
+							$news = Amysqlresult($resultN,0,0);
 						}
 						fwrite($fp, "\"News\" => \"" . $news . "\",\n");
 
@@ -259,21 +261,7 @@
 		
 		echo cIn($tweet.' '.$hc_cfg[59]);
 	}
-	/**
-	 * Wrapper for mysql_query() with custom error handling.
-	 * @since 2.0.0
-	 * @version 2.0.0
-	 * @param string $query query string to pass to MySQL server
-	 * @return resource MySQL result set
-	 */
-	function doQuery($query){
-		$result = mysql_query($query);
-		
-		if(!$result)
-			handleError(mysql_errno(), mysql_error());
-			
-		return $result;
-	}
+
 	/**
 	 * Replace "Smart Quotes", em dash and other web unsafe characters with web safe equivalent.
 	 * @since 2.0.0
@@ -320,7 +308,7 @@
 		return $value;
 	}
 	/**
-	 * Filter value for use in MySQL query to protect against SQL injection and convert text to proper character encoding (for international support). Wrapper for mysql_real_escape_string().
+	 * Filter value for use in MySQL query to protect against SQL injection and convert text to proper character encoding (for international support). Wrapper for Amysqlrealescapestring().
 	 * @since 2.0.0
 	 * @version 2.0.2
 	 * @param string $value string to be filtered
@@ -335,7 +323,7 @@
 		if(defined('CONVERT_CHRSET') && function_exists('mb_convert_encoding'))
 			$value = mb_convert_encoding($value, CONVERT_CHRSET, $hc_lang_config['CharSet']);
 		
-		return mysql_real_escape_string($value);
+		return Amysqlrealescapestring($value);
 	}
 	/**
 	 * Removes escape backslash when present for output to page, wrapper for stripslashes().
@@ -347,60 +335,9 @@
 	function cOut($value){
 		return stripslashes($value);
 	}
+
 	/**
-	 * Used by doQuery() to output a more user friendly error dialog (CSS).
-	 * @since 2.0.0
-	 * @version 2.0.0
-	 * @param integer $errNo MySQL error code
-	 * @param string $errMsg MySQL error message
-	 * @return void
-	 */
-	function handleError($errNo, $errMsg){
-		$report = error_reporting();
-		
-		if($report == -1){
-			switch($errNo){
-				case 1046:	//	no database
-					echo '
-				<link rel="stylesheet" type="text/css" href="'.CalRoot.'/themes/core.css">
-				<div style="width:500px;">';
-					feedback(3,'Database is unavailable.<p>Please verify your config file settings are correct. If you have not yet done so, please run the <a href="'.CalRoot.'/setup/">Helios Calendar Setup</a>.</p><hr>MySQL Server Response: '.$errMsg);
-					echo '
-				</div>';
-					exit();
-					break;
-				case 1146:	//	no table
-					echo '
-				<link rel="stylesheet" type="text/css" href="'.CalRoot.'/themes/core.css">
-				<div style="width:500px;">';
-					feedback(3,'Data table is unavailable.<p>If you have not yet done so, please run the <a href="'.CalRoot.'/setup/">Helios Calendar Setup</a>.</p><hr>MySQL Server Response: '.$errMsg);
-					echo '
-				</div>';
-					exit();
-					break;
-				default:		//	everything else
-					echo '
-				<link rel="stylesheet" type="text/css" href="'.CalRoot.'/themes/core.css">
-				<div style="width:500px;">';
-					feedback(3,'Unable to process database request.<p>For assistance with this error please contact your Helios Calendar administrator.</p><hr>MySQL Server Response: '.$errMsg);
-					echo '
-				</div>';
-					exit();
-					break;
-			}
-		} else {
-			switch($errNo){
-				case 1046:	//	no database
-				case 1146:	//	no table
-				echo '
-					<link rel="stylesheet" type="text/css" href="'.CalRoot.'/themes/core.css">
-					<p>Please verify your config file settings are correct. If you have not yet done so, please run the <a href="'.CalRoot.'/setup/">Helios Calendar Setup</a>.</p>';
-				exit();
-			}
-		}
-	}
-	/**
-	 * Check MySQL result set for minimum row count, wrapper for mysql_num_rows().
+	 * Check MySQL result set for minimum row count, wrapper for Amysqlnumrows().
 	 * @since 2.0.0
 	 * @version 2.1.0
 	 * @param resource $result MySQL result set
@@ -411,7 +348,7 @@
 		if(!$result)
 			return;
 		
-		$chk_row_cnt = mysql_num_rows($result);
+		$chk_row_cnt = Amysqlnumrows($result);
 		return ($chk_row_cnt > $min) ? true : false;
 	}
 	/**
@@ -676,8 +613,8 @@
 		$cnt = 1;
 		echo '
 			<div class="catCol">';
-		while($row = mysql_fetch_row($result)){
-			if($cnt > ceil(mysql_num_rows($result) / $columns) && $row[2] == 0){
+		while($row = Amysqlfetchrow($result)){
+			if($cnt > ceil(Amysqlnumrows($result) / $columns) && $row[2] == 0){
 				echo ($cnt > 1) ? '
 			</div>' : '';
 				echo '
@@ -717,7 +654,7 @@
 							LEFT JOIN " . HC_TblPrefix . "locations as l ON (e.LocID = l.PkID)
 						WHERE " . $sqlWhere . " (e.IsActive = 1 AND e.IsApproved = 1) OR (l.IsActive = 1) GROUP BY LocationCity, City");
 		$cities = array();
-		while($row = mysql_fetch_row($result)){
+		while($row = Amysqlfetchrow($result)){
 			if($row[1] == '')
 				$cities[strtolower($row[0] . $row[1])] = $row[0] . $row[1];
 			else 
@@ -743,7 +680,7 @@
 							LEFT JOIN " . HC_TblPrefix . "locations as l ON (e.LocID = l.PkID)
 						WHERE " . $sqlWhere . " (e.IsActive = 1 AND e.IsApproved = 1) OR (l.IsActive = 1) GROUP BY LocationZip, Zip");
 		$postal = array();
-		while($row = mysql_fetch_row($result)){
+		while($row = Amysqlfetchrow($result)){
 			if($row[1] == '')
 				$postal[strtolower($row[0] . $row[1])] = $row[0] . $row[1];
 			else
@@ -1212,7 +1149,7 @@
 		if(hasRows($result)){
 			$rsvps = $header;
 			
-			while($row = mysql_fetch_row($result)){
+			while($row = Amysqlfetchrow($result)){
 				$rsvps .= "\n".'"'.clean_csv($row[0]).'","'.clean_csv($row[1]).'","'.clean_csv($row[2]).'","'.clean_csv($row[3]).'","'.clean_csv($row[4]).'","'.
 							clean_csv($row[5]).'","'.clean_csv($row[6]).'","'.clean_csv($row[7]).'","'.clean_csv($row[8]).'","'.clean_csv($row[9]).'"';
 			}

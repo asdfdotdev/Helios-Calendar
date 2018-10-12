@@ -57,7 +57,7 @@
 			</li>';
 		
 		$cnt = 0;
-		while($row = mysql_fetch_row($result)){
+		while($row = Amysqlfetchrow($result)){
 			$hl = ($cnt % 2 == 1) ? ' hl':'';
 			echo '
 			<li class="row '.$hl.'">

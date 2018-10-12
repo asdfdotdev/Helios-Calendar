@@ -76,7 +76,7 @@
 						0,MD5(CONCAT(rand(UNIX_TIMESTAMP()) * (RAND()*1000000),'" . $email . "')),
 						'" . date("Y-m-d H:i:s") . "','" . cIn(strip_tags($_SERVER["REMOTE_ADDR"])) . "','" . $birthyear . "','" . $gender . "','" . $referral . "', '" . $format . "')");
 		$result = doQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "subscribers");
-		$newID = cIn(mysql_result($result,0,0));
+		$newID = cIn(Amysqlresult($result,0,0));
 		if(isset($_POST['catID'])){
 			foreach ($_POST['catID'] as $val)
 				doQuery("INSERT INTO " . HC_TblPrefix . "subscriberscategories(UserID, CategoryID) Values('" . $newID . "', '" . cIn($val) . "')");
@@ -87,7 +87,7 @@
 		}
 
 		$result = doQuery("SELECT GUID FROM " . HC_TblPrefix . "subscribers WHERE PkID = '" . cIn($newID) . "'");
-		$GUID = (hasRows($result)) ?  mysql_result($result,0,0) : '';
+		$GUID = (hasRows($result)) ?  Amysqlresult($result,0,0) : '';
 		$subject = $hc_lang_news['Subject'] . ' - ' . CalName;
 		$message = '<p>' . $hc_lang_news['RegEmailA'] . ' <a href="' . CalRoot . '/a.php?a=' . $GUID . '">' . CalRoot . '/a.php?a=' . $GUID . '</a></p>';
 		$message .= '<p>' .  $firstname . $hc_lang_news['RegEmailB'] . '</p>';

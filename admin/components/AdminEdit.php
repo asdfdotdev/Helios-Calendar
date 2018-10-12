@@ -33,26 +33,26 @@
 	
 	if(hasRows($result)){
 		appInstructions(0, "Editing_Admin_Users", $hc_lang_admin['TitleEditA'], $hc_lang_admin['InstructEditA']);
-		$firstname = cOut(mysql_result($result,0,1));
-		$lastname = cOut(mysql_result($result,0,2));
-		$email = cOut(mysql_result($result,0,3));
-		$oldEmail = cOut(mysql_result($result,0,3));
-		$logins = mysql_result($result,0,4);
-		$lastlogin = mysql_result($result,0,5);
-		$passAge = mysql_result($result,0,6);
-		$editEvent = mysql_result($result,0,7);
-		$eventPending = mysql_result($result,0,8);
-		$eventCategory = mysql_result($result,0,9);
-		$userEdit = mysql_result($result,0,10);
-		$adminEdit = mysql_result($result,0,11);
-		$newsletter = mysql_result($result,0,12);
-		$settings = mysql_result($result,0,13);
-		$tools = mysql_result($result,0,14);
-		$reports = mysql_result($result,0,15);
-		$locEdit = mysql_result($result,0,16);
-		$pages = mysql_result($result,0,17);
-		$notices = array_filter(explode(',',mysql_result($result,0,18)),'is_numeric');
-		$fails = mysql_result($result,0,19);
+		$firstname = cOut(Amysqlresult($result,0,1));
+		$lastname = cOut(Amysqlresult($result,0,2));
+		$email = cOut(Amysqlresult($result,0,3));
+		$oldEmail = cOut(Amysqlresult($result,0,3));
+		$logins = Amysqlresult($result,0,4);
+		$lastlogin = Amysqlresult($result,0,5);
+		$passAge = Amysqlresult($result,0,6);
+		$editEvent = Amysqlresult($result,0,7);
+		$eventPending = Amysqlresult($result,0,8);
+		$eventCategory = Amysqlresult($result,0,9);
+		$userEdit = Amysqlresult($result,0,10);
+		$adminEdit = Amysqlresult($result,0,11);
+		$newsletter = Amysqlresult($result,0,12);
+		$settings = Amysqlresult($result,0,13);
+		$tools = Amysqlresult($result,0,14);
+		$reports = Amysqlresult($result,0,15);
+		$locEdit = Amysqlresult($result,0,16);
+		$pages = Amysqlresult($result,0,17);
+		$notices = array_filter(explode(',',Amysqlresult($result,0,18)),'is_numeric');
+		$fails = Amysqlresult($result,0,19);
 		$active = ($_SESSION['AdminPkID'] == $aID) ? ' disabled="disabled"' : '';
 		
 		$resultH = doQuery("SELECT * FROM " . HC_TblPrefix . "adminloginhistory WHERE AdminID = '" . $aID . "' ORDER BY LoginTime DESC LIMIT 100");
@@ -61,7 +61,7 @@
 		<ul class="data">';
 			
 			$cnt = 0;
-			while ($row = mysql_fetch_row($resultH)){
+			while ($row = Amysqlfetchrow($resultH)){
 				$hl = ($cnt % 2 == 1) ? ' hl':'';
 				$login_history .= '
 			<li class="row'.$hl.(($row[5] == 1) ? ' error':'').'">

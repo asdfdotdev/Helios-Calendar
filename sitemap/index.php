@@ -21,9 +21,9 @@
 		
 		$result = doQuery("SELECT COUNT(PkID), MAX(PublishDate) FROM " . HC_TblPrefix . "events WHERE StartDate >= '" . cIn(SYSDATE) . "' AND IsActive = 1 AND IsApproved = 1");
 		if(hasRows($result)){
-			$last = (mysql_result($result,0,1) != '') ? '<lastmod>'.stampToDate(mysql_result($result,0,1), '%Y-%m-%d').'</lastmod>' : '';
+			$last = (Amysqlresult($result,0,1) != '') ? '<lastmod>'.stampToDate(Amysqlresult($result,0,1), '%Y-%m-%d').'</lastmod>' : '';
 			$x = 1;
-			$stop = (mysql_result($result,0,0) > $hc_cfg[87]) ? ceil(mysql_result($result,0,0) / $hc_cfg[87]) : 1;
+			$stop = (Amysqlresult($result,0,0) > $hc_cfg[87]) ? ceil(Amysqlresult($result,0,0) / $hc_cfg[87]) : 1;
 			
 			while($x <= $stop){
 				echo '
@@ -38,9 +38,9 @@
 		$result = doQuery("SELECT COUNT(l.PkID), MAX(l.LastMod) FROM " . HC_TblPrefix . "locations l WHERE l.IsActive = 1");
 		
 		if(hasRows($result)){
-			$last = (mysql_result($result,0,1) != '') ? '<lastmod>'.stampToDate(mysql_result($result,0,1), '%Y-%m-%d').'</lastmod>' : '';
+			$last = (Amysqlresult($result,0,1) != '') ? '<lastmod>'.stampToDate(Amysqlresult($result,0,1), '%Y-%m-%d').'</lastmod>' : '';
 			$x = 1;
-			$stop = (mysql_result($result,0,0) > $hc_cfg[87]) ? ceil(mysql_result($result,0,0) / $hc_cfg[87]) : 1;
+			$stop = (Amysqlresult($result,0,0) > $hc_cfg[87]) ? ceil(Amysqlresult($result,0,0) / $hc_cfg[87]) : 1;
 			
 			while($x <= $stop){
 				echo '

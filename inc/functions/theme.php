@@ -127,8 +127,8 @@
 		<form name="hcFilter" id="hcFilter" method="post" action="'.CalRoot.'/filter.php">
 		<input name="r" id="r" type="hidden" value="1" />
 		<div class="catCol">';
-		while($row = mysql_fetch_row($result)){
-			if($cnt > ceil(mysql_num_rows($result) / $cols) && $row[2] == 0){
+		while($row = Amysqlfetchrow($result)){
+			if($cnt > ceil(Amysqlnumrows($result) / $cols) && $row[2] == 0){
 				echo ($cnt > 1) ? '
 			</div>' : '';
 				echo '
@@ -179,7 +179,7 @@
 							ORDER BY e.StartDate");
 			
 			if(hasRows($result))
-				while($row = mysql_fetch_row($result)){
+				while($row = Amysqlfetchrow($result)){
 					$events[] = stampToDate($row[0], $hc_cfg[93]);
 				}
 			
@@ -430,7 +430,7 @@
 			} else {	
 			echo '
 			<ul>';
-			while($row = mysql_fetch_row($result)){
+			while($row = Amysqlfetchrow($result)){
 				if($row[4] == 0 && $showHeader == 0){
 					$showHeader = 1;
 					echo '

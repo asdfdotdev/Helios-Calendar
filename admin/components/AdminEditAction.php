@@ -81,7 +81,7 @@
 				doQuery("INSERT INTO " . HC_TblPrefix . "admin(FirstName, LastName, Passwrd, Email, SuperAdmin, IsActive, PCKey)
 						VALUES('" . $firstname . "','" . $lastname . "',NULL,'" . $email . "',0,1,'" . $pwKey . "')");
 				$result = doQuery("SELECT LAST_INSERT_ID()");
-				$aID = mysql_result($result,0,0);
+				$aID = Amysqlresult($result,0,0);
 
 				doQuery("INSERT INTO " . HC_TblPrefix . "adminpermissions(EventEdit, EventPending, EventCategory, UserEdit, AdminEdit, Newsletter, Settings, Tools, Reports, Locations, Pages, AdminID, IsActive)
 						VALUES(	'" . $editEvent . "',

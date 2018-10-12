@@ -84,7 +84,7 @@
 								
 				fwrite($fp, "\$hc_next7 = array(\n");
 				
-				while($row = mysql_fetch_row($result)){
+				while($row = Amysqlfetchrow($result)){
 					if($cur_date != $row[2]){
 						++$cur_day;
 						$cur_date = $row[2];

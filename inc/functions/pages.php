@@ -30,7 +30,7 @@
 		$result = doQuery("SELECT PkID, Lat, Lon FROM " . HC_TblPrefix . "locations WHERE IsActive = 1 AND Lat != '' AND Lon != '' ORDER BY LastMod DESC LIMIT 1");
 		
 		if(hasRows($result))
-			get_map_js(mysql_result($result,0,1), mysql_result($result,0,2), 1, $pin_icon, 1, CalRoot.'/index.php?com=location&lID='.mysql_result($result,0,0));
+			get_map_js(Amysqlresult($result,0,1), Amysqlresult($result,0,2), 1, $pin_icon, 1, CalRoot.'/index.php?com=location&lID='.Amysqlresult($result,0,0));
 		else
 			echo '
 	<style>
@@ -77,7 +77,7 @@
 
 			echo '
 				<ul class="events">';
-			while($row = mysql_fetch_row($result)){
+			while($row = Amysqlfetchrow($result)){
 				$hl = ($cnt % 2 == 0) ? 'hl' : '';
 				$new = ($row[6] <= $hc_cfg[99]) ? ' new' : '';
 				$series = ($row[7] != '') ? ' series' : '';
@@ -127,7 +127,7 @@
 
 			echo '
 				<ul class="locations">';
-			while($row = mysql_fetch_row($result)){
+			while($row = Amysqlfetchrow($result)){
 				$hl = ($cnt % 2 == 0) ? ' class="hl"' : '';
 				echo '
 				<li'.$hl.'><span>'.$row[4].'</span><a href="'.CalRoot . '/index.php?com=location&amp;lID='.$row[0].'">'.cOut($row[1]).'</a></li>';
@@ -166,7 +166,7 @@
 
 			echo '
 			<ul class="newsletters">';
-			while($row = mysql_fetch_row($result)){
+			while($row = Amysqlfetchrow($result)){
 				$hl = ($cnt % 2 == 0) ? ' class="hl"' : '';
 				echo '<li'.$hl.'><time datetime="'.stampToDate($row[2],'%Y-%m-%d').'">'.stampToDate($row[2],$dateFormat).'</time><a href="'.CalRoot.'/newsletter/index.php?n='.md5($row[0]).'" target="_blank">'.cOut($row[1]).'</a></li>';
 				++$cnt;

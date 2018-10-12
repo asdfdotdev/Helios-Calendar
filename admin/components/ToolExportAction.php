@@ -52,14 +52,14 @@
 	
 	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "templates WHERE IsActive = 1 AND PkID = '" . $tID . "'");
 	if(hasRows($result)){
-		$content = mysql_result($result,0,2);
-		$header = mysql_result($result,0,3);
-		$footer = mysql_result($result,0,4);
-		$ext = mysql_result($result,0,5);
-		$groupBy = mysql_result($result,0,7);
-		$sortBy = mysql_result($result,0,8);
-		$cleanUp = explode("\n",mysql_result($result,0,9));
-		$dateFormat = mysql_result($result,0,10);
+		$content = Amysqlresult($result,0,2);
+		$header = Amysqlresult($result,0,3);
+		$footer = Amysqlresult($result,0,4);
+		$ext = Amysqlresult($result,0,5);
+		$groupBy = Amysqlresult($result,0,7);
+		$sortBy = Amysqlresult($result,0,8);
+		$cleanUp = explode("\n",Amysqlresult($result,0,9));
+		$dateFormat = Amysqlresult($result,0,10);
 		$curDate = $curCategory = '';
 		
 		header('Content-Type:text/plain; charset=' . $hc_lang_config['CharSet']);
@@ -109,7 +109,7 @@
 		$resultE = doQuery($query);
 		if(hasRows($resultE)){
 			$export = buildIt($header,NULL);
-			while($row = mysql_fetch_row($resultE)){
+			while($row = Amysqlfetchrow($resultE)){
 				$export .= buildIt($content,$row);
 			}
 			$export .= buildIt($footer,NULL);

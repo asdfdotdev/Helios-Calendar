@@ -39,17 +39,17 @@
 					WHERE s.PkID = '" . $uID . "' AND s.IsConfirm = 1");
 	if(hasRows($result)){
 		appInstructions(0, "Manage_Subscribers", $hc_lang_news['TitleEditR'], $hc_lang_news['InstructEditR']);
-		$firstname = mysql_result($result,0,1);
-		$lastname = mysql_result($result,0,2);
-		$email = mysql_result($result,0,3);
-		$occupation = mysql_result($result,0,4);
-		$zipcode = mysql_result($result,0,5);
-		$addedby = mysql_result($result,0,8);
-		$birthyear = mysql_result($result,0,11);
-		$gender = mysql_result($result,0,12);
-		$referral = mysql_result($result,0,13);
-		$format = mysql_result($result,0,14);
-		$added = ($addedby > 0 && mysql_result($result,0,15) != '') ? '<a href="mailto:' . cOut(mysql_result($result,0,17)) . '">' . trim(cOut(mysql_result($result,0,15)) . ' ' . cOut(mysql_result($result,0,16))) . '</a>' : $hc_lang_news['AddAdmin'];
+		$firstname = Amysqlresult($result,0,1);
+		$lastname = Amysqlresult($result,0,2);
+		$email = Amysqlresult($result,0,3);
+		$occupation = Amysqlresult($result,0,4);
+		$zipcode = Amysqlresult($result,0,5);
+		$addedby = Amysqlresult($result,0,8);
+		$birthyear = Amysqlresult($result,0,11);
+		$gender = Amysqlresult($result,0,12);
+		$referral = Amysqlresult($result,0,13);
+		$format = Amysqlresult($result,0,14);
+		$added = ($addedby > 0 && Amysqlresult($result,0,15) != '') ? '<a href="mailto:' . cOut(Amysqlresult($result,0,17)) . '">' . trim(cOut(Amysqlresult($result,0,15)) . ' ' . cOut(Amysqlresult($result,0,16))) . '</a>' : $hc_lang_news['AddAdmin'];
 	} else {
 		appInstructions(0, "Manage_Subscribers", $hc_lang_news['TitleAddR'], $hc_lang_news['InstructAddR']);
 		$occupation = 0;
@@ -137,8 +137,8 @@
 					FROM " . HC_TblPrefix . "mailgroups mg
 						LEFT JOIN " . HC_TblPrefix . "subscribersgroups sg ON (mg.PkID = sg.GroupID AND sg.UserID = '" . $uID . "')
 					WHERE mg.IsActive = 1 && mg.PkID > 1 ORDER BY Name");
-	while($row = mysql_fetch_row($result)){
-		if($cnt > ceil(mysql_num_rows($result) / $columns)){
+	while($row = Amysqlfetchrow($result)){
+		if($cnt > ceil(Amysqlnumrows($result) / $columns)){
 			echo '
 	</div>
 	<div class="catCol">';
