@@ -95,16 +95,16 @@
 			}
 		}
 		
-		$network = cOut(Amysqlresult($result,0,0));
-		$network_name = cOut(Amysqlresult($result,0,1));
-		$network_id = cOut(Amysqlresult($result,0,2));
-		$email = (isset($_SESSION['new_user_email']) && $_SESSION['new_user_email'] != '') ? cIn(strip_tags($_SESSION['new_user_email'])) : cOut(Amysqlresult($result,0,3));
-		$signin_first = cOut(Amysqlresult($result,0,4));
-		$level = cOut(Amysqlresult($result,0,5));
-		$location = cOut(Amysqlresult($result,0,6));
-		$api_key = cOut(Amysqlresult($result,0,8));
-		$api_access = cOut(Amysqlresult($result,0,9));
-		$birthdate = (isset($_SESSION['new_user_birthdate']) && $_SESSION['new_user_birthdate'] != '') ? cIn(strip_tags($_SESSION['new_user_birthdate'])) : stampToDate(Amysqlresult($result,0,7), $hc_cfg[24]);
+		$network = cOut(hc_mysql_result($result,0,0));
+		$network_name = cOut(hc_mysql_result($result,0,1));
+		$network_id = cOut(hc_mysql_result($result,0,2));
+		$email = (isset($_SESSION['new_user_email']) && $_SESSION['new_user_email'] != '') ? cIn(strip_tags($_SESSION['new_user_email'])) : cOut(hc_mysql_result($result,0,3));
+		$signin_first = cOut(hc_mysql_result($result,0,4));
+		$level = cOut(hc_mysql_result($result,0,5));
+		$location = cOut(hc_mysql_result($result,0,6));
+		$api_key = cOut(hc_mysql_result($result,0,8));
+		$api_access = cOut(hc_mysql_result($result,0,9));
+		$birthdate = (isset($_SESSION['new_user_birthdate']) && $_SESSION['new_user_birthdate'] != '') ? cIn(strip_tags($_SESSION['new_user_birthdate'])) : stampToDate(hc_mysql_result($result,0,7), $hc_cfg[24]);
 		
 		echo '
 		<form name="user_edit" id="user_edit" method="post" action="'.CalRoot.'/user-edit.php" onsubmit="return validate();">
@@ -265,7 +265,7 @@
 			<ul class="data">';
 		
 		$cnt = 1;
-		while($row = Amysqlfetchrow($result)){
+		while($row = hc_mysql_fetch_row($result)){
 			
 			echo '
 				<li class="row'.(($cnt % 2 == 0) ? ' hl' : '').'">
@@ -420,7 +420,7 @@
 					'".cIn(strip_tags($_SERVER["REMOTE_ADDR"]))."','0','1','".cIn(md5(sha1($network.$net_name.$net_id.(rand()*date("U")))))."',1,0)");
 		$result = doQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "users");
 		
-		return (hasRows($result)) ? Amysqlresult($result,0,0) : NULL;
+		return (hasRows($result)) ? hc_mysql_result($result,0,0) : NULL;
 	}
 	/**
 	 * Update sign in history for the user.
@@ -448,14 +448,14 @@
 	function user_update_status($network,$net_name,$net_id,$signed_in){
 		$result = doQuery("SELECT PkID, Level, IsBanned FROM " . HC_TblPrefix . "users WHERE NetworkType = '".cIn($network)."' AND NetworkID = '".cIn($net_id)."'");
 		
-		if($signed_in == 1 && hasRows($result) && Amysqlresult($result,0,2) == 0){
+		if($signed_in == 1 && hasRows($result) && hc_mysql_result($result,0,2) == 0){
 			user_new_session();
 			$_SESSION['UserLoggedIn'] = 1;
 			$_SESSION['UserNetType'] = cIn($network);
 			$_SESSION['UserNetName'] = cIn($net_name);
 			$_SESSION['UserNetID'] = cIn($net_id);
-			$_SESSION['UserPkID'] = Amysqlresult($result,0,0);
-			$_SESSION['UserLevel'] = Amysqlresult($result,0,1);
+			$_SESSION['UserPkID'] = hc_mysql_result($result,0,0);
+			$_SESSION['UserLevel'] = hc_mysql_result($result,0,1);
 		} else {
 			session_destroy();
 		}

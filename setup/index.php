@@ -47,7 +47,7 @@
 			<h2>Server Profile <span></h2>
 			<ul>
 				<li><span>PHP</span><?php echo phpversion();?></li>
-				<li><span>MySQL</span><?php echo (isset($_SESSION['amysqlversion'])) ? $_SESSION['amysqlversion'] : 'Checking...';?></li>
+				<li><span>MySQL</span><?php echo (isset($_SESSION['hc_mysql_version'])) ? $_SESSION['hc_mysql_version'] : 'Checking...';?></li>
 				<li><span>OS</span><?php echo PHP_OS;?></li>
 				<li><span>Web Server</span><?PHP echo strip_tags($_SERVER['SERVER_SOFTWARE']);?></li>
 			</ul>

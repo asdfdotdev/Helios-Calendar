@@ -42,7 +42,7 @@
 				</p>
 				<fieldset>';
 			$status = 0;
-			$dbc = Amysqlconnect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+			$dbc = hc_mysql_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 			function doInstall($status, $msg, $query){
 				echo '<div style="padding-left:5px;line-height:15px;">' . $msg;

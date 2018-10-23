@@ -23,7 +23,7 @@
 		
 		$result = doQuery("SELECT * FROM " . HC_TblPrefix . "categories WHERE PkID = '" . $cID . "'");
 		if(hasRows($result)){
-			if(Amysqlresult($result,0,2) == 0 && $parentID != 0)
+			if(hc_mysql_result($result,0,2) == 0 && $parentID != 0)
 				doQuery("UPDATE " . HC_TblPrefix . "categories SET ParentID = 0 WHERE ParentID = '" . $cID . "'");
 			
 			doQuery("UPDATE " . HC_TblPrefix . "categories SET CategoryName = '" . $name . "', ParentID = '" . $parentID . "' WHERE PkID = '" . $cID . "'");
@@ -31,7 +31,7 @@
 		} else {
 			doQuery("INSERT INTO " . HC_TblPrefix . "categories(CategoryName, ParentID, IsActive) VALUES('" . $name . "', '" . $parentID . "', 1)");
 			$result = doQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "categories");
-			$cID = Amysqlresult($result,0,0);
+			$cID = hc_mysql_result($result,0,0);
 			$msg = 2;
 		}
 		

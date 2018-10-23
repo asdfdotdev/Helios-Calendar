@@ -54,8 +54,8 @@
 				$result = doQuery("SELECT PkID, NetworkName, APIKey FROM ".HC_TblPrefix."users WHERE NetworkName = '".cIn($user)."' AND APIKey = '".cIn($key)."' AND APIAccess = 1 AND IsBanned = 0");
 				
 				if(hasRows($result)){
-					$api_users[Amysqlresult($result,0,2)][0] = '1';
-					$api_users[Amysqlresult($result,0,2)][1] = Amysqlresult($result,0,1);
+					$api_users[hc_mysql_result($result,0,2)][0] = '1';
+					$api_users[hc_mysql_result($result,0,2)][1] = hc_mysql_result($result,0,1);
 					$valid = 1;
 				}
 			}
@@ -172,7 +172,7 @@
 								e.IsActive = 1 AND e.IsApproved = 1 AND e.StartDate >= '".cIn(SYSDATE)."'  AND e.SeriesID IS NOT NULL $bQuery $oQuery
 							LIMIT ".$hc_cfg[129]);
 			
-			while($row = Amysqlfetchrow($result)){
+			while($row = hc_mysql_fetch_row($result)){
 				$reg_url = '';
 				if($row[32] == 1)
 					$reg_url = CalRoot.'/index.php?com=rsvp&eID='.$row[0];
@@ -323,7 +323,7 @@
 							 WHERE c.IsActive = 1
 							 GROUP BY c.PkID, c.CategoryName, c.ParentID, Path $oQuery");
 			
-			while($row = Amysqlfetchrow($result)){
+			while($row = hc_mysql_fetch_row($result)){
 				$reg_url = '';
 				
 				$y = ($row[2] == 0 && $type <= 1) ? 0 : $y;
@@ -398,7 +398,7 @@
 							WHERE n.Status = 3 AND n.IsActive = 1 AND IsArchive = 1 $oQuery
 							LIMIT ".$hc_cfg[132]);
 			
-			while($row = Amysqlfetchrow($result)){
+			while($row = hc_mysql_fetch_row($result)){
 				
 				$newsletter_build[$x] = array(
 									'id'				=> md5($row[0]),

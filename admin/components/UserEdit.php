@@ -27,29 +27,29 @@
 	if(!hasRows($result)){
 		echo '<p>'.$hc_lang_user['NoUserEdit'].'</p>';
 	} else {
-		$id = cOut(Amysqlresult($result,0,0));
-		$network = cOut(Amysqlresult($result,0,1));
-		$network_name = cOut(Amysqlresult($result,0,2));
-		$network_id = cOut(Amysqlresult($result,0,3));
-		$email = cOut(Amysqlresult($result,0,4));
-		$signin_cnt = cOut(Amysqlresult($result,0,5));
-		$signin_first = cOut(Amysqlresult($result,0,6));
-		$signin_last = cOut(Amysqlresult($result,0,7));
-		$signin_last_ip = cOut(Amysqlresult($result,0,8));
-		$level = cOut(Amysqlresult($result,0,9));
-		$banned = cOut(Amysqlresult($result,0,10));
-		$cat_limited = cOut(Amysqlresult($result,0,11));
-		$location = cOut(Amysqlresult($result,0,12));
-		$birthdate = stampToDate(Amysqlresult($result,0,13), $hc_cfg[24]);;
-//		$url_fb = cOut(Amysqlresult($result,0,14));
-//		$url_tw = cOut(Amysqlresult($result,0,15));
-//		$url_gp = cOut(Amysqlresult($result,0,16));
-		$privacy = cOut(Amysqlresult($result,0,17));
-		$points = cOut(Amysqlresult($result,0,18));
-		$api_key = cOut(Amysqlresult($result,0,19));
-		$api_access = cOut(Amysqlresult($result,0,20));
-		$api_cnt = cOut(Amysqlresult($result,0,21));
-		$event_cnt = cOut(Amysqlresult($result,0,22));
+		$id = cOut(hc_mysql_result($result,0,0));
+		$network = cOut(hc_mysql_result($result,0,1));
+		$network_name = cOut(hc_mysql_result($result,0,2));
+		$network_id = cOut(hc_mysql_result($result,0,3));
+		$email = cOut(hc_mysql_result($result,0,4));
+		$signin_cnt = cOut(hc_mysql_result($result,0,5));
+		$signin_first = cOut(hc_mysql_result($result,0,6));
+		$signin_last = cOut(hc_mysql_result($result,0,7));
+		$signin_last_ip = cOut(hc_mysql_result($result,0,8));
+		$level = cOut(hc_mysql_result($result,0,9));
+		$banned = cOut(hc_mysql_result($result,0,10));
+		$cat_limited = cOut(hc_mysql_result($result,0,11));
+		$location = cOut(hc_mysql_result($result,0,12));
+		$birthdate = stampToDate(hc_mysql_result($result,0,13), $hc_cfg[24]);;
+//		$url_fb = cOut(hc_mysql_result($result,0,14));
+//		$url_tw = cOut(hc_mysql_result($result,0,15));
+//		$url_gp = cOut(hc_mysql_result($result,0,16));
+		$privacy = cOut(hc_mysql_result($result,0,17));
+		$points = cOut(hc_mysql_result($result,0,18));
+		$api_key = cOut(hc_mysql_result($result,0,19));
+		$api_access = cOut(hc_mysql_result($result,0,20));
+		$api_cnt = cOut(hc_mysql_result($result,0,21));
+		$event_cnt = cOut(hc_mysql_result($result,0,22));
 		$url_fb = $url_tw = $url_gp = '';
 		
 		switch($network){
@@ -131,7 +131,7 @@
 		<div class="uevent">
 		<ul class="data">';
 			$cnt = 0;
-			while($row = Amysqlfetchrow($resultE)){
+			while($row = hc_mysql_fetch_row($resultE)){
 				$hl = ($cnt % 2 == 1) ? ' hl':'';
 				echo '
 				<li class="row'.$hl.'">

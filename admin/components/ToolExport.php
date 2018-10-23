@@ -16,7 +16,7 @@
 	if(!hasRows($result)){
 		$fail = 1;
 	} else {
-		while($row = Amysqlfetchrow($result)){
+		while($row = hc_mysql_fetch_row($result)){
 			$templates .= '
 			<option value="'.$row[0].'">'.$row[1].' ('.$row[2].')</option>';
 		}

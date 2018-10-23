@@ -12,35 +12,35 @@
 	$na = $hc_lang_reports['NA'];
 	
 	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1");
-	$tCnt = (hasRows($result)) ? Amysqlresult($result,0,0) : '0';
+	$tCnt = (hasRows($result)) ? hc_mysql_result($result,0,0) : '0';
 	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . cIn(SYSDATE) . "'");
-	$aCnt = (hasRows($result)) ? Amysqlresult($result,0,0) : '0';
+	$aCnt = (hasRows($result)) ? hc_mysql_result($result,0,0) : '0';
 	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate < '" . cIn(SYSDATE) . "'");
-	$pCnt = (hasRows($result)) ? Amysqlresult($result,0,0) : '0';
+	$pCnt = (hasRows($result)) ? hc_mysql_result($result,0,0) : '0';
 	
 	$stats[$hc_lang_reports['ActiveLabel']] = ($aCnt != '') ? number_format($aCnt,0,'.',',') : $na;
 	$stats[$hc_lang_reports['PassedLabel']] = ($pCnt != '') ? number_format($pCnt,0,'.',',') : $na;
 	$stats[$hc_lang_reports['TotalLabel']] = ($tCnt != '') ? number_format($tCnt,0,'.',',') : $na;
 	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND IsBillboard = 1 AND StartDate >= '" . cIn(SYSDATE) . "'");
-	$stats[$hc_lang_reports['Billboard']] = (hasRows($result)) ? number_format(Amysqlresult($result,0,0),0,'.',',') : $na;
+	$stats[$hc_lang_reports['Billboard']] = (hasRows($result)) ? number_format(hc_mysql_result($result,0,0),0,'.',',') : $na;
 	$result = doQuery("SELECT COUNT(*)
 					FROM " . HC_TblPrefix . "events e
 						LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (e.PkID = ec.EventID)
 						LEFT JOIN " . HC_TblPrefix . "categories c ON (c.PkID = ec.CategoryID)
 					WHERE e.IsActive = 1 AND e.IsApproved = 1 AND (ec.EventID IS NULL OR c.IsActive = 0)");
-	$stats[$hc_lang_reports['Orphan']] = (hasRows($result)) ? number_format(Amysqlresult($result,0,0),0,'.',',') : $na;
+	$stats[$hc_lang_reports['Orphan']] = (hasRows($result)) ? number_format(hc_mysql_result($result,0,0),0,'.',',') : $na;
 	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate = '" . cIn(SYSDATE) . "'");
-	$stats[$hc_lang_reports['Today']] = (hasRows($result)) ? number_format(Amysqlresult($result,0,0),0,'.',',') : $na;
+	$stats[$hc_lang_reports['Today']] = (hasRows($result)) ? number_format(hc_mysql_result($result,0,0),0,'.',',') : $na;
 	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate BETWEEN '" . cIn(SYSDATE) . "' AND ADDDATE('" . cIn(SYSDATE) . "',INTERVAL 7 DAY)");
-	$stats[$hc_lang_reports['Next7']] = (hasRows($result)) ? number_format(Amysqlresult($result,0,0),0,'.',',') : $na;
+	$stats[$hc_lang_reports['Next7']] = (hasRows($result)) ? number_format(hc_mysql_result($result,0,0),0,'.',',') : $na;
 	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate BETWEEN '" . cIn(SYSDATE) . "' AND ADDDATE('" . cIn(SYSDATE) . "',INTERVAL 30 DAY)");	
-	$stats[$hc_lang_reports['Next30']] = (hasRows($result)) ? number_format(Amysqlresult($result,0,0),0,'.',',') : $na;
+	$stats[$hc_lang_reports['Next30']] = (hasRows($result)) ? number_format(hc_mysql_result($result,0,0),0,'.',',') : $na;
 	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "subscribers WHERE IsConfirm = 1");
-	$stats[$hc_lang_reports['ActiveUsers']] = (hasRows($result)) ? number_format(Amysqlresult($result,0,0),0,'.',',') : $na;
+	$stats[$hc_lang_reports['ActiveUsers']] = (hasRows($result)) ? number_format(hc_mysql_result($result,0,0),0,'.',',') : $na;
 	$result = doQuery("SELECT MIN(StartDate) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate IS NOT NULL");
-	$stats[$hc_lang_reports['Earliest']] = (hasRows($result)) ? stampToDate(Amysqlresult($result,0,0),$hc_cfg[24]) : $na;
+	$stats[$hc_lang_reports['Earliest']] = (hasRows($result)) ? stampToDate(hc_mysql_result($result,0,0),$hc_cfg[24]) : $na;
 	$result = doQuery("SELECT MAX(StartDate) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate IS NOT NULL");
-	$stats[$hc_lang_reports['Latest']] = (hasRows($result)) ? stampToDate(Amysqlresult($result,0,0),$hc_cfg[24]) : $na;
+	$stats[$hc_lang_reports['Latest']] = (hasRows($result)) ? stampToDate(hc_mysql_result($result,0,0),$hc_cfg[24]) : $na;
 	
 	echo '
 	<ul class="data">
@@ -74,28 +74,28 @@
 		</li>
 		<li class="row">
 			<div style="width:70%;">'.$hc_lang_reports['Views'].'</div>
-			<div class="number" style="width:15%;">'.(($aCnt > 0) ? number_format((Amysqlresult($result,0,0)/$aCnt),2,'.',','):'0').'</div>
-			<div class="number" style="width:15%;">'.number_format(Amysqlresult($result,0,0),0,'.',',').'</div>
+			<div class="number" style="width:15%;">'.(($aCnt > 0) ? number_format((hc_mysql_result($result,0,0)/$aCnt),2,'.',','):'0').'</div>
+			<div class="number" style="width:15%;">'.number_format(hc_mysql_result($result,0,0),0,'.',',').'</div>
 		</li>
 		<li class="row hl">
 			<div style="width:70%;">'.$hc_lang_reports['DriveDir'].'</div>
-			<div class="number" style="width:15%;">'.(($aCnt > 0) ? number_format((Amysqlresult($result,0,1)/$aCnt),2,'.',','):'0').'</div>
-			<div class="number" style="width:15%;">'.number_format(Amysqlresult($result,0,1),0,'.',',').'</div>
+			<div class="number" style="width:15%;">'.(($aCnt > 0) ? number_format((hc_mysql_result($result,0,1)/$aCnt),2,'.',','):'0').'</div>
+			<div class="number" style="width:15%;">'.number_format(hc_mysql_result($result,0,1),0,'.',',').'</div>
 		</li>
 		<li class="row">
 			<div style="width:70%;">'.$hc_lang_reports['Downloads'].'</div>
-			<div class="number" style="width:15%;">'.(($aCnt > 0) ? number_format((Amysqlresult($result,0,2)/$aCnt),2,'.',','):'0').'</div>
-			<div class="number" style="width:15%;">'.number_format(Amysqlresult($result,0,2),0,'.',',').'</div>
+			<div class="number" style="width:15%;">'.(($aCnt > 0) ? number_format((hc_mysql_result($result,0,2)/$aCnt),2,'.',','):'0').'</div>
+			<div class="number" style="width:15%;">'.number_format(hc_mysql_result($result,0,2),0,'.',',').'</div>
 		</li>
 		<li class="row hl">
 			<div style="width:70%;">'.$hc_lang_reports['EmailTo'].'</div>
-			<div class="number" style="width:15%;">'.(($aCnt > 0) ? number_format((Amysqlresult($result,0,3)/$aCnt),2,'.',','):'0').'</div>
-			<div class="number" style="width:15%;">'.number_format(Amysqlresult($result,0,3),0,'.',',').'</div>
+			<div class="number" style="width:15%;">'.(($aCnt > 0) ? number_format((hc_mysql_result($result,0,3)/$aCnt),2,'.',','):'0').'</div>
+			<div class="number" style="width:15%;">'.number_format(hc_mysql_result($result,0,3),0,'.',',').'</div>
 		</li>
 		<li class="row">
 			<div style="width:70%;">'.$hc_lang_reports['URL'].'</div>
-			<div class="number" style="width:15%;">'.(($aCnt > 0) ? number_format((Amysqlresult($result,0,4)/$aCnt),2,'.',','):'0').'</div>
-			<div class="number" style="width:15%;">'.number_format(Amysqlresult($result,0,4),0,'.',',').'</div>
+			<div class="number" style="width:15%;">'.(($aCnt > 0) ? number_format((hc_mysql_result($result,0,4)/$aCnt),2,'.',','):'0').'</div>
+			<div class="number" style="width:15%;">'.number_format(hc_mysql_result($result,0,4),0,'.',',').'</div>
 		</li>
 	</ul>';
 	}
@@ -113,28 +113,28 @@
 		</li>
 		<li class="row">
 			<div style="width:70%;">'.$hc_lang_reports['Views'].'</div>
-			<div class="number" style="width:15%;">'.(($pCnt > 0) ? number_format((Amysqlresult($result,0,0)/$pCnt),2,'.',','):'0').'</div>
-			<div class="number" style="width:15%;">'.number_format(Amysqlresult($result,0,0),0,'.',',').'</div>
+			<div class="number" style="width:15%;">'.(($pCnt > 0) ? number_format((hc_mysql_result($result,0,0)/$pCnt),2,'.',','):'0').'</div>
+			<div class="number" style="width:15%;">'.number_format(hc_mysql_result($result,0,0),0,'.',',').'</div>
 		</li>
 		<li class="row hl">
 			<div style="width:70%;">'.$hc_lang_reports['DriveDir'].'</div>
-			<div class="number" style="width:15%;">'.(($pCnt > 0) ? number_format((Amysqlresult($result,0,1)/$pCnt),2,'.',','):'0').'</div>
-			<div class="number" style="width:15%;">'.number_format(Amysqlresult($result,0,1),0,'.',',').'</div>
+			<div class="number" style="width:15%;">'.(($pCnt > 0) ? number_format((hc_mysql_result($result,0,1)/$pCnt),2,'.',','):'0').'</div>
+			<div class="number" style="width:15%;">'.number_format(hc_mysql_result($result,0,1),0,'.',',').'</div>
 		</li>
 		<li class="row">
 			<div style="width:70%;">'.$hc_lang_reports['Downloads'].'</div>
-			<div class="number" style="width:15%;">'.(($pCnt > 0) ? number_format((Amysqlresult($result,0,2)/$pCnt),2,'.',','):'0').'</div>
-			<div class="number" style="width:15%;">'.number_format(Amysqlresult($result,0,2),0,'.',',').'</div>
+			<div class="number" style="width:15%;">'.(($pCnt > 0) ? number_format((hc_mysql_result($result,0,2)/$pCnt),2,'.',','):'0').'</div>
+			<div class="number" style="width:15%;">'.number_format(hc_mysql_result($result,0,2),0,'.',',').'</div>
 		</li>
 		<li class="row hl">
 			<div style="width:70%;">'.$hc_lang_reports['EmailTo'].'</div>
-			<div class="number" style="width:15%;">'.(($pCnt > 0) ? number_format((Amysqlresult($result,0,3)/$pCnt),2,'.',','):'0').'</div>
-			<div class="number" style="width:15%;">'.number_format(Amysqlresult($result,0,3),0,'.',',').'</div>
+			<div class="number" style="width:15%;">'.(($pCnt > 0) ? number_format((hc_mysql_result($result,0,3)/$pCnt),2,'.',','):'0').'</div>
+			<div class="number" style="width:15%;">'.number_format(hc_mysql_result($result,0,3),0,'.',',').'</div>
 		</li>
 		<li class="row">
 			<div style="width:70%;">'.$hc_lang_reports['URL'].'</div>
-			<div class="number" style="width:15%;">'.(($pCnt > 0) ? number_format((Amysqlresult($result,0,4)/$pCnt),2,'.',','):'0').'</div>
-			<div class="number" style="width:15%;">'.number_format(Amysqlresult($result,0,4),0,'.',',').'</div>
+			<div class="number" style="width:15%;">'.(($pCnt > 0) ? number_format((hc_mysql_result($result,0,4)/$pCnt),2,'.',','):'0').'</div>
+			<div class="number" style="width:15%;">'.number_format(hc_mysql_result($result,0,4),0,'.',',').'</div>
 		</li>
 	</ul>';
 	}
@@ -152,28 +152,28 @@
 		</li>
 		<li class="row">
 			<div style="width:70%;">'.$hc_lang_reports['Views'].'</div>
-			<div class="number" style="width:15%;">'.(($tCnt > 0) ? number_format((Amysqlresult($result,0,0)/$tCnt),2,'.',','):'0').'</div>
-			<div class="number" style="width:15%;">'.number_format(Amysqlresult($result,0,0),0,'.',',').'</div>
+			<div class="number" style="width:15%;">'.(($tCnt > 0) ? number_format((hc_mysql_result($result,0,0)/$tCnt),2,'.',','):'0').'</div>
+			<div class="number" style="width:15%;">'.number_format(hc_mysql_result($result,0,0),0,'.',',').'</div>
 		</li>
 		<li class="row hl">
 			<div style="width:70%;">'.$hc_lang_reports['DriveDir'].'</div>
-			<div class="number" style="width:15%;">'.(($tCnt > 0) ? number_format((Amysqlresult($result,0,1)/$tCnt),2,'.',','):'0').'</div>
-			<div class="number" style="width:15%;">'.number_format(Amysqlresult($result,0,1),0,'.',',').'</div>
+			<div class="number" style="width:15%;">'.(($tCnt > 0) ? number_format((hc_mysql_result($result,0,1)/$tCnt),2,'.',','):'0').'</div>
+			<div class="number" style="width:15%;">'.number_format(hc_mysql_result($result,0,1),0,'.',',').'</div>
 		</li>
 		<li class="row">
 			<div style="width:70%;">'.$hc_lang_reports['Downloads'].'</div>
-			<div class="number" style="width:15%;">'.(($tCnt > 0) ? number_format((Amysqlresult($result,0,2)/$tCnt),2,'.',','):'0').'</div>
-			<div class="number" style="width:15%;">'.number_format(Amysqlresult($result,0,2),0,'.',',').'</div>
+			<div class="number" style="width:15%;">'.(($tCnt > 0) ? number_format((hc_mysql_result($result,0,2)/$tCnt),2,'.',','):'0').'</div>
+			<div class="number" style="width:15%;">'.number_format(hc_mysql_result($result,0,2),0,'.',',').'</div>
 		</li>
 		<li class="row hl">
 			<div style="width:70%;">'.$hc_lang_reports['EmailTo'].'</div>
-			<div class="number" style="width:15%;">'.(($tCnt > 0) ? number_format((Amysqlresult($result,0,3)/$tCnt),2,'.',','):'0').'</div>
-			<div class="number" style="width:15%;">'.number_format(Amysqlresult($result,0,3),0,'.',',').'</div>
+			<div class="number" style="width:15%;">'.(($tCnt > 0) ? number_format((hc_mysql_result($result,0,3)/$tCnt),2,'.',','):'0').'</div>
+			<div class="number" style="width:15%;">'.number_format(hc_mysql_result($result,0,3),0,'.',',').'</div>
 		</li>
 		<li class="row">
 			<div style="width:70%;">'.$hc_lang_reports['URL'].'</div>
-			<div class="number" style="width:15%;">'.(($tCnt > 0) ? number_format((Amysqlresult($result,0,4)/$tCnt),2,'.',','):'0').'</div>
-			<div class="number" style="width:15%;">'.number_format(Amysqlresult($result,0,4),0,'.',',').'</div>
+			<div class="number" style="width:15%;">'.(($tCnt > 0) ? number_format((hc_mysql_result($result,0,4)/$tCnt),2,'.',','):'0').'</div>
+			<div class="number" style="width:15%;">'.number_format(hc_mysql_result($result,0,4),0,'.',',').'</div>
 		</li>
 	</ul>';
 	}
@@ -193,7 +193,7 @@
 	<ul class="data">';
 		$cnt = 0;
 		
-		while($row = Amysqlfetchrow($result)){
+		while($row = hc_mysql_fetch_row($result)){
 			$hl = ($cnt % 2 == 1) ? ' hl':'';
 			echo '
 		<li class="row'.$hl.'">
@@ -223,7 +223,7 @@
 	<ul class="data">';
 		$cnt = 0;
 		
-		while($row = Amysqlfetchrow($result)){
+		while($row = hc_mysql_fetch_row($result)){
 			$hl = ($cnt % 2 == 1) ? ' hl':'';
 			echo '
 		<li class="row'.$hl.'">
@@ -253,7 +253,7 @@
 	<ul class="data">';
 		$cnt = 0;
 		
-		while($row = Amysqlfetchrow($result)){
+		while($row = hc_mysql_fetch_row($result)){
 			$hl = ($cnt % 2 == 1) ? ' hl':'';
 			echo '
 		<li class="row'.$hl.'">
@@ -283,7 +283,7 @@
 	<ul class="data">';
 		$cnt = 0;
 		
-		while($row = Amysqlfetchrow($result)){
+		while($row = hc_mysql_fetch_row($result)){
 			$hl = ($cnt % 2 == 1) ? ' hl':'';
 			echo '
 		<li class="row'.$hl.'">
@@ -313,7 +313,7 @@
 	<ul class="data">';
 		$cnt = 0;
 		
-		while($row = Amysqlfetchrow($result)){
+		while($row = hc_mysql_fetch_row($result)){
 			$hl = ($cnt % 2 == 1) ? ' hl':'';
 			echo '
 		<li class="row'.$hl.'">
@@ -342,7 +342,7 @@
 	<ul class="data">';
 		$cnt = 0;
 		
-		while($row = Amysqlfetchrow($result)){
+		while($row = hc_mysql_fetch_row($result)){
 			$hl = ($cnt % 2 == 1) ? ' hl':'';
 			echo '
 		<li class="row'.$hl.'">

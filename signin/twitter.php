@@ -18,8 +18,8 @@
 	
 	$result = doQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(111,112)");
 	if(hasRows($result)){
-		$consumer_key = Amysqlresult($result,0,0);
-		$consumer_secret = Amysqlresult($result,1,0);
+		$consumer_key = hc_mysql_result($result,0,0);
+		$consumer_secret = hc_mysql_result($result,1,0);
 	}
 	
 	if($consumer_key != '' && $consumer_secret != ''){
@@ -41,8 +41,8 @@
 					$local_id = user_register_new(1,$authUser,$authUserID);
 					$_SESSION['new_user'] = true;
 				} else {
-					$local_id = Amysqlresult($result,0,0);
-					if(Amysqlresult($result,0,1) == '' || Amysqlresult($result,0,2) == '')
+					$local_id = hc_mysql_result($result,0,0);
+					if(hc_mysql_result($result,0,1) == '' || hc_mysql_result($result,0,2) == '')
 						$_SESSION['new_user'] = true;
 				}
 				

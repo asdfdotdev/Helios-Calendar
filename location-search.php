@@ -37,7 +37,7 @@
 	}
 	if(isset($result) && hasRows($result)){
 		$x = 0;
-		while($row = Amysqlfetchrow($result)){
+		while($row = hc_mysql_fetch_row($result)){
 			$locAddress = buildAddress(htmlentities($row[2],ENT_QUOTES),htmlentities($row[3],ENT_QUOTES),htmlentities($row[4],ENT_QUOTES),htmlentities($row[5],ENT_QUOTES),htmlentities($row[6],ENT_QUOTES),htmlentities($row[7],ENT_QUOTES),$hc_lang_config['AddressType']);
 			$locAddress = str_replace('<br />',',&nbsp;',$locAddress);
 			$hl = ($x % 2 == 0) ? ' class="hl_frm"' : '';
@@ -50,7 +50,7 @@
 				<span class="loc_add">'.$locAddress.'</span></label>';
 			++$x;
 		}
-		$pages = ceil(Amysqlresult($resultP,0,0)/$resLimit);
+		$pages = ceil(hc_mysql_result($resultP,0,0)/$resLimit);
 		if($pages > 1){
 			echo '<div id="pages">';
 			for($x = 0;$x < $pages;++$x){

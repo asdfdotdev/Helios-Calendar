@@ -13,10 +13,10 @@
 	$deleted = $optimized = array();
 	
 	$result = doQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "events WHERE IsActive = 0 OR IsApproved = 0 OR StartDate = '0000-00-00'");
-	$deleted[HC_TblPrefix.'events'] = (hasRows($result)) ? Amysqlresult($result,0,0) : 0;
+	$deleted[HC_TblPrefix.'events'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 
 	$result = doQuery("SELECT COUNT(EventID) FROM " . HC_TblPrefix . "eventnetwork en LEFT JOIN " . HC_TblPrefix . "events e ON (e.PkID = en.EventID) WHERE e.PkID IS NULL OR e.IsActive = 0");
-	$deleted[HC_TblPrefix.'eventnetwork'] = (hasRows($result)) ? Amysqlresult($result,0,0) : 0;
+	$deleted[HC_TblPrefix.'eventnetwork'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 
 	$result = doQuery("SELECT COUNT(DISTINCT f.PkID)
 					FROM " . HC_TblPrefix . "followup f
@@ -24,43 +24,43 @@
 						LEFT JOIN " . HC_TblPrefix . "events e2 ON (f.EntityID = e2.SeriesID AND f.EntityType = 2 AND e2.IsActive = 1)
 						LEFT JOIN " . HC_TblPrefix . "locations l ON (f.EntityID = l.PkID AND f.EntityType = 3 AND l.IsActive = 1)
 					WHERE e.PkID IS NULL AND e2.SeriesID IS NULL AND l.PkID IS NULL");
-	$deleted[HC_TblPrefix.'followup'] = (hasRows($result)) ? Amysqlresult($result,0,0) : 0;
+	$deleted[HC_TblPrefix.'followup'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 	
 	$result = doQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "locations WHERE IsActive = 0");
-	$deleted[HC_TblPrefix.'locations'] = (hasRows($result)) ? Amysqlresult($result,0,0) : 0;
+	$deleted[HC_TblPrefix.'locations'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 	
 	$result = doQuery("SELECT COUNT(LocationID) FROM " . HC_TblPrefix . "locationnetwork ln LEFT JOIN " . HC_TblPrefix . "locations l ON (l.PkID = ln.LocationID) WHERE l.PkID IS NULL OR l.IsActive = 0");
-	$deleted[HC_TblPrefix.'locationnetwork'] = (hasRows($result)) ? Amysqlresult($result,0,0) : 0;
+	$deleted[HC_TblPrefix.'locationnetwork'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 
 	$result = doQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "categories WHERE IsActive = 0");
-	$deleted[HC_TblPrefix.'categories'] = (hasRows($result)) ? Amysqlresult($result,0,0) : 0;
+	$deleted[HC_TblPrefix.'categories'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 	
 	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "eventcategories ec LEFT JOIN " . HC_TblPrefix . "events e ON (ec.EventID = e.PkID) WHERE e.PkID is NULL OR e.IsActive = 0 OR e.IsApproved = 0");
-	$deleted[HC_TblPrefix.'eventcategories'] = (hasRows($result)) ? Amysqlresult($result,0,0) : 0;
+	$deleted[HC_TblPrefix.'eventcategories'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 	
 	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "eventrsvps er LEFT JOIN " . HC_TblPrefix . "events e ON (er.EventID = e.PkID) WHERE e.PkID is NULL OR e.IsActive = 0 OR e.IsApproved = 0");
-	$deleted[HC_TblPrefix.'eventrsvps'] = (hasRows($result)) ? Amysqlresult($result,0,0) : 0;
+	$deleted[HC_TblPrefix.'eventrsvps'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 	
 	$result = doQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "templates WHERE IsActive = 0");
-	$deleted[HC_TblPrefix.'templates'] = (hasRows($result)) ? Amysqlresult($result,0,0) : 0;
+	$deleted[HC_TblPrefix.'templates'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 
 	$result = doQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "templatesnews WHERE IsActive = 0");
-	$deleted[HC_TblPrefix.'templatesnews'] = (hasRows($result)) ? Amysqlresult($result,0,0) : 0;
+	$deleted[HC_TblPrefix.'templatesnews'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 
 	$result = doQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "mailers WHERE IsActive = 0");
-	$deleted[HC_TblPrefix.'mailers'] = (hasRows($result)) ? Amysqlresult($result,0,0) : 0;
+	$deleted[HC_TblPrefix.'mailers'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 
 	$result = doQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "mailgroups WHERE IsActive = 0");
-	$deleted[HC_TblPrefix.'mailgroups'] = (hasRows($result)) ? Amysqlresult($result,0,0) : 0;
+	$deleted[HC_TblPrefix.'mailgroups'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 
 	$result = doQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "newsletters WHERE IsActive = 0");
-	$deleted[HC_TblPrefix.'newsletters'] = (hasRows($result)) ? Amysqlresult($result,0,0) : 0;
+	$deleted[HC_TblPrefix.'newsletters'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 	
 	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "subscriberscategories sc LEFT JOIN " . HC_TblPrefix . "subscribers s ON (s.PkID = sc.UserID) WHERE s.PkID IS NULL");
-	$deleted[HC_TblPrefix.'subscriberscategories'] = (hasRows($result)) ? Amysqlresult($result,0,0) : 0;
+	$deleted[HC_TblPrefix.'subscriberscategories'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 	
 	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "subscribersgroups sg LEFT JOIN " . HC_TblPrefix . "subscribers s ON (s.PkID = sg.UserID) WHERE s.PkID IS NULL");
-	$deleted[HC_TblPrefix.'subscribersgroups'] = (hasRows($result)) ? Amysqlresult($result,0,0) : 0;
+	$deleted[HC_TblPrefix.'subscribersgroups'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 	
 	if($doOpt == 1){
 		$result = doQuery("OPTIMIZE TABLE `".HC_TblPrefix."admin`,
@@ -71,7 +71,7 @@
 						`".HC_TblPrefix."settingsmeta`,`".HC_TblPrefix."subscribers`,`".HC_TblPrefix."subscriberscategories`,`".HC_TblPrefix."subscribersgroups`,
 						`".HC_TblPrefix."templates`,`".HC_TblPrefix."templatesnews`,`".HC_TblPrefix."users`");
 		if(hasRows($result)){
-			while($row = Amysqlfetchrow($result)){
+			while($row = hc_mysql_fetch_row($result)){
 				$optimized[$row[0]] = $row[3];
 			}
 		}
@@ -95,7 +95,7 @@
 			<div class="number" style="width:15%;">'.$hc_lang_tools['Overhead'].'</div>
 		</li>';
 	$cnt = 0;
-	while($row = Amysqlfetchassoc($result)){
+	while($row = hc_mysql_fetch_assoc($result)){
 		$hl = ($cnt % 2 == 1) ? ' hl' : '';
 		$optResult = (array_key_exists($row['Name'],$optimized)) ? $optimized[$row['Name']] : '';
 		$optResult = (array_key_exists(DB_NAME.'.'.$row['Name'],$optimized)) ? $optimized[DB_NAME.'.'.$row['Name']] : $optResult;

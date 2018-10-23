@@ -32,11 +32,11 @@
 	
 	$result = doQuery("SELECT PkID, CategoryName, ParentID FROM " . HC_TblPrefix . "categories WHERE PkID = '" . $cID . "'");
 	if(hasRows($result)){
-		$category = Amysqlresult($result,0,1);
-		$parentID = Amysqlresult($result,0,2);}
+		$category = hc_mysql_result($result,0,1);
+		$parentID = hc_mysql_result($result,0,2);}
 	
 	$result = doQuery("SELECT PkID, CategoryName FROM " . HC_TblPrefix . "categories WHERE PkID != '" . $cID . "' AND IsActive = 1 AND ParentID = 0 ORDER BY CategoryName");
-	while($row = Amysqlfetchrow($result)){
+	while($row = hc_mysql_fetch_row($result)){
 		$catOptions .= ($parentID == $row[0]) ? '<option selected="selected" value="'.$row[0].'">'.$row[1].'</option>' : '<option value="'.$row[0].'">'.$row[1].'</option>';
 	}
 	
@@ -76,11 +76,11 @@
 					WHERE c.ParentID > 0 AND c.IsActive = 1
 					GROUP BY c.PkID, c.CategoryName, c.ParentID, c2.CategoryName
 					ORDER BY Sort, ParentID, CategoryName");
-	$rowCnt = Amysqlnumrows($result);
+	$rowCnt = hc_mysql_num_rows($result);
 	if(hasRows($result)){	
 		$cnt = 0;
 		$curCat = "";
-		while($row = Amysqlfetchrow($result)){
+		while($row = hc_mysql_fetch_row($result)){
 			$hl = ($cnt % 2 == 1) ? ' hl' : '';
 			$indent = ($row[2] != 0) ? '&nbsp;&nbsp;&nbsp;&nbsp;' : '';
 			

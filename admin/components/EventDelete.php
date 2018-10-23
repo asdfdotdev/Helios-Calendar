@@ -24,7 +24,7 @@
 	if(isset($_GET['series'])){
 		$result = doQuery("SELECT GROUP_CONCAT(PkID) FROM " . HC_TblPrefix . "events WHERE SeriesID = '".cIn(strip_tags($_GET['series']))."'");
 		if(hasRows($result))
-			$delIDs = explode(',',Amysqlresult($result,0,0));
+			$delIDs = explode(',',hc_mysql_result($result,0,0));
 	} elseif(isset($_POST['eventID'])) {
 		$delIDs = (isset($_POST['eventID'])) ? $_POST['eventID'] : array();
 	} elseif(isset($_GET['dID'])){
@@ -39,7 +39,7 @@
 
 		$resultD = doQuery("SELECT NetworkID, NetworkType FROM " . HC_TblPrefix . "eventnetwork WHERE EventID IN (" . $delIDs . ") ORDER BY NetworkType");
 		if(hasRows($resultD)){
-			while($row = Amysqlfetchrow($resultD)){
+			while($row = hc_mysql_fetch_row($resultD)){
 				$netID = $row[0];
 				switch($row[1]){
 					case 1:

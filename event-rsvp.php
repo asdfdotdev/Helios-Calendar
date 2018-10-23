@@ -40,17 +40,17 @@
 	} else {
 		$result = doQuery("SELECT Title, StartDate, StartTime, TBD, ContactEmail FROM " . HC_TblPrefix . "events WHERE PkID = '" . $eID . "'");
 		
-		$eventTitle = cOut(Amysqlresult($result,0,0));
-		$eventDate = stampToDate(Amysqlresult($result,0,1), $hc_cfg[14]);
-		$conEmail = Amysqlresult($result,0,4);
+		$eventTitle = cOut(hc_mysql_result($result,0,0));
+		$eventDate = stampToDate(hc_mysql_result($result,0,1), $hc_cfg[14]);
+		$conEmail = hc_mysql_result($result,0,4);
 		$groupID = ($partySize > 1) ? md5($regName . $eventTitle . date("U")) : '';
 		
-		$eMsg = '<p><b>' . Amysqlresult($result,0,0) . '</b><br />' . stampToDate(Amysqlresult($result,0,1), $hc_cfg[14]) . ' - ';
-		if(Amysqlresult($result,0,3) == 0)
-			$eMsg .= stampToDate("1980-01-01 " . Amysqlresult($result,0,2), $hc_cfg[23]);
-		elseif(Amysqlresult($result,0,3) == 1)
+		$eMsg = '<p><b>' . hc_mysql_result($result,0,0) . '</b><br />' . stampToDate(hc_mysql_result($result,0,1), $hc_cfg[14]) . ' - ';
+		if(hc_mysql_result($result,0,3) == 0)
+			$eMsg .= stampToDate("1980-01-01 " . hc_mysql_result($result,0,2), $hc_cfg[23]);
+		elseif(hc_mysql_result($result,0,3) == 1)
 			$eMsg .= $hc_lang_rsvp['AllDay'];
-		elseif(Amysqlresult($result,0,3) == 2)
+		elseif(hc_mysql_result($result,0,3) == 2)
 			$eMsg .= $hc_lang_rsvp['TBA'];
 		
 		$eMsg .= '<br /><a href="' . CalRoot . '/index.php?eID=' . $eID . '">' . CalRoot . '/index.php?eID=' . $eID . '</a></p>';
@@ -73,9 +73,9 @@
 							WHERE r.EventID = '" . $eID . "' and r.IsActive = 1
 							GROUP BY r.EventID, er.Space");
 		$eOver = $eLimit = 0;
-		if(Amysqlresult($result,0,0) > Amysqlresult($result,0,1) && Amysqlresult($result,0,1) != 0)
+		if(hc_mysql_result($result,0,0) > hc_mysql_result($result,0,1) && hc_mysql_result($result,0,1) != 0)
   			$eOver = 1;
-		elseif(Amysqlresult($result,0,0) == Amysqlresult($result,0,1) && Amysqlresult($result,0,1) != 0)
+		elseif(hc_mysql_result($result,0,0) == hc_mysql_result($result,0,1) && hc_mysql_result($result,0,1) != 0)
 			$eLimit = 1;
 		
 		$rMsg = '<p><b>' . cOut($hc_lang_rsvp['PartySize']) . " " . cOut($partySize) . '</b>';

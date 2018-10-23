@@ -34,37 +34,37 @@
 		
 		$result = doQuery("SELECT PkID, Name, Address, Address2, City, State, Country, Zip, URL, Phone, Email, Descript, Lat, Lon, ShortURL, LastMod, Image From " . HC_TblPrefix . "locations WHERE PkID = '" . cIn($lID) . "' AND IsActive = 1");
 		
-		if(!hasRows($result) || Amysqlresult($result,0,0) <= 0)
+		if(!hasRows($result) || hc_mysql_result($result,0,0) <= 0)
 			go_home();
 		
 		$loc = array(
-		    'LocID'			=>	Amysqlresult($result,0,"PkID"),
-		    'Name'			=>	Amysqlresult($result,0,"Name"),
-		    'Description'		=>	Amysqlresult($result,0,"Descript"),
-		    'Address'			=>	Amysqlresult($result,0,"Address"),
-		    'Address2'			=>	Amysqlresult($result,0,"Address2"),
-		    'City'			=>	Amysqlresult($result,0,"City"),
-		    'Region'			=>	Amysqlresult($result,0,"State"),
-		    'Postal'			=>	Amysqlresult($result,0,"Zip"),
-		    'Country'			=>	Amysqlresult($result,0,"Country"),
-		    'Email'			=>	Amysqlresult($result,0,"Email"),
-		    'Phone'			=>	Amysqlresult($result,0,"Phone"),
-		    'Lat'				=>	Amysqlresult($result,0,"Lat"),
-		    'Lon'				=>	Amysqlresult($result,0,"Lon"),
-		    'Bitly'			=>	Amysqlresult($result,0,"ShortURL"),
+		    'LocID'			=>	hc_mysql_result($result,0,"PkID"),
+		    'Name'			=>	hc_mysql_result($result,0,"Name"),
+		    'Description'		=>	hc_mysql_result($result,0,"Descript"),
+		    'Address'			=>	hc_mysql_result($result,0,"Address"),
+		    'Address2'			=>	hc_mysql_result($result,0,"Address2"),
+		    'City'			=>	hc_mysql_result($result,0,"City"),
+		    'Region'			=>	hc_mysql_result($result,0,"State"),
+		    'Postal'			=>	hc_mysql_result($result,0,"Zip"),
+		    'Country'			=>	hc_mysql_result($result,0,"Country"),
+		    'Email'			=>	hc_mysql_result($result,0,"Email"),
+		    'Phone'			=>	hc_mysql_result($result,0,"Phone"),
+		    'Lat'				=>	hc_mysql_result($result,0,"Lat"),
+		    'Lon'				=>	hc_mysql_result($result,0,"Lon"),
+		    'Bitly'			=>	hc_mysql_result($result,0,"ShortURL"),
 		    'CommentsURL'		=>	CalRoot.'/index.php?com=location&amp;lID='.$lID,
 		    'CommentsID'			=>	$lID,
 		    'Link_This'		=>	CalRoot.'/index.php?com=location&amp;lID='.$lID,
-		    'Link_URL'			=>	(Amysqlresult($result,0,"URL") != '' && Amysqlresult($result,0,"URL") != 'http://') ? CalRoot . '/link/index.php?tID=4&amp;oID='.Amysqlresult($result,0,"PkID") : NULL,
-		    'Link_Weather'		=>	CalRoot . '/link/index.php?tID=3&amp;oID=0&amp;lID='.Amysqlresult($result,0,"PkID"),
-		    'Link_Directions'	=>	CalRoot . '/link/index.php?tID=2&amp;oID=0&amp;lID='.Amysqlresult($result,0,"PkID"),
+		    'Link_URL'			=>	(hc_mysql_result($result,0,"URL") != '' && hc_mysql_result($result,0,"URL") != 'http://') ? CalRoot . '/link/index.php?tID=4&amp;oID='.hc_mysql_result($result,0,"PkID") : NULL,
+		    'Link_Weather'		=>	CalRoot . '/link/index.php?tID=3&amp;oID=0&amp;lID='.hc_mysql_result($result,0,"PkID"),
+		    'Link_Directions'	=>	CalRoot . '/link/index.php?tID=2&amp;oID=0&amp;lID='.hc_mysql_result($result,0,"PkID"),
 		    'Link_Calendar'		=>	CalRoot.'/index.php?lID='.$lID,
-		    'LastMod'			=>	Amysqlresult($result,0,"LastMod"),
-		    'Image'			=>	Amysqlresult($result,0,"Image"),
+		    'LastMod'			=>	hc_mysql_result($result,0,"LastMod"),
+		    'Image'			=>	hc_mysql_result($result,0,"Image"),
 		    );
 		
-		$title = cOut(Amysqlresult($result,0,"Name"));
-		$desc = cOut(Amysqlresult($result,0,"Descript"));
+		$title = cOut(hc_mysql_result($result,0,"Name"));
+		$desc = cOut(hc_mysql_result($result,0,"Descript"));
 		
 		return array_map('cOut', $loc);
 	}
@@ -88,7 +88,7 @@
 			return 0;}
 		
 		$cnt = $date = 0;
-		while($row = Amysqlfetchrow($result)){
+		while($row = hc_mysql_fetch_row($result)){
 			if(($date != $row[2])){
 				$date = $row[2];
 				echo ($cnt > 0) ? '

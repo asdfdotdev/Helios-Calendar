@@ -8,10 +8,10 @@
 	include(HCLANG.'/admin/settings.php');
 	
 	$result = doQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN (7,85,87,134) ORDER BY PkID");
-	$allowindex = cOut(Amysqlresult($result,0,0));
-	$bots = cOut(Amysqlresult($result,1,0));
-	$sitemap = cOut(Amysqlresult($result,2,0));
-	$expire_days = cOut(Amysqlresult($result,3,0));
+	$allowindex = cOut(hc_mysql_result($result,0,0));
+	$bots = cOut(hc_mysql_result($result,1,0));
+	$sitemap = cOut(hc_mysql_result($result,2,0));
+	$expire_days = cOut(hc_mysql_result($result,3,0));
 	$cnt = 1;
 	
 	if (isset($_GET['msg'])){
@@ -55,7 +55,7 @@
 	</fieldset>';
 
 	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "settingsmeta ORDER BY Sort");
-	while($row = Amysqlfetchrow($result)){
+	while($row = hc_mysql_fetch_row($result)){
 		echo '
 	<fieldset>
 		<legend>'.$hc_lang_settings['Page'.$row[0]].'</legend>

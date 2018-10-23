@@ -17,15 +17,15 @@
 
 	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "mailers WHERE PkID = '" . $mID . "' AND IsActive = 1");
 	if(hasRows($result)){
-		$title = cOut(Amysqlresult($result,0,1));
-		$subject = cOut(Amysqlresult($result,0,2));
-		$startDate = (Amysqlresult($result,0,3) != '') ? stampToDate(Amysqlresult($result,0,3), $hc_cfg[24]) : $startDate;
-		$endDate = (Amysqlresult($result,0,4) != '') ? stampToDate(Amysqlresult($result,0,4), $hc_cfg[24]) : $endDate;
-		$template = Amysqlresult($result,0,5);
-		$message = cOut(Amysqlresult($result,0,6));
-		$archive = Amysqlresult($result,0,9);
-		$cDate = (Amysqlresult($result,0,7) != '') ? stampToDate(Amysqlresult($result,0,7), $hc_cfg[24]) : '';
-		$mDate = (Amysqlresult($result,0,8) != '') ? stampToDate(Amysqlresult($result,0,8), $hc_cfg[24]) : '';
+		$title = cOut(hc_mysql_result($result,0,1));
+		$subject = cOut(hc_mysql_result($result,0,2));
+		$startDate = (hc_mysql_result($result,0,3) != '') ? stampToDate(hc_mysql_result($result,0,3), $hc_cfg[24]) : $startDate;
+		$endDate = (hc_mysql_result($result,0,4) != '') ? stampToDate(hc_mysql_result($result,0,4), $hc_cfg[24]) : $endDate;
+		$template = hc_mysql_result($result,0,5);
+		$message = cOut(hc_mysql_result($result,0,6));
+		$archive = hc_mysql_result($result,0,9);
+		$cDate = (hc_mysql_result($result,0,7) != '') ? stampToDate(hc_mysql_result($result,0,7), $hc_cfg[24]) : '';
+		$mDate = (hc_mysql_result($result,0,8) != '') ? stampToDate(hc_mysql_result($result,0,8), $hc_cfg[24]) : '';
 	}
 	
 	appInstructions(0, "Compose_Draft", $hc_lang_news['TitleDraft'], $hc_lang_news['InstructDraft']);
@@ -65,8 +65,8 @@
 						 Group By mg.PkID, mg.Name, mg.Description, mg.IsPublic, mg.IsActive, m.PkID");
 		$cnt = 1;
 		echo '<div class="catCol">';
-		while($row = Amysqlfetchrow($result)){
-			if($cnt > ceil(Amysqlnumrows($result) / 3)){
+		while($row = hc_mysql_fetch_row($result)){
+			if($cnt > ceil(hc_mysql_num_rows($result) / 3)){
 				echo ($cnt > 1) ? '</div>' : '';
 				echo '
 			<div class="catCol">';
@@ -89,7 +89,7 @@
 		$result = doQuery("SELECT * FROM " . HC_TblPrefix . "templatesnews WHERE IsActive = 1 ORDER BY TemplateName");
 		if(hasRows($result)){
 			echo '<select name="templateID" id="templateID">';
-			while($row = Amysqlfetchrow($result)){
+			while($row = hc_mysql_fetch_row($result)){
 				echo '<option ';
 				echo ($row[0] == $template) ? 'selected="selected" ' : '';
 				echo 'value="' . cOut($row[0]) . '">' . cOut($row[1]) . '</option>';

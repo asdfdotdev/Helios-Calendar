@@ -34,15 +34,15 @@
 			if(hasRows($result)){
 				doQuery("UPDATE " . HC_TblPrefix . "subscribers SET GUID = MD5(CONCAT(rand(UNIX_TIMESTAMP()) * (RAND()*1000000),'" . $email . "')) WHERE email = '" . $email . "'");
 				$result = doQuery("SELECT FirstName, LastName, GUID FROM " . HC_TblPrefix . "subscribers WHERE email = '" . $email . "'");
-				$GUID = (hasRows($result)) ?  Amysqlresult($result,0,2) : '';
+				$GUID = (hasRows($result)) ?  hc_mysql_result($result,0,2) : '';
 				if($GUID != ''){
 					$link = ($do == 0) ? CalRoot . '/index.php?com=signup&u=' . $GUID : CalRoot . '/index.php?com=signup&d=' . $GUID;
 					$doMsg = ($do == 0) ? 'Edit' : 'Delete';
 					$subject = $hc_lang_news[$doMsg.'Subject'] . ' - ' . CalName;
 					$message = '<p>' . $hc_lang_news[$doMsg.'EmailA'] . ' <a href="' . $link . '">' . $link . '</a></p>';
-					$message .= '<p>' .  Amysqlresult($result,0,0) . $hc_lang_news[$doMsg.'EmailB'] . ' ' . $hc_lang_news[$doMsg.'EmailC'] . ' ' . $hc_cfg[78] . '</p>';
+					$message .= '<p>' .  hc_mysql_result($result,0,0) . $hc_lang_news[$doMsg.'EmailB'] . ' ' . $hc_lang_news[$doMsg.'EmailC'] . ' ' . $hc_cfg[78] . '</p>';
 					
-					reMail(trim(Amysqlresult($result,0,0).' '.Amysqlresult($result,0,1)),$email,$subject,$message,$hc_cfg[79],$hc_cfg[78]);
+					reMail(trim(hc_mysql_result($result,0,0).' '.hc_mysql_result($result,0,1)),$email,$subject,$message,$hc_cfg[79],$hc_cfg[78]);
 
 					$target = '/index.php?com=edit&msg=1';
 				}
@@ -54,7 +54,7 @@
 		$dID = cIn(strip_tags($_POST['dID']));
 		$result = doQuery("SELECT PkID FROM " . HC_TblPrefix . "subscribers WHERE GUID = '" . $dID . "'");
 		if(hasRows($result)){
-			$dID = Amysqlresult($result,0,0);
+			$dID = hc_mysql_result($result,0,0);
 			doQuery("DELETE FROM " . HC_TblPrefix . "subscribersgroups WHERE UserID = '" . $dID . "'");
 			doQuery("DELETE FROM " . HC_TblPrefix . "subscriberscategories WHERE UserID = '" . $dID . "'");
 			doQuery("DELETE FROM " . HC_TblPrefix . "subscribers WHERE PkID = '" . $dID . "'");

@@ -28,7 +28,7 @@
 	
 	if(isset($result) && hasRows($result)){
 		$x = 0;
-		while($row = Amysqlfetchrow($result)){
+		while($row = hc_mysql_fetch_row($result)){
 			$hl = ($x % 2 == 0) ? ' class="hl_frm"' : '';
 			$net_img = '';
 			switch($row[1]){
@@ -52,7 +52,7 @@
 			
 			++$x;
 		}
-		$pages = ceil(Amysqlresult($resultP,0,0)/$resLimit);
+		$pages = ceil(hc_mysql_result($resultP,0,0)/$resLimit);
 		if($pages > 1){
 			echo '<div id="pages">';
 			for($x = 0;$x < $pages;++$x){

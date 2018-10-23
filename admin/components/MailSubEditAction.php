@@ -92,7 +92,7 @@
 									'" . $format . "')");
 				
 				$result = doQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "subscribers");
-				$uID = Amysqlresult($result,0,0);
+				$uID = hc_mysql_result($result,0,0);
 				
 				doQuery("DELETE FROM " . HC_TblPrefix . "subscribersgroups WHERE UserID = '" . $uID . "'");
 				doQuery("DELETE FROM " . HC_TblPrefix . "subscriberscategories WHERE UserID = '" . $uID . "'");
@@ -109,8 +109,8 @@
 					include(HCLANG.'/public/news.php');
 					
 					$subject = $hc_lang_news['Subject'] . ' - ' . CalName;
-					$message = '<p>' . $hc_lang_news['RegEmailA'] . ' <a href="' . CalRoot . '/a.php?a=' . Amysqlresult($result,0,1) . '">' . CalRoot . '/a.php?a=' . Amysqlresult($result,0,1) . '</a></p>';
-					$message .= '<p>' .  Amysqlresult($result,0,0) . $hc_lang_news['RegEmailB'] . '</p>';
+					$message = '<p>' . $hc_lang_news['RegEmailA'] . ' <a href="' . CalRoot . '/a.php?a=' . hc_mysql_result($result,0,1) . '">' . CalRoot . '/a.php?a=' . hc_mysql_result($result,0,1) . '</a></p>';
+					$message .= '<p>' .  hc_mysql_result($result,0,0) . $hc_lang_news['RegEmailB'] . '</p>';
 					$message .= '<p>' . $hc_lang_news['RegEmailC'] . ' ' . $hc_cfg[78] . '</p>';
 
 					reMail(trim($firstname.' '.$lastname), $email, $subject, $message, $hc_cfg[79], $hc_cfg[78]);
@@ -130,7 +130,7 @@
 			$dID = cIn(strip_tags($_GET['dID']));
 			$result = doQuery("SELECT NewsletterID FROM " . HC_TblPrefix . "newssubscribers WHERE SubscriberID = '" . $dID . "'");
 			if(hasRows($result)){
-				while($row = Amysqlfetchrow($result)){
+				while($row = hc_mysql_fetch_row($result)){
 					doQuery("UPDATE " . HC_TblPrefix . "newsletters SET SendCount = (SendCount - 1) WHERE PkID = '" . $row[0] . "'");
 				}
 			}

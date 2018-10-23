@@ -17,6 +17,7 @@ cache/*
 .idea/php.xml
 .idea/vcs.xml
 .idea/*.iml
+.idea/misc.xml
 
 # User-specific stuff
 .idea/**/workspace.xml

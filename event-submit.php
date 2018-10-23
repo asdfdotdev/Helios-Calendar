@@ -228,7 +228,7 @@
 							" . $pubDate . ", " . $pubDate . ");";
 			doQuery($query);
 			$result = doQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "events");
-			$newPkID = Amysqlresult($result,0,0);
+			$newPkID = hc_mysql_result($result,0,0);
 
 			if(isset($_POST['catID']) && is_array($_POST['catID'])){
 				foreach ($_POST['catID'] as $val){

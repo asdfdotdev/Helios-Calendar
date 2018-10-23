@@ -9,13 +9,13 @@
 		hc_fail();
 	} else {
 		$pass = 1;
-		$cf_class = $cd_class = $up_class = $php_class = $Amysqlclass = $dbh_class = $dbn_class = $dbu_class = $dbp_class = $tbp_class = $cr_class = $ar_class = 
+		$cf_class = $cd_class = $up_class = $php_class = $hc_mysql_class = $dbh_class = $dbn_class = $dbu_class = $dbp_class = $tbp_class = $cr_class = $ar_class =
 			$cn_class = $rnd_class = $mys_class = $curl_class = $gd_class = $ssl_class = $apc_class = 'error';
 		$config_file = 'not found';
 		$cache_dir = $up_dir = 'not writable';
 		$php_ver = phpversion();
-		$Amysqlver = 'Unknown';
-		$Amysqlstamp= 'Failed';
+		$hc_mysql_ver = 'Unknown';
+		$hc_mysql_stamp= 'Failed';
 		$db_host = $db_name = $db_user = $db_pass = $tb_pre = $cal_root = $admin_root = $cal_name = 'Unset';
 		$hc_rand = 'Unset or value too short.';
 		
@@ -51,16 +51,16 @@
 			$apc_class = 'ok';}
 
 		try {
-			$dbc = Amysqlconnect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+			$dbc = hc_mysql_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 			$result = doQuery("SELECT VERSION();");
-			if(Amysqlresult($result,0,0) != '')
-				$Amysqlver = $_SESSION['amysqlversion'] = Amysqlresult($result,0,0);
-			if(!Amysqlabort(Amysqlresult($result,0,0))){
+			if(hc_mysql_result($result,0,0) != '')
+				$hc_mysql_ver = $_SESSION['hc_mysql_version'] = hc_mysql_result($result,0,0);
+			if(!hc_mysql_abort(hc_mysql_result($result,0,0))){
 				++$pass;
-				$Amysqlclass = 'ok';}
-			if($Amysqlclass == 'ok' && !Amysqlcurrent(Amysqlresult($result,0,0))){
-				$Amysqlclass = 'old';}				
-		} catch(Exception $e) {$Amysqlver = 'Unknown';}
+				$hc_mysql_class = 'ok';}
+			if($hc_mysql_class == 'ok' && !hc_mysql_current(hc_mysql_result($result,0,0))){
+				$hc_mysql_class = 'old';}
+		} catch(Exception $e) {$hc_mysql_ver = 'Unknown';}
 		
 
 		if(defined("DB_HOST") && DB_HOST != ''){
@@ -111,11 +111,11 @@
 			$rnd_class = 'ok';}
 			
 		try {
-			$dbc = Amysqlconnect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+			$dbc = hc_mysql_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 			
 			$result = doQuery("SELECT NOW();");
-			if(Amysqlresult($result,0,0) != ''){
-				$Amysqlstamp= Amysqlresult($result,0,0);
+			if(hc_mysql_result($result,0,0) != ''){
+				$hc_mysql_stamp= hc_mysql_result($result,0,0);
 				$mys_class = 'ok';
 				++$pass;}
 		} catch(Exception $e) {}
@@ -154,8 +154,8 @@
 			</span>
 
 			<label>MySQL Version:</label>
-			<span class="output '.$Amysqlclass.'">
-				'.$Amysqlver.'
+			<span class="output '.$hc_mysql_class.'">
+				'.$hc_mysql_ver.'
 			</span>
 		</fieldset>
 		<fieldset>
@@ -201,7 +201,7 @@
 			<legend>MySQL Connection Test</legend>
 			<label>Server Time:</label>
 			<span class="output '.$mys_class.'">
-				'.$Amysqlstamp.'
+				'.$hc_mysql_stamp.'
 			</span>
 		</fieldset>
 		

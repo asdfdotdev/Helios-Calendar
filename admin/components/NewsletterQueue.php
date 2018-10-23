@@ -22,7 +22,7 @@
 	}
 	
 	$resultC = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix  . "newsletters n WHERE n.IsActive = 1 $queryT $queryS");
-	$pages = ceil(Amysqlresult($resultC,0,0)/$resLimit);
+	$pages = ceil(hc_mysql_result($resultC,0,0)/$resLimit);
 	$resOffset = ($pages <= $resOffset && $pages > 0) ? $pages - 1 : $resOffset;
 	
 	if(isset($_GET['msg'])){
@@ -110,7 +110,7 @@
 			</li>';
 
 		$cnt = 0;
-		while($row = Amysqlfetchrow($result)){
+		while($row = hc_mysql_fetch_row($result)){
 			$hl = ($cnt % 2 == 1) ? ' hl':'';
 			echo '
 			<li class="row'.$hl.'">

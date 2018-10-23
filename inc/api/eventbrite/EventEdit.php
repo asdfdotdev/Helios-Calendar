@@ -11,8 +11,8 @@
 		$apiFail = true;
 		$errorMsg = 'Eventbrite API Settings Unavailable.';
 	} else {
-		$ebAPI = cOut(Amysqlresult($result,0,0));
-		$ebUser = cOut(Amysqlresult($result,1,0));
+		$ebAPI = cOut(hc_mysql_result($result,0,0));
+		$ebUser = cOut(hc_mysql_result($result,1,0));
 		
 		if($ebAPI == '' || $ebUser == ''){
 			$apiFail = true;
@@ -29,7 +29,7 @@
 			}
 			
 			$resultLoc = doQuery("SELECT NetworkID FROM " . HC_TblPrefix . "locationnetwork WHERE NetworkType = 2 AND LocationID = '" . $locID . "'");
-			$venueID = (hasRows($resultLoc)) ? Amysqlresult($resultLoc,0,0) : '';
+			$venueID = (hasRows($resultLoc)) ? hc_mysql_result($resultLoc,0,0) : '';
 			$ebStatus = isset($_POST['ebStatus']) ? cIn($_POST['ebStatus']) : 'draft';
 			$ebPrivacy = isset($_POST['ebPrivacy']) ? cIn($_POST['ebPrivacy']) : '0';
 			$ebTimezone = isset($_POST['ebTimezone']) ? cIn($_POST['ebTimezone']) : substr(HCTZ,0,3);

@@ -35,7 +35,7 @@
 		<div class="rrpt">';
 		
 		$cnt = 0;
-		while($row = Amysqlfetchrow($result)){
+		while($row = hc_mysql_fetch_row($result)){
 			$hl = ($cnt % 2 == 1) ? ' hl':'';
 		
 			echo '

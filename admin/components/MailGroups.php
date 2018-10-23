@@ -15,9 +15,9 @@
 
 		$result = doQuery("SELECT * FROM " . HC_TblPrefix . "mailgroups WHERE PkID = '" . $gID . "' AND IsActive = 1");
 		if(hasRows($result)){
-			$name = cOut(Amysqlresult($result,0,1));
-			$descript = cOut(Amysqlresult($result,0,2));
-			$isPublic = cOut(Amysqlresult($result,0,3));
+			$name = cOut(hc_mysql_result($result,0,1));
+			$descript = cOut(hc_mysql_result($result,0,2));
+			$isPublic = cOut(hc_mysql_result($result,0,3));
 			$helpText = $hc_lang_news['InstructEditG'];
 		}
 		
@@ -105,7 +105,7 @@
 			<div class="tools" style="width:10%;">&nbsp;</div>
 		</li>';
 			$cnt = 0;
-			while($row = Amysqlfetchrow($result)){
+			while($row = hc_mysql_fetch_row($result)){
 				$hl = ($cnt % 2 == 1) ? ' hl':'';
 				
 				echo '

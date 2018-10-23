@@ -36,16 +36,16 @@
 							LEFT JOIN " . HC_TblPrefix . "newssubscribers ns ON (n.PkID = ns.NewsletterID)
 						WHERE n.PkID = '" . $nID . "' AND n.IsActive = 1
 						GROUP BY n.PkID, n.SendCount, n.Status, n.StartDate, n.EndDate, n.Subject");
-		$left = Amysqlresult($result,0,0);
-		$total = Amysqlresult($result,0,1);
-		$start = Amysqlresult($result,0,3);
-		$end = Amysqlresult($result,0,4);
+		$left = hc_mysql_result($result,0,0);
+		$total = hc_mysql_result($result,0,1);
+		$start = hc_mysql_result($result,0,3);
+		$end = hc_mysql_result($result,0,4);
 		$archive = CalRoot . '/newsletter/index.php?n=' . md5($nID);
-		$subject = Amysqlresult($result,0,5);
+		$subject = hc_mysql_result($result,0,5);
 		$prog = ($left > 0) ? 100 - ($left / $total) * 100 : 100;
 		$position = -500 + number_format(($prog * 5),0);
 
-		if(Amysqlresult($result,0,2) == 0){
+		if(hc_mysql_result($result,0,2) == 0){
 			$newsletter = buildUniversal($nID);
 			$newsletter = str_replace('<img src="' . CalRoot . '/newsletter/a.php?a=' . md5($nID) . '" width="1" height="1" />','',$newsletter);
 			$newsletter = str_replace('<a href="' . $archive . '" target="_blank">' . $hc_lang_news['ArchiveLinkTxt'] . '</a>',$hc_lang_news['ArchiveLinkTxt'],$newsletter);
@@ -61,7 +61,7 @@
 
 			echo '<div class="progBar" style="background-image: url(../img/progress/go.png);background-position:-500px 0px;">&nbsp;&nbsp;' . $hc_lang_news['Status0'] . '</div>';
 		} else if($prog < 100){
-			if(Amysqlresult($result,0,2) == 2) {
+			if(hc_mysql_result($result,0,2) == 2) {
 				echo '<div class="progBar" style="background-image: url(../img/progress/pause.png);background-position:'.$position.'px 0px;">&nbsp;&nbsp;' . $hc_lang_news['Status2'] . ' (' . abs(number_format($prog,0)) . '%)</div>';
 			} else {
 				$newsletterDefault = buildUniversal($nID);
@@ -108,7 +108,7 @@
 					}
 					
 					$x = 0;
-					while($row = Amysqlfetchrow($resultS)){
+					while($row = hc_mysql_fetch_row($resultS)){
 						//	Overkill
 						if($x >= $hc_cfg[81]){
 							break;
@@ -225,7 +225,7 @@
 			$resultP = doQuery($query);
 			if(hasRows($resultP)){
 				$curDate = '';
-				while($row = Amysqlfetchrow($resultP)){
+				while($row = hc_mysql_fetch_row($resultP)){
 					if($curDate != $row[2]){
 						$cnt = 0;
 						$curDate = $row[2];
@@ -277,9 +277,9 @@
 			$template = $message = $archive = '';
 			$doArchive = 0;
 			if(hasRows($result)){
-				$template = cOut(Amysqlresult($result,0,0));
-				$message = cOut(Amysqlresult($result,0,1));
-				$doArchive = cOut(Amysqlresult($result,0,2));
+				$template = cOut(hc_mysql_result($result,0,0));
+				$message = cOut(hc_mysql_result($result,0,1));
+				$doArchive = cOut(hc_mysql_result($result,0,2));
 				$archive = CalRoot . '/newsletter/index.php?n=' . md5($nID);
 			} else {
 				stopError($hc_lang_news['Err01']);
@@ -328,12 +328,12 @@
 			}
 			if(stristr($template,'[event-count]')){
 				$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . cIn(SYSDATE) . "'");
-				$eCnt = (hasRows($result)) ? number_format(Amysqlresult($result,0,0),0,'.',',') : 0;
+				$eCnt = (hasRows($result)) ? number_format(hc_mysql_result($result,0,0),0,'.',',') : 0;
 				$template = str_replace('[event-count]',$eCnt,$template);
 			}
 			if(stristr($template,'[location-count]')){
 				$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "locations WHERE IsActive = 1");
-				$lCnt = (hasRows($result)) ? number_format(Amysqlresult($result,0,0),0,'.',',') : 0;
+				$lCnt = (hasRows($result)) ? number_format(hc_mysql_result($result,0,0),0,'.',',') : 0;
 				$template = str_replace('[location-count]',$lCnt,$template);
 			}
 			if(stristr($template,'[track]')){
@@ -379,7 +379,7 @@
 		$cnt = 0;
 		$result = doQuery($qry);
 		$str = '<ul style="list-style:none;padding:0px;">';
-		while($row = Amysqlfetchrow($result)){
+		while($row = hc_mysql_fetch_row($result)){
 			if($row[5] == '' || !in_array($row[5], $hide)){
 				if($curDate != $row[2]){
 					$curDate = cOut($row[2]);

@@ -21,16 +21,16 @@
 					FROM " . HC_TblPrefix . "events
 					WHERE IsActive = 1 AND IsApproved = 1");
 	if(hasRows($resultX)){
-		$mViews = cOut(Amysqlresult($resultX,0,0));
-		$mDir = cOut(Amysqlresult($resultX,0,1));
-		$mDwnl = cOut(Amysqlresult($resultX,0,2));
-		$mEmail = cOut(Amysqlresult($resultX,0,3));
-		$mURL =cOut(Amysqlresult($resultX,0,4));
-		$aViews = cOut(round(Amysqlresult($resultX,0,5), 0));
-		$aDir = cOut(round(Amysqlresult($resultX,0,6), 0));
-		$aDwnl = cOut(round(Amysqlresult($resultX,0,7), 0));
-		$aEmail = cOut(round(Amysqlresult($resultX,0,8), 0));
-		$aURL = cOut(round(Amysqlresult($resultX,0,9), 0));
+		$mViews = cOut(hc_mysql_result($resultX,0,0));
+		$mDir = cOut(hc_mysql_result($resultX,0,1));
+		$mDwnl = cOut(hc_mysql_result($resultX,0,2));
+		$mEmail = cOut(hc_mysql_result($resultX,0,3));
+		$mURL =cOut(hc_mysql_result($resultX,0,4));
+		$aViews = cOut(round(hc_mysql_result($resultX,0,5), 0));
+		$aDir = cOut(round(hc_mysql_result($resultX,0,6), 0));
+		$aDwnl = cOut(round(hc_mysql_result($resultX,0,7), 0));
+		$aEmail = cOut(round(hc_mysql_result($resultX,0,8), 0));
+		$aURL = cOut(round(hc_mysql_result($resultX,0,9), 0));
 	}
 	
 	echo "Event,Views,Directions,Downloads,Email,URL\n";
@@ -42,7 +42,7 @@
 					WHERE e.PkID IN(" . cIn($eID) . ") ORDER BY e.PkID");
 	
 	if(hasRows($result)){
-		while($row = Amysqlfetchrow($result)){
+		while($row = hc_mysql_fetch_row($result)){
 			echo "(".$row[0].") ".str_replace(',','',$row[1]).",".$row[2].",".$row[3].",".$row[4].",".$row[5].",".$row[6]."\n";
 		}
 	}

@@ -63,7 +63,7 @@
 							'" . $website . "','" . $phone . "','" . $email . "','" . $descript . "'," . $status . ",1,'" . $lat . "','" . $lon . "','" . $gQuality . "','" . SYSDATE . ' ' . SYSTIME . "',
 							'" . $imageURL . "')");
 			$result = doQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "locations");
-			$lID = Amysqlresult($result,0,0);
+			$lID = hc_mysql_result($result,0,0);
 			$msgID = 1;
 		}
 		
@@ -71,7 +71,7 @@
 		$efNew = $ebNew = true;
 		$resultD = doQuery("SELECT * FROM " . HC_TblPrefix . "locationnetwork WHERE LocationID = '" . $lID . "'");
 		if(hasRows($resultD)){
-			while($row = Amysqlfetchrow($resultD)){
+			while($row = hc_mysql_fetch_row($resultD)){
 				switch($row[2]){
 					case 1:
 						$efNew = false;
@@ -123,7 +123,7 @@
 		doQuery("UPDATE " . HC_TblPrefix . "events SET LocID = 0 WHERE LocID = '" . $dID . "'");
 
 		$resultD = doQuery("SELECT NetworkID, NetworkType FROM " . HC_TblPrefix . "locationnetwork WHERE LocationID = '" . $dID . "' ORDER BY NetworkType");
-		while($row = Amysqlfetchrow($resultD)){
+		while($row = hc_mysql_fetch_row($resultD)){
 			$netID = cIn($row[0]);
 			if($row[1] == 1){
 				//	Nothing

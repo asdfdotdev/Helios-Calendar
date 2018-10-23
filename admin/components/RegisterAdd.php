@@ -26,14 +26,14 @@
 	if(hasRows($result)){
 		$instTitle = $hc_lang_register['TitleRegisterE'];
 		$instText = $hc_lang_register['InstructRegisterE'];
-		$name = Amysqlresult($result,0,1);
-		$email = Amysqlresult($result,0,2);
-		$phone = Amysqlresult($result,0,3);
-		$address = Amysqlresult($result,0,4);
-		$address2 = Amysqlresult($result,0,5);
-		$city = Amysqlresult($result,0,6);
-		$state = Amysqlresult($result,0,7);
-		$postal = Amysqlresult($result,0,8);
+		$name = hc_mysql_result($result,0,1);
+		$email = hc_mysql_result($result,0,2);
+		$phone = hc_mysql_result($result,0,3);
+		$address = hc_mysql_result($result,0,4);
+		$address2 = hc_mysql_result($result,0,5);
+		$city = hc_mysql_result($result,0,6);
+		$state = hc_mysql_result($result,0,7);
+		$postal = hc_mysql_result($result,0,8);
 	}
 	
 	$inputs = array(1 => array('City','city',$city),2 => array('Postal','zip',$postal));

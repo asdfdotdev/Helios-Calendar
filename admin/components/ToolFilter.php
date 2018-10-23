@@ -62,8 +62,8 @@
 	echo '
 		<div class="catCol">';
 		
-	while($row = Amysqlfetchrow($result)){
-		if($cnt > ceil(Amysqlnumrows($result) / $columns) && $row[2] == 0){
+	while($row = hc_mysql_fetch_row($result)){
+		if($cnt > ceil(hc_mysql_num_rows($result) / $columns) && $row[2] == 0){
 			echo ($cnt > 1) ? '
 		</div>' : '';
 			echo '

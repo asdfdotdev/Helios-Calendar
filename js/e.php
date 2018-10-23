@@ -46,7 +46,7 @@
 		if(hasRows($result)){
 			$x = 1;
 			fwrite($fp, 'var hc_events = {');
-			while($row = Amysqlfetchrow($result)){
+			while($row = hc_mysql_fetch_row($result)){
 				if($row[4] == 0)
 					$time = ($row[3] != '') ? stampToDate($row[3], $hc_cfg[23]) : '';
 				else

@@ -118,7 +118,7 @@
 		
 		echo '
 		<ul>';
-		while($row = Amysqlfetchrow($result)){
+		while($row = hc_mysql_fetch_row($result)){
 			$hl = ($cnt % 2 == 0) ? ' class="hl"' : '';
 			echo '<li'.$hl.'><time datetime="'.stampToDate($row[2],'%Y-%m-%d').'">'.stampToDate($row[2],$format).'</time><a href="'.CalRoot.'/newsletter/index.php?n='.md5($row[0]).'" target="_blank">'.cOut($row[1]).'</a></li>';
 			++$cnt;

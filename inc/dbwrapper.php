@@ -9,7 +9,7 @@
 	 * @since 3.0.0
 	 * @version 4.0.0
 	 */
-	function Amysqlconnect($host, $user, $pass, $dbase) 
+	function hc_mysql_connect($host, $user, $pass, $dbase)
 	{ 
     	return mysqli_connect($host, $user, $pass, $dbase); 
 	} 
@@ -19,7 +19,7 @@
 	 * @since 3.0.0
 	 * @version 4.0.0
 	 */
-	function Amysqlresult($res, $row=0, $field=0) 
+	function hc_mysql_result($res, $row=0, $field=0) 
 	{ 
     	$res->data_seek($row); 
     	$datarow = $res->fetch_array(); 
@@ -31,7 +31,7 @@
 	 * @since 3.0.0
 	 * @version 4.0.0
 	 */
-	function Amysqlfetchrow($res)
+	function hc_mysql_fetch_row($res)
 	{
 		return mysqli_fetch_row($res);
 	}
@@ -41,7 +41,7 @@
 	 * @since 3.0.0
 	 * @version 4.0.0
 	 */
-	function Amysqlnumrows($res)
+	function hc_mysql_num_rows($res)
 	{
 		return mysqli_num_rows($res);
 	}
@@ -51,7 +51,7 @@
 	 * @since 3.0.0
 	 * @version 4.0.0
 	 */	
-	function Amysqlfetchassoc($res)
+	function hc_mysql_fetch_assoc($res)
 	{
 		return mysqli_fetch_assoc($res);
 	}
@@ -61,7 +61,7 @@
 	 * @since 3.0.0
 	 * @version 4.0.0
 	 */	
-	function Amysqldataseek($res, $num)
+	function hc_mysql_data_seek($res, $num)
 	{
 		return mysqli_data_seek($res, $num);
 	}	
@@ -71,7 +71,7 @@
 	 * @since 3.0.0
 	 * @version 4.0.0
 	 */	
-	function Amysqlerrno()
+	function hc_mysql_errno()
 	{
 		global $dbc;
 		return mysqli_errno($dbc);
@@ -82,7 +82,7 @@
 	 * @since 3.0.0
 	 * @version 4.0.0
 	 */	
-	function Amysqlerror()
+	function hc_mysql_error()
 	{
 		global $dbc;
 		return mysqli_error($dbc);
@@ -93,7 +93,7 @@
 	 * @since 3.0.0
 	 * @version 4.0.0
 	 */	
-	function Amysqlrealescapestring($val)
+	function hc_mysql_real_escape_string($val)
 	{
 		global $dbc;
 		return mysqli_real_escape_string($dbc, $val);
@@ -112,7 +112,7 @@
 		$result = mysqli_query($dbc, $query);
 		
 		if(!$result){
-			handleError(Amysqlerrno(), Amysqlerror());
+			handleError(hc_mysql_errno(), hc_mysql_error());
 		}//end if
 		return $result;
 	}

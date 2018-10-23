@@ -8,14 +8,14 @@
 		return(-1);
 	}
 	
-	$dbc = Amysqlconnect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+	$dbc = hc_mysql_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	
 	if(!isset($_POST['uID'])){
 		try {
 			$result = doQuery("SELECT SettingValue, VERSION() FROM " . HC_TblPrefix."settings WHERE PkID = 49");
-			if(Amysqlresult($result,0,0) != ''){
-				$_SESSION['amysqlversion'] = Amysqlresult($result,0,1);
-				$db_ver = Amysqlresult($result,0,0);
+			if(hc_mysql_result($result,0,0) != ''){
+				$_SESSION['hc_mysql_version'] = hc_mysql_result($result,0,1);
+				$db_ver = hc_mysql_result($result,0,0);
 			}
 		} catch(Exception $e) {}
 		

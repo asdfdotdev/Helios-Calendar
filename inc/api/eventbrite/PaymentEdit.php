@@ -11,8 +11,8 @@
 		$apiFail = true;
 		$errorMsg = 'Eventbrite API Settings Unavailable.';
 	} else {
-		$ebAPI = cOut(Amysqlresult($result,0,1));
-		$ebUser = cOut(Amysqlresult($result,1,1));
+		$ebAPI = cOut(hc_mysql_result($result,0,1));
+		$ebUser = cOut(hc_mysql_result($result,1,1));
 		
 		if($ebAPI == '' || $ebUser == ''){
 			$apiFail = true;

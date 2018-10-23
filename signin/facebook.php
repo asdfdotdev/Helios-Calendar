@@ -19,8 +19,8 @@
 	
 	$result = doQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(117,118)");
 	if(hasRows($result)){
-		$app_id = Amysqlresult($result,0,0);
-		$app_secret = Amysqlresult($result,1,0);
+		$app_id = hc_mysql_result($result,0,0);
+		$app_secret = hc_mysql_result($result,1,0);
 	}
 	
 	if($app_id != '' && $app_secret != ''){
@@ -45,8 +45,8 @@
 					$_SESSION['new_user_bday'] = $user->birthday;
 					$_SESSION['new_user_email'] = $user->email;
 				} else {
-					$local_id = Amysqlresult($result,0,0);
-					if(Amysqlresult($result,0,1) == '' || Amysqlresult($result,0,2) == ''){
+					$local_id = hc_mysql_result($result,0,0);
+					if(hc_mysql_result($result,0,1) == '' || hc_mysql_result($result,0,2) == ''){
 						$_SESSION['new_user'] = true;
 						$_SESSION['new_user_bday'] = $user->birthday;
 						$_SESSION['new_user_email'] = $user->email;

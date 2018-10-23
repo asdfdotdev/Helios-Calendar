@@ -20,7 +20,7 @@
 	}
 	
 	$resultC = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix  . "users WHERE IsBanned = '". cIn($ban) . "' $queryS");
-	$pages = ceil(Amysqlresult($resultC,0,0)/$resLimit);
+	$pages = ceil(hc_mysql_result($resultC,0,0)/$resLimit);
 	$resOffset = ($pages <= $resOffset && $pages > 0) ? $pages - 1 : $resOffset;
 	
 	if(isset($_GET['msg'])){
@@ -106,7 +106,7 @@
 			</li>';
 		
 		$cnt = 1;
-		while($row = Amysqlfetchrow($result)){
+		while($row = hc_mysql_fetch_row($result)){
 			$hl = ($cnt % 2 == 0) ? ' hl':'';
 			$net_img = '';
 			switch($row[1]){

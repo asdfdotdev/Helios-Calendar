@@ -22,7 +22,7 @@
 		echo 'Setup directory still present. Please delete it.';
 		exit();}
 	
-	$dbc = Amysqlconnect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+	$dbc = hc_mysql_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	
 	buildCache(6);
 	buildCache(0);

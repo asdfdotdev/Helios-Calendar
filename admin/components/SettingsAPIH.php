@@ -21,13 +21,13 @@
 					WHERE PkID IN (127,128,129,130,131,132,133)
 					ORDER BY PkID");
 	
-	$api_on = cOut(Amysqlresult($result,0,0));
-	$api_cache = cOut(Amysqlresult($result,1,0));
-	$api_event_size = cOut(Amysqlresult($result,2,0));
-	$api_user_limit = cOut(Amysqlresult($result,3,0));
-	$api_user_time = cOut(Amysqlresult($result,4,0));
-	$api_news_size = cOut(Amysqlresult($result,5,0));
-	$api_version = cOut(Amysqlresult($result,6,0));
+	$api_on = cOut(hc_mysql_result($result,0,0));
+	$api_cache = cOut(hc_mysql_result($result,1,0));
+	$api_event_size = cOut(hc_mysql_result($result,2,0));
+	$api_user_limit = cOut(hc_mysql_result($result,3,0));
+	$api_user_time = cOut(hc_mysql_result($result,4,0));
+	$api_news_size = cOut(hc_mysql_result($result,5,0));
+	$api_version = cOut(hc_mysql_result($result,6,0));
 	$apc_option = (function_exists('apc_clear_cache')) ? '<option'.($api_cache == 2 ? ' selected="selected"':'').' value="2">'.$hc_lang_settings['APICache2'].'</option>':'';
 	
 	echo '
@@ -75,7 +75,7 @@
 				<div class="txt" title="'.cOut(strip_tags($user[1])).'" style="width:40%;">'.cOut(strip_tags($user[1])).'</div>
 				<div class="number" style="width:30%;">'.number_format(cIn(strip_tags($user[0])),0,'.',',').'&nbsp;</div>
 				<div class="tools" style="width:15%;">
-					<a href="' . AdminRoot . '/index.php?com=useredit&amp;uID='.cOut(Amysqlresult($result,0,0)).'" target="_blank"><img src="' . AdminRoot . '/img/icons/user_edit.png" width="16" height="16" alt="" /></a>
+					<a href="' . AdminRoot . '/index.php?com=useredit&amp;uID='.cOut(hc_mysql_result($result,0,0)).'" target="_blank"><img src="' . AdminRoot . '/img/icons/user_edit.png" width="16" height="16" alt="" /></a>
 				</div>
 			</li>';
 				++$cnt;

@@ -38,7 +38,7 @@
 
 							fwrite($fp, "\$hc_cfg_named = array(\n");
 
-							while($row = Amysqlfetchrow($result)){
+							while($row = hc_mysql_fetch_row($result)){
 								fwrite($fp, "'" . $row[1] . "'\t=>\t\$hc_cfg[".$row[0]."],\n");
 							}
 							fwrite($fp, "'category_columns'\t=>\t\$hc_cfg['CatCols'],\n");
@@ -65,7 +65,7 @@
 					if(hasRows($result)){
 						echo "\n\t" . '<option value="0|"><?php echo $NewAll;?></option>';
 						echo "\n\t" . '<option value="-1">-------------------------</option>';
-						while($row = Amysqlfetchrow($result)){
+						while($row = hc_mysql_fetch_row($result)){
 							echo "\n\t" . '<option value="'.$row[0].'|'.cOut($row[1]).'">' . cOut($row[1]) . '</option>';
 						}
 					} else {
@@ -90,7 +90,7 @@
 					$pairs = array(1 => 1,2 => 2,3 => 'submit',4 => 'search',5 => 'searchresult',6 => 'signup',7 => 'send',8 => 'rsvp',9 => 'tools',10 => 'rss',
 								11 => 'newsletter',12 => 'archive',13 => 'filter', 14 => 'digest', 15 => 'signin', 16 => 'acc');
 					
-					while($row = Amysqlfetchrow($result)){
+					while($row = hc_mysql_fetch_row($result)){
 						fwrite($fp, "\n'".$pairs[$x]."'\t=>\tarray('title' => '".cIn($row[3])."', 'keywords' => '".cIn($row[1])."', 'desc' => '".cIn($row[2])."'),");
 						++$x;
 					}
@@ -159,7 +159,7 @@
 
 						fwrite($fp, "\$hc_cfg = array(\n");
 						
-						while($row = Amysqlfetchrow($result)){
+						while($row = hc_mysql_fetch_row($result)){
 							fwrite($fp, $row[0] . " => \"" . str_replace("\"","'",$row[1]) . "\",\n");
 						}
 						fwrite($fp, "200 => \"hc_" . sha1(md5(CalRoot) . HC_Rando) . "\",\n");
@@ -171,15 +171,15 @@
 						
 						$resultE = doQuery("SELECT MIN(StartDate), MAX(StartDate) FROM " . HC_TblPrefix . "events WHERE IsApproved = 1 AND IsActive = 1");
 						if(hasRows($resultE)){
-							$first = (strtotime(Amysqlresult($resultE,0,0)) < date("U",mktime(0,0,0,date("m"),date("d"),date("Y")))) ? strtotime(Amysqlresult($resultE,0,0)) : date("U",mktime(0,0,0,date("m"),date("d"),date("Y")));
+							$first = (strtotime(hc_mysql_result($resultE,0,0)) < date("U",mktime(0,0,0,date("m"),date("d"),date("Y")))) ? strtotime(hc_mysql_result($resultE,0,0)) : date("U",mktime(0,0,0,date("m"),date("d"),date("Y")));
 							fwrite($fp, "\"First\" => \"" . $first . "\",\n");
-							fwrite($fp, "\"Last\" => \"" . strtotime(Amysqlresult($resultE,0,1)) . "\",\n");
+							fwrite($fp, "\"Last\" => \"" . strtotime(hc_mysql_result($resultE,0,1)) . "\",\n");
 						}
 						
 						$news = date("Y-m-d");
 						$resultN = doQuery("SELECT MIN(SentDate) FROM " . HC_TblPrefix . "newsletters WHERE STATUS > 0 AND IsArchive = 1 AND IsActive = 1 AND ArchiveContents != ''");
-						if(hasRows($resultN) && Amysqlresult($resultN,0,0) != ''){
-							$news = Amysqlresult($resultN,0,0);
+						if(hasRows($resultN) && hc_mysql_result($resultN,0,0) != ''){
+							$news = hc_mysql_result($resultN,0,0);
 						}
 						fwrite($fp, "\"News\" => \"" . $news . "\",\n");
 
@@ -308,7 +308,7 @@
 		return $value;
 	}
 	/**
-	 * Filter value for use in MySQL query to protect against SQL injection and convert text to proper character encoding (for international support). Wrapper for Amysqlrealescapestring().
+	 * Filter value for use in MySQL query to protect against SQL injection and convert text to proper character encoding (for international support). Wrapper for hc_mysql_real_escape_string().
 	 * @since 2.0.0
 	 * @version 2.0.2
 	 * @param string $value string to be filtered
@@ -323,7 +323,7 @@
 		if(defined('CONVERT_CHRSET') && function_exists('mb_convert_encoding'))
 			$value = mb_convert_encoding($value, CONVERT_CHRSET, $hc_lang_config['CharSet']);
 		
-		return Amysqlrealescapestring($value);
+		return hc_mysql_real_escape_string($value);
 	}
 	/**
 	 * Removes escape backslash when present for output to page, wrapper for stripslashes().
@@ -337,7 +337,7 @@
 	}
 
 	/**
-	 * Check MySQL result set for minimum row count, wrapper for Amysqlnumrows().
+	 * Check MySQL result set for minimum row count, wrapper for hc_mysql_num_rows().
 	 * @since 2.0.0
 	 * @version 2.1.0
 	 * @param resource $result MySQL result set
@@ -348,7 +348,7 @@
 		if(!$result)
 			return;
 		
-		$chk_row_cnt = Amysqlnumrows($result);
+		$chk_row_cnt = hc_mysql_num_rows($result);
 		return ($chk_row_cnt > $min) ? true : false;
 	}
 	/**
@@ -613,8 +613,8 @@
 		$cnt = 1;
 		echo '
 			<div class="catCol">';
-		while($row = Amysqlfetchrow($result)){
-			if($cnt > ceil(Amysqlnumrows($result) / $columns) && $row[2] == 0){
+		while($row = hc_mysql_fetch_row($result)){
+			if($cnt > ceil(hc_mysql_num_rows($result) / $columns) && $row[2] == 0){
 				echo ($cnt > 1) ? '
 			</div>' : '';
 				echo '
@@ -654,7 +654,7 @@
 							LEFT JOIN " . HC_TblPrefix . "locations as l ON (e.LocID = l.PkID)
 						WHERE " . $sqlWhere . " (e.IsActive = 1 AND e.IsApproved = 1) OR (l.IsActive = 1) GROUP BY LocationCity, City");
 		$cities = array();
-		while($row = Amysqlfetchrow($result)){
+		while($row = hc_mysql_fetch_row($result)){
 			if($row[1] == '')
 				$cities[strtolower($row[0] . $row[1])] = $row[0] . $row[1];
 			else 
@@ -680,7 +680,7 @@
 							LEFT JOIN " . HC_TblPrefix . "locations as l ON (e.LocID = l.PkID)
 						WHERE " . $sqlWhere . " (e.IsActive = 1 AND e.IsApproved = 1) OR (l.IsActive = 1) GROUP BY LocationZip, Zip");
 		$postal = array();
-		while($row = Amysqlfetchrow($result)){
+		while($row = hc_mysql_fetch_row($result)){
 			if($row[1] == '')
 				$postal[strtolower($row[0] . $row[1])] = $row[0] . $row[1];
 			else
@@ -1149,7 +1149,7 @@
 		if(hasRows($result)){
 			$rsvps = $header;
 			
-			while($row = Amysqlfetchrow($result)){
+			while($row = hc_mysql_fetch_row($result)){
 				$rsvps .= "\n".'"'.clean_csv($row[0]).'","'.clean_csv($row[1]).'","'.clean_csv($row[2]).'","'.clean_csv($row[3]).'","'.clean_csv($row[4]).'","'.
 							clean_csv($row[5]).'","'.clean_csv($row[6]).'","'.clean_csv($row[7]).'","'.clean_csv($row[8]).'","'.clean_csv($row[9]).'"';
 			}

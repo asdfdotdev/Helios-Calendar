@@ -15,7 +15,7 @@
 	include_once(HCPATH . HCINC . '/functions/users.php');
 	include_once(HCPATH . HCINC . '/functions/shared.php');
 	
-	$dbc = Amysqlconnect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+	$dbc = hc_mysql_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	
 	buildCache(6);
 	buildCache(0);
@@ -136,7 +136,7 @@
 						ORDER BY StartDate");
 				if(hasRows($result)){
 					define('HCCanURL',CalRoot.'/index.php?com=series&sID='.$sID);
-					$crmbAdd[HCCanURL] = $hc_lang_core['Series'].' '.Amysqlresult($result,0,0);}
+					$crmbAdd[HCCanURL] = $hc_lang_core['Series'].' '.hc_mysql_result($result,0,0);}
 				include_once(HCLANG . '/public/event.php');
 				include_once(HCPATH . HCINC . '/functions/events.php');
 				include_once(HCPATH . HCINC . '/functions/maps.php');
@@ -157,16 +157,16 @@
 					if(hasRows($result)){
 						define('HCCanURL',CalRoot.'/index.php?com='.HCCOM.'&amp;lID='.$lID);
 						$crmbAdd[CalRoot.'/index.php?com=location'] = $hc_lang_core['location'];
-						$crmbAdd[CalRoot.'/index.php?com=location&amp;lID='.$lID] = Amysqlresult($result,0,0);
+						$crmbAdd[CalRoot.'/index.php?com=location&amp;lID='.$lID] = hc_mysql_result($result,0,0);
 						$crmbAdd[HCCanURL] = $hc_lang_core[HCCOM];}
 				} elseif($eID > 0) {
 					$result = doQuery("SELECT Title, StartDate, StartTime, TBD FROM " . HC_TblPrefix . "events WHERE PkID = '" . $eID . "'".(($hc_cfg[126] == 0) ? " AND StartDate >= '" . SYSDATE . "'" : ""));
 					if(hasRows($result)){
 						define('HCCanURL',CalRoot.'/index.php?com='.HCCOM.'&amp;eID='.$eID);
-						$crmbAdd[CalRoot.'/index.php?eID='.$eID] = Amysqlresult($result,0,0);
+						$crmbAdd[CalRoot.'/index.php?eID='.$eID] = hc_mysql_result($result,0,0);
 						$crmbAdd[HCCanURL] = $hc_lang_core[HCCOM];}
 				}
-				$title = cOut(Amysqlresult($result,0,0));
+				$title = cOut(hc_mysql_result($result,0,0));
 				include_once(HCLANG . '/public/'.HCCOM.'.php');
 				include_once(HCPATH . HCINC . '/functions/forms.php');
 				load_theme_page('form.php');
@@ -185,9 +185,9 @@
 				
 				if($eID > 0 && hasRows($result)){
 					define('HCCanURL',CalRoot.'/index.php?com=rsvp&amp;eID='.$eID);
-					$crmbAdd[CalRoot.'/index.php?eID='.$eID] = Amysqlresult($result,0,0);
+					$crmbAdd[CalRoot.'/index.php?eID='.$eID] = hc_mysql_result($result,0,0);
 					$crmbAdd[HCCanURL] = $hc_lang_core[HCCOM];}
-				$title = (hasRows($result)) ? cOut(Amysqlresult($result,0,0)) : '';
+				$title = (hasRows($result)) ? cOut(hc_mysql_result($result,0,0)) : '';
 				include_once(HCLANG . '/public/rsvp.php');
 				include_once(HCPATH . HCINC . '/functions/forms.php');
 				load_theme_page('form.php');
@@ -243,7 +243,7 @@
 					if($lID > 0){
 						$result = doQuery("SELECT Name FROM " . HC_TblPrefix . "locations WHERE PkID = '" . $lID . "'");
 						if(hasRows($result))
-							$crmbAdd['NULL'] = $hc_lang_core['LocCal'].' '.Amysqlresult($result,0,0);
+							$crmbAdd['NULL'] = $hc_lang_core['LocCal'].' '.hc_mysql_result($result,0,0);
 					}
 					$m = (isset($_GET['m'])) ? '&amp;m=1' : '';
 					$d = (isset($_GET['d'])) ? '?d='.HCDATE : '';

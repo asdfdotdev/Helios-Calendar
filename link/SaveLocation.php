@@ -18,8 +18,8 @@
 	
 	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "locations WHERE PkID = '" . $lID . "'");
 	if(hasRows($result)){
-		$locName = Amysqlresult($result,0,1);
-		$location = Amysqlresult($result,0,1) . " - " . Amysqlresult($result,0,2) . " " . Amysqlresult($result,0,3) . ", " . Amysqlresult($result,0,4) . ", " . Amysqlresult($result,0,5) . " " . Amysqlresult($result,0,6) . " " . Amysqlresult($result,0,7);
+		$locName = hc_mysql_result($result,0,1);
+		$location = hc_mysql_result($result,0,1) . " - " . hc_mysql_result($result,0,2) . " " . hc_mysql_result($result,0,3) . ", " . hc_mysql_result($result,0,4) . ", " . hc_mysql_result($result,0,5) . " " . hc_mysql_result($result,0,6) . " " . hc_mysql_result($result,0,7);
 
 		$tzOffset = date("O") + ($hc_cfg[35] * 100);
 		if($tzOffset == 0){
@@ -48,7 +48,7 @@
 		echo "X-WR-RELCALID:" . cleanSpecialChars(strip_tags($locName)) . " Event : Powered by Helios Calendar\r\n";
 		echo "X-WR-CALNAME:" . cleanSpecialChars($locName) . "\r\n";
 
-		while($row = Amysqlfetchrow($result)){
+		while($row = hc_mysql_fetch_row($result)){
 			$dtStamp = date("Ymd\TH:i:sO", mktime(0, 0, 0, 1, 1, 1971));
 			$starttimepart = explode(":", $row[10]);
 			$startdatepart = explode("-", $row[9]);

@@ -19,7 +19,7 @@
 			
 			$result = doQuery("SELECT ContactURL FROM " . HC_TblPrefix . "events WHERE PkID = '" . $oID . "'");
 			if(hasRows($result))
-				header('Location: ' . Amysqlresult($result,0,0));
+				header('Location: ' . hc_mysql_result($result,0,0));
 			else
 				header('Location: ' . CalRoot);
 			break;
@@ -33,13 +33,13 @@
 				doQuery("SELECT LocationAddress, LocationCity, LocationState, LocationZip, LocCountry, NULL as Lat, NULL as Lon FROM " . HC_TblPrefix . "events WHERE PkID = '" . $oID . "'");
 			
 			if(hasRows($result)){
-				$link = str_replace('[address]', rawurlencode(Amysqlresult($result,0,0)), $link);
-				$link = str_replace('[city]', rawurlencode(Amysqlresult($result,0,1)), $link);
-				$link = str_replace('[region]', rawurlencode(Amysqlresult($result,0,2)), $link);
-				$link = str_replace('[postalcode]', rawurlencode(Amysqlresult($result,0,3)), $link);
-				$link = str_replace('[country]', rawurlencode(Amysqlresult($result,0,4)), $link);
-                    $link = str_replace('[lat]', rawurlencode(Amysqlresult($result,0,5)), $link);
-                    $link = str_replace('[lon]', rawurlencode(Amysqlresult($result,0,6)), $link);
+				$link = str_replace('[address]', rawurlencode(hc_mysql_result($result,0,0)), $link);
+				$link = str_replace('[city]', rawurlencode(hc_mysql_result($result,0,1)), $link);
+				$link = str_replace('[region]', rawurlencode(hc_mysql_result($result,0,2)), $link);
+				$link = str_replace('[postalcode]', rawurlencode(hc_mysql_result($result,0,3)), $link);
+				$link = str_replace('[country]', rawurlencode(hc_mysql_result($result,0,4)), $link);
+                    $link = str_replace('[lat]', rawurlencode(hc_mysql_result($result,0,5)), $link);
+                    $link = str_replace('[lon]', rawurlencode(hc_mysql_result($result,0,6)), $link);
 				
                     header('Location: ' . $link);
 			} else {
@@ -51,7 +51,7 @@
 			if(hasRows($result)){
 				if(!preg_match("$hc_cfg[85]i",$_SERVER['HTTP_USER_AGENT']))
 					doQuery("UPDATE " . HC_TblPrefix . "locations SET URLClicks = URLClicks + 1 WHERE PkID = '" . $oID . "'");
-				header('Location: ' . Amysqlresult($result,0,0));
+				header('Location: ' . hc_mysql_result($result,0,0));
 			} else {
 				header('Location: ' . CalRoot);
 			}

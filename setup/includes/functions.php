@@ -35,10 +35,10 @@
 	function php_abort($version){
 		return ($version != '' && $version < '5.2') ? true : false;
 	}
-	function Amysqlcurrent($version){
+	function hc_mysql_current($version){
 		return ($version != '' && $version >= '5.5') ? true : false;
 	}
-	function Amysqlabort($version){
+	function hc_mysql_abort($version){
 		return ($version != '' && $version < '5.0') ? true : false;
 	}
 	function progress(){
@@ -103,11 +103,11 @@
 	function is_install()
 	{
 		try {
-			$dbc = Amysqlconnect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+			$dbc = hc_mysql_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 			$result = doQuery("SELECT COUNT(*) FROM ".HC_TblPrefix."settings");
 		
-			if($result && Amysqlresult($result,0,0) > 0)
+			if($result && hc_mysql_result($result,0,0) > 0)
 				   return false;
 			else
 				return true;

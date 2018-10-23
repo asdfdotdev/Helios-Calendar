@@ -30,7 +30,7 @@
 						 WHERE mg.IsActive = 1
 						 Group By mg.PkID, mg.Name, m.PkID
 						 ORDER BY mg.Name");
-		while($row = Amysqlfetchrow($resultG)){
+		while($row = hc_mysql_fetch_row($resultG)){
 			$allSub += ($row[2] != '' && $row[0] == 1) ? 1 : 0;
 		}
 		
@@ -43,7 +43,7 @@
 								LEFT JOIN " . HC_TblPrefix . "subscribers s ON (s.PkID = sgs.UserID)
 							WHERE m.PkID = '" . $mID . "' AND s.IsConfirm = 1";
 		$resultS = doQuery($queryCnt);
-		$subCnt = Amysqlresult($resultS,0,0);
+		$subCnt = hc_mysql_result($resultS,0,0);
 		
 		doQuery("INSERT INTO " . HC_TblPrefix . "newsletters(Subject,StartDate,EndDate,TemplateID,Message,SentDate,SendCount,`Status`,SendingAdminID,MailerID,IsArchive,IsActive)
 				SELECT Subject, StartDate, EndDate, TemplateID, Message, NOW(), " . $subCnt . " as SendCount,
@@ -52,7 +52,7 @@
 				WHERE m.PkID = '" . $mID . "'");
 
 		$result = doQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "newsletters");
-		$newPkID = Amysqlresult($result,0,0);
+		$newPkID = hc_mysql_result($result,0,0);
 		$queryList = ($allSub > 0) ? "INSERT INTO " . HC_TblPrefix . "newssubscribers(NewsletterID,SubscriberID) SELECT '" . $newPkID . "', PkID FROM " . HC_TblPrefix . "subscribers WHERE IsConfirm = 1" :
 							"INSERT INTO " . HC_TblPrefix . "newssubscribers(NewsletterID,SubscriberID)
 							SELECT DISTINCT '" . $newPkID . "', sgs.UserID
