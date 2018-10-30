@@ -10,7 +10,7 @@
 	session_name('hc_setup_'.md5(HC_Install));
 	session_start();
 	
-	$curVersion = "4.0";
+	$curVersion = "4.1";
 	$setup = true;
 	$sID = (isset($_GET['step']) && is_numeric($_GET['step'])) ? strip_tags($_GET['step']) : 1;
 	$_SESSION['code_valid'] = ((isset($_POST['start']) && $_POST['start'] == HC_Install && HC_Install != '') || (isset($_SESSION['code_valid']) && $_SESSION['code_valid'] == 1)) ? true : false;	
