@@ -20,7 +20,7 @@
 		$paramS = array('%' . $term '%','%' . $term '%');
 	}
 	
-	$resultC = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix  . "users WHERE IsBanned = ? $queryS", array_merge(array(cIn($ban)), $paramS));
+	$resultC = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix  . "users WHERE IsBanned = ? $queryS", array_merge(array(cIn($ban)), $paramS));
 	$pages = ceil(hc_mysql_result($resultC,0,0)/$resLimit);
 	$resOffset = ($pages <= $resOffset && $pages > 0) ? $pages - 1 : $resOffset;
 	
@@ -89,7 +89,7 @@
 			'.(($term != '') ? '<label>&nbsp;</label><span class="output"><a href="'.AdminRoot.'/index.php?com=user&p=0&a='.$resLimit.'">'.$hc_lang_user['AllUsersLink'].'</a></span>' : '').'
 		</fieldset>';
 
-	$result = DoQuery("SELECT PkID, NetworkType, NetworkName, NetworkID, Email, SignIns, LastSignIn, LastIP, Level, IsBanned,
+	$result = doQuery("SELECT PkID, NetworkType, NetworkName, NetworkID, Email, SignIns, LastSignIn, LastIP, Level, IsBanned,
 						(SELECT COUNT(PkID) FROM " . HC_TblPrefix . "events e WHERE e.OwnerID = u.PkID AND e.IsActive = 1) as Events
 					FROM " . HC_TblPrefix  . "users u
 					WHERE IsBanned = ? $queryS ORDER BY NetworkName LIMIT ? OFFSET ?", array_merge(array_merge(array(cIn($ban)), $paramS), array($resLimit, ($resOffset * $resLimit)));

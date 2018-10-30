@@ -29,7 +29,7 @@
 	
 	appInstructions(0, "APIs", $hc_lang_settings['TitleAPI'], $hc_lang_settings['InstructAPI']);
 	
-	$result = DoQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings 
+	$result = doQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings 
 					WHERE PkID IN (5,6,25,27,41,42,43,45,46,47,50,52,55,56,57,58,59,61,62,63,69,94,95,96,
 								100,101,102,103,104,105,111,112,113,114,115,117,118,119,120,121,122,123,124,125)
 					ORDER BY PkID");

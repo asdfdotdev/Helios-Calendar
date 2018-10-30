@@ -40,7 +40,7 @@
 		$query .= " AND SeriesID IS NULL UNION " . $query . " AND SeriesID IS NOT NULL GROUP BY e.PkID, e.Title, e.Description, e.StartDate, e.StartTime, e.SeriesID";
 	}
 	
-	$result = DoQuery($query . " ORDER BY StartDate, StartTime LIMIT ?", array_merge($lparams, $cparams, array($hc_cfg[2])));
+	$result = doQuery($query . " ORDER BY StartDate, StartTime LIMIT ?", array_merge($lparams, $cparams, array($hc_cfg[2])));
 	
 	header('Content-Type:application/rss+xml; charset=' . $hc_lang_config['CharSet']);
 	echo '<?xml version="1.0" encoding="'.$hc_lang_config['CharSet'].'"?>

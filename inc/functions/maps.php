@@ -561,7 +561,7 @@
 			ob_start();
 			$fp = fopen(HCPATH.'/cache/lmap'.SYSDATE, 'w');
 			
-			$result = DoQuery("SELECT l.PkID, l.Name, l.Address, l.Address2, l.City, l.State, l.Country, l.Zip, l.Lat, l.Lon, COUNT(e.LocID), MIN(e.StartDate), l.URL, l.Phone
+			$result = doQuery("SELECT l.PkID, l.Name, l.Address, l.Address2, l.City, l.State, l.Country, l.Zip, l.Lat, l.Lon, COUNT(e.LocID), MIN(e.StartDate), l.URL, l.Phone
 							FROM " . HC_TblPrefix . "locations l
 								LEFT JOIN " . HC_TblPrefix . "events e ON (e.LocID = l.PkID)
 							WHERE l.Lat IS NOT NULL AND l.Lon IS NOT NULL AND l.Lat != '' AND l.Lon != '' AND l.IsActive = 1 AND

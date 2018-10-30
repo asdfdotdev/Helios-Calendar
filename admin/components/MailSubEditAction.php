@@ -31,13 +31,13 @@
 		$grpID = (isset($_POST['grpID'])) ? array_filter($_POST['grpID'],'is_numeric') : array();
 		$catID = (isset($_POST['catID'])) ? array_filter($_POST['catID'],'is_numeric') : array();
 		
-		$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "subscribers WHERE PkID = ?", array($uID));
+		$result = doQuery("SELECT * FROM " . HC_TblPrefix . "subscribers WHERE PkID = ?", array($uID));
 		if(hasRows($result)){
 			$queryE = '';
 			$msgID = '1';
 			$params = array();
 			if($email != $oldEmail){
-				$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "subscribers WHERE Email = ?", array($email));
+				$result = doQuery("SELECT * FROM " . HC_TblPrefix . "subscribers WHERE Email = ?", array($email));
 				if(hasRows($result))
 					$msgID = '3';
 				else {
@@ -54,7 +54,7 @@
 			$params[] = $referral;
 			$params[] = $format;
 			$params[] = $uID;
-			DoQuery("UPDATE " . HC_TblPrefix . "subscribers
+			doQuery("UPDATE " . HC_TblPrefix . "subscribers
 					SET 
 						" . $queryE . "
 						FirstName = ?,
@@ -66,14 +66,14 @@
 						Referral = ?,
 						Format = ?
 					WHERE PkID = ?", $params);
-			DoQuery("DELETE FROM " . HC_TblPrefix . "subscriberscategories WHERE UserID = ?", array($uID));
-			DoQuery("DELETE FROM " . HC_TblPrefix . "subscribersgroups WHERE UserID = ?", array($uID));
+			doQuery("DELETE FROM " . HC_TblPrefix . "subscriberscategories WHERE UserID = ?", array($uID));
+			doQuery("DELETE FROM " . HC_TblPrefix . "subscribersgroups WHERE UserID = ?", array($uID));
 			
 			foreach ($grpID as $val){
-				DoQuery("INSERT INTO " . HC_TblPrefix . "subscribersgroups(UserID,GroupID) VALUES(?,?)", array($uID, $val));
+				doQuery("INSERT INTO " . HC_TblPrefix . "subscribersgroups(UserID,GroupID) VALUES(?,?)", array($uID, $val));
 			}
 			foreach ($catID as $val){
-				DoQuery("INSERT INTO " . HC_TblPrefix . "subscriberscategories(UserID,CategoryID) VALUES(?,?)", array($uID, $val));
+				doQuery("INSERT INTO " . HC_TblPrefix . "subscriberscategories(UserID,CategoryID) VALUES(?,?)", array($uID, $val));
 			}
 			
 			header('Location: ' . AdminRoot . '/index.php?com=subedit&msg=' . $msgID . '&uID=' . $uID);
@@ -81,12 +81,12 @@
 			$optin = isset($_POST['sendOIE']) ? cIn($_POST['sendOIE']) : '';;
 			$status = ($optin == 1) ? 0 : 1;
 		
-			$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "subscribers WHERE Email = ?", array(trim($email)));
+			$result = doQuery("SELECT * FROM " . HC_TblPrefix . "subscribers WHERE Email = ?", array(trim($email)));
 
 			if(hasRows($result)){
 				header('Location: ' . AdminRoot . '/index.php?com=subedit&msg=4');
 			} else {
-				DoQuery("INSERT INTO " . HC_TblPrefix . "subscribers(FirstName, LastName, Email,
+				doQuery("INSERT INTO " . HC_TblPrefix . "subscribers(FirstName, LastName, Email,
 						 OccupationID, Zip, BirthYear, Gender, Referral, IsConfirm, GUID, AddedBy, RegisteredAt, RegisterIP, Format)
 							VALUES(?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?)",
 							array(
@@ -105,20 +105,20 @@
 									$format
 							));
 				
-				$result = DoQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "subscribers");
+				$result = doQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "subscribers");
 				$uID = hc_mysql_result($result,0,0);
 				
-				DoQuery("DELETE FROM " . HC_TblPrefix . "subscribersgroups WHERE UserID = ?", array($uID));
-				DoQuery("DELETE FROM " . HC_TblPrefix . "subscriberscategories WHERE UserID = ?", array($uID));
+				doQuery("DELETE FROM " . HC_TblPrefix . "subscribersgroups WHERE UserID = ?", array($uID));
+				doQuery("DELETE FROM " . HC_TblPrefix . "subscriberscategories WHERE UserID = ?", array($uID));
 				
 				foreach ($grpID as $val){
-					DoQuery("INSERT INTO " . HC_TblPrefix . "subscribersgroups(UserID,GroupID) VALUES(?,?)", array($uID, $val));
+					doQuery("INSERT INTO " . HC_TblPrefix . "subscribersgroups(UserID,GroupID) VALUES(?,?)", array($uID, $val));
 				}
 				foreach ($catID as $val){
-					DoQuery("INSERT INTO " . HC_TblPrefix . "subscriberscategories(UserID,CategoryID) VALUES(?,?)", array($uID, $val));
+					doQuery("INSERT INTO " . HC_TblPrefix . "subscriberscategories(UserID,CategoryID) VALUES(?,?)", array($uID, $val));
 				}
 				
-				$result = DoQuery("SELECT FirstName, GUID FROM " . HC_TblPrefix . "subscribers WHERE PkID = ?", array($uID));
+				$result = doQuery("SELECT FirstName, GUID FROM " . HC_TblPrefix . "subscribers WHERE PkID = ?", array($uID));
 				if(hasRows($result) && $optin == 1){
 					include(HCLANG.'/public/news.php');
 					
@@ -137,21 +137,21 @@
 		}
 	} else {
 		if(isset($_GET['a']) && $_GET['a'] = 1){
-			DoQuery("DELETE sg FROM " . HC_TblPrefix . "subscribersgroups sg LEFT JOIN " . HC_TblPrefix . "subscribers s ON (s.PkID = sg.UserID) WHERE s.IsConfirm = 0");
-			DoQuery("DELETE sc FROM " . HC_TblPrefix . "subscriberscategories sc LEFT JOIN " . HC_TblPrefix . "subscribers s ON (s.PkID = sc.UserID) WHERE s.IsConfirm = 0");
-			DoQuery("DELETE FROM " . HC_TblPrefix . "subscribers WHERE IsConfirm = 0");
+			doQuery("DELETE sg FROM " . HC_TblPrefix . "subscribersgroups sg LEFT JOIN " . HC_TblPrefix . "subscribers s ON (s.PkID = sg.UserID) WHERE s.IsConfirm = 0");
+			doQuery("DELETE sc FROM " . HC_TblPrefix . "subscriberscategories sc LEFT JOIN " . HC_TblPrefix . "subscribers s ON (s.PkID = sc.UserID) WHERE s.IsConfirm = 0");
+			doQuery("DELETE FROM " . HC_TblPrefix . "subscribers WHERE IsConfirm = 0");
 		} elseif(isset($_GET['dID'])) {
 			$dID = cIn(strip_tags($_GET['dID']));
-			$result = DoQuery("SELECT NewsletterID FROM " . HC_TblPrefix . "newssubscribers WHERE SubscriberID = ?", array($dID));
+			$result = doQuery("SELECT NewsletterID FROM " . HC_TblPrefix . "newssubscribers WHERE SubscriberID = ?", array($dID));
 			if(hasRows($result)){
 				while($row = hc_mysql_fetch_row($result)){
-					DoQuery("UPDATE " . HC_TblPrefix . "newsletters SET SendCount = (SendCount - 1) WHERE PkID = ?", array($row[0]));
+					doQuery("UPDATE " . HC_TblPrefix . "newsletters SET SendCount = (SendCount - 1) WHERE PkID = ?", array($row[0]));
 				}
 			}
-			DoQuery("DELETE FROM " . HC_TblPrefix . "subscribersgroups WHERE UserID = ?", array($dID));
-			DoQuery("DELETE FROM " . HC_TblPrefix . "subscriberscategories WHERE UserID = ?", array($dID));
-			DoQuery("DELETE FROM " . HC_TblPrefix . "subscribers WHERE PkID = ?", array($dID));
-			DoQuery("DELETE FROM " . HC_TblPrefix . "newssubscribers WHERE SubscriberID = ?", array($dID));
+			doQuery("DELETE FROM " . HC_TblPrefix . "subscribersgroups WHERE UserID = ?", array($dID));
+			doQuery("DELETE FROM " . HC_TblPrefix . "subscriberscategories WHERE UserID = ?", array($dID));
+			doQuery("DELETE FROM " . HC_TblPrefix . "subscribers WHERE PkID = ?", array($dID));
+			doQuery("DELETE FROM " . HC_TblPrefix . "newssubscribers WHERE SubscriberID = ?", array($dID));
 		}
 		header('Location: ' . AdminRoot . '/index.php?com=submngt&msg=1');
 	}

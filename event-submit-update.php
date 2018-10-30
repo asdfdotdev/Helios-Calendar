@@ -133,23 +133,23 @@
 			$eID = cIn($eventIDs[0]);
 		}
 		
-		DoQuery($query, $params);
+		doQuery($query, $params);
 		$stop = count($eventIDs);
 		$i = 0;
 		while($i < $stop){
 			$doID = cIn($eventIDs[$i]);
 			
 			if(isset($_POST['catID']) && is_array($_POST['catID'])){
-				DoQuery("DELETE FROM " . HC_TblPrefix . "eventcategories WHERE EventID = ?", array($doID));
+				doQuery("DELETE FROM " . HC_TblPrefix . "eventcategories WHERE EventID = ?", array($doID));
 				
 				foreach ($_POST['catID'] as $val){
 					if(is_numeric($val) && $val > 0)
-						DoQuery("INSERT INTO " . HC_TblPrefix . "eventcategories(EventID, CategoryID) VALUES(?,?)", array($doID, cIn($val)));
+						doQuery("INSERT INTO " . HC_TblPrefix . "eventcategories(EventID, CategoryID) VALUES(?,?)", array($doID, cIn($val)));
 				}
 			}
 			if($rsvp_type == 1 && is_numeric($doID) && $doID > 0){
-				DoQuery("DELETE FROM " . HC_TblPrefix . "eventrsvps WHERE EventID = ?", array($doID));
-				DoQuery("INSERT INTO " . HC_TblPrefix . "eventrsvps(Type,EventID,OpenDate,CloseDate,Space,RegOption,Notices)
+				doQuery("DELETE FROM " . HC_TblPrefix . "eventrsvps WHERE EventID = ?", array($doID));
+				doQuery("INSERT INTO " . HC_TblPrefix . "eventrsvps(Type,EventID,OpenDate,CloseDate,Space,RegOption,Notices)
 						VALUES(?,?,?,?,?,?,?)", array($rsvp_type, $doID, $rsvp_open, $rsvp_close, $rsvp_space, $rsvp_disp, $rsvp_notice));
 			}
 			++$i;

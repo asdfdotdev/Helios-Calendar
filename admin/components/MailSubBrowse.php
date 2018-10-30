@@ -9,7 +9,7 @@
 
 	$token = set_form_token(1);
 	
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "subscribers WHERE IsConfirm = 0");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "subscribers WHERE IsConfirm = 0");
 	$num = (hasRows($result) && hc_mysql_result($result,0,0) > 0) ? hc_mysql_result($result,0,0) : 0;
 	$hc_Side[] = array(AdminRoot . '/components/MailSubEditAction.php?dID=uc&a=1&tkn='.$token,'user_delete.png',$hc_lang_news['DeleteNoConfirm'] . ' <b>' . $num . '</b>',0);
 	$hc_Side[] = array(AdminRoot . '/components/MailSubDownload.php?tkn='.$token,'download_csv.png',$hc_lang_news['DownloadSub'],0);
@@ -25,7 +25,7 @@
 		$params = array("%".$term."%","%".$term."%","%".$term."%");
 	}
 	
-	$resultC = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix  . "subscribers WHERE IsConfirm = 1 $queryS", $params);
+	$resultC = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix  . "subscribers WHERE IsConfirm = 1 $queryS", $params);
 	$pages = ceil(hc_mysql_result($resultC,0,0)/$resLimit);
 	$resOffset = ($pages <= $resOffset && $pages > 0) ? $pages - 1 : $resOffset;
 	
@@ -84,7 +84,7 @@
 			'.(($term != '') ? '<label>&nbsp;</label><span class="output"><a href="'.AdminRoot.'/index.php?com=submngt&p=0&a='.$resLimit.'">'.$hc_lang_news['AllNewsLink'].'</a></span>' : '').'
 		</fieldset>';
 
-	$result = DoQuery("SELECT PkID, FirstName, LastName, Email, RegisteredAt FROM " . HC_TblPrefix  . "subscribers WHERE IsConfirm = 1 $queryS ORDER BY LastName, FirstName LIMIT ? OFFSET ?", array($resLimit, ($resOffset * $resLimit)));
+	$result = doQuery("SELECT PkID, FirstName, LastName, Email, RegisteredAt FROM " . HC_TblPrefix  . "subscribers WHERE IsConfirm = 1 $queryS ORDER BY LastName, FirstName LIMIT ? OFFSET ?", array($resLimit, ($resOffset * $resLimit)));
 	if(hasRows($result)){
 		echo '
 		<ul class="data">

@@ -81,7 +81,7 @@
 			return -1;
 		
 		$uID = cIn($_SESSION['UserPkID']);
-		$result = DoQuery("SELECT NetworkType, NetworkName, NetworkID, Email, FirstSignIn, Level, Location, Birthdate, APIKey, APIAccess FROM " . HC_TblPrefix . "users WHERE PkID = ?", array($uID));
+		$result = doQuery("SELECT NetworkType, NetworkName, NetworkID, Email, FirstSignIn, Level, Location, Birthdate, APIKey, APIAccess FROM " . HC_TblPrefix . "users WHERE PkID = ?", array($uID));
 		
 		if(!hasRows($result) or !user_check_status())
 			return -1;
@@ -218,7 +218,7 @@
 		$sqlStart = $year.'-'.$month.'-1';
 		$sqlEnd = strftime("%Y-%m-%d",mktime(0,0,0,($month+1),0,$year));
 		
-		$result = DoQuery("SELECT DISTINCT e.PkID, e.Title, e.StartDate, e.StartTime, e.EndTime, e.TBD, e.IsApproved, e.SeriesID, er.Type, er.Space,
+		$result = doQuery("SELECT DISTINCT e.PkID, e.Title, e.StartDate, e.StartTime, e.EndTime, e.TBD, e.IsApproved, e.SeriesID, er.Type, er.Space,
 							(SELECT COUNT(PkID) FROM " . HC_TblPrefix . "registrants r WHERE EventID = e.PkID) as SpacesTaken
 						FROM " . HC_TblPrefix . "events e
 							LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (ec.EventID = e.PkID)
@@ -419,7 +419,7 @@
 	function user_register_new($network,$net_name,$net_id){
 		global $hc_cfg;
 				
-		DoQuery("INSERT INTO " . HC_TblPrefix . "users(NetworkType, NetworkName, NetworkID, FirstSignin, LastSignIn, LastIP, Level, IsPrivate, APIKey, APIAccess, APICnt)
+		doQuery("INSERT INTO " . HC_TblPrefix . "users(NetworkType, NetworkName, NetworkID, FirstSignin, LastSignIn, LastIP, Level, IsPrivate, APIKey, APIAccess, APICnt)
 				Values(?,?,?,'".SYSDATE.' '.SYSTIME."','".SYSDATE.' '.SYSTIME."',? ,'0','1',?,1,0)", 
 
 					array(	$network, 
@@ -429,7 +429,7 @@
 							cIn(md5(sha1($network.$net_name.$net_id.(rand()*date("U")))))
 						)
 				);
-		$result = DoQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "users");
+		$result = doQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "users");
 		
 		return (hasRows($result)) ? hc_mysql_result($result,0,0) : NULL;
 	}
@@ -444,7 +444,7 @@
 		if(!is_numeric($local_id) || $local_id < 1)
 			return -1;
 		
-		DoQuery("UPDATE " . HC_TblPrefix . "users SET LastSignIn = '".SYSDATE." ".SYSTIME."', LastIP = ?, SignIns = (SignIns+1) WHERE PkID = ?", array(cIn(strip_tags($_SERVER["REMOTE_ADDR"])), cIn($local_id)));
+		doQuery("UPDATE " . HC_TblPrefix . "users SET LastSignIn = '".SYSDATE." ".SYSTIME."', LastIP = ?, SignIns = (SignIns+1) WHERE PkID = ?", array(cIn(strip_tags($_SERVER["REMOTE_ADDR"])), cIn($local_id)));
 	}
 	/**
 	 * Update status, and variables, for user's current session. Called at regular intervals to rebuild the session id (user_new_session()) & update the user's status (incase of deletion or banning by admin).
@@ -457,7 +457,7 @@
 	 * @return void
 	 */
 	function user_update_status($network,$net_name,$net_id,$signed_in){
-		$result = DoQuery("SELECT PkID, Level, IsBanned FROM " . HC_TblPrefix . "users WHERE NetworkType = ?", array(cIn($network)."' AND NetworkID = '".cIn($net_id)));
+		$result = doQuery("SELECT PkID, Level, IsBanned FROM " . HC_TblPrefix . "users WHERE NetworkType = ?", array(cIn($network)."' AND NetworkID = '".cIn($net_id)));
 		
 		if($signed_in == 1 && hasRows($result) && hc_mysql_result($result,0,2) == 0){
 			user_new_session();

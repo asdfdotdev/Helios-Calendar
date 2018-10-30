@@ -17,7 +17,7 @@
 	
 	appInstructions(0, "API", $hc_lang_settings['TitleAPIL'], $hc_lang_settings['InstructAPIL']);
 	
-	$result = DoQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings 
+	$result = doQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings 
 					WHERE PkID IN (127,128,129,130,131,132,133)
 					ORDER BY PkID");
 	
@@ -67,7 +67,7 @@
 			
 			$cnt = 0;
 			foreach(apc_fetch(HC_APCPrefix.'users') as $user){
-				$result = DoQuery("SELECT PkID FROM " . HC_TblPrefix . "users WHERE NetworkName = ? AND IsBanned = 0", array(cIn(strip_tags($user[1]))));
+				$result = doQuery("SELECT PkID FROM " . HC_TblPrefix . "users WHERE NetworkName = ? AND IsBanned = 0", array(cIn(strip_tags($user[1]))));
 				
 				$hl = ($cnt % 2 == 1) ? ' hl':'';
 				echo '

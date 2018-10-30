@@ -6,7 +6,7 @@
 	if(!defined('hcAdmin')){header("HTTP/1.1 403 No Direct Access");exit();}
 	
 	$errorMsg = '';
-	$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "settings WHERE PkID IN(5,6);");
+	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "settings WHERE PkID IN(5,6);");
 	if(!hasRows($result)){
 		$apiFail = true;
 		$errorMsg = 'Eventbrite API Settings Unavailable.';

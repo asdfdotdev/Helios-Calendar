@@ -20,7 +20,7 @@
 		
 		include(dirname(__FILE__).'/tzs.php');
 		$tzSelect = date("O") + (($hc_cfg[35] - date("I")) * 100);
-		$result = DoQuery("SELECT e.PkID, e.Title, e.Description, e.StartDate, e.StartTime, e.EndTime, e.TBD, e.ContactName, e.ContactEmail, e.ContactURL, e.ContactPhone, er.Type, 
+		$result = doQuery("SELECT e.PkID, e.Title, e.Description, e.StartDate, e.StartTime, e.EndTime, e.TBD, e.ContactName, e.ContactEmail, e.ContactURL, e.ContactPhone, er.Type, 
 							er.Space, e.LocID, e.SeriesID, e.Cost, e.LocationName, e.LocationAddress, e.LocationAddress2, e.LocationCity, e.LocationState, 
 							e.LocationZip, e.LocCountry, e.ShortURL, l.Name, l.Address, l.Address2, l.City, l.State, l.Zip, l.Country, l.URL, l.Phone, l.Email, l.Lat, l.Lon
 						FROM " . HC_TblPrefix . "events e

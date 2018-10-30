@@ -31,7 +31,7 @@
 		$docLink = 'Recycling_Events';
 		$hlpTitle = 'TitleRecycle';
 		$hlpDesc = 'InstructRecycle';
-		$result = DoQuery("SELECT e.*, l.PkID, l.Name, l.Address, l.Address2, l.City, l.State, l.Zip, l.Country, er.*
+		$result = doQuery("SELECT e.*, l.PkID, l.Name, l.Address, l.Address2, l.City, l.State, l.Zip, l.Country, er.*
 						FROM " . HC_TblPrefix . "events e
 							LEFT JOIN " . HC_TblPrefix . "locations l ON (e.LocID = l.PkID)
 							LEFT JOIN " . HC_TblPrefix . "eventrsvps er ON (er.EventID = e.PkID)
@@ -365,7 +365,7 @@
 		<input name="contactURL" id="contactURL" type="url" maxlength="100" size="40" value="'.$contactURL.'" />
 	</fieldset>';
 			
-	$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "settings WHERE PkID IN(5,6,46,47,57,58,120,123)");
+	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "settings WHERE PkID IN(5,6,46,47,57,58,120,123)");
 	$goEventbrite = (hc_mysql_result($result,0,1) != '' && hc_mysql_result($result,1,1) != '') ? 1 : 0;
 	$goTwitter = (hc_mysql_result($result,2,1) != '' && hc_mysql_result($result,3,1) != '') ? 1 : 0;
 	$goBitly = (hc_mysql_result($result,4,1) != '' && hc_mysql_result($result,5,1) != '') ? 1 : 0;

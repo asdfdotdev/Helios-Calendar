@@ -35,7 +35,7 @@
 	}
 	
 	appInstructions(0, "Editing_Locations", $hc_lang_locations['TitleBrowse'], $hc_lang_locations['InstructBrowse']);
-	$resultC = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "locations WHERE IsActive = 1 $queryS", $params);
+	$resultC = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "locations WHERE IsActive = 1 $queryS", $params);
 	$pages = ceil(hc_mysql_result($resultC,0,0)/$resLimit);
 	if($pages <= $resOffset && $pages > 0){$resOffset = ($pages - 1);}
 	
@@ -79,7 +79,7 @@
 			'.(($term != '') ? '<label>&nbsp;</label><span class="output"><a href="'.AdminRoot.'/index.php?com=location&p=0&a='.$resLimit.'">'.$hc_lang_locations['AllLink'].'</a></span>' : '').'
 		</fieldset>';
 	
-	$result = DoQuery("SELECT PkID, Name, IsPublic FROM " . HC_TblPrefix  . "locations WHERE IsActive = 1 $queryS ORDER BY IsPublic, Name LIMIT ? OFFSET ?" , array($resLimit, ($resOffset * $resLimit)));
+	$result = doQuery("SELECT PkID, Name, IsPublic FROM " . HC_TblPrefix  . "locations WHERE IsActive = 1 $queryS ORDER BY IsPublic, Name LIMIT ? OFFSET ?" , array($resLimit, ($resOffset * $resLimit)));
 	if(hasRows($result)){
 		echo '
 		<ul class="data">

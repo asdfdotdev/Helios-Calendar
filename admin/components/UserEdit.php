@@ -21,7 +21,7 @@
 	
 	appInstructions(0, "Manage_Users", $hc_lang_user['TitleEdit'], $hc_lang_user['InstructEdit']);
 	
-	$result = DoQuery("SELECT u.*,(SELECT COUNT(PkID) FROM " . HC_TblPrefix . "events e WHERE e.OwnerID = u.PkID AND e.IsActive = 1) as EventCnt FROM " . HC_TblPrefix . "users u WHERE PkID = ?", array($uID));
+	$result = doQuery("SELECT u.*,(SELECT COUNT(PkID) FROM " . HC_TblPrefix . "events e WHERE e.OwnerID = u.PkID AND e.IsActive = 1) as EventCnt FROM " . HC_TblPrefix . "users u WHERE PkID = ?", array($uID));
 	
 	if(!hasRows($result)){
 		echo '<p>'.$hc_lang_user['NoUserEdit'].'</p>';
@@ -106,7 +106,7 @@
 		</span>':'').'
 	</fieldset>';
 		
-		$resultE = DoQuery("SELECT PkID, Title, StartDate, SeriesID, IsBillboard
+		$resultE = doQuery("SELECT PkID, Title, StartDate, SeriesID, IsBillboard
 						FROM " . HC_TblPrefix . "events
 						WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . cIn(SYSDATE) . "' AND SeriesID IS NULL AND OwnerID = ?
 						UNION

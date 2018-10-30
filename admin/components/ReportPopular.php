@@ -9,7 +9,7 @@
 	
 	appInstructions(0, "Reports", $hc_lang_reports['TitlePop'], $hc_lang_reports['InstructPop']);
 	
-	$result = DoQuery("SELECT PkID, Title, StartDate, PublishDate, (DATEDIFF('" . cIn(SYSDATE) . "', PublishDate)+1) as Diff, Views, (Views / (DATEDIFF('" . cIn(SYSDATE) . "', PublishDate)+1)) as Ave, IsBillboard
+	$result = doQuery("SELECT PkID, Title, StartDate, PublishDate, (DATEDIFF('" . cIn(SYSDATE) . "', PublishDate)+1) as Diff, Views, (Views / (DATEDIFF('" . cIn(SYSDATE) . "', PublishDate)+1)) as Ave, IsBillboard
 					FROM " . HC_TblPrefix . "events
 					WHERE IsActive = 1 AND IsApproved = 1 AND Views > 0 AND StartDate >= '" . cIn(SYSDATE) . "'
 					ORDER BY AVE DESC, StartDate LIMIT 100");

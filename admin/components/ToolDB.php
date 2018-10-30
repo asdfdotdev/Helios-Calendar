@@ -12,13 +12,13 @@
 	$doOpt = (isset($_GET['opt']) && is_numeric($_GET['opt'])) ? cIn($_GET['opt']) : 0;
 	$deleted = $optimized = array();
 	
-	$result = DoQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "events WHERE IsActive = 0 OR IsApproved = 0 OR StartDate = '0000-00-00'");
+	$result = doQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "events WHERE IsActive = 0 OR IsApproved = 0 OR StartDate = '0000-00-00'");
 	$deleted[HC_TblPrefix.'events'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 
-	$result = DoQuery("SELECT COUNT(EventID) FROM " . HC_TblPrefix . "eventnetwork en LEFT JOIN " . HC_TblPrefix . "events e ON (e.PkID = en.EventID) WHERE e.PkID IS NULL OR e.IsActive = 0");
+	$result = doQuery("SELECT COUNT(EventID) FROM " . HC_TblPrefix . "eventnetwork en LEFT JOIN " . HC_TblPrefix . "events e ON (e.PkID = en.EventID) WHERE e.PkID IS NULL OR e.IsActive = 0");
 	$deleted[HC_TblPrefix.'eventnetwork'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 
-	$result = DoQuery("SELECT COUNT(DISTINCT f.PkID)
+	$result = doQuery("SELECT COUNT(DISTINCT f.PkID)
 					FROM " . HC_TblPrefix . "followup f
 						LEFT JOIN " . HC_TblPrefix . "events e ON (f.EntityID = e.PkID AND f.EntityType = 1 AND e.IsActive = 1)
 						LEFT JOIN " . HC_TblPrefix . "events e2 ON (f.EntityID = e2.SeriesID AND f.EntityType = 2 AND e2.IsActive = 1)
@@ -26,44 +26,44 @@
 					WHERE e.PkID IS NULL AND e2.SeriesID IS NULL AND l.PkID IS NULL");
 	$deleted[HC_TblPrefix.'followup'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 	
-	$result = DoQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "locations WHERE IsActive = 0");
+	$result = doQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "locations WHERE IsActive = 0");
 	$deleted[HC_TblPrefix.'locations'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 	
-	$result = DoQuery("SELECT COUNT(LocationID) FROM " . HC_TblPrefix . "locationnetwork ln LEFT JOIN " . HC_TblPrefix . "locations l ON (l.PkID = ln.LocationID) WHERE l.PkID IS NULL OR l.IsActive = 0");
+	$result = doQuery("SELECT COUNT(LocationID) FROM " . HC_TblPrefix . "locationnetwork ln LEFT JOIN " . HC_TblPrefix . "locations l ON (l.PkID = ln.LocationID) WHERE l.PkID IS NULL OR l.IsActive = 0");
 	$deleted[HC_TblPrefix.'locationnetwork'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 
-	$result = DoQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "categories WHERE IsActive = 0");
+	$result = doQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "categories WHERE IsActive = 0");
 	$deleted[HC_TblPrefix.'categories'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 	
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "eventcategories ec LEFT JOIN " . HC_TblPrefix . "events e ON (ec.EventID = e.PkID) WHERE e.PkID is NULL OR e.IsActive = 0 OR e.IsApproved = 0");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "eventcategories ec LEFT JOIN " . HC_TblPrefix . "events e ON (ec.EventID = e.PkID) WHERE e.PkID is NULL OR e.IsActive = 0 OR e.IsApproved = 0");
 	$deleted[HC_TblPrefix.'eventcategories'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 	
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "eventrsvps er LEFT JOIN " . HC_TblPrefix . "events e ON (er.EventID = e.PkID) WHERE e.PkID is NULL OR e.IsActive = 0 OR e.IsApproved = 0");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "eventrsvps er LEFT JOIN " . HC_TblPrefix . "events e ON (er.EventID = e.PkID) WHERE e.PkID is NULL OR e.IsActive = 0 OR e.IsApproved = 0");
 	$deleted[HC_TblPrefix.'eventrsvps'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 	
-	$result = DoQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "templates WHERE IsActive = 0");
+	$result = doQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "templates WHERE IsActive = 0");
 	$deleted[HC_TblPrefix.'templates'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 
-	$result = DoQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "templatesnews WHERE IsActive = 0");
+	$result = doQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "templatesnews WHERE IsActive = 0");
 	$deleted[HC_TblPrefix.'templatesnews'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 
-	$result = DoQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "mailers WHERE IsActive = 0");
+	$result = doQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "mailers WHERE IsActive = 0");
 	$deleted[HC_TblPrefix.'mailers'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 
-	$result = DoQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "mailgroups WHERE IsActive = 0");
+	$result = doQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "mailgroups WHERE IsActive = 0");
 	$deleted[HC_TblPrefix.'mailgroups'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 
-	$result = DoQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "newsletters WHERE IsActive = 0");
+	$result = doQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "newsletters WHERE IsActive = 0");
 	$deleted[HC_TblPrefix.'newsletters'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 	
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "subscriberscategories sc LEFT JOIN " . HC_TblPrefix . "subscribers s ON (s.PkID = sc.UserID) WHERE s.PkID IS NULL");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "subscriberscategories sc LEFT JOIN " . HC_TblPrefix . "subscribers s ON (s.PkID = sc.UserID) WHERE s.PkID IS NULL");
 	$deleted[HC_TblPrefix.'subscriberscategories'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 	
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "subscribersgroups sg LEFT JOIN " . HC_TblPrefix . "subscribers s ON (s.PkID = sg.UserID) WHERE s.PkID IS NULL");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "subscribersgroups sg LEFT JOIN " . HC_TblPrefix . "subscribers s ON (s.PkID = sg.UserID) WHERE s.PkID IS NULL");
 	$deleted[HC_TblPrefix.'subscribersgroups'] = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 	
 	if($doOpt == 1){
-		$result = DoQuery("OPTIMIZE TABLE `".HC_TblPrefix."admin`,
+		$result = doQuery("OPTIMIZE TABLE `".HC_TblPrefix."admin`,
 						`".HC_TblPrefix."adminloginhistory`,`".HC_TblPrefix."adminnotices`,`".HC_TblPrefix."adminpermissions`,`".HC_TblPrefix."categories`,
 						`".HC_TblPrefix."eventcategories`,`".HC_TblPrefix."eventnetwork`,`".HC_TblPrefix."eventrsvps`,`".HC_TblPrefix."events`,`".HC_TblPrefix."followup`,
 						`".HC_TblPrefix."locationnetwork`,`".HC_TblPrefix."locations`,`".HC_TblPrefix."mailers`,`".HC_TblPrefix."mailersgroups`,`".HC_TblPrefix."mailgroups`,
@@ -77,7 +77,7 @@
 		}
 	}
 	
-	$result = DoQuery("SHOW TABLE STATUS
+	$result = doQuery("SHOW TABLE STATUS
 					WHERE Name IN ('".HC_TblPrefix."admin',
 					'".HC_TblPrefix."adminloginhistory','".HC_TblPrefix."adminnotices','".HC_TblPrefix."adminpermissions','".HC_TblPrefix."categories',
 					'".HC_TblPrefix."eventcategories','".HC_TblPrefix."eventnetwork','".HC_TblPrefix."eventrsvps','".HC_TblPrefix."events','".HC_TblPrefix."followup',

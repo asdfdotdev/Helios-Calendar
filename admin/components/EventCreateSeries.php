@@ -17,7 +17,7 @@
 	$seriesString = implode(',',array_filter($_POST['eventID'],'is_numeric'));
 	$seriesID = DecHex(microtime() * 9999999) . DecHex(microtime() * 5555555) . DecHex(microtime() * 1111111);
 	
-	DoQuery("UPDATE " . HC_TblPrefix . "events SET SeriesID = ? WHERE PkID IN (?)", array($seriesID, $seriesString));
+	doQuery("UPDATE " . HC_TblPrefix . "events SET SeriesID = ? WHERE PkID IN (?)", array($seriesID, $seriesString));
 	
 	header("Location: " . AdminRoot . "/index.php?com=searchresults&srsID=" . $seriesID . "&msg=1");
 ?>

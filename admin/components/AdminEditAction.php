@@ -41,19 +41,19 @@
 			$pages = (isset($_POST['pages']) && is_numeric($_POST['pages'])) ? cIn(strip_tags($_POST['pages'])) : 0;
 		}
 		
-		$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "admin WHERE PkID = ?", array($aID));
+		$result = doQuery("SELECT * FROM " . HC_TblPrefix . "admin WHERE PkID = ?", array($aID));
 		if(hasRows($result)){
-			$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "admin WHERE Email = ?", array($email));
+			$result = doQuery("SELECT * FROM " . HC_TblPrefix . "admin WHERE Email = ?", array($email));
 			if((hasRows($result)) AND ($email != $oldEmail)){
-				DoQuery("UPDATE " . HC_TblPrefix . "admin SET FirstName = ?, LastName = ?  WHERE PkID = ?", array($firstname, $lastname, $aID));
+				doQuery("UPDATE " . HC_TblPrefix . "admin SET FirstName = ?, LastName = ?  WHERE PkID = ?", array($firstname, $lastname, $aID));
 				$msgID = 1;
 			} else {
-				DoQuery("UPDATE " . HC_TblPrefix . "admin SET FirstName = ?, LastName = ?, Email = ? WHERE PkID = ?", array($firstname, $lastname, $email, $aID));
+				doQuery("UPDATE " . HC_TblPrefix . "admin SET FirstName = ?, LastName = ?, Email = ? WHERE PkID = ?", array($firstname, $lastname, $email, $aID));
 				$msgID = 3;
 			}
 
 			if($_SESSION['AdminPkID'] != $aID)
-				DoQuery("UPDATE " . HC_TblPrefix . "adminpermissions
+				doQuery("UPDATE " . HC_TblPrefix . "adminpermissions
 						SET EventEdit = ?,
 							EventPending = ?,
 							EventCategory = ?,
@@ -72,23 +72,23 @@
 							$pages, $aID
 						));
 			
-			DoQuery("DELETE FROM " . HC_TblPrefix . "adminnotices WHERE AdminID = ?", array(cIn($aID)));
+			doQuery("DELETE FROM " . HC_TblPrefix . "adminnotices WHERE AdminID = ?", array(cIn($aID)));
 			foreach($notices as $val)
-				DoQuery("INSERT INTO " . HC_TblPrefix . "adminnotices(AdminID, TypeID, IsActive) VALUES(?,?,1)", array($aID,cIn($val)));
+				doQuery("INSERT INTO " . HC_TblPrefix . "adminnotices(AdminID, TypeID, IsActive) VALUES(?,?,1)", array($aID,cIn($val)));
 		} else {
-			$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "admin WHERE Email = ?", array(cIn($email)));
+			$result = doQuery("SELECT * FROM " . HC_TblPrefix . "admin WHERE Email = ?", array(cIn($email)));
 			
 			if(hasRows($result)){
 				header('Location: ' . AdminRoot . '/index.php?com=adminedit&msg=2');
 				exit();
 			} else {
 				$pwKey = md5(date("U"));
-				DoQuery("INSERT INTO " . HC_TblPrefix . "admin(FirstName, LastName, Passwrd, Email, SuperAdmin, IsActive, PCKey)
+				doQuery("INSERT INTO " . HC_TblPrefix . "admin(FirstName, LastName, Passwrd, Email, SuperAdmin, IsActive, PCKey)
 						VALUES()", array($firstname, $lastname ,'', $email,0 , 1, $pwKey));
-				$result = DoQuery("SELECT LAST_INSERT_ID()");
+				$result = doQuery("SELECT LAST_INSERT_ID()");
 				$aID = hc_mysql_result($result,0,0);
 
-				DoQuery("INSERT INTO " . HC_TblPrefix . "adminpermissions(EventEdit, EventPending, EventCategory, UserEdit, AdminEdit, Newsletter, Settings, Tools, Reports, Locations, Pages, AdminID, IsActive)
+				doQuery("INSERT INTO " . HC_TblPrefix . "adminpermissions(EventEdit, EventPending, EventCategory, UserEdit, AdminEdit, Newsletter, Settings, Tools, Reports, Locations, Pages, AdminID, IsActive)
 						VALUES(?,?,?,?,?,?,?,?,?,?,?,?,1)", 
 						  array($editEvent,
 								$eventPending,
@@ -104,7 +104,7 @@
 								$aID));
 
 				foreach($notices as $val)
-					DoQuery("INSERT INTO " . HC_TblPrefix . "adminnotices(AdminID, TypeID, IsActive) VALUES(?,?,1)", array($aID, cIn($val)));
+					doQuery("INSERT INTO " . HC_TblPrefix . "adminnotices(AdminID, TypeID, IsActive) VALUES(?,?,1)", array($aID, cIn($val)));
 				
 				$subject = CalName . " " . $hc_lang_admin['CreateSubject'];
 				$message = '<p>' . $hc_lang_admin['CreateLink'] . ' <a href="' . AdminRoot . '/index.php?lp=2&k=' . $pwKey . '">' . AdminRoot . '/index.php?lp=2&k=' . $pwKey . '</a></p>';
@@ -131,8 +131,8 @@
 			header('Location: ' . AdminRoot . '/index.php?com=adminbrowse&msg=2');
 			exit();}
 		
-		DoQuery("DELETE FROM " . HC_TblPrefix . "admin WHERE PkID = ?", array($dID));
-		DoQuery("DELETE FROM " . HC_TblPrefix . "adminpermissions WHERE AdminID = ?", array($dID));
+		doQuery("DELETE FROM " . HC_TblPrefix . "admin WHERE PkID = ?", array($dID));
+		doQuery("DELETE FROM " . HC_TblPrefix . "adminpermissions WHERE AdminID = ?", array($dID));
 		header('Location: ' . AdminRoot . '/index.php?com=adminbrowse&msg=1');
 	}
 ?>

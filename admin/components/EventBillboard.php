@@ -17,7 +17,7 @@
 	
 	appInstructions(0, "Billboard_Events", $hc_lang_manage['TitleBillboard'], $hc_lang_manage['InstructBillboard']);
 	
-	$result = DoQuery("SELECT PkID, Title, StartDate, Views FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND IsBillboard = 1 AND StartDate >= '" . cIn(SYSDATE) . "' ORDER BY StartDate, Views DESC");
+	$result = doQuery("SELECT PkID, Title, StartDate, Views FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND IsBillboard = 1 AND StartDate >= '" . cIn(SYSDATE) . "' ORDER BY StartDate, Views DESC");
 	if(hasRows($result)){
 		echo '
 		<ul class="data">

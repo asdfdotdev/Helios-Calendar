@@ -7,14 +7,14 @@
 	
 	$errorMsg = $bitURL = '';
 	if(isset($eID) && is_numeric($eID))
-		$resultB = DoQuery("SELECT ShortURL FROM " . HC_TblPrefix . "events WHERE PkID = ?", array(cIn($eID)));
+		$resultB = doQuery("SELECT ShortURL FROM " . HC_TblPrefix . "events WHERE PkID = ?", array(cIn($eID)));
 	elseif(isset($lID) && is_numeric($lID))
-		$resultB = DoQuery("SELECT ShortURL FROM " . HC_TblPrefix . "locations WHERE PkID = ?", array(cIn($lID)));
+		$resultB = doQuery("SELECT ShortURL FROM " . HC_TblPrefix . "locations WHERE PkID = ?", array(cIn($lID)));
 	
 	if(hasRows($resultB) && hc_mysql_result($resultB,0,0) != ''){
 		$shortLink = (strpos(hc_mysql_result($resultB,0,0),"http://") !== false) ? hc_mysql_result($resultB,0,0) : $shortLink;
 	} else {
-		$resultB = DoQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(57,58)");
+		$resultB = doQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(57,58)");
 		if(!hasRows($resultB)){
 			$errorMsg = 'bitly API Settings Unavailable.';
 		} else {
@@ -54,9 +54,9 @@
 					
 					if($bitURL != ''){
 						if(isset($eID))
-							DoQuery("UPDATE " . HC_TblPrefix . "events SET ShortURL = ? WHERE PkID = ?", array(cIn($bitURL), cIn($eID)));
+							doQuery("UPDATE " . HC_TblPrefix . "events SET ShortURL = ? WHERE PkID = ?", array(cIn($bitURL), cIn($eID)));
 						elseif(isset($lID))
-							DoQuery("UPDATE " . HC_TblPrefix . "locations SET ShortURL = ? WHERE PkID = ?", array(cIn($bitURL),cIn($lID)));
+							doQuery("UPDATE " . HC_TblPrefix . "locations SET ShortURL = ? WHERE PkID = ?", array(cIn($bitURL),cIn($lID)));
 						
 						$shortLink = $bitURL;
 					}

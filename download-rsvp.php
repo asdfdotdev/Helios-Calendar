@@ -12,7 +12,7 @@
 	if(user_check_status() == 0 || !$eID > 0)
 		go_home();
 	
-	$result = DoQuery("SELECT Title FROM " . HC_TblPrefix . "events WHERE PkID = ?", array($eID . "' AND OwnerID = '" . cIn(strip_tags($_SESSION['UserPkID']))));
+	$result = doQuery("SELECT Title FROM " . HC_TblPrefix . "events WHERE PkID = ?", array($eID . "' AND OwnerID = '" . cIn(strip_tags($_SESSION['UserPkID']))));
 	
 	if(!hasRows($result))
 		go_home();

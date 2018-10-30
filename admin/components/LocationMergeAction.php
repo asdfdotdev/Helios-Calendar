@@ -20,8 +20,8 @@
 	
 	if(is_numeric($_POST['mergeID'][0])){
 		$msgID = 5;
-		DoQuery("UPDATE " . HC_TblPrefix . "events SET LocID = ? WHERE LocID IN (?)", array(cIn($_POST['mergeID'][0]), $locIDs));
-		DoQuery("UPDATE " . HC_TblPrefix . "locations SET IsActive = 0 WHERE PkID IN (?) AND PkID != ?", array($locIDs, cIn($_POST['mergeID'][0])));
+		doQuery("UPDATE " . HC_TblPrefix . "events SET LocID = ? WHERE LocID IN (?)", array(cIn($_POST['mergeID'][0]), $locIDs));
+		doQuery("UPDATE " . HC_TblPrefix . "locations SET IsActive = 0 WHERE PkID IN (?) AND PkID != ?", array($locIDs, cIn($_POST['mergeID'][0])));
 	}
 	
 	clearCache();

@@ -51,7 +51,7 @@
 				$api_users[$key] = $count;
 				$valid = 1;
 			} else {
-				$result = DoQuery("SELECT PkID, NetworkName, APIKey FROM ".HC_TblPrefix."users WHERE NetworkName = ? AND APIKey = ? AND APIAccess = 1 AND IsBanned = 0", array(cIn($user),cIn($key)));
+				$result = doQuery("SELECT PkID, NetworkName, APIKey FROM ".HC_TblPrefix."users WHERE NetworkName = ? AND APIKey = ? AND APIAccess = 1 AND IsBanned = 0", array(cIn($user),cIn($key)));
 				
 				if(hasRows($result)){
 					$api_users[hc_mysql_result($result,0,2)][0] = '1';
@@ -66,18 +66,18 @@
 				$store_cnt = $api_users[$remove][0];
 				$store_user = $api_users[$remove][1];
 				
-				DoQuery("UPDATE ".HC_TblPrefix."users SET APICnt = (APICnt + ?) WHERE APIKey = ? AND NetworkName = ?", array(cIn($store_cnt), cIn($remove), cIn($store_user)));
+				doQuery("UPDATE ".HC_TblPrefix."users SET APICnt = (APICnt + ?) WHERE APIKey = ? AND NetworkName = ?", array(cIn($store_cnt), cIn($remove), cIn($store_user)));
 
 				array_shift($api_users);
 			}
 			
 			apc_store(HC_APCPrefix.'users',$api_users);
 		} else {
-			$result = DoQuery("SELECT PkID, NetworkName, APIKey FROM ".HC_TblPrefix."users WHERE NetworkName = ? AND APIKey = ? AND APIAccess = 1 AND IsBanned = 0", array(cIn($user),cIn($key)));
+			$result = doQuery("SELECT PkID, NetworkName, APIKey FROM ".HC_TblPrefix."users WHERE NetworkName = ? AND APIKey = ? AND APIAccess = 1 AND IsBanned = 0", array(cIn($user),cIn($key)));
 				
 			if(hasRows($result)){
 				$valid = 1;
-				DoQuery("UPDATE ".HC_TblPrefix."users SET APICnt = (APICnt + 1) WHERE APIKey = ? AND NetworkName = ?", array(cIn($key), cIn($user)));
+				doQuery("UPDATE ".HC_TblPrefix."users SET APICnt = (APICnt + 1) WHERE APIKey = ? AND NetworkName = ?", array(cIn($key), cIn($user)));
 			}
 		}
 		
@@ -155,7 +155,7 @@
 					break;
 			}
 						
-			$result = DoQuery("SELECT " . $sQuery . "
+			$result = doQuery("SELECT " . $sQuery . "
 							FROM " . HC_TblPrefix . "events e
 								LEFT JOIN " . HC_TblPrefix . "eventrsvps er ON (e.PkID = er.EventID)
 								LEFT JOIN " . HC_TblPrefix . "locations l ON (e.LocID = l.PkID)
@@ -312,7 +312,7 @@
 					break;
 			}
 			
-			$result = DoQuery("SELECT c.PkID, c.CategoryName, c.ParentID,
+			$result = doQuery("SELECT c.PkID, c.CategoryName, c.ParentID,
 								(SELECT COUNT(eb.PkID)
 								    FROM " . HC_TblPrefix . "events eb
 								    LEFT JOIN " . HC_TblPrefix . "eventcategories ecb ON (eb.PkID = ecb.EventID)
@@ -394,7 +394,7 @@
 					break;
 			}
 			
-			$result = DoQuery("SELECT n.PkID, n.Subject, n.StartDate, n.EndDate, n.SentDate, ((n.Views + n.ArchViews)/DATEDIFF(NOW(),SentDate)) as AveDaily
+			$result = doQuery("SELECT n.PkID, n.Subject, n.StartDate, n.EndDate, n.SentDate, ((n.Views + n.ArchViews)/DATEDIFF(NOW(),SentDate)) as AveDaily
 								FROM " . HC_TblPrefix . "newsletters n
 							WHERE n.Status = 3 AND n.IsActive = 1 AND IsArchive = 1 $oQuery
 							LIMIT ?", array($hc_cfg[132]));

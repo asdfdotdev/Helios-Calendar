@@ -8,7 +8,7 @@
 	include(HCLANG.'/admin/newsletter.php');
 
 	$mID = (isset($_GET['mID']) && is_numeric($_GET['mID'])) ? cIn(strip_tags($_GET['mID'])) : 0;
-	$result = DoQuery("SELECT PkID FROM " . HC_TblPrefix . "mailers WHERE PkID = ?", array($mID));
+	$result = doQuery("SELECT PkID FROM " . HC_TblPrefix . "mailers WHERE PkID = ?", array($mID));
 	
 	if(!hasRows($result)){
 		if(isset($_GET['msg'])){
@@ -27,7 +27,7 @@
 
 		appInstructions(0, "Create_Newsletter", $hc_lang_news['TitleCreate'], $hc_lang_news['InstructCreateA']);
 		
-		$result = DoQuery("SELECT m.PkID, m.Title, m.StartDate, m.EndDate, m.LastModDate, tn.TemplateName
+		$result = doQuery("SELECT m.PkID, m.Title, m.StartDate, m.EndDate, m.LastModDate, tn.TemplateName
 						FROM " . HC_TblPrefix . "mailers m
 							LEFT JOIN " . HC_TblPrefix . "templatesnews tn ON (m.TemplateID = tn.PkID AND tn.IsActive = 1)
 						WHERE m.IsActive = 1
@@ -77,7 +77,7 @@
 			echo '<p>' . $hc_lang_news['NoDraft'] . '</p>';
 		}
 	} else {
-		$result = DoQuery("SELECT m.PkID, m.Title, m.Subject, m.StartDate, m.EndDate, m.IsArchive, m.Message, tn.TemplateName, tn.TemplateSource
+		$result = doQuery("SELECT m.PkID, m.Title, m.Subject, m.StartDate, m.EndDate, m.IsArchive, m.Message, tn.TemplateName, tn.TemplateSource
 						FROM " . HC_TblPrefix . "mailers m
 							LEFT JOIN " . HC_TblPrefix . "templatesnews tn ON (m.TemplateID = tn.PkID AND tn.IsActive = 1)
 						WHERE m.PkID = ? AND m.IsActive = 1", array($mID));
@@ -88,7 +88,7 @@
 			$groups = '';
 			$cnt = $allSub = $subCnt = 0;
 
-			$resultG = DoQuery("SELECT mg.PkID, mg.Name, m.PkID as Selected
+			$resultG = doQuery("SELECT mg.PkID, mg.Name, m.PkID as Selected
 							 FROM " . HC_TblPrefix . "mailgroups mg
 								 LEFT JOIN " . HC_TblPrefix . "mailersgroups mgs ON (mgs.GroupID = mg.PkID AND mgs.MailerID = ?)
 								 LEFT JOIN " . HC_TblPrefix . "mailers m ON (mgs.MailerID = m.PkID and m.IsActive = 1)
@@ -107,9 +107,9 @@
 			}
 			
 			if($allSub > 0){
-				$resultS = DoQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "subscribers WHERE IsConfirm = 1");
+				$resultS = doQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "subscribers WHERE IsConfirm = 1");
 			} else {
-				$resultS = DoQuery("SELECT COUNT(DISTINCT sgs.UserID)
+				$resultS = doQuery("SELECT COUNT(DISTINCT sgs.UserID)
 								FROM " . HC_TblPrefix . "subscribersgroups sgs
 									LEFT JOIN " . HC_TblPrefix . "mailgroups mg ON (sgs.GroupID = mg.PkID AND mg.IsActive = 1)
 									LEFT JOIN " . HC_TblPrefix . "mailersgroups mgs ON (mgs.GroupID = sgs.GroupID)
@@ -119,7 +119,7 @@
 			}
 			$subCnt = hc_mysql_result($resultS,0,0);
 			
-			$resultE = DoQuery("SELECT COUNT(DISTINCT e.PkID)
+			$resultE = doQuery("SELECT COUNT(DISTINCT e.PkID)
 							FROM " . HC_TblPrefix . "events e
 								LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (e.PkID = ec.EventID)
 								LEFT JOIN " . HC_TblPrefix . "categories c ON (c.PkID = ec.CategoryID)

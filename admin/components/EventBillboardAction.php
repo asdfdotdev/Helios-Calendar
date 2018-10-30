@@ -14,7 +14,7 @@
 		go_home();
 	
 	$eID = (isset($_GET['eID']) && is_numeric($_GET['eID'])) ? cIn(strip_tags($_GET['eID'])) : 0;
-	DoQuery("UPDATE " . HC_TblPrefix . "events SET IsBillboard = ? WHERE PkID = ?", array(0, $eID));
+	doQuery("UPDATE " . HC_TblPrefix . "events SET IsBillboard = ? WHERE PkID = ?", array(0, $eID));
 	
 	clearCache();
 	

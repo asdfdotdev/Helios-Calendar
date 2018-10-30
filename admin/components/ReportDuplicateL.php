@@ -20,7 +20,7 @@
 	$compName = (!isset($_GET['n'])) ? 'l1.Name = l2.Name AND  ' : '';
 	$token = set_form_token(1);
 
-	$result = DoQuery("SELECT l1.PkID as `First`, l1.Name, l1.Address, l1.Address2, l1.City, l1.State, l1.Zip, l1.Country,
+	$result = doQuery("SELECT l1.PkID as `First`, l1.Name, l1.Address, l1.Address2, l1.City, l1.State, l1.Zip, l1.Country,
 							(SELECT COUNT(*) FROM " . HC_TblPrefix . "events e WHERE e.IsActive = 1 AND e.LocID = l1.PkID) as Events,
 						l2.PkID as `Duplicate`, l2.Name, l2.Address, l2.Address2, l2.City, l2.State, l2.Zip, l2.Country,
 							(SELECT COUNT(*) FROM " . HC_TblPrefix . "events e WHERE e.IsActive = 1 AND e.LocID = l2.PkID) as DupEvents

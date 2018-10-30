@@ -24,9 +24,9 @@
 		$zip = isset($_POST['zip']) ? cIn($_POST['zip']) : '';
 		$oldemail = isset($_POST['oldemail']) ? cIn($_POST['oldemail']) : '';
 		
-		$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "registrants WHERE PkID = ?", array($rID));
+		$result = doQuery("SELECT * FROM " . HC_TblPrefix . "registrants WHERE PkID = ?", array($rID));
 		if(hasRows($result)){
-			DoQuery("UPDATE " . HC_TblPrefix . "registrants
+			doQuery("UPDATE " . HC_TblPrefix . "registrants
 					SET Name = ?,
 						Email = ?,
 						Phone = ?,
@@ -48,12 +48,12 @@
 					));
 			header("Location: " . AdminRoot . "/index.php?com=eventedit&eID=" . $eID . "&msg=4");
 		} else {			
-			DoQuery("INSERT INTO " . HC_TblPrefix . "registrants(Name,Email,Phone,Address,Address2,City,State,Zip,EventID,IsActive,RegisteredAt)
+			doQuery("INSERT INTO " . HC_TblPrefix . "registrants(Name,Email,Phone,Address,Address2,City,State,Zip,EventID,IsActive,RegisteredAt)
 					Values(?,?,?,?,?,?,?,?,?,1,NOW())", array($name, $email, $phone, $address, $address2, $city, $state, $zip, $eID));
 			header("Location: " . AdminRoot . "/index.php?com=eventedit&eID=" . $eID . "&msg=3");
 		}
 	} else {
-		DoQuery("DELETE FROM " . HC_TblPrefix . "registrants WHERE PkID = ?", array(cIn(strip_tags($_GET['dID']))));
+		doQuery("DELETE FROM " . HC_TblPrefix . "registrants WHERE PkID = ?", array(cIn(strip_tags($_GET['dID']))));
 		header("Location: " . AdminRoot . "/index.php?com=eventedit&eID=" . cIn(strip_tags($_GET['eID'])) . "&msg=5");
 	}
 ?>

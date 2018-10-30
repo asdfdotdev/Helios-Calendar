@@ -16,7 +16,7 @@
 	$dID = (isset($_GET['dID']) && is_numeric($_GET['dID'])) ? cIn($_GET['dID']) : 0;
 	
 	if($dID > 0)
-		DoQuery("DELETE FROM " . HC_TblPrefix . "followup WHERE PkID = ?", array($dID));
+		doQuery("DELETE FROM " . HC_TblPrefix . "followup WHERE PkID = ?", array($dID));
 	
 	header("Location: " . AdminRoot . "/index.php?com=reportfollow&msg=1");
 ?>

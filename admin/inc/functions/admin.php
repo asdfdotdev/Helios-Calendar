@@ -18,7 +18,7 @@
 		global $session_a;
 		
 		if(isset($_SESSION['AdminPkID']))
-			DoQuery("UPDATE " . HC_TblPrefix . "admin SET Access = NULL WHERE PkID = ?", array(cIn($_SESSION['AdminPkID'])));
+			doQuery("UPDATE " . HC_TblPrefix . "admin SET Access = NULL WHERE PkID = ?", array(cIn($_SESSION['AdminPkID'])));
 
 		$session_a->end();
 	}
@@ -26,7 +26,7 @@
 		global $session_a, $hc_cfg;
 		$aUser = (isset($_SESSION['AdminPkID'])) ? cIn($_SESSION['AdminPkID']) : 0;
 		
-		$resultAS = DoQuery("SELECT Access FROM " . HC_TblPrefix . "admin WHERE PkID = ?", array($aUser));
+		$resultAS = doQuery("SELECT Access FROM " . HC_TblPrefix . "admin WHERE PkID = ?", array($aUser));
 		$knownSession = (hasRows($resultAS)) ? hc_mysql_result($resultAS,0,0) : NULL;
 		
 		if($knownSession != md5(session_id()))
@@ -34,7 +34,7 @@
 		
 		$session_a->start(true);
 		
-		DoQuery("UPDATE " . HC_TblPrefix . "admin SET Access = ? WHERE PkID = ?", array(cIn(md5(session_id())), $aUser));
+		doQuery("UPDATE " . HC_TblPrefix . "admin SET Access = ? WHERE PkID = ?", array(cIn(md5(session_id())), $aUser));
 	}
 	function appInstructions($noSwitch, $codex, $title, $message){
 		$style = $msgTxt = '';
@@ -159,7 +159,7 @@
 	function has_pending(){
 		$pending = 0;
 		if(isset($_SESSION['AdminLoggedIn']) && $_SESSION['AdminLoggedIn'] == true){
-			$result = DoQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 2");
+			$result = doQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 2");
 			$pending = (hc_mysql_result($result,0,0) > 0) ? 1 : 0;
 		}
 		return $pending;

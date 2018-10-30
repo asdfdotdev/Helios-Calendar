@@ -21,21 +21,21 @@
 		$name = isset($_POST['tempname']) ? cIn($_POST['tempname']) : '';
 		$source = isset($_POST['tempsource']) ? cIn(cleanQuotes($_POST['tempsource'],0),0) : '';
 		
-		$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "templatesnews WHERE PkID = ?", array($nID));
+		$result = doQuery("SELECT * FROM " . HC_TblPrefix . "templatesnews WHERE PkID = ?", array($nID));
 		if(hasRows($result)){
-			DoQuery("UPDATE " . HC_TblPrefix . "templatesnews
+			doQuery("UPDATE " . HC_TblPrefix . "templatesnews
 						SET TemplateName = ?, TemplateSource = ?
 						WHERE PkID = ?", array($name, $source, $nID));
 						
 			header("Location: " . AdminRoot . "/index.php?com=mailtmplt&msg=2");
 		} else {
-			DoQuery("INSERT INTO " . HC_TblPrefix . "templatesnews(TemplateName, TemplateSource, IsActive)
+			doQuery("INSERT INTO " . HC_TblPrefix . "templatesnews(TemplateName, TemplateSource, IsActive)
 						Values(?,?, 1)", array($name, $source));
 			
 			header("Location: " . AdminRoot . "/index.php?com=mailtmplt&msg=3");
 		}	
 	} else {
-		DoQuery("UPDATE " . HC_TblPrefix . "templatesnews SET IsActive = 0 WHERE PkiD = ?", array(cIn(strip_tags($_GET['dID']))));
+		doQuery("UPDATE " . HC_TblPrefix . "templatesnews SET IsActive = 0 WHERE PkiD = ?", array(cIn(strip_tags($_GET['dID']))));
 		header("Location: " . AdminRoot . "/index.php?com=mailtmplt&msg=1");
 	}
 ?>

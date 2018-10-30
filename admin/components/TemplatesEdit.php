@@ -18,7 +18,7 @@
 	$cleanup = "BLANK";
 	$dateFormat = 0;
 	
-	$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "templates WHERE PkID = ? AND IsActive = 1", array($tID));
+	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "templates WHERE PkID = ? AND IsActive = 1", array($tID));
 	if(hasRows($result)){
 		$whereAmI = $hc_lang_tools['EditT'];
 		$helpText = $hc_lang_tools['InstructEditTExp'];

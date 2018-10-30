@@ -16,7 +16,7 @@
 	$target = AdminRoot.'/index.php';
 	$callback_url = AdminRoot.'/auth/facebook.php';
 	
-	$result = DoQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(117,118)");
+	$result = doQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(117,118)");
 	if(hasRows($result)){
 		$app_id = hc_mysql_result($result,0,0);
 		$app_secret = hc_mysql_result($result,1,0);
@@ -65,12 +65,12 @@
 				}
 				
 				if(count($pub_opts) > 0)
-					DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array(cIn(utf8_decode(json_encode($pub_opts,JSON_FORCE_OBJECT)),0), '119'));
+					doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array(cIn(utf8_decode(json_encode($pub_opts,JSON_FORCE_OBJECT)),0), '119'));
 				if($fb_expires != '')
-					DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array(cIn(date("U") + $fb_expires), '122'));
-				DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array(cIn($fb_token), '120'));
-				DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array(cIn($fb_token), '121'));	
-				DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array(cIn($user->id), '123'));
+					doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array(cIn(date("U") + $fb_expires), '122'));
+				doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array(cIn($fb_token), '120'));
+				doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array(cIn($fb_token), '121'));	
+				doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array(cIn($user->id), '123'));
 				
 				unset($_SESSION['FB_State']);
 				

@@ -116,11 +116,11 @@
 						ORDER BY Sort, ParentID, CategoryName";
 		if ($cQuery == '')
 		{
-			$result = DoQuery($query);
+			$result = doQuery($query);
 		}
 		else
 		{
-			$result = DoQuery($query, array(cIn($_SESSION['hc_favCat']),cIn($_SESSION['hc_favCat'])));
+			$result = doQuery($query, array(cIn($_SESSION['hc_favCat']),cIn($_SESSION['hc_favCat'])));
 		}
 		if(!hasRows($result))
 			return 0;
@@ -177,7 +177,7 @@
 			$stopDay = date("t", mktime(0,0,0,$month,1,$year));
 			$locSaver = $lQuery = $opts = $dow = '';
 			$events = array();
-			$result = DoQuery("SELECT DISTINCT e.StartDate
+			$result = doQuery("SELECT DISTINCT e.StartDate
 							FROM " . HC_TblPrefix . "events e
 								LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (ec.EventID = e.PkID)
 								LEFT JOIN " . HC_TblPrefix . "locations l ON (e.LocID = l.PkID)
@@ -434,7 +434,7 @@
 					GROUP BY e.SeriesID, e.PkID, e.Title, e.StartDate, e.StartTime, e.EndTime, e.TBD, e.IsBillboard, e.Views, e.PublishDate" : '';
 			$curDate = $cnt = 0;
 			$showHeader = ($type == 0) ? 0 : 1;
-			$result = DoQuery("SELECT ".$sQuery." FROM " . HC_TblPrefix . "events e WHERE e.IsActive = 1 AND e.IsApproved = 1 AND e.StartDate >= '" . cIn(SYSDATE) . "'".$bQuery.$uQuery.$oQuery, $params);
+			$result = doQuery("SELECT ".$sQuery." FROM " . HC_TblPrefix . "events e WHERE e.IsActive = 1 AND e.IsApproved = 1 AND e.StartDate >= '" . cIn(SYSDATE) . "'".$bQuery.$uQuery.$oQuery, $params);
 			
 			if(!hasRows($result)){
 				echo $noList;

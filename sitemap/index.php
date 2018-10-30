@@ -19,7 +19,7 @@
     <loc>' . CalRoot . '/sitemap/site.php</loc>
   </sitemap>';
 		
-		$result = DoQuery("SELECT COUNT(PkID), MAX(PublishDate) FROM " . HC_TblPrefix . "events WHERE StartDate >= '" . cIn(SYSDATE) . "' AND IsActive = 1 AND IsApproved = 1");
+		$result = doQuery("SELECT COUNT(PkID), MAX(PublishDate) FROM " . HC_TblPrefix . "events WHERE StartDate >= '" . cIn(SYSDATE) . "' AND IsActive = 1 AND IsApproved = 1");
 		if(hasRows($result)){
 			$last = (hc_mysql_result($result,0,1) != '') ? '<lastmod>'.stampToDate(hc_mysql_result($result,0,1), '%Y-%m-%d').'</lastmod>' : '';
 			$x = 1;
@@ -35,7 +35,7 @@
 			}
 		}
 			
-		$result = DoQuery("SELECT COUNT(l.PkID), MAX(l.LastMod) FROM " . HC_TblPrefix . "locations l WHERE l.IsActive = 1");
+		$result = doQuery("SELECT COUNT(l.PkID), MAX(l.LastMod) FROM " . HC_TblPrefix . "locations l WHERE l.IsActive = 1");
 		
 		if(hasRows($result)){
 			$last = (hc_mysql_result($result,0,1) != '') ? '<lastmod>'.stampToDate(hc_mysql_result($result,0,1), '%Y-%m-%d').'</lastmod>' : '';

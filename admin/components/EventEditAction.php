@@ -152,24 +152,24 @@
 		
 		if(isset($_POST['makeseries'])){
 			$seriesID = DecHex(microtime() * 1000000) . DecHex(microtime() * 9999999) . DecHex(microtime() * 8888888);
-			DoQuery("UPDATE " . HC_TblPrefix . "events SET SeriesID = ? WHERE PkID IN (?)", array($seriesID, cIn($_POST['editString'])));
+			doQuery("UPDATE " . HC_TblPrefix . "events SET SeriesID = ? WHERE PkID IN (?)", array($seriesID, cIn($_POST['editString'])));
 		}
 		
 		$hdrStr = AdminRoot . "/index.php?com=eventsearch&sID=1&msg=" . $msgID;
 	}
 
-	DoQuery($query, $params);
+	doQuery($query, $params);
 	$stop = count($eventIDs);
 	$catID = $_POST['catID'];
 	$i = 0;
 	while($i < $stop){
-		DoQuery("DELETE FROM " . HC_TblPrefix . "eventcategories WHERE EventID = ?", array(cIn($eventIDs[$i])));
+		doQuery("DELETE FROM " . HC_TblPrefix . "eventcategories WHERE EventID = ?", array(cIn($eventIDs[$i])));
 		foreach($catID as $val)
-			DoQuery("INSERT INTO " . HC_TblPrefix . "eventcategories(EventID, CategoryID) VALUES(?,?)", array(cIn($eventIDs[$i]), cIn($val)));
+			doQuery("INSERT INTO " . HC_TblPrefix . "eventcategories(EventID, CategoryID) VALUES(?,?)", array(cIn($eventIDs[$i]), cIn($val)));
 		
 		$efID = $ebID = $fbID = '';
 		$efNew = true;
-		$resultD = DoQuery("SELECT * FROM " . HC_TblPrefix . "eventnetwork WHERE EventID = ?", array(cIn($eventIDs[$i])));
+		$resultD = doQuery("SELECT * FROM " . HC_TblPrefix . "eventnetwork WHERE EventID = ?", array(cIn($eventIDs[$i])));
 		if(hasRows($resultD)){
 			while($row = hc_mysql_fetch_row($resultD)){
 				switch($row[2]){
@@ -187,13 +187,13 @@
 			}
 		}
 		if($rsvp_type == 1){
-			DoQuery("DELETE FROM " . HC_TblPrefix . "eventrsvps WHERE EventID = ?", array(cIn($eventIDs[$i])));
+			doQuery("DELETE FROM " . HC_TblPrefix . "eventrsvps WHERE EventID = ?", array(cIn($eventIDs[$i])));
 			
-			DoQuery("INSERT INTO " . HC_TblPrefix . "eventrsvps(Type,EventID,OpenDate,CloseDate,Space,RegOption,Notices)
+			doQuery("INSERT INTO " . HC_TblPrefix . "eventrsvps(Type,EventID,OpenDate,CloseDate,Space,RegOption,Notices)
 					VALUES(?,?,?,?,?,?,?)", array($rsvp_type, cIn($eventIDs[$i]), $rsvp_open, $rsvp_close, $rsvp_space, $rsvp_disp, $rsvp_notice));
 		}
 		if(isset($_POST['doEventbrite']) || isset($_POST['doFacebook'])){
-			$result = DoQuery("SELECT StartDate FROM " . HC_TblPrefix . "events WHERE PkID = ?", array(cIn($eventIDs[$i])));
+			$result = doQuery("SELECT StartDate FROM " . HC_TblPrefix . "events WHERE PkID = ?", array(cIn($eventIDs[$i])));
 			if(hasRows($result)){
 				$eventDate = hc_mysql_result($result,0,0);
 				
@@ -203,7 +203,7 @@
 					$fbLink = CalRoot . "/index.php?eID=" . $eventIDs[$i];
 					$fbEventID = $eventIDs[$i];
 					if(!isset($name) || $name == ''){
-						$resultL = DoQuery("SELECT Name, Address, Address2, City, State, Zip, Country FROM " . HC_TblPrefix . "locations WHERE PkID = ?", array(cIn($locID)));
+						$resultL = doQuery("SELECT Name, Address, Address2, City, State, Zip, Country FROM " . HC_TblPrefix . "locations WHERE PkID = ?", array(cIn($locID)));
 						$name = (hasRows($resultL)) ? hc_mysql_result($resultL,0,0) : $locName;
 						$add = (hasRows($resultL)) ? hc_mysql_result($resultL,0,1) : $locAddress;
 						$add2 = (hasRows($resultL)) ? hc_mysql_result($resultL,0,2) : $locAddress2;
@@ -216,7 +216,7 @@
 					include(HCPATH.HCINC.'/api/facebook/EventEdit.php');
 
 					if($fbNew == true && $fbID != '')
-						DoQuery("INSERT INTO " . HC_TblPrefix . "eventnetwork(EventID,NetworkID,NetworkType,IsActive)
+						doQuery("INSERT INTO " . HC_TblPrefix . "eventnetwork(EventID,NetworkID,NetworkType,IsActive)
 								VALUES(?,?,5,1)", array(cIn($eventIDs[$i]),cIn($fbID)));
 				}
 				if(isset($_POST['doEventbrite'])){
@@ -226,7 +226,7 @@
 
 					if($ebID != ''){
 						if($ebNew){
-							DoQuery("INSERT INTO " . HC_TblPrefix . "eventnetwork(EventID,NetworkID,NetworkType,IsActive)
+							doQuery("INSERT INTO " . HC_TblPrefix . "eventnetwork(EventID,NetworkID,NetworkType,IsActive)
 									VALUES(?,?,2,1)", array(cIn($eventIDs[$i]), cIn($ebID)));
 						}
 						
@@ -248,20 +248,20 @@
 	$entityID = $fID;
 	$entityType = ($stop > 1) ? 2 : 1;
 	if($follow_up > 0){
-		$resultF = DoQuery("SELECT * FROM " . HC_TblPrefix . "followup WHERE EntityID = ?", array(cIn($entityID) . "' AND EntityType = '" . cIn($entityType)));
+		$resultF = doQuery("SELECT * FROM " . HC_TblPrefix . "followup WHERE EntityID = ?", array(cIn($entityID) . "' AND EntityType = '" . cIn($entityType)));
 		if(hasRows($resultF)){
-			DoQuery("UPDATE " . HC_TblPrefix . "followup SET Note = ? WHERE EntityID = ? AND EntityType = ?", array($fnote, cIn($entityID), cIn($entityType)));
+			doQuery("UPDATE " . HC_TblPrefix . "followup SET Note = ? WHERE EntityID = ? AND EntityType = ?", array($fnote, cIn($entityID), cIn($entityType)));
 		} else {
-			DoQuery("INSERT INTO " . HC_TblPrefix . "followup(EntityID, EntityType, Note) VALUES(?,?,?)", array($entityID, $entityType, $fnote));
+			doQuery("INSERT INTO " . HC_TblPrefix . "followup(EntityID, EntityType, Note) VALUES(?,?,?)", array($entityID, $entityType, $fnote));
 		}
 	} else {
-		DoQuery("DELETE FROM " . HC_TblPrefix . "followup WHERE EntityID = ?", array(cIn($entityID) . "' AND EntityType = '" . cIn($entityType)));
+		doQuery("DELETE FROM " . HC_TblPrefix . "followup WHERE EntityID = ?", array(cIn($entityID) . "' AND EntityType = '" . cIn($entityType)));
 	}
 	if(isset($_POST['doTwitter'])){
 		$shortLink = CalRoot . "/index.php?eID=" . $eID;
 		require(HCPATH.HCINC.'/api/bitly/ShortenURL.php');
 		
-		$result = DoQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(46,47,111,112)");
+		$result = doQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(46,47,111,112)");
 		if(hasRows($result)){
 			$oauth_token = hc_mysql_result($result,0,0);
 			$oauth_secret = hc_mysql_result($result,1,0);
@@ -278,7 +278,7 @@
 			require_once(HCPATH.HCINC.'/api/twitter/PostTweet.php');
 
 			if($tweetID != '')
-				DoQuery("INSERT INTO " . HC_TblPrefix . "eventnetwork(EventID,NetworkID,NetworkType,IsActive)
+				doQuery("INSERT INTO " . HC_TblPrefix . "eventnetwork(EventID,NetworkID,NetworkType,IsActive)
 						VALUES(?,?,3,1)", array($eID, cIn($tweetID)));
 		}
 	}
@@ -290,7 +290,7 @@
 		include(HCPATH.HCINC.'/api/facebook/StatusPost.php');
 
 		if($fbStatusID != '')
-			DoQuery("INSERT INTO " . HC_TblPrefix . "eventnetwork(EventID,NetworkID,NetworkType,IsActive)
+			doQuery("INSERT INTO " . HC_TblPrefix . "eventnetwork(EventID,NetworkID,NetworkType,IsActive)
 					VALUES(?,?,4,1)", array($eID, cIn($fbStatusID)));
 	}
 	

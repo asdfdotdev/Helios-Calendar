@@ -7,7 +7,7 @@
 
 	include(HCLANG.'/admin/settings.php');
 	
-	$result = DoQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN (7,85,87,134) ORDER BY PkID");
+	$result = doQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN (7,85,87,134) ORDER BY PkID");
 	$allowindex = cOut(hc_mysql_result($result,0,0));
 	$bots = cOut(hc_mysql_result($result,1,0));
 	$sitemap = cOut(hc_mysql_result($result,2,0));
@@ -54,7 +54,7 @@
 		</span>
 	</fieldset>';
 
-	$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "settingsmeta ORDER BY Sort");
+	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "settingsmeta ORDER BY Sort");
 	while($row = hc_mysql_fetch_row($result)){
 		echo '
 	<fieldset>

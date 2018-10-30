@@ -18,9 +18,9 @@
 	$mobile = isset($_POST['mobile']) ? cIn(strip_tags($_POST['mobile'])) : 'mobile';
 	$agents = isset($_POST['agents']) ? cIn($_POST['agents']) : '//';
 	
-	DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($fullsite, 83));
-	DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($mobile, 84));
-	DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($agents, 86));
+	doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($fullsite, 83));
+	doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($mobile, 84));
+	doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($agents, 86));
 	
 	clearCache();
 

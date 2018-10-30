@@ -46,7 +46,7 @@
 	<fieldset>
 		<legend>'.$hc_lang_tools['CategoriesLabel'].'</legend>';
 		
-	$result = DoQuery("SELECT c.PkID, c.CategoryName, c.ParentID, c.CategoryName as Sort, NULL as Selected
+	$result = doQuery("SELECT c.PkID, c.CategoryName, c.ParentID, c.CategoryName as Sort, NULL as Selected
 					FROM " . HC_TblPrefix . "categories c 
 						LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (c.PkID = ec.CategoryID)
 					WHERE c.ParentID = 0 AND c.IsActive = 1

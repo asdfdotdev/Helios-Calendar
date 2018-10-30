@@ -17,9 +17,9 @@
 	$welcomeMsg = isset($_POST['welcomeMsg']) ? cleanQuotes($_POST['welcomeMsg'],0) : '';
 	$newFor = (isset($_POST['newFor']) && is_numeric($_POST['newFor'])) ? cIn($_POST['newFor']) : 0;
 	
-	DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($status, 97));
-	DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array(cIn($welcomeMsg,0), 98));
-	DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($newFor, 99));
+	doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($status, 97));
+	doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array(cIn($welcomeMsg,0), 98));
+	doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($newFor, 99));
 	
 	clearCache();
 	

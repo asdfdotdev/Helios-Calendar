@@ -6,7 +6,7 @@
 	if(!defined('hcAdmin')){header("HTTP/1.1 403 No Direct Access");exit();}
 	
 	$errorMsg = '';
-	$result = DoQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(5,6);");
+	$result = doQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(5,6);");
 	if(!hasRows($result)){
 		$apiFail = true;
 		$errorMsg = 'Eventbrite API Settings Unavailable.';
@@ -28,7 +28,7 @@
 				$endDate = date("Y-m-d", mktime(0,0,0,$dateParts[1],($dateParts[2]+1),$dateParts[0]));
 			}
 			
-			$resultLoc = DoQuery("SELECT NetworkID FROM " . HC_TblPrefix . "locationnetwork WHERE NetworkType = 2 AND LocationID = ?", array($locID));
+			$resultLoc = doQuery("SELECT NetworkID FROM " . HC_TblPrefix . "locationnetwork WHERE NetworkType = 2 AND LocationID = ?", array($locID));
 			$venueID = (hasRows($resultLoc)) ? hc_mysql_result($resultLoc,0,0) : '';
 			$ebStatus = isset($_POST['ebStatus']) ? cIn($_POST['ebStatus']) : 'draft';
 			$ebPrivacy = isset($_POST['ebPrivacy']) ? cIn($_POST['ebPrivacy']) : '0';

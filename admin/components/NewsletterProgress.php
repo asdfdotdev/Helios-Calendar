@@ -31,7 +31,7 @@
 		if($hc_cfg[78] == '' || $hc_cfg[79] = '')
 			stopError($hc_lang_news['Err03']);
 		
-		$result = DoQuery("SELECT COUNT(ns.SubscriberID), n.SendCount, n.Status, n.StartDate, n.EndDate, n.Subject
+		$result = doQuery("SELECT COUNT(ns.SubscriberID), n.SendCount, n.Status, n.StartDate, n.EndDate, n.Subject
 						FROM " . HC_TblPrefix . "newsletters n
 							LEFT JOIN " . HC_TblPrefix . "newssubscribers ns ON (n.PkID = ns.NewsletterID)
 						WHERE n.PkID = ? AND n.IsActive = 1
@@ -57,7 +57,7 @@
 			$newsletter = buildPersonal($newsletter,$start,$end,0,'','','','','');
 			$newsletter = str_replace('<a','<a rel="nofollow"',$newsletter);
 			
-			DoQuery("UPDATE " . HC_TblPrefix . "newsletters SET ArchiveContents = ? WHERE PkID = ?", array(cIn($newsletter,0), $nID));
+			doQuery("UPDATE " . HC_TblPrefix . "newsletters SET ArchiveContents = ? WHERE PkID = ?", array(cIn($newsletter,0), $nID));
 
 			echo '<div class="progBar" style="background-image: url(../img/progress/go.png);background-position:-500px 0px;">&nbsp;&nbsp;' . $hc_lang_news['Status0'] . '</div>';
 		} else if($prog < 100){
@@ -66,7 +66,7 @@
 			} else {
 				$newsletterDefault = buildUniversal($nID);
 				
-				$resultS = DoQuery("SELECT s.PkID, s.FirstName, s.LastName, s.Email, s.Zip, s.`Format`,
+				$resultS = doQuery("SELECT s.PkID, s.FirstName, s.LastName, s.Email, s.Zip, s.`Format`,
 								(SELECT GROUP_CONCAT(c.PkID)
 									FROM " . HC_TblPrefix . "subscriberscategories sc
 									LEFT JOIN " . HC_TblPrefix . "categories c ON (c.PkID = sc.CategoryID)
@@ -122,7 +122,7 @@
 						$format = cOut($row[5]);
 						$categories = cOut($row[6]);
 						$newsletter = buildPersonal($newsletterDefault,$start,$end,$categories,$fname,$lname,$email,$postal,$format);
-						DoQuery("DELETE FROM " . HC_TblPrefix . "newssubscribers WHERE NewsletterID = ?", array($nID . "' AND SubscriberID = '" . cIn(strip_tags($row[0]))));
+						doQuery("DELETE FROM " . HC_TblPrefix . "newssubscribers WHERE NewsletterID = ?", array($nID . "' AND SubscriberID = '" . cIn(strip_tags($row[0]))));
 						
 						$mail->AddAddress($email,trim($fname . ' ' . $lname));
 						$mail->Sender = $hc_cfg[78];
@@ -171,7 +171,7 @@
 			if(file_exists(HCPATH.'/cache/news' . date("ymd") . '_' . $nID . '.txt')){
 				unlink(HCPATH.'/cache/news' . date("ymd") . '_' . $nID . '.txt');
 			}
-			DoQuery("UPDATE " . HC_TblPrefix . "newsletters SET Status = ? WHERE PkID = ?", array(3, $nID));
+			doQuery("UPDATE " . HC_TblPrefix . "newsletters SET Status = ? WHERE PkID = ?", array(3, $nID));
 			echo '
 			<div class="progBar" style="background-image: url(../img/progress/go.png);background-position:'.$position.'px 0px;">&nbsp;&nbsp;100% '.$hc_lang_news['Complete'].'</div>
 			<script language="JavaScript" type="text/JavaScript">
@@ -226,7 +226,7 @@
 			}
 			$query .= "ORDER BY e.StartDate, e.TBD, e.StartTime, e.Title";
 			
-			$resultP = DoQuery($query, $params);
+			$resultP = doQuery($query, $params);
 			if(hasRows($resultP)){
 				$curDate = '';
 				while($row = hc_mysql_fetch_row($resultP)){
@@ -274,7 +274,7 @@
 				unlink($filename);
 			}
 
-			$result = DoQuery("SELECT tn.TemplateSource, n.Message, n.IsArchive
+			$result = doQuery("SELECT tn.TemplateSource, n.Message, n.IsArchive
 							FROM " . HC_TblPrefix . "newsletters n
 								LEFT JOIN " . HC_TblPrefix . "templatesnews tn ON (n.TemplateID = tn.PkID)
 							WHERE n.PkID = ? AND n.IsActive = 1 AND tn.IsActive = 1", array($nID));
@@ -331,12 +331,12 @@
 				$template = ($doArchive == 1) ? str_replace('[archive]','<a href="' . $archive . '" target="_blank">' . $hc_lang_news['ArchiveLinkTxt'] . '</a>',$template) : str_replace('[archive]','',$template);
 			}
 			if(stristr($template,'[event-count]')){
-				$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . cIn(SYSDATE) . "'");
+				$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . cIn(SYSDATE) . "'");
 				$eCnt = (hasRows($result)) ? number_format(hc_mysql_result($result,0,0),0,'.',',') : 0;
 				$template = str_replace('[event-count]',$eCnt,$template);
 			}
 			if(stristr($template,'[location-count]')){
-				$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "locations WHERE IsActive = 1");
+				$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "locations WHERE IsActive = 1");
 				$lCnt = (hasRows($result)) ? number_format(hc_mysql_result($result,0,0),0,'.',',') : 0;
 				$template = str_replace('[location-count]',$lCnt,$template);
 			}
@@ -381,7 +381,7 @@
 		$replace = $curDate = '';
 		$hide = array();
 		$cnt = 0;
-		$result = DoQuery($qry, $params);
+		$result = doQuery($qry, $params);
 		$str = '<ul style="list-style:none;padding:0px;">';
 		while($row = hc_mysql_fetch_row($result)){
 			if($row[5] == '' || !in_array($row[5], $hide)){

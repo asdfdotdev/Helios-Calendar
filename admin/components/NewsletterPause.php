@@ -15,10 +15,10 @@
 
 	switch($do){
 		case 1:
-			DoQuery("UPDATE " . HC_TblPrefix . "newsletters SET Status = 1 WHERE PkID = ? AND Status != 3", array($nID));
+			doQuery("UPDATE " . HC_TblPrefix . "newsletters SET Status = 1 WHERE PkID = ? AND Status != 3", array($nID));
 			break;
 		case 2:
-			DoQuery("UPDATE " . HC_TblPrefix . "newsletters SET Status = 2 WHERE PkID = ? AND Status != 3", array($nID));
+			doQuery("UPDATE " . HC_TblPrefix . "newsletters SET Status = 2 WHERE PkID = ? AND Status != 3", array($nID));
 			break;
 	}
 

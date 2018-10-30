@@ -13,7 +13,7 @@
 		$ovrEdit = ($doEdit == 0) ? 1 : 0;
 		$name = $source = '';
 		$helpText = $hc_lang_news['InstrcutEditNA'];
-		$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "templatesnews WHERE PkID = ? AND IsActive = 1", array($nID));
+		$result = doQuery("SELECT * FROM " . HC_TblPrefix . "templatesnews WHERE PkID = ? AND IsActive = 1", array($nID));
 		if(hasRows($result)){
 			$name = cOut(hc_mysql_result($result,0,1));
 			$source = cOut(hc_mysql_result($result,0,2));
@@ -139,7 +139,7 @@
 		echo '
 	<a href="'.AdminRoot.'/index.php?com=mailtmplt&nID=0" class="add"><img src="'.AdminRoot.'/img/icons/add.png" width="16" height="16" alt="" />' . $hc_lang_news['NewTemplate'] . '</a>';
 
-		$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "templatesnews WHERE IsActive = 1 AND PkID ORDER BY TemplateName");
+		$result = doQuery("SELECT * FROM " . HC_TblPrefix . "templatesnews WHERE IsActive = 1 AND PkID ORDER BY TemplateName");
 		if(hasRows($result)){
 			$cnt = 0;
 			echo '

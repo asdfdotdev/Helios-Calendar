@@ -18,7 +18,7 @@
 	appInstructions(0, "Digest", $hc_lang_pages['TitleDigest'], $hc_lang_pages['InstructDigest']);
 	
 	$aID = (isset($_GET['aID']) && is_numeric($_GET['aID'])) ? cIn($_GET['aID']) : 0;
-	$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "settings WHERE PkID IN (97,98,99)");
+	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "settings WHERE PkID IN (97,98,99)");
 	
 	$status = 0;
 	$newFor = 1;

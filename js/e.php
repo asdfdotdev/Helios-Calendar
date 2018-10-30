@@ -46,7 +46,7 @@
 				break;
 		}
 		
-		$result = DoQuery($query, array($para));
+		$result = doQuery($query, array($para));
 		if(hasRows($result)){
 			$x = 1;
 			fwrite($fp, 'var hc_events = {');

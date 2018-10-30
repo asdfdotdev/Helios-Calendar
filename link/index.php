@@ -15,9 +15,9 @@
 	switch($tID){
 		case 1:
 			if(!preg_match("$hc_cfg[85]i",$_SERVER['HTTP_USER_AGENT']))
-				DoQuery("UPDATE " . HC_TblPrefix . "events SET URLClicks = URLClicks + 1 WHERE PkID = ?", array($oID));
+				doQuery("UPDATE " . HC_TblPrefix . "events SET URLClicks = URLClicks + 1 WHERE PkID = ?", array($oID));
 			
-			$result = DoQuery("SELECT ContactURL FROM " . HC_TblPrefix . "events WHERE PkID = ?", array($oID));
+			$result = doQuery("SELECT ContactURL FROM " . HC_TblPrefix . "events WHERE PkID = ?", array($oID));
 			if(hasRows($result))
 				header('Location: ' . hc_mysql_result($result,0,0));
 			else
@@ -25,12 +25,12 @@
 			break;
 		case 2:
 			if(!preg_match("$hc_cfg[85]i",$_SERVER['HTTP_USER_AGENT']))
-				DoQuery("UPDATE " . HC_TblPrefix . "events SET Directions = Directions + 1 WHERE PkID = ?", array($oID));
+				doQuery("UPDATE " . HC_TblPrefix . "events SET Directions = Directions + 1 WHERE PkID = ?", array($oID));
 		case 3:
 			$link = ($tID == 2) ? $hc_cfg[8] : $hc_cfg[9];
 			$result = ($lID > 0) ?
-				DoQuery("SELECT Address, City, State, Zip, Country, Lat, Lon FROM " . HC_TblPrefix . "locations WHERE PkID = ?", array($lID)):
-				DoQuery("SELECT LocationAddress, LocationCity, LocationState, LocationZip, LocCountry, NULL as Lat, NULL as Lon FROM " . HC_TblPrefix . "events WHERE PkID = ?", array($oID));
+				doQuery("SELECT Address, City, State, Zip, Country, Lat, Lon FROM " . HC_TblPrefix . "locations WHERE PkID = ?", array($lID)):
+				doQuery("SELECT LocationAddress, LocationCity, LocationState, LocationZip, LocCountry, NULL as Lat, NULL as Lon FROM " . HC_TblPrefix . "events WHERE PkID = ?", array($oID));
 			
 			if(hasRows($result)){
 				$link = str_replace('[address]', rawurlencode(hc_mysql_result($result,0,0)), $link);
@@ -47,10 +47,10 @@
 			}
 			break;
 		case 4:
-			$result = DoQuery("SELECT URL FROM " . HC_TblPrefix . "locations WHERE PkID = ?", array($oID));
+			$result = doQuery("SELECT URL FROM " . HC_TblPrefix . "locations WHERE PkID = ?", array($oID));
 			if(hasRows($result)){
 				if(!preg_match("$hc_cfg[85]i",$_SERVER['HTTP_USER_AGENT']))
-					DoQuery("UPDATE " . HC_TblPrefix . "locations SET URLClicks = URLClicks + 1 WHERE PkID = ?", array($oID));
+					doQuery("UPDATE " . HC_TblPrefix . "locations SET URLClicks = URLClicks + 1 WHERE PkID = ?", array($oID));
 				header('Location: ' . hc_mysql_result($result,0,0));
 			} else {
 				header('Location: ' . CalRoot);

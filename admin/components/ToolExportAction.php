@@ -50,7 +50,7 @@
 		25 => array('tag'=>'[category_unique]', 'field'=>'31'),
 		26 => array('tag'=>'[desc_notags]', 'field'=>'1'));
 	
-	$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "templates WHERE IsActive = 1 AND PkID = ?", array($tID));
+	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "templates WHERE IsActive = 1 AND PkID = ?", array($tID));
 	if(hasRows($result)){
 		$content = hc_mysql_result($result,0,2);
 		$header = hc_mysql_result($result,0,3);
@@ -107,7 +107,7 @@
 				break;
 		}
 		
-		$resultE = DoQuery($query, $params);
+		$resultE = doQuery($query, $params);
 		if(hasRows($resultE)){
 			$export = buildIt($header,NULL);
 			while($row = hc_mysql_fetch_row($resultE)){

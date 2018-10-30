@@ -609,7 +609,7 @@
 		$user_id = 0;
 		$user_net = $user_name = $user_email = $user_categories = '';
 		if(user_check_status()){
-			$resultU = DoQuery("SELECT PkID, NetworkType, NetworkName, Email, Categories FROM " . HC_TblPrefix . "users WHERE PkID = ?", array(cIn($_SESSION['UserPkID'])));
+			$resultU = doQuery("SELECT PkID, NetworkType, NetworkName, Email, Categories FROM " . HC_TblPrefix . "users WHERE PkID = ?", array(cIn($_SESSION['UserPkID'])));
 			if(hasRows($resultU)){
 				$user_id = cOut(hc_mysql_result($resultU,0,0));
 				$user_net = cOut(hc_mysql_result($resultU,0,1));
@@ -1110,7 +1110,7 @@
 		$startDate = ($startDate == '' || !is_numeric($startDate)) ? strtotime(SYSDATE) : $startDate;
 		$endDate = ($endDate == '' || !is_numeric($endDate)) ? strtotime(SYSDATE)+($hc_cfg[53]*86400) : $endDate;
 		
-		$result = DoQuery("SELECT DISTINCT e.PkID, e.Title, e.StartDate, e.StartTime, e.EndTime, e.TBD
+		$result = doQuery("SELECT DISTINCT e.PkID, e.Title, e.StartDate, e.StartTime, e.EndTime, e.TBD
 						FROM " . HC_TblPrefix . "events e
 							LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (ec.EventID = e.PkID)
 							LEFT JOIN " . HC_TblPrefix . "locations l ON (e.LocID = l.PkID)
@@ -1284,7 +1284,7 @@
 		
 		if(isset($_GET['d'])){
 			$g = cIn(strip_tags($_GET['d']));
-			$result = DoQuery("SELECT PkID FROM " . HC_TblPrefix . "subscribers WHERE GUID = ? AND GUID != '' AND IsConfirm = 1", array($g));
+			$result = doQuery("SELECT PkID FROM " . HC_TblPrefix . "subscribers WHERE GUID = ? AND GUID != '' AND IsConfirm = 1", array($g));
 			if(!hasRows($result))
 				return 0;
 			echo '
@@ -1307,7 +1307,7 @@
 		$query = NULL; $params = array();
 		
 		$g = (isset($_GET['u']) && $_GET['u'] != '') ? cIn(strip_tags($_GET['u'])) : '';
-		$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "subscribers WHERE GUID = ? AND GUID != '' AND IsConfirm = 1", array($g));
+		$result = doQuery("SELECT * FROM " . HC_TblPrefix . "subscribers WHERE GUID = ? AND GUID != '' AND IsConfirm = 1", array($g));
 		$notice = $hc_lang_news['SubInstruct'];
 		if(hasRows($result)){
 			$notice = $hc_lang_news['SubInstruct2'];
@@ -1425,7 +1425,7 @@
 				<option'.(($format == 2) ? ' selected="selected"' : '').' value="2">'.$hc_lang_news['LinkFormat2'].'</option>
 			</select>
 		</fieldset>';
-		$result = DoQuery("SELECT mg.PkID, mg.Name, mg.Description, sg.UserID
+		$result = doQuery("SELECT mg.PkID, mg.Name, mg.Description, sg.UserID
 						FROM " . HC_TblPrefix . "mailgroups mg
 							LEFT JOIN " . HC_TblPrefix . "subscribersgroups sg ON (mg.PkID = sg.GroupID AND sg.UserID = ?)
 						WHERE mg.IsActive = 1 AND mg.PkID > 1 AND mg.IsPublic = 1
@@ -1630,7 +1630,7 @@
 		} else {
 			if(isset($_GET['sID'])){
 				$series = cIn(strip_tags($_GET['sID']));
-				$resultS = DoQuery("SELECT GROUP_CONCAT(DISTINCT PkID ORDER BY PkID SEPARATOR ',') FROM " . HC_TblPrefix . "events WHERE SeriesID = ?", array($series));
+				$resultS = doQuery("SELECT GROUP_CONCAT(DISTINCT PkID ORDER BY PkID SEPARATOR ',') FROM " . HC_TblPrefix . "events WHERE SeriesID = ?", array($series));
 				$events = explode(',',hc_mysql_result($resultS,0,0));
 				$events = array_filter($events,'is_numeric');
 			} elseif(isset($_POST['eventID'])){
@@ -1638,12 +1638,12 @@
 			}
 			$eID = (count($events) > 0) ? $events[0] : '0';
 			$editString = (count($events) > 0) ? implode(',',$events) : 'NULL';
-			$resultS = DoQuery("SELECT GROUP_CONCAT(StartDate ORDER BY StartDate SEPARATOR ',')
+			$resultS = doQuery("SELECT GROUP_CONCAT(StartDate ORDER BY StartDate SEPARATOR ',')
 							FROM " . HC_TblPrefix . "events WHERE PkID IN (?)", array($editString));
 			$dateString = (hasRows($resultS)) ? explode(',',hc_mysql_result($resultS,0,0)) : array();
 		}
 		
-		$result = DoQuery("SELECT e.*, l.PkID, l.Name, l.Address, l.Address2, l.City, l.State, l.Zip, l.Country, er.*, u.PkID, u.NetworkType, u.NetworkName, u.Email, u.Categories
+		$result = doQuery("SELECT e.*, l.PkID, l.Name, l.Address, l.Address2, l.City, l.State, l.Zip, l.Country, er.*, u.PkID, u.NetworkType, u.NetworkName, u.Email, u.Categories
 						FROM " . HC_TblPrefix . "events e
 							LEFT JOIN " . HC_TblPrefix . "locations l ON (e.LocID = l.PkID)
 							LEFT JOIN " . HC_TblPrefix . "eventrsvps er ON (er.EventID = e.PkID)
@@ -1864,6 +1864,7 @@
 				if ($user_categories != '') { 
 					$uQuery = " AND c.PkID IN (?)";
 					$uParam = $user_categories;
+				}
 				
 				echo '
 		<fieldset>

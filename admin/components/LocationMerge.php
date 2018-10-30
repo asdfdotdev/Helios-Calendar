@@ -16,7 +16,7 @@
 	
 	appInstructions(1, "Merging_Locations", $hc_lang_locations['TitleMerge'], $hc_lang_locations['InstructMerge3']);
 	
-	$result = DoQuery("SELECT PkID, Name, IsPublic, 
+	$result = doQuery("SELECT PkID, Name, IsPublic, 
 						(SELECT COUNT(PkID) FROM " . HC_TblPrefix. "events e WHERE e.StartDate >= '" . cIn(SYSDATE) . "' AND e.LocID = l.PkID) AS EventCnt
 					FROM " . HC_TblPrefix . "locations l
 					WHERE IsActive = 1 AND PkID IN (?)

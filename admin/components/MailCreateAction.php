@@ -28,10 +28,10 @@
 		$archive = (isset($_POST['archStatus']) && is_numeric($_POST['archStatus'])) ? cIn($_POST['archStatus']) : 0;
 		$message = (isset($_POST['mailMsg'])) ? cIn(cleanQuotes($_POST['mailMsg'],0),0) : '';
 
-		$result = DoQuery("SELECT PkID FROM " . HC_TblPrefix . "mailers WHERE PkID = ?", array($mID));
+		$result = doQuery("SELECT PkID FROM " . HC_TblPrefix . "mailers WHERE PkID = ?", array($mID));
 		if(hasRows($result)){
 			$msg = 1;
-			DoQuery("UPDATE " . HC_TblPrefix . "mailers
+			doQuery("UPDATE " . HC_TblPrefix . "mailers
 					SET Title = ?,
 						Subject = ?,
 						StartDate = ?,
@@ -53,22 +53,22 @@
 					));
 		} else {
 			$msg = 2;
-			DoQuery("INSERT INTO " . HC_TblPrefix . "mailers(Title,Subject,StartDate,EndDate,TemplateID,Message,CreatedDate,LastModDate,IsArchive,IsActive)
+			doQuery("INSERT INTO " . HC_TblPrefix . "mailers(Title,Subject,StartDate,EndDate,TemplateID,Message,CreatedDate,LastModDate,IsArchive,IsActive)
 					VALUES(?,?,?,?,?,?,?,?,?,1)", array($title, $subject, $startDate, $endDate, $template, $message, date("Y-m-d"), date("Y-m-d"), $archive));
 
-			$result = DoQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "events");
+			$result = doQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "events");
 			$mID = hc_mysql_result($result,0,0);
 		}
 
 		if(isset($_POST['grpID'])){
-			DoQuery("DELETE FROM " . HC_TblPrefix . "mailersgroups WHERE MailerID = ?", array($mID));
+			doQuery("DELETE FROM " . HC_TblPrefix . "mailersgroups WHERE MailerID = ?", array($mID));
 			foreach($_POST['grpID'] as $val){
-				DoQuery("INSERT INTO " . HC_TblPrefix . "mailersgroups(MailerID,GroupID) VALUES(?,?)", array($mID, $val));
+				doQuery("INSERT INTO " . HC_TblPrefix . "mailersgroups(MailerID,GroupID) VALUES(?,?)", array($mID, $val));
 			}
 		}
 	} else {
 		$msg = 3;
-		DoQuery("UPDATE " . HC_TblPrefix . "mailers SET IsActive = 0 WHERE PkID = ?", array(cIn(strip_tags($_GET['dID']))));
+		doQuery("UPDATE " . HC_TblPrefix . "mailers SET IsActive = 0 WHERE PkID = ?", array(cIn(strip_tags($_GET['dID']))));
 	}
 	header("Location: " . AdminRoot . "/index.php?com=newscreate&msg=" . $msg);
 ?>

@@ -7,7 +7,7 @@
 	
 	$errorMsg = '';
 	$status = true;
-	$result = DoQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(117,118,120,121,123)");
+	$result = doQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(117,118,120,121,123)");
 	if(!hasRows($result)){
 		$apiFail = true;
 		$errorMsg = 'Facebook API Settings Unavailable.';

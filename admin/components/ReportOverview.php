@@ -11,35 +11,35 @@
 	
 	$na = $hc_lang_reports['NA'];
 	
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1");
 	$tCnt = (hasRows($result)) ? hc_mysql_result($result,0,0) : '0';
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . cIn(SYSDATE) . "'");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . cIn(SYSDATE) . "'");
 	$aCnt = (hasRows($result)) ? hc_mysql_result($result,0,0) : '0';
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate < '" . cIn(SYSDATE) . "'");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate < '" . cIn(SYSDATE) . "'");
 	$pCnt = (hasRows($result)) ? hc_mysql_result($result,0,0) : '0';
 	
 	$stats[$hc_lang_reports['ActiveLabel']] = ($aCnt != '') ? number_format($aCnt,0,'.',',') : $na;
 	$stats[$hc_lang_reports['PassedLabel']] = ($pCnt != '') ? number_format($pCnt,0,'.',',') : $na;
 	$stats[$hc_lang_reports['TotalLabel']] = ($tCnt != '') ? number_format($tCnt,0,'.',',') : $na;
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND IsBillboard = 1 AND StartDate >= '" . cIn(SYSDATE) . "'");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND IsBillboard = 1 AND StartDate >= '" . cIn(SYSDATE) . "'");
 	$stats[$hc_lang_reports['Billboard']] = (hasRows($result)) ? number_format(hc_mysql_result($result,0,0),0,'.',',') : $na;
-	$result = DoQuery("SELECT COUNT(*)
+	$result = doQuery("SELECT COUNT(*)
 					FROM " . HC_TblPrefix . "events e
 						LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (e.PkID = ec.EventID)
 						LEFT JOIN " . HC_TblPrefix . "categories c ON (c.PkID = ec.CategoryID)
 					WHERE e.IsActive = 1 AND e.IsApproved = 1 AND (ec.EventID IS NULL OR c.IsActive = 0)");
 	$stats[$hc_lang_reports['Orphan']] = (hasRows($result)) ? number_format(hc_mysql_result($result,0,0),0,'.',',') : $na;
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate = '" . cIn(SYSDATE) . "'");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate = '" . cIn(SYSDATE) . "'");
 	$stats[$hc_lang_reports['Today']] = (hasRows($result)) ? number_format(hc_mysql_result($result,0,0),0,'.',',') : $na;
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate BETWEEN '" . cIn(SYSDATE) . "' AND ADDDATE('" . cIn(SYSDATE) . "',INTERVAL 7 DAY)");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate BETWEEN '" . cIn(SYSDATE) . "' AND ADDDATE('" . cIn(SYSDATE) . "',INTERVAL 7 DAY)");
 	$stats[$hc_lang_reports['Next7']] = (hasRows($result)) ? number_format(hc_mysql_result($result,0,0),0,'.',',') : $na;
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate BETWEEN '" . cIn(SYSDATE) . "' AND ADDDATE('" . cIn(SYSDATE) . "',INTERVAL 30 DAY)");	
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate BETWEEN '" . cIn(SYSDATE) . "' AND ADDDATE('" . cIn(SYSDATE) . "',INTERVAL 30 DAY)");	
 	$stats[$hc_lang_reports['Next30']] = (hasRows($result)) ? number_format(hc_mysql_result($result,0,0),0,'.',',') : $na;
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "subscribers WHERE IsConfirm = 1");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "subscribers WHERE IsConfirm = 1");
 	$stats[$hc_lang_reports['ActiveUsers']] = (hasRows($result)) ? number_format(hc_mysql_result($result,0,0),0,'.',',') : $na;
-	$result = DoQuery("SELECT MIN(StartDate) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate IS NOT NULL");
+	$result = doQuery("SELECT MIN(StartDate) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate IS NOT NULL");
 	$stats[$hc_lang_reports['Earliest']] = (hasRows($result)) ? stampToDate(hc_mysql_result($result,0,0),$hc_cfg[24]) : $na;
-	$result = DoQuery("SELECT MAX(StartDate) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate IS NOT NULL");
+	$result = doQuery("SELECT MAX(StartDate) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate IS NOT NULL");
 	$stats[$hc_lang_reports['Latest']] = (hasRows($result)) ? stampToDate(hc_mysql_result($result,0,0),$hc_cfg[24]) : $na;
 	
 	echo '
@@ -61,7 +61,7 @@
 	echo '
 	</ul>';
 	
-	$result = DoQuery("SELECT SUM(Views), SUM(Directions), SUM(Downloads), SUM(EmailToFriend), SUM(URLClicks)
+	$result = doQuery("SELECT SUM(Views), SUM(Directions), SUM(Downloads), SUM(EmailToFriend), SUM(URLClicks)
 					FROM " . HC_TblPrefix . "events
 					WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . cIn(SYSDATE) . "'");
 	if(hasRows($result)){
@@ -100,7 +100,7 @@
 	</ul>';
 	}
 	
-	$result = DoQuery("SELECT SUM(Views), SUM(Directions), SUM(Downloads), SUM(EmailToFriend), SUM(URLClicks)
+	$result = doQuery("SELECT SUM(Views), SUM(Directions), SUM(Downloads), SUM(EmailToFriend), SUM(URLClicks)
 					FROM " . HC_TblPrefix . "events
 					WHERE IsActive = 1 AND IsApproved = 1 AND StartDate < '" . cIn(SYSDATE) . "'");
 	if(hasRows($result)){
@@ -139,7 +139,7 @@
 	</ul>';
 	}
 	
-	$result = DoQuery("SELECT SUM(Views), SUM(Directions), SUM(Downloads), SUM(EmailToFriend), SUM(URLClicks)
+	$result = doQuery("SELECT SUM(Views), SUM(Directions), SUM(Downloads), SUM(EmailToFriend), SUM(URLClicks)
 					FROM " . HC_TblPrefix . "events
 					WHERE IsActive = 1 AND IsApproved = 1");
 	if(hasRows($result)){
@@ -178,7 +178,7 @@
 	</ul>';
 	}
 	
-	$result = DoQuery("SELECT Title, StartDate, Views FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND Views > 0 ORDER BY Views DESC, Title LIMIT 50");
+	$result = doQuery("SELECT Title, StartDate, Views FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND Views > 0 ORDER BY Views DESC, Title LIMIT 50");
 	if(hasRows($result)){
 		echo '
 	<ul class="data">
@@ -208,7 +208,7 @@
 	</div>';
 	}
 	
-	$result = DoQuery("SELECT Title, StartDate, Directions FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND Directions > 0 ORDER BY Directions DESC, Title LIMIT 50");
+	$result = doQuery("SELECT Title, StartDate, Directions FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND Directions > 0 ORDER BY Directions DESC, Title LIMIT 50");
 	if(hasRows($result)){
 		echo '
 	<ul class="data">
@@ -238,7 +238,7 @@
 	</div>';
 	}
 	
-	$result = DoQuery("SELECT Title, StartDate, Downloads FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND Downloads > 0 ORDER BY Downloads DESC, Title LIMIT 50");
+	$result = doQuery("SELECT Title, StartDate, Downloads FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND Downloads > 0 ORDER BY Downloads DESC, Title LIMIT 50");
 	if(hasRows($result)){
 		echo '
 	<ul class="data">
@@ -268,7 +268,7 @@
 	</div>';
 	}
 	
-	$result = DoQuery("SELECT Title, StartDate, EmailToFriend FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND EmailToFriend > 0 ORDER BY EmailToFriend DESC, Title LIMIT 10");
+	$result = doQuery("SELECT Title, StartDate, EmailToFriend FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND EmailToFriend > 0 ORDER BY EmailToFriend DESC, Title LIMIT 10");
 	if(hasRows($result)){
 		echo '
 	<ul class="data">
@@ -298,7 +298,7 @@
 	</div>';
 	}
 	
-	$result = DoQuery("SELECT Title, StartDate, URLClicks FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND URLClicks > 0 ORDER BY URLClicks DESC, Title LIMIT 10");
+	$result = doQuery("SELECT Title, StartDate, URLClicks FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND URLClicks > 0 ORDER BY URLClicks DESC, Title LIMIT 10");
 	if(hasRows($result)){
 		echo '
 	<ul class="data">
@@ -328,7 +328,7 @@
 	</div>';
 	}
 	
-	$result = DoQuery("SELECT FirstName, LastName, Email, RegisteredAt FROM " . HC_TblPrefix . "subscribers WHERE IsConfirm = 1 ORDER BY RegisteredAt DESC, LastName, FirstName LIMIT 50");
+	$result = doQuery("SELECT FirstName, LastName, Email, RegisteredAt FROM " . HC_TblPrefix . "subscribers WHERE IsConfirm = 1 ORDER BY RegisteredAt DESC, LastName, FirstName LIMIT 50");
 	if(hasRows($result)){
 		echo '
 	<ul class="data">

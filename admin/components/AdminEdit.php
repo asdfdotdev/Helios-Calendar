@@ -19,7 +19,7 @@
 	}
 	
 	$aID = (isset($_GET['aID']) && is_numeric($_GET['aID'])) ? cIn($_GET['aID']) : 0;
-	$result = DoQuery("SELECT a.PkID, a.FirstName, a.LastName, a.Email, a.LoginCnt, a.LastLogin, a.PAge,
+	$result = doQuery("SELECT a.PkID, a.FirstName, a.LastName, a.Email, a.LoginCnt, a.LastLogin, a.PAge,
 					ap.EventEdit, ap.EventPending, ap.EventCategory, ap.UserEdit, ap.AdminEdit, ap.Newsletter, ap.Settings, ap.Tools, ap.Reports, ap.Locations, ap.Pages,
 					(SELECT GROUP_CONCAT(TypeID) FROM " . HC_TblPrefix . "adminnotices an WHERE an.AdminID = ?) as Notices,
 					(SELECT COUNT(*) FROM " . HC_TblPrefix . "adminloginhistory WHERE AdminID = ? AND LoginTime > subdate(NOW(), INTERVAL 24 HOUR) AND IsFail = 1) as Fails
@@ -55,7 +55,7 @@
 		$fails = hc_mysql_result($result,0,19);
 		$active = ($_SESSION['AdminPkID'] == $aID) ? ' disabled="disabled"' : '';
 		
-		$resultH = DoQuery("SELECT * FROM " . HC_TblPrefix . "adminloginhistory WHERE AdminID = ? ORDER BY LoginTime DESC LIMIT 100", array($aID));
+		$resultH = doQuery("SELECT * FROM " . HC_TblPrefix . "adminloginhistory WHERE AdminID = ? ORDER BY LoginTime DESC LIMIT 100", array($aID));
 		if(hasRows($resultH)){
 			$login_history .= '
 		<ul class="data">';

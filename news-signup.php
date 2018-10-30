@@ -43,53 +43,53 @@
 		exit;}
 		
 	if($uID > 0){
-		DoQuery("UPDATE " . HC_TblPrefix . "subscribers
+		doQuery("UPDATE " . HC_TblPrefix . "subscribers
 				SET FirstName = ?,LastName = ?,OccupationID = ?,
 					Email = ?,Zip = ?,BirthYear = ?,Gender = ?,
 					Referral = ?,Format = ?
 				WHERE PkID = ?", array($firstname, $lastname, $occupation, $email, $zip, $birthyear, $gender, $referral, $format, $uID ));
 
-		DoQuery("DELETE FROM " . HC_TblPrefix . "subscriberscategories WHERE UserID = ?", array($uID));
-		DoQuery("DELETE FROM " . HC_TblPrefix . "subscribersgroups WHERE UserID = ?", array($uID));
+		doQuery("DELETE FROM " . HC_TblPrefix . "subscriberscategories WHERE UserID = ?", array($uID));
+		doQuery("DELETE FROM " . HC_TblPrefix . "subscribersgroups WHERE UserID = ?", array($uID));
 
 		if(isset($_POST['grpID'])){
 			foreach ($_POST['grpID'] as $val)
 				if(is_numeric($val)){
-					DoQuery("INSERT INTO " . HC_TblPrefix . "subscribersgroups(UserID,GroupID) VALUES(?,?)", array($uID, cIn($val)));
+					doQuery("INSERT INTO " . HC_TblPrefix . "subscribersgroups(UserID,GroupID) VALUES(?,?)", array($uID, cIn($val)));
 				}
 		}
 		if(isset($_POST['catID'])){
 			foreach ($_POST['catID'] as $val)
 				if(is_numeric($val)){
-					DoQuery("INSERT INTO " . HC_TblPrefix . "subscriberscategories(UserID,CategoryID) VALUES(?,?)", array($uID, cIn($val)));
+					doQuery("INSERT INTO " . HC_TblPrefix . "subscriberscategories(UserID,CategoryID) VALUES(?,?)", array($uID, cIn($val)));
 				}
 		}
 
 		header('Location: '.CalRoot.'/index.php?com=signup&t=5');
 	} else {
-		$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "subscribers WHERE email = ?", array($email));
+		$result = doQuery("SELECT * FROM " . HC_TblPrefix . "subscribers WHERE email = ?", array($email));
 		if(hasRows($result)){
 			header('Location: '.CalRoot.'/index.php?com=signup&t=2');
 			exit;}
 			
-		DoQuery("INSERT INTO " . HC_TblPrefix . "subscribers(FirstName,LastName,Email,OccupationID,Zip,IsConfirm,GUID,RegisteredAt,RegisterIP,BirthYear,Gender,Referral,Format)
+		doQuery("INSERT INTO " . HC_TblPrefix . "subscribers(FirstName,LastName,Email,OccupationID,Zip,IsConfirm,GUID,RegisteredAt,RegisterIP,BirthYear,Gender,Referral,Format)
 				VALUES(?,?,?,?,?,0,
 				MD5(CONCAT(rand(UNIX_TIMESTAMP()) * (RAND()*1000000),?)),
 				?, ?, ?, ?, ?, ?)", array($firstname, $lastname, $email, $occupation, $zip, $email, date("Y-m-d H:i:s"), cIn(strip_tags($_SERVER["REMOTE_ADDR"])), $birthyear, $gender, $referral, $format
 					));
 
-		$result = DoQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "subscribers");
+		$result = doQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "subscribers");
 		$newID = cIn(hc_mysql_result($result,0,0));
 		if(isset($_POST['catID'])){
 			foreach ($_POST['catID'] as $val)
-				DoQuery("INSERT INTO " . HC_TblPrefix . "subscriberscategories(UserID, CategoryID) VALUES(?,?)", array($newID, cIn($val)));
+				doQuery("INSERT INTO " . HC_TblPrefix . "subscriberscategories(UserID, CategoryID) VALUES(?,?)", array($newID, cIn($val)));
 		}
 		if(isset($_POST['grpID'])){
 			foreach ($_POST['grpID'] as $val)
-				DoQuery("INSERT INTO " . HC_TblPrefix . "subscribersgroups(UserID,GroupID) VALUES(?,?)", array($newID, cIn($val)));
+				doQuery("INSERT INTO " . HC_TblPrefix . "subscribersgroups(UserID,GroupID) VALUES(?,?)", array($newID, cIn($val)));
 		}
 
-		$result = DoQuery("SELECT GUID FROM " . HC_TblPrefix . "subscribers WHERE PkID = ?", array(cIn($newID)));
+		$result = doQuery("SELECT GUID FROM " . HC_TblPrefix . "subscribers WHERE PkID = ?", array(cIn($newID)));
 		$GUID = (hasRows($result)) ?  hc_mysql_result($result,0,0) : '';
 		$subject = $hc_lang_news['Subject'] . ' - ' . CalName;
 		$message = '<p>' . $hc_lang_news['RegEmailA'] . ' <a href="' . CalRoot . '/a.php?a=' . $GUID . '">' . CalRoot . '/a.php?a=' . $GUID . '</a></p>';

@@ -16,12 +16,12 @@
 		<p><a href="'.AdminRoot.'/index.php?com=eventsearch" class="add"><img src="'.AdminRoot.'/img/icons/report.png" width="16" height="16" alt="" />'.$hc_lang_reports['NewReport'].'</a></p>';
 	
 	if(count($eID) > 0){
-		$result = DoQuery("SELECT e.PkID, e.Title, e.StartDate, e.Views, e.Directions, e.Downloads, e.EmailToFriend, e.URLClicks
+		$result = doQuery("SELECT e.PkID, e.Title, e.StartDate, e.Views, e.Directions, e.Downloads, e.EmailToFriend, e.URLClicks
 						FROM " . HC_TblPrefix . "events e
 						WHERE e.PkID IN(?) ORDER BY e.PkID", array(cIn($eID)));
 		if(hasRows($result)){
 			$mViews = $mDir = $mDwnl = $mEmail = $mURL = $aViews = $aDir = $aDwnl = $aEmail = $aURL = $cnt = 0;
-			$resultX = DoQuery("SELECT MAX(Views), MAX(Directions), MAX(Downloads), MAX(EmailToFriend), MAX(URLClicks),
+			$resultX = doQuery("SELECT MAX(Views), MAX(Directions), MAX(Downloads), MAX(EmailToFriend), MAX(URLClicks),
 									AVG(Views), AVG(Directions), AVG(Downloads), AVG(EmailToFriend), AVG(URLClicks)
 							FROM " . HC_TblPrefix . "events
 							WHERE IsActive = 1 AND IsApproved = 1");

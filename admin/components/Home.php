@@ -20,11 +20,11 @@
 	
 	$hc_Side[] = array(AdminRoot.'/components/CachePurge.php','delete_drive.png',$hc_lang_core['LinkPurge'],0);
 	
-	$result = DoQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 2");
+	$result = doQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 2");
 	$num = (hasRows($result) && hc_mysql_result($result,0,0) > 0) ? hc_mysql_result($result,0,0) : 0;
 	$hc_Side[] = array(AdminRoot . '/index.php?com=eventpending','edit.png',$hc_lang_home['PendingNotice'] . ' <b>' . $num . '</b>',0);
 	
-	$result = DoQuery("SELECT COUNT(DISTINCT e.PkID)
+	$result = doQuery("SELECT COUNT(DISTINCT e.PkID)
 					FROM " . HC_TblPrefix . "events e
 						LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (e.PkID = ec.EventID)
 						LEFT JOIN " . HC_TblPrefix . "categories c ON (c.PkID = ec.CategoryID)
@@ -33,7 +33,7 @@
 	$num = (hasRows($result) && hc_mysql_result($result,0,0) > 0) ? hc_mysql_result($result,0,0) : 0;
 	$hc_Side[] = array(AdminRoot . '/index.php?com=eventorphan','category.png',$hc_lang_home['OrphanNotice'] . ' <b>' . $num . '</b>',0);
 	
-	$result = DoQuery("SELECT COUNT(DISTINCT f.PkID)
+	$result = doQuery("SELECT COUNT(DISTINCT f.PkID)
 					FROM " . HC_TblPrefix . "followup f
 						LEFT JOIN " . HC_TblPrefix . "events e ON (f.EntityID = e.PkID AND f.EntityType = 1 AND e.IsActive = 1)
 						LEFT JOIN " . HC_TblPrefix . "events e2 ON (f.EntityID = e2.SeriesID AND f.EntityType = 2 AND e2.IsActive = 1)
@@ -45,35 +45,35 @@
 	if($_SESSION['PasswordWarn'] == 1)
 		feedback(3,$hc_lang_core['Password']);
 	
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . SYSDATE . "'");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . SYSDATE . "'");
 	$eventA = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND IsBillboard = 1 AND StartDate >= '" . SYSDATE . "'");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND IsBillboard = 1 AND StartDate >= '" . SYSDATE . "'");
 	$eventB = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate = '" . SYSDATE . "'");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate = '" . SYSDATE . "'");
 	$eventT = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE StartDate BETWEEN '" . SYSDATE . "' AND AddDate('" . SYSDATE . "', INTERVAL 7 DAY)");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE StartDate BETWEEN '" . SYSDATE . "' AND AddDate('" . SYSDATE . "', INTERVAL 7 DAY)");
 	$event7 = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
-	$result = DoQuery("SELECT COUNT(en.EventID) FROM " . HC_TblPrefix . "eventnetwork en LEFT JOIN " . HC_TblPrefix . "events e ON (e.PkID = en.EventID) WHERE en.NetworkType = 2 AND en.IsActive = 1");
+	$result = doQuery("SELECT COUNT(en.EventID) FROM " . HC_TblPrefix . "eventnetwork en LEFT JOIN " . HC_TblPrefix . "events e ON (e.PkID = en.EventID) WHERE en.NetworkType = 2 AND en.IsActive = 1");
 	$eventEb = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "locations WHERE IsActive = 1 AND IsPublic = 1");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "locations WHERE IsActive = 1 AND IsPublic = 1");
 	$locP = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "locations WHERE IsActive = 1 AND IsPublic = 0");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "locations WHERE IsActive = 1 AND IsPublic = 0");
 	$locA = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "subscribers WHERE IsConfirm = 1");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "subscribers WHERE IsConfirm = 1");
 	$subC = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "subscribers WHERE IsConfirm = 0");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "subscribers WHERE IsConfirm = 0");
 	$subN = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "newsletters WHERE Status = 3 AND IsActive = 1");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "newsletters WHERE Status = 3 AND IsActive = 1");
 	$newsSent = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "newsletters WHERE Status = 3 AND IsActive = 1 AND IsArchive = 1");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "newsletters WHERE Status = 3 AND IsActive = 1 AND IsArchive = 1");
 	$newsArch = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "newsletters WHERE Status = 3 AND IsActive = 1 AND SentDate Between '" . date("Y-m-d",  strtotime('-7 day')) . "' AND '" . date("Y-m-d") . "'");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "newsletters WHERE Status = 3 AND IsActive = 1 AND SentDate Between '" . date("Y-m-d",  strtotime('-7 day')) . "' AND '" . date("Y-m-d") . "'");
 	$news7 = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "newsletters WHERE Status = 3 AND IsActive = 1 AND SentDate Between '" . date("Y-m-d",  strtotime('-30 day')) . "' AND '" . date("Y-m-d") . "'");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "newsletters WHERE Status = 3 AND IsActive = 1 AND SentDate Between '" . date("Y-m-d",  strtotime('-30 day')) . "' AND '" . date("Y-m-d") . "'");
 	$news30 = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
-	$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND SubmittedAt IS NOT NULL");
+	$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND SubmittedAt IS NOT NULL");
 	$eventS = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
-	$result = DoQuery("SELECT COUNT(en.NetworkID) FROM " . HC_TblPrefix . "eventnetwork en LEFT JOIN " . HC_TblPrefix . "events e ON (e.PkID = en.EventID) WHERE e.StartDate >= '" . SYSDATE . "' AND en.NetworkType = 3 AND en.IsActive = 1 GROUP BY en.NetworkType");
+	$result = doQuery("SELECT COUNT(en.NetworkID) FROM " . HC_TblPrefix . "eventnetwork en LEFT JOIN " . HC_TblPrefix . "events e ON (e.PkID = en.EventID) WHERE e.StartDate >= '" . SYSDATE . "' AND en.NetworkType = 3 AND en.IsActive = 1 GROUP BY en.NetworkType");
 	$tweet = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 	echo '
 		<fieldset>

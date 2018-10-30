@@ -47,9 +47,9 @@
 			$locString = str_replace("<br />",", ",buildAddress($address,$address2,$city,$state,$zip,$country,$hc_lang_config['AddressType']));
 			require_once(HCPATH.HCINC.'/api/google/GetGeocode.php');}
 		
-		$result = DoQuery("SELECT PkID FROM " . HC_TblPrefix . "locations WHERE PkID = ? AND IsActive = 1", array($lID));
+		$result = doQuery("SELECT PkID FROM " . HC_TblPrefix . "locations WHERE PkID = ? AND IsActive = 1", array($lID));
 		if(hasRows($result)){
-			DoQuery("UPDATE " . HC_TblPrefix . "locations
+			doQuery("UPDATE " . HC_TblPrefix . "locations
 					SET Name = ?,
 						Address = ?,Address2 = ?,City = ?,State = ?,Country = ?,Zip = ?,
 						URL = ?,Phone = ?,Email = ?,Descript = ?,
@@ -77,7 +77,7 @@
 					));
 			$msgID = 2;
 		} else {
-			DoQuery("INSERT INTO " . HC_TblPrefix . "locations(Name, Address, Address2, City, State, Country, Zip, URL, Phone, Email, Descript, IsPublic, IsActive, Lat, Lon, GoogleAcc, LastMod, Image)
+			doQuery("INSERT INTO " . HC_TblPrefix . "locations(Name, Address, Address2, City, State, Country, Zip, URL, Phone, Email, Descript, IsPublic, IsActive, Lat, Lon, GoogleAcc, LastMod, Image)
 					VALUES(	?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?, ?, '" . SYSDATE . ' ' . SYSTIME . "', ?)",
 					array(
 						$name,
@@ -97,14 +97,14 @@
 						$gQuality,
 						$imageURL
 					));
-			$result = DoQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "locations");
+			$result = doQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "locations");
 			$lID = hc_mysql_result($result,0,0);
 			$msgID = 1;
 		}
 		
 		$efID = $ebID = $efFetched = '';
 		$efNew = $ebNew = true;
-		$resultD = DoQuery("SELECT * FROM " . HC_TblPrefix . "locationnetwork WHERE LocationID = ?", array($lID));
+		$resultD = doQuery("SELECT * FROM " . HC_TblPrefix . "locationnetwork WHERE LocationID = ?", array($lID));
 		if(hasRows($resultD)){
 			while($row = hc_mysql_fetch_row($resultD)){
 				switch($row[2]){
@@ -122,14 +122,14 @@
 		$entityID = $lID;
 		$entityType = 3;
 		if($follow_up > 0){
-			$resultF = DoQuery("SELECT * FROM " . HC_TblPrefix . "followup WHERE EntityID = ?", array(cIn($entityID) . "' AND EntityType = '" . cIn($entityType)));
+			$resultF = doQuery("SELECT * FROM " . HC_TblPrefix . "followup WHERE EntityID = ?", array(cIn($entityID) . "' AND EntityType = '" . cIn($entityType)));
 			if(hasRows($resultF)){
-				DoQuery("UPDATE " . HC_TblPrefix . "followup SET Note = ? WHERE EntityID = ? AND EntityType = ?", array($fnote, cIn($entityID), cIn($entityType)));
+				doQuery("UPDATE " . HC_TblPrefix . "followup SET Note = ? WHERE EntityID = ? AND EntityType = ?", array($fnote, cIn($entityID), cIn($entityType)));
 			} else {
-				DoQuery("INSERT INTO " . HC_TblPrefix . "followup(EntityID, EntityType, Note) VALUES(?,?,?)", array($entityID, $entityType, $fnote));
+				doQuery("INSERT INTO " . HC_TblPrefix . "followup(EntityID, EntityType, Note) VALUES(?,?,?)", array($entityID, $entityType, $fnote));
 			}
 		} else {
-			DoQuery("DELETE FROM " . HC_TblPrefix . "followup WHERE EntityID = ?", array(cIn($entityID) . "' AND EntityType = '" . cIn($entityType)));
+			doQuery("DELETE FROM " . HC_TblPrefix . "followup WHERE EntityID = ?", array(cIn($entityID) . "' AND EntityType = '" . cIn($entityType)));
 		}
 		if(isset($_POST['doEventbrite'])){
 			$ebNew = ($ebID == '') ? true : false;
@@ -137,7 +137,7 @@
 			require_once(HCPATH.HCINC.'/api/eventbrite/LocationEdit.php');
 			
 			if($ebID != '' && $ebNew == true){
-				DoQuery("INSERT INTO " . HC_TblPrefix . "locationnetwork(LocationID,NetworkID,NetworkType,IsDownload,IsActive)
+				doQuery("INSERT INTO " . HC_TblPrefix . "locationnetwork(LocationID,NetworkID,NetworkType,IsDownload,IsActive)
 						VALUES(?,?,2,0,1)", array($lID, cIn($ebID)));
 			}
 		}
@@ -154,17 +154,17 @@
 			$hdrStr = 'Location: ' . AdminRoot . '/index.php?com=location&lID=&msg=3';
 		
 		$dID = cIn(strip_tags($_GET['dID']));
-		DoQuery("UPDATE " . HC_TblPrefix . "locations SET IsActive = ? WHERE PkID = ?", array(0, $dID));
-		DoQuery("UPDATE " . HC_TblPrefix . "events SET LocID = ? WHERE LocID = ?", array(0, $dID));
+		doQuery("UPDATE " . HC_TblPrefix . "locations SET IsActive = ? WHERE PkID = ?", array(0, $dID));
+		doQuery("UPDATE " . HC_TblPrefix . "events SET LocID = ? WHERE LocID = ?", array(0, $dID));
 
-		$resultD = DoQuery("SELECT NetworkID, NetworkType FROM " . HC_TblPrefix . "locationnetwork WHERE LocationID = ? ORDER BY NetworkType", array($dID));
+		$resultD = doQuery("SELECT NetworkID, NetworkType FROM " . HC_TblPrefix . "locationnetwork WHERE LocationID = ? ORDER BY NetworkType", array($dID));
 		while($row = hc_mysql_fetch_row($resultD)){
 			$netID = cIn($row[0]);
 			if($row[1] == 1){
 				//	Nothing
 			} elseif($row[1] == 2){
 				//	Eventbrite doesn't support API Venue deletion.
-				DoQuery("UPDATE " . HC_TblPrefix . "locationnetwork SET IsActive = 0 WHERE NetworkID = ? AND NetworkType = 2", array($netID));
+				doQuery("UPDATE " . HC_TblPrefix . "locationnetwork SET IsActive = 0 WHERE NetworkID = ? AND NetworkType = 2", array($netID));
 			}
 		}
 	}

@@ -131,7 +131,7 @@
 				break;
 			case 'series':
 				$sID = (isset($_GET['sID'])) ? cIn(strip_tags($_GET['sID'])) : '';
-				$result = DoQuery("SELECT DISTINCT Title FROM " . HC_TblPrefix . "events
+				$result = doQuery("SELECT DISTINCT Title FROM " . HC_TblPrefix . "events
 						WHERE SeriesID = ? AND IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . SYSDATE . "'
 						ORDER BY StartDate", array($sID));
 				if(hasRows($result)){
@@ -153,14 +153,14 @@
 				break;
 			case 'send':
 				if($lID > 0){
-					$result = DoQuery("SELECT Name, Address, Address2, City, State, Zip, Country FROM " . HC_TblPrefix . "locations WHERE PkID = ?", array($lID));
+					$result = doQuery("SELECT Name, Address, Address2, City, State, Zip, Country FROM " . HC_TblPrefix . "locations WHERE PkID = ?", array($lID));
 					if(hasRows($result)){
 						define('HCCanURL',CalRoot.'/index.php?com='.HCCOM.'&amp;lID='.$lID);
 						$crmbAdd[CalRoot.'/index.php?com=location'] = $hc_lang_core['location'];
 						$crmbAdd[CalRoot.'/index.php?com=location&amp;lID='.$lID] = hc_mysql_result($result,0,0);
 						$crmbAdd[HCCanURL] = $hc_lang_core[HCCOM];}
 				} elseif($eID > 0) {
-					$result = DoQuery("SELECT Title, StartDate, StartTime, TBD FROM " . HC_TblPrefix . "events WHERE PkID = ?".(($hc_cfg[126] == 0) ? " AND StartDate >= '" . SYSDATE . "'" : ""), array($eID));
+					$result = doQuery("SELECT Title, StartDate, StartTime, TBD FROM " . HC_TblPrefix . "events WHERE PkID = ?".(($hc_cfg[126] == 0) ? " AND StartDate >= '" . SYSDATE . "'" : ""), array($eID));
 					if(hasRows($result)){
 						define('HCCanURL',CalRoot.'/index.php?com='.HCCOM.'&amp;eID='.$eID);
 						$crmbAdd[CalRoot.'/index.php?eID='.$eID] = hc_mysql_result($result,0,0);
@@ -172,7 +172,7 @@
 				load_theme_page('form.php');
 				break;
 			case 'rsvp':
-				$result = DoQuery("SELECT e.Title,e.StartDate,e.StartTime,e.TBD,e.ContactName,e.ContactEmail,e.SeriesID,er.OpenDate,er.CloseDate,er.RegOption,
+				$result = doQuery("SELECT e.Title,e.StartDate,e.StartTime,e.TBD,e.ContactName,e.ContactEmail,e.SeriesID,er.OpenDate,er.CloseDate,er.RegOption,
 									MIN(e2.StartDate),MAX(e2.StartDate),MIN(e2.PkID)
 								FROM " . HC_TblPrefix . "events e
 									LEFT JOIN " . HC_TblPrefix . "events e2 ON (e.SeriesID = e2.SeriesID)
@@ -241,7 +241,7 @@
 					load_theme_page('event.php');
 				} else {
 					if($lID > 0){
-						$result = DoQuery("SELECT Name FROM " . HC_TblPrefix . "locations WHERE PkID = ?", array($lID));
+						$result = doQuery("SELECT Name FROM " . HC_TblPrefix . "locations WHERE PkID = ?", array($lID));
 						if(hasRows($result))
 							$crmbAdd['NULL'] = $hc_lang_core['LocCal'].' '.hc_mysql_result($result,0,0);
 					}

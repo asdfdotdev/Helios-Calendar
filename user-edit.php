@@ -13,7 +13,7 @@
 	$target = CalRoot;
 	$uID = (isset($_POST['uID']) && is_numeric($_POST['uID'])) ? cIn(strip_tags($_POST['uID'])) : 0;
 	
-	$result = DoQuery("SELECT PkID FROM " . HC_TblPrefix . "users WHERE PkID = ?", array($uID));
+	$result = doQuery("SELECT PkID FROM " . HC_TblPrefix . "users WHERE PkID = ?", array($uID));
 	
 	if(!user_check_status() || !hasRows($result)){
 		session_destroy();
@@ -33,7 +33,7 @@
 			$params[] = cIn(md5(sha1($email.$birthdate.$location.(rand()*date("U")))));
 		}
 		
-		DoQuery("UPDATE " . HC_TblPrefix . "users SET Email = '?, Birthdate = ?, Location = ? $api_key WHERE PkID = ?", $params);
+		doQuery("UPDATE " . HC_TblPrefix . "users SET Email = '?, Birthdate = ?, Location = ? $api_key WHERE PkID = ?", $params);
 
 		if($email != '' && $birthdate != ''){
 			if(isset($_SESSION['new_user']))

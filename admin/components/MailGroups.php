@@ -13,7 +13,7 @@
 		$name = $descript = '';
 		$helpText = $hc_lang_news['InstructAddG'];
 
-		$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "mailgroups WHERE PkID = ? AND IsActive = 1", array($gID));
+		$result = doQuery("SELECT * FROM " . HC_TblPrefix . "mailgroups WHERE PkID = ? AND IsActive = 1", array($gID));
 		if(hasRows($result)){
 			$name = cOut(hc_mysql_result($result,0,1));
 			$descript = cOut(hc_mysql_result($result,0,2));
@@ -86,7 +86,7 @@
 		echo '
 	<a href="' . AdminRoot . '/index.php?com=subgrps&gID=0" class="add"><img src="' . AdminRoot . '/img/icons/add.png" width="16" height="16" alt="" />'.$hc_lang_news['NewGroup'].'</a>';
 
-		$result = DoQuery("SELECT PkID, Name, IsPublic,
+		$result = doQuery("SELECT PkID, Name, IsPublic,
 							(SELECT COUNT(sg.UserID)
 							FROM " . HC_TblPrefix . "subscribersgroups sg
 								LEFT JOIN " . HC_TblPrefix . "subscribers s ON (sg.UserID = s.PkID)

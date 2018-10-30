@@ -34,11 +34,11 @@
 	$zip = isset($_POST['hc_f8']) ? cIn(strip_tags($_POST['hc_f8'])) : '';
 	$partySize = (is_numeric($_POST['hc_f7'])) ? cIn(strip_tags($_POST['hc_f7'])) + 1 : 0;
 
-	$result = DoQuery("SELECT PkID FROM " . HC_TblPrefix . "registrants WHERE Email = ? AND EventID = ?", array($regEmail, $eID));
+	$result = doQuery("SELECT PkID FROM " . HC_TblPrefix . "registrants WHERE Email = ? AND EventID = ?", array($regEmail, $eID));
 	if(hasRows($result)){
 		header("Location: " . CalRoot . "/index.php?com=rsvp&eID=".$eID."&msg=1");
 	} else {
-		$result = DoQuery("SELECT Title, StartDate, StartTime, TBD, ContactEmail FROM " . HC_TblPrefix . "events WHERE PkID = ?", array($eID));
+		$result = doQuery("SELECT Title, StartDate, StartTime, TBD, ContactEmail FROM " . HC_TblPrefix . "events WHERE PkID = ?", array($eID));
 		
 		$eventTitle = cOut(hc_mysql_result($result,0,0));
 		$eventDate = stampToDate(hc_mysql_result($result,0,1), $hc_cfg[14]);
@@ -57,7 +57,7 @@
 		
 		for($x=1;$x<=$partySize;$x++){
 			$addName = ($partySize > 1) ? $regName . " - " . $x . "/" . $partySize : $regName;
-			DoQuery("INSERT into " . HC_TblPrefix . "registrants(Name, Email, Phone, Address, Address2, City, State, Zip, EventID, IsActive, RegisteredAt, GroupID)
+			doQuery("INSERT into " . HC_TblPrefix . "registrants(Name, Email, Phone, Address, Address2, City, State, Zip, EventID, IsActive, RegisteredAt, GroupID)
 					Values(?, ?, ?, ?, ?, ?, ?, ?, ?, 1, NOW(), ?);",
 				array(
 					cIn($addName),
@@ -73,7 +73,7 @@
 				));
 		}
 		
-		$result = DoQuery("SELECT COUNT(r.EventID), er.Space
+		$result = doQuery("SELECT COUNT(r.EventID), er.Space
 							FROM " . HC_TblPrefix . "registrants r
 								LEFT JOIN " . HC_TblPrefix . "eventrsvps er ON (r.EventID = er.EventID)
 							WHERE r.EventID = ? and r.IsActive = 1

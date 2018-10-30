@@ -75,7 +75,7 @@
 			$fp = fopen(HCPATH.'/cache/int7_'.SYSDATE.'.php', 'w');
 			fwrite($fp, "<?php\n//\tHelios Dashboard Integration Events Cache - Delete this file when upgrading.\n");
 			
-			$result = DoQuery("SELECT PkID, Title, StartDate, StartTime, EndTime, TBD FROM " . HC_TblPrefix . "events 
+			$result = doQuery("SELECT PkID, Title, StartDate, StartTime, EndTime, TBD FROM " . HC_TblPrefix . "events 
 							WHERE IsActive = 1 AND IsApproved = 1 AND StartDate Between '".SYSDATE."' AND ADDDATE('".SYSDATE."', INTERVAL 6 DAY)
 							ORDER BY StartDate, TBD, StartTime, Title");
 			if(hasRows($result)){

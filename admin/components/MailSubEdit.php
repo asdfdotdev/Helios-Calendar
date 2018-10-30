@@ -33,7 +33,7 @@
 	<form name="frmUserEdit" id="frmUserEdit" method="post" action="'.AdminRoot.'/components/MailSubEditAction.php" onsubmit="return validate();">';
 	set_form_token();
 	
-	$result = DoQuery("SELECT s.*, a.FirstName, a.LastName, a.Email
+	$result = doQuery("SELECT s.*, a.FirstName, a.LastName, a.Email
 					FROM " . HC_TblPrefix . "subscribers s
 						LEFT JOIN " . HC_TblPrefix . "admin a ON (s.AddedBy = a.PkID)
 					WHERE s.PkID = ? AND s.IsConfirm = 1", array($uID));
@@ -133,7 +133,7 @@
 		
 	$columns = 3;
 	$cnt = 1;
-	$result = DoQuery("SELECT mg.PkID, mg.Name, sg.GroupID
+	$result = doQuery("SELECT mg.PkID, mg.Name, sg.GroupID
 					FROM " . HC_TblPrefix . "mailgroups mg
 						LEFT JOIN " . HC_TblPrefix . "subscribersgroups sg ON (mg.PkID = sg.GroupID AND sg.UserID = ?)
 					WHERE mg.IsActive = 1 && mg.PkID > 1 ORDER BY Name", array($uID));

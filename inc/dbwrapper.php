@@ -110,7 +110,7 @@
 	 * @param array $params (optional) to pass as parameters
 	 * @return resource MySQL result set
 	 */
-	function DoQuery($query, $params = array())
+	function doQuery($query, $params = array())
 	{
 		global $dbc;
 		$statement = mysqli_prepare($dbc, $query) or handleError(hc_mysql_errno(), hc_mysql_error());
@@ -123,7 +123,7 @@
 
 		if ($expect <> sizeof($params))
 		{
-			die("Expecting $expect params but received " . sizeof($params) . " for query $query");
+			handleError(0,"Expecting $expect params but received " . sizeof($params) . " for query $query");
 		}
 
 		if (strlen($types) > 0)

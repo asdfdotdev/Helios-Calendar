@@ -30,7 +30,7 @@
 			case 1:
 				if(defined('HC_Named')){
 					if(!file_exists(HCPATH . '/cache/settings_named.php')){
-						$result = DoQuery("SELECT PkID, Name FROM " . HC_TblPrefix . "settings WHERE PkID IN (".$hc_fetch_settings.") AND SettingValue != '' AND Name IS NOT NULL ORDER BY Name"); 
+						$result = doQuery("SELECT PkID, Name FROM " . HC_TblPrefix . "settings WHERE PkID IN (".$hc_fetch_settings.") AND SettingValue != '' AND Name IS NOT NULL ORDER BY Name"); 
 						if(hasRows($result)){
 							ob_start();
 							$fp = fopen(HCPATH . '/cache/settings_named.php', 'w');
@@ -55,7 +55,7 @@
 			case 2:
 				if(!file_exists(HCPATH.'/cache/locList'.$f.'.php')){
 					$q = ($a == 0) ? 'AND IsPublic = 1' : '';
-					$result = DoQuery("SELECT PkID, Name FROM " . HC_TblPrefix . "locations WHERE IsActive = 1 " . $q . " ORDER BY Name");
+					$result = doQuery("SELECT PkID, Name FROM " . HC_TblPrefix . "locations WHERE IsActive = 1 " . $q . " ORDER BY Name");
 					ob_start();
 					$fp = fopen(HCPATH.'/cache/locList'.$f.'.php', 'w');
 
@@ -85,7 +85,7 @@
 					fwrite($fp, "<?php\n//\tHelios Meta Cache - Delete this file when upgrading.\n\n");
 					fwrite($fp, "\$hc_meta = array(\n");
 					
-					$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "settingsmeta");
+					$result = doQuery("SELECT * FROM " . HC_TblPrefix . "settingsmeta");
 					$x = 1;
 					$pairs = array(1 => 1,2 => 2,3 => 'submit',4 => 'search',5 => 'searchresult',6 => 'signup',7 => 'send',8 => 'rsvp',9 => 'tools',10 => 'rss',
 								11 => 'newsletter',12 => 'archive',13 => 'filter', 14 => 'digest', 15 => 'signin', 16 => 'acc');
@@ -151,7 +151,7 @@
 				break;
 			default:
 				if(!file_exists(HCPATH . '/cache/settings.php')){
-					$result = DoQuery("SELECT PkID, SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN (".$hc_fetch_settings.") ORDER BY PkID");
+					$result = doQuery("SELECT PkID, SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN (".$hc_fetch_settings.") ORDER BY PkID");
 					if(hasRows($result)){
 						ob_start();
 						$fp = fopen(HCPATH . '/cache/settings.php', 'w');
@@ -169,7 +169,7 @@
 						fwrite($fp, "\"IsRSVP\" => \"1\",\n");
 						fwrite($fp, "\"OLImages\" => \"".CalRoot."/img/ol/\",\n");
 						
-						$resultE = DoQuery("SELECT MIN(StartDate), MAX(StartDate) FROM " . HC_TblPrefix . "events WHERE IsApproved = 1 AND IsActive = 1");
+						$resultE = doQuery("SELECT MIN(StartDate), MAX(StartDate) FROM " . HC_TblPrefix . "events WHERE IsApproved = 1 AND IsActive = 1");
 						if(hasRows($resultE)){
 							$first = (strtotime(hc_mysql_result($resultE,0,0)) < date("U",mktime(0,0,0,date("m"),date("d"),date("Y")))) ? strtotime(hc_mysql_result($resultE,0,0)) : date("U",mktime(0,0,0,date("m"),date("d"),date("Y")));
 							fwrite($fp, "\"First\" => \"" . $first . "\",\n");
@@ -177,7 +177,7 @@
 						}
 						
 						$news = date("Y-m-d");
-						$resultN = DoQuery("SELECT MIN(SentDate) FROM " . HC_TblPrefix . "newsletters WHERE STATUS > 0 AND IsArchive = 1 AND IsActive = 1 AND ArchiveContents != ''");
+						$resultN = doQuery("SELECT MIN(SentDate) FROM " . HC_TblPrefix . "newsletters WHERE STATUS > 0 AND IsArchive = 1 AND IsActive = 1 AND ArchiveContents != ''");
 						if(hasRows($resultN) && hc_mysql_result($resultN,0,0) != ''){
 							$news = hc_mysql_result($resultN,0,0);
 						}
@@ -609,7 +609,7 @@
 					ORDER BY Sort, ParentID, CategoryName";
 			$params = array();
 		}
-		$result = DoQuery($query, $params);
+		$result = doQuery($query, $params);
 		if(!hasRows($result))
 			return 0;
 		
@@ -652,7 +652,7 @@
 	 */
 	function getCities($type = 0){
 		$sqlWhere = ($type == 0) ? " e.StartDate >= '". cIn(SYSDATE) . "' AND " : "";
-		$result = DoQuery("SELECT e.LocationCity, l.City
+		$result = doQuery("SELECT e.LocationCity, l.City
 						FROM " . HC_TblPrefix . "events as e
 							LEFT JOIN " . HC_TblPrefix . "locations as l ON (e.LocID = l.PkID)
 						WHERE " . $sqlWhere . " (e.IsActive = 1 AND e.IsApproved = 1) OR (l.IsActive = 1) GROUP BY LocationCity, City");
@@ -678,7 +678,7 @@
 	
 	function getPostal($type = 0){
 		$sqlWhere = ($type == 0) ? " e.StartDate >= '" . cIn(SYSDATE) . "' AND " : "";
-		$result = DoQuery("SELECT e.LocationZip, l.Zip
+		$result = doQuery("SELECT e.LocationZip, l.Zip
 						FROM " . HC_TblPrefix . "events as e
 							LEFT JOIN " . HC_TblPrefix . "locations as l ON (e.LocID = l.PkID)
 						WHERE " . $sqlWhere . " (e.IsActive = 1 AND e.IsApproved = 1) OR (l.IsActive = 1) GROUP BY LocationZip, Zip");
@@ -1098,7 +1098,7 @@
 				$params[] = cIn($save[0]);
 			}
 
-			DoQuery("UPDATE " . HC_TblPrefix . "users SET APICnt = CASE NetworkName $cases ELSE APICnt END", $params);
+			doQuery("UPDATE " . HC_TblPrefix . "users SET APICnt = CASE NetworkName $cases ELSE APICnt END", $params);
 
 			$new_age = date("U")+($hc_cfg[131]*60);
 			apc_store(HC_APCPrefix.'users_age',$new_age);
@@ -1145,7 +1145,7 @@
 		if(!is_numeric($event_id) || $event_id <= 0)
 			return NULL;
 		
-		$result = DoQuery("SELECT r.Name, r.Email, r.Phone, r.Address, r.Address2, r.City, r.State, r.Zip, r.RegisteredAt, r.GroupID
+		$result = doQuery("SELECT r.Name, r.Email, r.Phone, r.Address, r.Address2, r.City, r.State, r.Zip, r.RegisteredAt, r.GroupID
 						FROM " . HC_TblPrefix . "registrants r
 						WHERE EventID = ?
 						GROUP BY r.PkID, r.Name, r.Email, r.Phone, r.Address, r.Address2, r.City, r.State, r.Zip, r.RegisteredAt, r.GroupID

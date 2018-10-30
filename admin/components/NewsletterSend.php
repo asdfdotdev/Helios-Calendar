@@ -11,7 +11,7 @@
 
 	$nID = (isset($_GET['nID']) && is_numeric($_GET['nID'])) ? cIn(strip_tags($_GET['nID'])) : 0;
 
-	$result = DoQuery("SELECT PkID, Subject, SendCount FROM " . HC_TblPrefix . "newsletters WHERE PkID = ? AND IsActive = 1 AND Status < 3", array($nID));
+	$result = doQuery("SELECT PkID, Subject, SendCount FROM " . HC_TblPrefix . "newsletters WHERE PkID = ? AND IsActive = 1 AND Status < 3", array($nID));
 	if(hasRows($result)){
 		echo '
 		<fieldset>

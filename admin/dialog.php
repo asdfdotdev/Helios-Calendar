@@ -10,7 +10,7 @@
 	action_headers();
 	
 	$_SESSION['Instructions'] = ($_SESSION['Instructions'] == 1) ? 0 : 1;	
-	DoQuery("UPDATE " . HC_TblPrefix . "admin SET ShowInstructions = ? WHERE PkID = ?", array(cIn($_SESSION['Instructions']), cIn($_SESSION['AdminPkID'])));
+	doQuery("UPDATE " . HC_TblPrefix . "admin SET ShowInstructions = ? WHERE PkID = ?", array(cIn($_SESSION['Instructions']), cIn($_SESSION['AdminPkID'])));
 	
 	if(isset($_SERVER['HTTP_REFERER']) && preg_match('(^'.AdminRoot.')',$_SERVER['HTTP_REFERER']))
 		header("Location: " . cIn(strip_tags($_SERVER['HTTP_REFERER'])));

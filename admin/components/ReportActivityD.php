@@ -16,7 +16,7 @@
 	header('Content-type: application/csv');
 	header('Content-Disposition: inline; filename="'.CalName.' Event Report '.SYSDATE.'.csv"');
 	
-	$resultX = DoQuery("SELECT MAX(Views), MAX(Directions), MAX(Downloads), MAX(EmailToFriend), MAX(URLClicks),
+	$resultX = doQuery("SELECT MAX(Views), MAX(Directions), MAX(Downloads), MAX(EmailToFriend), MAX(URLClicks),
 						AVG(Views), AVG(Directions), AVG(Downloads), AVG(EmailToFriend), AVG(URLClicks)
 					FROM " . HC_TblPrefix . "events
 					WHERE IsActive = 1 AND IsApproved = 1");
@@ -37,7 +37,7 @@
 	echo "Average,".number_format($aViews,0,'.',',').",".number_format($aDir,0,'.',',').",".number_format($aDwnl,0,'.',',').",".number_format($aEmail,0,'.',',').",".number_format($aURL,0,'.',',')."\n";
 	echo "Best,".number_format($mViews,0,'.',',').",".number_format($mDir,0,'.',',').",".number_format($mDwnl,0,'.',',').",".number_format($mEmail,0,'.',',').",".number_format($mURL,0,'.',',')."\n";
 		
-	$result = DoQuery("SELECT e.PkID, e.Title, e.Views, e.Directions, e.Downloads, e.EmailToFriend, e.URLClicks
+	$result = doQuery("SELECT e.PkID, e.Title, e.Views, e.Directions, e.Downloads, e.EmailToFriend, e.URLClicks
 					FROM " . HC_TblPrefix . "events e
 					WHERE e.PkID IN(?) ORDER BY e.PkID", array(cIn($eID)));
 	

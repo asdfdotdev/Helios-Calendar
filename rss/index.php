@@ -71,7 +71,7 @@
 	<docs>'.CalRoot.'&#47;index.php&#63;com=tools</docs>
 	<description>'.cleanXMLChars($hc_lang_rss['Upcoming']).'</description>';
 
-		$result = DoQuery($query, $params);
+		$result = doQuery($query, $params);
 		if(hasRows($result)){
 			echo '
 	<title>'.cleanXMLChars($feedName.' - '.CalName).'</title>';

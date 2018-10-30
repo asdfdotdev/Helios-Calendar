@@ -94,7 +94,7 @@
 	$query .= ($seriesOnly == 1) ? " AND SeriesID != '' GROUP BY e.PkID, e.Title, e.StartDate, e.StartTime, e.EndTime, e.TBD, SeriesID, l.City, l.IsActive " : '';
 	$query .= " ORDER BY e.StartDate, e.TBD, e.StartTime, e.Title";
 	
-	$result = DoQuery($query, $params);
+	$result = doQuery($query, $params);
 	$row_cnt = hc_mysql_num_rows($result);
 	
 	if(hasRows($result)){

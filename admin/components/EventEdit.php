@@ -52,7 +52,7 @@
 	} else {
 		if(isset($_GET['sID'])){
 			$series = cIn(strip_tags($_GET['sID']));
-			$resultS = DoQuery("SELECT GROUP_CONCAT(DISTINCT PkID ORDER BY PkID SEPARATOR ',') FROM " . HC_TblPrefix . "events WHERE SeriesID = ?", array($series));
+			$resultS = doQuery("SELECT GROUP_CONCAT(DISTINCT PkID ORDER BY PkID SEPARATOR ',') FROM " . HC_TblPrefix . "events WHERE SeriesID = ?", array($series));
 			$events = explode(',',hc_mysql_result($resultS,0,0));
 			$events = array_filter($events,'is_numeric');
 		} elseif(isset($_POST['eventID'])){
@@ -60,14 +60,14 @@
 		}
 		$eID = (count($events) > 0) ? $events[0] : '0';
 		$editString = (count($events) > 0) ? implode(',',$events) : 'NULL';
-		$resultS = DoQuery("SELECT GROUP_CONCAT(StartDate ORDER BY StartDate SEPARATOR ',')
+		$resultS = doQuery("SELECT GROUP_CONCAT(StartDate ORDER BY StartDate SEPARATOR ',')
 						FROM " . HC_TblPrefix . "events WHERE PkID IN (?)", array($editString));
 		$dateString = (hasRows($result)) ? explode(',',hc_mysql_result($resultS,0,0)) : array();
 		$fID = $series;
 		
 		appInstructions(0, "Group_Editing_Events", $hc_lang_event['TitleGroup'], $hc_lang_event['InstructGroup']);
 	}
-	$result = DoQuery("SELECT e.*, l.PkID, l.Name, l.Address, l.Address2, l.City, l.State, l.Zip, l.Country, er.*, f.EntityID, f.Note, u.NetworkName, u.Email
+	$result = doQuery("SELECT e.*, l.PkID, l.Name, l.Address, l.Address2, l.City, l.State, l.Zip, l.Country, er.*, f.EntityID, f.Note, u.NetworkName, u.Email
 					FROM " . HC_TblPrefix . "events e
 						LEFT JOIN " . HC_TblPrefix . "locations l ON (e.LocID = l.PkID)
 						LEFT JOIN " . HC_TblPrefix . "eventrsvps er ON (er.EventID = e.PkID)
@@ -118,7 +118,7 @@
 		$bitLabel = $hc_lang_event['BitlyLabel'];
 		$bitNotice = $hc_lang_event['BitlyNotice'];
 		if($rsvp_type == 1){
-			$resultR = DoQuery("SELECT COUNT(r.EventID) as RegCnt 
+			$resultR = doQuery("SELECT COUNT(r.EventID) as RegCnt 
 								FROM " . HC_TblPrefix . "registrants r
 							WHERE r.EventID = ? AND r.IsActive = 1", array(cIn($eID)));
 			$rsvp_taken = (hasRows($resultR)) ? hc_mysql_result($resultR,0,0) : 0;
@@ -335,7 +335,7 @@
 					<div id="rsvp_list">
 						<ul class="data">';
 		
-				$result = DoQuery("SELECT PkID, Name, Email, Phone, RegisteredAt FROM " . HC_TblPrefix . "registrants WHERE EventID = ? ORDER BY RegisteredAt, GroupID, PkID", array(cIn($eID)));
+				$result = doQuery("SELECT PkID, Name, Email, Phone, RegisteredAt FROM " . HC_TblPrefix . "registrants WHERE EventID = ? ORDER BY RegisteredAt, GroupID, PkID", array(cIn($eID)));
 				if(hasRows($result)){
 					$cnt = 1;
 					
@@ -476,7 +476,7 @@
 			<input name="contactURL" id="contactURL" type="url" maxlength="100" size="40" value="'.$contactURL.'" />
 		</fieldset>';
 
-		$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "settings WHERE PkID IN(5,6,46,47,57,58,120,123)");
+		$result = doQuery("SELECT * FROM " . HC_TblPrefix . "settings WHERE PkID IN(5,6,46,47,57,58,120,123)");
 		$goEventbrite = (hc_mysql_result($result,0,1) != '' && hc_mysql_result($result,1,1) != '') ? 1 : 0;
 		$goTwitter = (hc_mysql_result($result,2,1) != '' && hc_mysql_result($result,3,1) != '') ? 1 : 0;
 		$goBitly = (hc_mysql_result($result,4,1) && hc_mysql_result($result,5,1)) ? 1 : 0;
@@ -487,7 +487,7 @@
 		$ebID = $tweetLnks = $fbID = $fbStatLnks = '';
 		$tweets = $statuses = array();
 		
-		$resultD = DoQuery("SELECT * FROM " . HC_TblPrefix . "eventnetwork WHERE EventID = ?", array(cIn($eID)));
+		$resultD = doQuery("SELECT * FROM " . HC_TblPrefix . "eventnetwork WHERE EventID = ?", array(cIn($eID)));
 		if(hasRows($resultD)){
 			while($row = hc_mysql_fetch_row($resultD)){
 				switch($row[2]){

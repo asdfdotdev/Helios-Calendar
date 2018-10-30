@@ -22,7 +22,7 @@
 		$params = array(str_replace("'", "\"", $term));
 	}
 	
-	$resultC = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix  . "newsletters n WHERE n.IsActive = 1 $queryT $queryS", $params);
+	$resultC = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix  . "newsletters n WHERE n.IsActive = 1 $queryT $queryS", $params);
 	$pages = ceil(hc_mysql_result($resultC,0,0)/$resLimit);
 	$resOffset = ($pages <= $resOffset && $pages > 0) ? $pages - 1 : $resOffset;
 	
@@ -90,7 +90,7 @@
 			'.(($term != '') ? '<label>&nbsp;</label><span class="output"><a href="'.AdminRoot.'/index.php?com=newsqueue&p=0&a='.$resLimit.'&t='.$type.'">'.$hc_lang_news['AllNewsLink'].'</a></span>' : '').'
 		</fieldset>';
 	
-	$result = DoQuery("SELECT n.PkID, n.SentDate, n.Subject, n.SendCount, n.`Status`, n.IsArchive, n.SendingAdminID,
+	$result = doQuery("SELECT n.PkID, n.SentDate, n.Subject, n.SendCount, n.`Status`, n.IsArchive, n.SendingAdminID,
 					(SELECT COUNT(ns.SubscriberID)
 						FROM " . HC_TblPrefix . "newssubscribers ns
 						WHERE ns.NewsletterID = n.PkID) as ToGo

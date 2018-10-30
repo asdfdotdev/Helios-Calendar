@@ -13,7 +13,7 @@
 	
 	$lID = (isset($_GET['lID']) && is_numeric($_GET['lID'])) ? cIn(strip_tags($_GET['lID'])) : -1;
 	$tzRSS = str_replace(':','',HCTZ);
-	$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "locations WHERE PkID = ? AND IsActive = 1", array($lID));
+	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "locations WHERE PkID = ? AND IsActive = 1", array($lID));
 	$locName = (hasRows($result)) ? hc_mysql_result($result,0,1) : '';
 	$feedName = $locName.' : '.$hc_lang_rss['Location'];
 	$query = "SELECT e.PkID, e.Title, e.Description, e.StartDate, e.StartTime, e.SeriesID
@@ -38,7 +38,7 @@
 	<docs>'.CalRoot.'&#47;index.php&#63;com=tools</docs>
 	<description>'.cleanXMLChars($hc_lang_rss['Upcoming']).'</description>';
 	
-	$result = DoQuery($query, $params);
+	$result = doQuery($query, $params);
 	if(hasRows($result)){
 		echo '
 	<title>'.cleanXMLChars($feedName.' - '.CalName).'</title>';

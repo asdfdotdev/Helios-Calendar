@@ -20,10 +20,10 @@
 	$com = (isset($_POST['com'])) ? cIn(htmlspecialchars(strip_tags($_POST['com']))) : '';
 	$msg = $unlocked = 1;
 	
-	$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "admin WHERE email = ? AND IsActive = 1", array($username));
+	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "admin WHERE email = ? AND IsActive = 1", array($username));
 
 	if(hasRows($result)){
-		$resultF = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "adminloginhistory WHERE AdminID = ? AND LoginTime > subdate(NOW(), INTERVAL 24 HOUR) AND IsFail = 1", array(cIn(hc_mysql_result($result,0,0))));
+		$resultF = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "adminloginhistory WHERE AdminID = ? AND LoginTime > subdate(NOW(), INTERVAL 24 HOUR) AND IsFail = 1", array(cIn(hc_mysql_result($result,0,0))));
 		if(hc_mysql_result($resultF,0,0) >= $hc_cfg[80]){
 			header('Location: ' . AdminRoot . '/index.php?lmsg=2');
 			exit();
@@ -53,8 +53,8 @@
 						$_SESSION['moxman.storage.path'] = '../../../../uploads';
 					}
 					
-					DoQuery("UPDATE " . HC_TblPrefix . "admin SET LoginCnt = LoginCnt + 1, PCKey = NULL, Access = '" . cIn(md5(session_id())) . "', LastLogin = NOW() WHERE PkID = '" . cIn($_SESSION['AdminPkID']) . "'");
-					DoQuery("INSERT INTO " . HC_TblPrefix . "adminloginhistory(AdminID, IP, Client, LoginTime) Values(?,?,?,NOW())", array($_SESSION['AdminPkID'], cIn(strip_tags($_SERVER["REMOTE_ADDR"])), cIn(strip_tags($_SERVER["HTTP_USER_AGENT"]))));
+					doQuery("UPDATE " . HC_TblPrefix . "admin SET LoginCnt = LoginCnt + 1, PCKey = NULL, Access = '" . cIn(md5(session_id())) . "', LastLogin = NOW() WHERE PkID = '" . cIn($_SESSION['AdminPkID']) . "'");
+					doQuery("INSERT INTO " . HC_TblPrefix . "adminloginhistory(AdminID, IP, Client, LoginTime) Values(?,?,?,NOW())", array($_SESSION['AdminPkID'], cIn(strip_tags($_SERVER["REMOTE_ADDR"])), cIn(strip_tags($_SERVER["HTTP_USER_AGENT"]))));
 					
 					startNewSession();
 					
@@ -62,14 +62,14 @@
 					exit();
 				}
 			} else {
-				DoQuery("INSERT INTO " . HC_TblPrefix . "adminloginhistory(AdminID,IP,Client,LoginTime,IsFail) Values(?,?,?,NOW(),1)", array(
+				doQuery("INSERT INTO " . HC_TblPrefix . "adminloginhistory(AdminID,IP,Client,LoginTime,IsFail) Values(?,?,?,NOW(),1)", array(
 					cIn(hc_mysql_result($result,0,0)),
 					cIn(strip_tags($_SERVER["REMOTE_ADDR"])),
 					cIn(strip_tags($_SERVER["HTTP_USER_AGENT"]))
 				));
 			}
 			
-			$resultE = DoQuery("SELECT a.FirstName, a.LastName, a.Email
+			$resultE = doQuery("SELECT a.FirstName, a.LastName, a.Email
 							FROM " . HC_TblPrefix . "adminnotices n
 								LEFT JOIN " . HC_TblPrefix . "admin a ON (n.AdminID = a.PkID)
 							WHERE a.IsActive = 1 AND n.IsActive = 1 AND n.TypeID = 2");

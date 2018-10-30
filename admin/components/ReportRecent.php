@@ -11,7 +11,7 @@
 	
 	appInstructions(0, "Reports", $hc_lang_reports['TitleAdd'], $hc_lang_reports['InstructAdd']);
 	
-	$result = DoQuery("SELECT PkID, Title, PublishDate, SeriesID, IsBillboard, LastMod
+	$result = doQuery("SELECT PkID, Title, PublishDate, SeriesID, IsBillboard, LastMod
 					FROM " . HC_TblPrefix . "events
 					WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . cIn(SYSDATE) . "' AND SeriesID IS NULL
 					UNION

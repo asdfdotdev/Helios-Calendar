@@ -8,7 +8,7 @@
 	include(HCLANG.'/admin/newsletter.php');
 
 	$rID = (isset($_GET['rID']) && is_numeric($_GET['rID'])) ? cIn($_GET['rID']) : 0;
-	$result = DoQuery("SELECT n.PkID, n.Subject, n.StartDate, n.EndDate, n.TemplateID, n.SentDate, n.MailerID, n.IsArchive, n.Message, 
+	$result = doQuery("SELECT n.PkID, n.Subject, n.StartDate, n.EndDate, n.TemplateID, n.SentDate, n.MailerID, n.IsArchive, n.Message, 
 						tn.TemplateName, a.FirstName, a.LastName, a.Email, n.SendCount, n.Views, n.ArchViews
 					FROM " . HC_TblPrefix . "mailers m
 					LEFT JOIN " . HC_TblPrefix . "newsletters n ON (m.PkID = n.MailerID)

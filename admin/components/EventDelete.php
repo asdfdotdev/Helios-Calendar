@@ -22,7 +22,7 @@
 	$uID = (isset($_GET['uID']) && is_numeric($_GET['uID'])) ? cIn(strip_tags($_GET['uID'])) : 0;
 	
 	if(isset($_GET['series'])){
-		$result = DoQuery("SELECT GROUP_CONCAT(PkID) FROM " . HC_TblPrefix . "events WHERE SeriesID = ?", array(cIn(strip_tags($_GET['series']))));
+		$result = doQuery("SELECT GROUP_CONCAT(PkID) FROM " . HC_TblPrefix . "events WHERE SeriesID = ?", array(cIn(strip_tags($_GET['series']))));
 		if(hasRows($result))
 			$delIDs = explode(',',hc_mysql_result($result,0,0));
 	} elseif(isset($_POST['eventID'])) {
@@ -34,10 +34,10 @@
 	$delIDs = cIn(implode(',',array_filter($delIDs,'is_numeric')));
 	
 	if($delIDs != ''){
-		DoQuery("UPDATE " . HC_TblPrefix . "events SET IsActive = 0 WHERE PkID IN(?)", array($delIDs));
+		doQuery("UPDATE " . HC_TblPrefix . "events SET IsActive = 0 WHERE PkID IN(?)", array($delIDs));
 		clearCache();
 
-		$resultD = DoQuery("SELECT NetworkID, NetworkType FROM " . HC_TblPrefix . "eventnetwork WHERE EventID IN (?) ORDER BY NetworkType", array($delIDs));
+		$resultD = doQuery("SELECT NetworkID, NetworkType FROM " . HC_TblPrefix . "eventnetwork WHERE EventID IN (?) ORDER BY NetworkType", array($delIDs));
 		if(hasRows($resultD)){
 			while($row = hc_mysql_fetch_row($resultD)){
 				$netID = $row[0];

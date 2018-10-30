@@ -29,10 +29,10 @@
 		$dateFormat = isset($_POST['dateFormat']) ? cIn($_POST['dateFormat']) : '';
 		$cleanup = isset($_POST['cleanup']) ? cIn($_POST['cleanup']) : '';
 		
-		$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "templates WHERE PkID = ? AND IsActive = 1", array($tID));
+		$result = doQuery("SELECT * FROM " . HC_TblPrefix . "templates WHERE PkID = ? AND IsActive = 1", array($tID));
 		if(hasRows($result)){
 			$msgID = 1;
-			DoQuery("UPDATE " . HC_TblPrefix . "templates
+			doQuery("UPDATE " . HC_TblPrefix . "templates
 						SET Name = ?,
 							Content = ?,
 							Header = ?,
@@ -46,16 +46,16 @@
 						WHERE PkID = ?", array($name, $content, $header, $footer, $ext, $typeID, $groupBy, $sortBy, $cleanup, $dateFormat, $tID));
 		} else {
 			$msgID = 2;
-			DoQuery("INSERT INTO " . HC_TblPrefix . "templates(Name, Content, Header, Footer, Extension, TypeID, GroupBy, SortBy, DateFormat, CleanUp, IsActive)
+			doQuery("INSERT INTO " . HC_TblPrefix . "templates(Name, Content, Header, Footer, Extension, TypeID, GroupBy, SortBy, DateFormat, CleanUp, IsActive)
 					VALUES(?,?,?,?,?,?,?,?,?,?,1)", array($name,$content,$header,$footer,$ext,$typeID,$groupBy,$sortBy,$dateFormat,$cleanup));
-			$result = DoQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "locations");
+			$result = doQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "locations");
 			$lID = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 		}
 	} else {
 		$msgID = 3;
 		$dID = (isset($_GET['dID']) && is_numeric($_GET['dID'])) ? cIn(strip_tags($_GET['dID'])) : 0;
-		DoQuery("UPDATE " . HC_TblPrefix . "templates SET IsActive = ? WHERE PkID = ?", array(0, $dID));
-		DoQuery("UPDATE " . HC_TblPrefix . "events SET LocationName = 'Unknown', LocID = 0 WHERE LocID = ?", array($dID));
+		doQuery("UPDATE " . HC_TblPrefix . "templates SET IsActive = ? WHERE PkID = ?", array(0, $dID));
+		doQuery("UPDATE " . HC_TblPrefix . "events SET LocationName = 'Unknown', LocID = 0 WHERE LocID = ?", array($dID));
 	}
 	
 	header('Location: ' . AdminRoot . '/index.php?com=exporttmplts&msg=' . $msgID);

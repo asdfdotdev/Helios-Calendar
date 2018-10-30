@@ -48,7 +48,7 @@
 			echo 'Enter your install code to begin.';
 			return;}
 		
-		echo ($_SESSION['is_install']) ? '
+		echo ($_SESSION['is_install'] == false) ? '
 		<b>Step:</b>
 		<span'.(($sID == 1) ? ' class="active"' : '').'>Accept License</span> &raquo;
 		<span'.(($sID == 2) ? ' class="active"' : '').'>Configuration Review</span> &raquo;
@@ -61,9 +61,9 @@
 			return;}
 		
 		if($_SESSION['is_install'] == false)
-			get_step_upgrade();
-		else
 			get_step_install();
+		else
+			get_step_upgrade();
 	}
 	function get_step_install(){
 		global $dbc, $sID, $curVersion;
@@ -102,13 +102,14 @@
 	}
 	function is_install()
 	{
+		global $dbc;
 		try {
 			$dbc = hc_mysql_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-			$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "settings");
-		
-			if($result && hc_mysql_result($result,0,0) > 0)
-				   return false;
+			$result = doQuery("SELECT COUNT(*) FROM information_schema.tables WHERE table_name LIKE CONCAT('".HC_TblPrefix."_','%')");
+
+			if($result && hc_mysql_num_rows($result) > 0)
+				return false;
 			else
 				return true;
 		} catch(Exception $e) {

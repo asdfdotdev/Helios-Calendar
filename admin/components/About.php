@@ -6,8 +6,8 @@
 	error_reporting(0);
 	if(!defined('hcAdmin')){header("HTTP/1.1 403 No Direct Access");exit();}
 	
-	$result = DoQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(16,17,18,19) ORDER BY PkID");
-	$resultV = DoQuery("SELECT VERSION()");
+	$result = doQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(16,17,18,19) ORDER BY PkID");
+	$resultV = doQuery("SELECT VERSION()");
 	$load = array();
 	if(function_exists('exec')){
 		$load = strtolower(exec("uptime"));
