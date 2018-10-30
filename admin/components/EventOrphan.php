@@ -21,7 +21,7 @@
 	if($c == 0 && $l == 0)
 		$c = $l = 1;
 	
-	$result = doQuery("SELECT e.PkID, e.Title, e.StartDate, 1 as NoType
+	$result = DoQuery("SELECT e.PkID, e.Title, e.StartDate, 1 as NoType
 					FROM " . HC_TblPrefix . "events e
 						LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (e.PkID = ec.EventID)
 						LEFT JOIN " . HC_TblPrefix . "categories c ON (c.PkID = ec.CategoryID)

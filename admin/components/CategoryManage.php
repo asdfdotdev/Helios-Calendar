@@ -30,12 +30,12 @@
 		}
 	}
 	
-	$result = doQuery("SELECT PkID, CategoryName, ParentID FROM " . HC_TblPrefix . "categories WHERE PkID = '" . $cID . "'");
+	$result = DoQuery("SELECT PkID, CategoryName, ParentID FROM " . HC_TblPrefix . "categories WHERE PkID = ?", array($cID));
 	if(hasRows($result)){
 		$category = hc_mysql_result($result,0,1);
 		$parentID = hc_mysql_result($result,0,2);}
 	
-	$result = doQuery("SELECT PkID, CategoryName FROM " . HC_TblPrefix . "categories WHERE PkID != '" . $cID . "' AND IsActive = 1 AND ParentID = 0 ORDER BY CategoryName");
+	$result = DoQuery("SELECT PkID, CategoryName FROM " . HC_TblPrefix . "categories WHERE PkID != ? AND IsActive = 1 AND ParentID = 0 ORDER BY CategoryName", array($cID));
 	while($row = hc_mysql_fetch_row($result)){
 		$catOptions .= ($parentID == $row[0]) ? '<option selected="selected" value="'.$row[0].'">'.$row[1].'</option>' : '<option value="'.$row[0].'">'.$row[1].'</option>';
 	}
@@ -64,7 +64,7 @@
 	<div class="catMgtList">
 		<ul class="data">';
 
-	$result = doQuery("SELECT c.PkID, c.CategoryName, c.ParentID, c.CategoryName as Sort, NULL as Selected
+	$result = DoQuery("SELECT c.PkID, c.CategoryName, c.ParentID, c.CategoryName as Sort, NULL as Selected
 					FROM " . HC_TblPrefix . "categories c 
 						LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (c.PkID = ec.CategoryID)
 					WHERE c.ParentID = 0 AND c.IsActive = 1

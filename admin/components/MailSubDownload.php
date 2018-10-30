@@ -20,7 +20,7 @@
 	echo "SUBID,FirstName,LastName,Email,Postal Code,Registered Date,Registered Time,Registered From,Birth Year,Gender";
 	echo "\n";
 	
-	$result = doQuery("SELECT PkID, FirstName, LastName, Email, Zip, RegisteredAt, RegisterIP, BirthYear, Gender
+	$result = DoQuery("SELECT PkID, FirstName, LastName, Email, Zip, RegisteredAt, RegisterIP, BirthYear, Gender
 					FROM " . HC_TblPrefix . "subscribers
 					WHERE IsConfirm = 1
 					ORDER BY LastName, FirstName");

@@ -19,10 +19,10 @@
 	$bots = isset($_POST['bots']) ? cIn($_POST['bots']) : '//';
 	$expires = (isset($_POST['expires']) && is_numeric($_POST['expires'])) ? cIn($_POST['expires']) : '0';
 	
-	doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $allowIndex . "' WHERE PkID = '7'");
-	doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $bots . "' WHERE PkID = '85'");
-	doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $sitemap . "' WHERE PkID = '87'");
-	doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $expires . "' WHERE PkID = '134'");
+	DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($allowIndex, '7'));
+	DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($bots, '85'));
+	DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($sitemap, '87'));
+	DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($expires, '134'));
 	
 	$ids = (isset($_POST['ids'])) ? $_POST['ids'] : array();
 	$keywords = (isset($_POST['keywords'])) ? $_POST['keywords'] : array();
@@ -31,11 +31,18 @@
 	$cnt = 0;
 
 	foreach ($keywords as $val){
-		doQuery("UPDATE " . HC_TblPrefix . "settingsmeta
-				SET Keywords = '" . cIn(strip_tags($keywords[$cnt])) . "',
-				Description = '" . cIn(strip_tags($descriptions[$cnt])) . "',
-				Title = '" . cIn(strip_tags($titles[$cnt])) . "'
-				WHERE PkID = '" . cIn(strip_tags($ids[$cnt])) . "'");
+		DoQuery("UPDATE " . HC_TblPrefix . "settingsmeta
+				SET Keywords = ?,
+				Description = ?,
+				Title = ?
+				WHERE PkID = ?", 
+				array(
+					cIn(strip_tags($keywords[$cnt])), 
+					cIn(strip_tags($descriptions[$cnt])), 
+					cIn(strip_tags($titles[$cnt])), 
+					cIn(strip_tags($ids[$cnt]))
+				)
+			);
 		++$cnt;
 	}
 	

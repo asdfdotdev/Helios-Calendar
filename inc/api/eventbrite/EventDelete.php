@@ -6,7 +6,7 @@
 	if(!defined('hcAdmin')){header("HTTP/1.1 403 No Direct Access");exit();}
 	
 	$errorMsg = '';
-	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "settings WHERE PkID IN(5,6);");
+	$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "settings WHERE PkID IN(5,6);");
 	if(!hasRows($result)){
 		$apiFail = true;
 		$errorMsg = 'Eventbrite API Settings Unavailable.';
@@ -45,7 +45,7 @@
 					$apiFail = true;
 					$errorMsg = 'Error Msg From Eventbrite - <i>' . $error[0] . '</i>';
 				} else {
-					doQuery("UPDATE " . HC_TblPrefix . "eventnetwork SET IsActive = 0 WHERE NetworkID = '" . $ebID . "'");
+					DoQuery("UPDATE " . HC_TblPrefix . "eventnetwork SET IsActive = ? WHERE NetworkID = ?", array(0, $ebID));
 				}
 			}
 		}

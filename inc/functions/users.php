@@ -81,8 +81,7 @@
 			return -1;
 		
 		$uID = cIn($_SESSION['UserPkID']);
-		$result = doQuery("SELECT NetworkType, NetworkName, NetworkID, Email, FirstSignIn, Level, Location, Birthdate, APIKey, APIAccess
-						FROM " . HC_TblPrefix . "users WHERE PkID = '" . $uID . "'");
+		$result = DoQuery("SELECT NetworkType, NetworkName, NetworkID, Email, FirstSignIn, Level, Location, Birthdate, APIKey, APIAccess FROM " . HC_TblPrefix . "users WHERE PkID = ?", array($uID));
 		
 		if(!hasRows($result) or !user_check_status())
 			return -1;
@@ -219,16 +218,21 @@
 		$sqlStart = $year.'-'.$month.'-1';
 		$sqlEnd = strftime("%Y-%m-%d",mktime(0,0,0,($month+1),0,$year));
 		
-		$result = doQuery("SELECT DISTINCT e.PkID, e.Title, e.StartDate, e.StartTime, e.EndTime, e.TBD, e.IsApproved, e.SeriesID, er.Type, er.Space,
+		$result = DoQuery("SELECT DISTINCT e.PkID, e.Title, e.StartDate, e.StartTime, e.EndTime, e.TBD, e.IsApproved, e.SeriesID, er.Type, er.Space,
 							(SELECT COUNT(PkID) FROM " . HC_TblPrefix . "registrants r WHERE EventID = e.PkID) as SpacesTaken
 						FROM " . HC_TblPrefix . "events e
 							LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (ec.EventID = e.PkID)
 							LEFT JOIN " . HC_TblPrefix . "eventrsvps er ON (er.EventID = e.PkID)
 							LEFT JOIN " . HC_TblPrefix . "locations l ON (e.LocID = l.PkID)
-						WHERE e.StartDate BETWEEN '" . cIn($sqlStart) . "' AND '" . cIn($sqlEnd) . "' 
-							AND e.IsActive = 1 AND e.OwnerID = '" . cIn($_SESSION['UserPkID']) . "'
+						WHERE e.StartDate BETWEEN ? AND ? 
+							AND e.IsActive = 1 AND e.OwnerID = ?
 						GROUP BY e.PkID, e.Title, e.StartDate, e.StartTime, e.EndTime, e.TBD, e.IsApproved, e.SeriesID, er.Type, er.Space
-						ORDER BY e.StartDate, e.TBD, e.StartTime, e.Title");
+						ORDER BY e.StartDate, e.TBD, e.StartTime, e.Title", array(
+
+									cIn($sqlStart),
+									cIn($sqlEnd),
+									cIn($_SESSION['UserPkID'])
+						));
 		$i = 0;
 		$jmp = 12;
 		$stop = $jmp + 12;
@@ -415,10 +419,17 @@
 	function user_register_new($network,$net_name,$net_id){
 		global $hc_cfg;
 				
-		doQuery("INSERT INTO " . HC_TblPrefix . "users(NetworkType, NetworkName, NetworkID, FirstSignin, LastSignIn, LastIP, Level, IsPrivate, APIKey, APIAccess, APICnt)
-				Values('".$network."','".cIn(utf8_decode($net_name))."','".cIn($net_id)."','".SYSDATE.' '.SYSTIME."','".SYSDATE.' '.SYSTIME."',
-					'".cIn(strip_tags($_SERVER["REMOTE_ADDR"]))."','0','1','".cIn(md5(sha1($network.$net_name.$net_id.(rand()*date("U")))))."',1,0)");
-		$result = doQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "users");
+		DoQuery("INSERT INTO " . HC_TblPrefix . "users(NetworkType, NetworkName, NetworkID, FirstSignin, LastSignIn, LastIP, Level, IsPrivate, APIKey, APIAccess, APICnt)
+				Values(?,?,?,'".SYSDATE.' '.SYSTIME."','".SYSDATE.' '.SYSTIME."',? ,'0','1',?,1,0)", 
+
+					array(	$network, 
+							cIn(utf8_decode($net_name)), 
+							cIn($net_id),
+							cIn(strip_tags($_SERVER["REMOTE_ADDR"])),
+							cIn(md5(sha1($network.$net_name.$net_id.(rand()*date("U")))))
+						)
+				);
+		$result = DoQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "users");
 		
 		return (hasRows($result)) ? hc_mysql_result($result,0,0) : NULL;
 	}
@@ -433,7 +444,7 @@
 		if(!is_numeric($local_id) || $local_id < 1)
 			return -1;
 		
-		doQuery("UPDATE " . HC_TblPrefix . "users SET LastSignIn = '".SYSDATE." ".SYSTIME."', LastIP = '".cIn(strip_tags($_SERVER["REMOTE_ADDR"]))."', SignIns = (SignIns+1) WHERE PkID = '".cIn($local_id)."'");
+		DoQuery("UPDATE " . HC_TblPrefix . "users SET LastSignIn = '".SYSDATE." ".SYSTIME."', LastIP = ?, SignIns = (SignIns+1) WHERE PkID = ?", array(cIn(strip_tags($_SERVER["REMOTE_ADDR"])), cIn($local_id)));
 	}
 	/**
 	 * Update status, and variables, for user's current session. Called at regular intervals to rebuild the session id (user_new_session()) & update the user's status (incase of deletion or banning by admin).
@@ -446,7 +457,7 @@
 	 * @return void
 	 */
 	function user_update_status($network,$net_name,$net_id,$signed_in){
-		$result = doQuery("SELECT PkID, Level, IsBanned FROM " . HC_TblPrefix . "users WHERE NetworkType = '".cIn($network)."' AND NetworkID = '".cIn($net_id)."'");
+		$result = DoQuery("SELECT PkID, Level, IsBanned FROM " . HC_TblPrefix . "users WHERE NetworkType = ?", array(cIn($network)."' AND NetworkID = '".cIn($net_id)));
 		
 		if($signed_in == 1 && hasRows($result) && hc_mysql_result($result,0,2) == 0){
 			user_new_session();

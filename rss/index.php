@@ -28,7 +28,8 @@
 		$query = "	SELECT DISTINCT e.PkID, e.Title, e.Description, e.StartDate, e.StartTime, e.SeriesID, e.PublishDate, (e.Views / (DATEDIFF('".SYSDATE."', e.PublishDate)+1)) as Ave
 					FROM " . HC_TblPrefix . "events e
 					WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . cIn(SYSDATE) . "' ".$bQuery;
-		$query .= ($hc_cfg[33] == 0) ? " AND e.SeriesID IS NULL 
+		if ($hc_cfg[33] == 0) { 
+			$query .= " AND e.SeriesID IS NULL 
 					UNION 
 					SELECT DISTINCT e.PkID, e.Title, e.Description, e.StartDate, e.StartTime, e.SeriesID, e.PublishDate, (e.Views / (DATEDIFF('".SYSDATE."', e.PublishDate)+1)) as Ave
 					FROM " . HC_TblPrefix . "events e
@@ -36,20 +37,25 @@
 					WHERE
 						e2.StartDate IS NULL AND 
 						e.IsActive = 1 AND e.IsApproved = 1 AND e.StartDate >= '".SYSDATE."'  AND e.SeriesID IS NOT NULL ".$bQuery."
-					GROUP BY e.SeriesID, e.PkID, e.Title, e.Description, e.StartDate, e.StartTime, e.SeriesID, e.Views, e.PublishDate" : '';
+					GROUP BY e.SeriesID, e.PkID, e.Title, e.Description, e.StartDate, e.StartTime, e.SeriesID, e.Views, e.PublishDate";
+		}
+		$params = array();
 		
 		switch($sID){
 			case 0:
-				$query .= " ORDER BY StartDate, StartTime LIMIT ".$hc_cfg[2];
+				$query .= " ORDER BY StartDate, StartTime LIMIT ?";
+				$params[] = $hc_cfg[2];
 				break;
 			case 1:
 				$query .= " ORDER BY PublishDate DESC, StartDate, StartTime LIMIT ".$hc_cfg[2];
 				break;
 			case 2:
 				$query .= " ORDER BY Ave DESC, StartDate, StartTime LIMIT ".$hc_cfg[2];
+				$params[] = $hc_cfg[2];
 				break;
 			case 3:
 				$query .= " ORDER BY StartDate, StartTime LIMIT ".$hc_cfg[2];
+				$params[] = $hc_cfg[2];
 				break;
 		}
 		
@@ -65,7 +71,7 @@
 	<docs>'.CalRoot.'&#47;index.php&#63;com=tools</docs>
 	<description>'.cleanXMLChars($hc_lang_rss['Upcoming']).'</description>';
 
-		$result = doQuery($query);
+		$result = DoQuery($query, $params);
 		if(hasRows($result)){
 			echo '
 	<title>'.cleanXMLChars($feedName.' - '.CalName).'</title>';

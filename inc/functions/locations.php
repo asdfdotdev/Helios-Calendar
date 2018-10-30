@@ -19,7 +19,7 @@
 			return 0;
 		
 		array_push($_SESSION['hc_traill'], $lID);
-		doQuery("UPDATE " . HC_TblPrefix . "locations SET Views = Views + 1 WHERE PkID = '" . cIn($lID) . "'");
+		DoQuery("UPDATE " . HC_TblPrefix . "locations SET Views = Views + 1 WHERE PkID = ?", array(cIn($lID)));
 	}
 	/**
 	 * Retrieves array of location data.
@@ -32,7 +32,7 @@
 		
 		location_add_session_view($lID);
 		
-		$result = doQuery("SELECT PkID, Name, Address, Address2, City, State, Country, Zip, URL, Phone, Email, Descript, Lat, Lon, ShortURL, LastMod, Image From " . HC_TblPrefix . "locations WHERE PkID = '" . cIn($lID) . "' AND IsActive = 1");
+		$result = DoQuery("SELECT PkID, Name, Address, Address2, City, State, Country, Zip, URL, Phone, Email, Descript, Lat, Lon, ShortURL, LastMod, Image From " . HC_TblPrefix . "locations WHERE PkID = ? AND IsActive = 1", array(cIn($lID)));
 		
 		if(!hasRows($result) || hc_mysql_result($result,0,0) <= 0)
 			go_home();
@@ -78,11 +78,11 @@
 	function location_events($limit = 5){
 		global $lID, $hc_cfg, $hc_lang_core, $hc_lang_locations;
 		
-		$result = doQuery("SELECT PkID, Title, StartDate, StartTime, EndTime, TBD
+		$result = DoQuery("SELECT PkID, Title, StartDate, StartTime, EndTime, TBD
 						FROM " . HC_TblPrefix . "events 
-							WHERE IsActive = 1 AND IsApproved = 1 AND LocID = '" . cIn($lID) . "' AND StartDate >= '" . cIn(SYSDATE) . "'
+							WHERE IsActive = 1 AND IsApproved = 1 AND LocID = ? AND StartDate >= '" . cIn(SYSDATE) . "'
 						ORDER BY StartDate, TBD, StartTime, Title
-						LIMIT " . cIn($limit));
+						LIMIT ?", array(cIn($lID),cIn($limit)));
 		if(!hasRows($result)){
 			echo '<p>'.$hc_lang_locations['NoEvents'].' <a href="'.CalRoot.'/index.php?com=submit" rel="nofollow">'.$hc_lang_locations['NoEventsLink'].'</a></p>';
 			return 0;}

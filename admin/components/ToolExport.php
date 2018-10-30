@@ -12,7 +12,7 @@
 	$templates = '';
 	$fail = 0;
 	
-	$result = doQuery("SELECT PkID, Name, Extension FROM " . HC_TblPrefix . "templates WHERE IsActive = 1 AND TypeID = 1 ORDER BY Name");
+	$result = DoQuery("SELECT PkID, Name, Extension FROM " . HC_TblPrefix . "templates WHERE IsActive = 1 AND TypeID = 1 ORDER BY Name");
 	if(!hasRows($result)){
 		$fail = 1;
 	} else {

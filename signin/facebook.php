@@ -17,7 +17,7 @@
 	$app_id = $app_secret = '';
 	$_SESSION['FB_State'] = (!isset($_SESSION['FB_State'])) ? md5(mt_rand().date("U")) : $_SESSION['FB_State'];
 	
-	$result = doQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(117,118)");
+	$result = DoQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(117,118)");
 	if(hasRows($result)){
 		$app_id = hc_mysql_result($result,0,0);
 		$app_secret = hc_mysql_result($result,1,0);
@@ -37,7 +37,7 @@
 			$user = json_decode(file_get_contents('https://graph.facebook.com/me?access_token='.$params['access_token']));
 			
 			if(isset($user) && isset($params)){
-				$result = doQuery("SELECT PkID, Email, Birthdate FROM " . HC_TblPrefix . "users WHERE NetworkType = '2' AND NetworkID = '" . cIn($user->id) . "'");
+				$result = DoQuery("SELECT PkID, Email, Birthdate FROM " . HC_TblPrefix . "users WHERE NetworkType = '2' AND NetworkID = ?", array(cIn($user->id)));
 
 				if(!hasRows($result)){
 					$local_id = user_register_new(2,$user->name,$user->id);

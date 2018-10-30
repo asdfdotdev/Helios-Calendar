@@ -22,24 +22,22 @@
 		$description = isset($_POST['description']) ? cIn(cleanQuotes($_POST['description']),1) : '';
 		$status = isset($_POST['status']) ? cIn($_POST['status']) : '';
 		
-		$result = doQuery("SELECT * FROM " . HC_TblPrefix . "mailgroups WHERE PkID = '" . $gID . "'");
+		$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "mailgroups WHERE PkID = ?", array($gID));
 		if(hasRows($result)){
-			doQuery("UPDATE " . HC_TblPrefix . "mailgroups
-					SET Name = '" . $name . "',
-						Description = '" . $description . "',
-						IsPublic = '" . $status . "'
-					WHERE PkID = '" . $gID . "'");
+			DoQuery("UPDATE " . HC_TblPrefix . "mailgroups
+					SET Name = ?,
+						Description = ?,
+						IsPublic = ?
+					WHERE PkID = ?", array($name, $description, $status, $gID));
 			header("Location: " . AdminRoot . "/index.php?com=subgrps&msg=2");
 		} else {
-			doQuery("INSERT INTO " . HC_TblPrefix . "mailgroups(Name,Description,IsPublic,IsActive)
-					Values(	'" . $name . "',
-							'" . $description . "',
-							'" . $status . "',1)");
+			DoQuery("INSERT INTO " . HC_TblPrefix . "mailgroups(Name,Description,IsPublic,IsActive)
+					Values(?,?,?,1)", array($name, $description, $status));
 			header("Location: " . AdminRoot . "/index.php?com=subgrps&msg=3");
 		}
 	} else {
 		if($_GET['dID'] != 1){
-			doQuery("UPDATE " . HC_TblPrefix . "mailgroups SET IsActive = 0 WHERE PkiD = '" . cIn(strip_tags($_GET['dID'])) . "'");
+			DoQuery("UPDATE " . HC_TblPrefix . "mailgroups SET IsActive = 0 WHERE PkiD = ?", array(cIn(strip_tags($_GET['dID']))));
 		}
 		header("Location: " . AdminRoot . "/index.php?com=subgrps&msg=1");
 	}

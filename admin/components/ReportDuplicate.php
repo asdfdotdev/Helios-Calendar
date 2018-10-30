@@ -20,7 +20,7 @@
 	$compTitle = (!isset($_GET['t'])) ? 'e1.Title = e2.Title AND ' : '';
 	$token = set_form_token(1);
 
-	$result = doQuery("SELECT e1.PkID as `First`, e1.Title as Title1, e1.StartDate as Date1, e1.LocID as LocID1, e1.LocationName, l.Name,
+	$result = DoQuery("SELECT e1.PkID as `First`, e1.Title as Title1, e1.StartDate as Date1, e1.LocID as LocID1, e1.LocationName, l.Name,
 						e2.PkID as `Duplicate`, e2.Title as Title2, e2.StartDate as Date2, e2.LocID as LocID2, e2.LocationName, l.Name
 					FROM " . HC_TblPrefix . "events e1
 					    LEFT JOIN " . HC_TblPrefix . "events e2 ON (" . $compTitle . "e1.StartDate = e2.StartDate AND e1.StartTime = e2.StartTime AND e1.LocID = e2.LocID)

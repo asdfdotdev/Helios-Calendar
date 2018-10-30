@@ -14,11 +14,11 @@
 
 	$nID = (isset($_GET['n'])) ? cIn(strip_tags($_GET['n'])) : '';
 
-	$result = doQuery("SELECT Subject, SentDate, ArchiveContents FROM " . HC_TblPrefix . "newsletters WHERE md5(PkID) = '" . $nID . "' AND Status > 0");
+	$result = DoQuery("SELECT Subject, SentDate, ArchiveContents FROM " . HC_TblPrefix . "newsletters WHERE md5(PkID) = ? AND Status > 0", array($nID));
 	if(hasRows($result)){
 		if(!preg_match($hc_cfg[85],$_SERVER['HTTP_USER_AGENT']) && !in_array($nID,$_SESSION['hc_trailn'])){
 			array_push($_SESSION['hc_trailn'], $nID);
-			doQuery("UPDATE " . HC_TblPrefix . "newsletters SET ArchViews = ArchViews + 1 WHERE md5(PkID) = '" . $nID . "'");}
+			DoQuery("UPDATE " . HC_TblPrefix . "newsletters SET ArchViews = ArchViews + 1 WHERE md5(PkID) = ?", array($nID));}
 		
 		echo '<!doctype html>
 <html lang="en">

@@ -34,11 +34,11 @@
 	$zip = isset($_POST['hc_f8']) ? cIn(strip_tags($_POST['hc_f8'])) : '';
 	$partySize = (is_numeric($_POST['hc_f7'])) ? cIn(strip_tags($_POST['hc_f7'])) + 1 : 0;
 
-	$result = doQuery("SELECT PkID FROM " . HC_TblPrefix . "registrants WHERE Email = '" . $regEmail . "' AND EventID = '" . $eID . "'");
+	$result = DoQuery("SELECT PkID FROM " . HC_TblPrefix . "registrants WHERE Email = ? AND EventID = ?", array($regEmail, $eID));
 	if(hasRows($result)){
 		header("Location: " . CalRoot . "/index.php?com=rsvp&eID=".$eID."&msg=1");
 	} else {
-		$result = doQuery("SELECT Title, StartDate, StartTime, TBD, ContactEmail FROM " . HC_TblPrefix . "events WHERE PkID = '" . $eID . "'");
+		$result = DoQuery("SELECT Title, StartDate, StartTime, TBD, ContactEmail FROM " . HC_TblPrefix . "events WHERE PkID = ?", array($eID));
 		
 		$eventTitle = cOut(hc_mysql_result($result,0,0));
 		$eventDate = stampToDate(hc_mysql_result($result,0,1), $hc_cfg[14]);
@@ -57,21 +57,27 @@
 		
 		for($x=1;$x<=$partySize;$x++){
 			$addName = ($partySize > 1) ? $regName . " - " . $x . "/" . $partySize : $regName;
-			doQuery("INSERT into " . HC_TblPrefix . "registrants(Name, Email, Phone, Address, Address2, City, State, Zip, EventID, IsActive, RegisteredAt, GroupID)
-					Values(	'" . cIn($addName) . "',
-							'" . $regEmail . "',
-							'" . $phone . "',
-							'" . $address . "','" . $address2 . "','" . $city . "','" . $state . "','" . $zip . "',
-							'" . $eID . "',
-							1, NOW(),
-							'" . cIn($groupID) . "');");
+			DoQuery("INSERT into " . HC_TblPrefix . "registrants(Name, Email, Phone, Address, Address2, City, State, Zip, EventID, IsActive, RegisteredAt, GroupID)
+					Values(?, ?, ?, ?, ?, ?, ?, ?, ?, 1, NOW(), ?);",
+				array(
+					cIn($addName),
+					$regEmail,
+					$phone,
+					$address,
+					$address2,
+ 					$city,
+ 					$state,
+ 					$zip,
+ 					$eID,
+ 					cIn($groupID)
+				));
 		}
 		
-		$result = doQuery("SELECT COUNT(r.EventID), er.Space
+		$result = DoQuery("SELECT COUNT(r.EventID), er.Space
 							FROM " . HC_TblPrefix . "registrants r
 								LEFT JOIN " . HC_TblPrefix . "eventrsvps er ON (r.EventID = er.EventID)
-							WHERE r.EventID = '" . $eID . "' and r.IsActive = 1
-							GROUP BY r.EventID, er.Space");
+							WHERE r.EventID = ? and r.IsActive = 1
+							GROUP BY r.EventID, er.Space", array($eID));
 		$eOver = $eLimit = 0;
 		if(hc_mysql_result($result,0,0) > hc_mysql_result($result,0,1) && hc_mysql_result($result,0,1) != 0)
   			$eOver = 1;

@@ -11,7 +11,7 @@
 		
 	$eID = (isset($_GET['eID']) && is_numeric($_GET['eID'])) ? cIn(strip_tags($_GET['eID'])) : 0;
 	$cID = (isset($_GET['cID']) && is_numeric($_GET['cID'])) ? cIn(strip_tags($_GET['cID'])) : 0;
-	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "events WHERE PkID = '" . $eID . "'");
+	$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "events WHERE PkID = ?", array($eID));
 	
 	include_once(HCLANG.'/public/event.php');
 	
@@ -19,7 +19,7 @@
 		switch($cID){
 			case 1:
 				if(!preg_match("$hc_cfg[85]i",$_SERVER['HTTP_USER_AGENT']))
-					doQuery("UPDATE " . HC_TblPrefix . "events SET Downloads = Downloads + 1 WHERE PkID = '" . $eID . "'");
+					DoQuery("UPDATE " . HC_TblPrefix . "events SET Downloads = Downloads + 1 WHERE PkID = ?", array($eID));
 
 				$link = "http://www.google.com/calendar/event?action=TEMPLATE";
 				if(hc_mysql_result($result,0,11) == 0){
@@ -41,7 +41,7 @@
 				if(hc_mysql_result($result,0,35) == 0 || hc_mysql_result($result,0,35) == ''){
 					$link .= "&location=" . urlencode(hc_mysql_result($result,0,3) . " " . hc_mysql_result($result,0,4) . " " . hc_mysql_result($result,0,5) . " " . hc_mysql_result($result,0,6) . " " . hc_mysql_result($result,0,37) . " " . hc_mysql_result($result,0,7));
 				} else {
-					$result = doQuery("SELECT * FROM " . HC_TblPrefix . "locations WHERE PkID = '" . cIn(hc_mysql_result($result,0,35)) . "'");
+					$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "locations WHERE PkID = ?", array(cIn(hc_mysql_result($result,0,35))));
 					$link .= "&location=" . urlencode(hc_mysql_result($result,0,2) . " " . hc_mysql_result($result,0,3) . " " . hc_mysql_result($result,0,4) . " " . hc_mysql_result($result,0,5) . " " . hc_mysql_result($result,0,6) . " " . hc_mysql_result($result,0,7));
 				}
 				
@@ -49,7 +49,7 @@
 				break;
 			case 2:
 				if(!preg_match("$hc_cfg[85]i",$_SERVER['HTTP_USER_AGENT']))
-					doQuery("UPDATE " . HC_TblPrefix . "events SET Downloads = Downloads + 1 WHERE PkID = '" . $eID . "'");
+					DoQuery("UPDATE " . HC_TblPrefix . "events SET Downloads = Downloads + 1 WHERE PkID = ?", array($eID));
 
 				$link = "http://calendar.yahoo.com/?v=60&view=d&type=20";
 				if(hc_mysql_result($result,0,11) == 1){
@@ -70,7 +70,7 @@
 					$link .= "&in_st=" . urlencode(hc_mysql_result($result,0,3) . " " . hc_mysql_result($result,0,4));
 					$link .= "&in_csz=" . urlencode(hc_mysql_result($result,0,5) . ", " . hc_mysql_result($result,0,6) . " " . hc_mysql_result($result,0,37) . " " . hc_mysql_result($result,0,7));
 				} else {
-					$result = doQuery("SELECT * FROM " . HC_TblPrefix . "locations WHERE PkID = '" . cIn(hc_mysql_result($result,0,35)) . "'");
+					$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "locations WHERE PkID = ?", array(cIn(hc_mysql_result($result,0,35))));
 					$link .= "&in_loc=" . urlencode(hc_mysql_result($result,0,1));
 					$link .= "&in_st=" . urlencode(hc_mysql_result($result,0,2) . " " . hc_mysql_result($result,0,3));
 					$link .= "&in_csz=" . urlencode(hc_mysql_result($result,0,4) . ", " . hc_mysql_result($result,0,5) . " " . hc_mysql_result($result,0,6) . " " . hc_mysql_result($result,0,7));
@@ -83,7 +83,7 @@
 					go_home();
 				
 				if(!preg_match("$hc_cfg[85]i",$_SERVER['HTTP_USER_AGENT']))
-					doQuery("UPDATE " . HC_TblPrefix . "events SET Downloads = Downloads + 1 WHERE PkID = '" . $eID . "'");
+					DoQuery("UPDATE " . HC_TblPrefix . "events SET Downloads = Downloads + 1 WHERE PkID = ?", array($eID));
 				
 				include('tzs.php');
 				$tzSelect = date("O") + (($hc_cfg[35] - date("I")) * 100);
@@ -131,7 +131,7 @@
 				if(hc_mysql_result($result,0,33) == 0 OR hc_mysql_result($result,0,33) == ''){
 					$location = hc_mysql_result($result,0,2) . " - " . hc_mysql_result($result,0,3) . " " . hc_mysql_result($result,0,4) . ", " . hc_mysql_result($result,0,5) . ", " . hc_mysql_result($result,0,6) . " " . hc_mysql_result($result,0,35) . " " . hc_mysql_result($result,0,7);
 				} else {
-					$result = doQuery("SELECT * FROM " . HC_TblPrefix . "locations WHERE PkID = '" . cIn(hc_mysql_result($result,0,33)) . "'");
+					$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "locations WHERE PkID = ?", array(cIn(hc_mysql_result($result,0,33))));
 					$location = hc_mysql_result($result,0,1) . " - " . hc_mysql_result($result,0,2) . " " . hc_mysql_result($result,0,3) . ", " . hc_mysql_result($result,0,4) . ", " . hc_mysql_result($result,0,5) . " " . hc_mysql_result($result,0,6) . " " . hc_mysql_result($result,0,7);
 				}
 				
@@ -177,7 +177,7 @@
 				break;
 			case 5:				
 				if(!preg_match("$hc_cfg[85]i",$_SERVER['HTTP_USER_AGENT']))
-					doQuery("UPDATE " . HC_TblPrefix . "events SET Downloads = Downloads + 1 WHERE PkID = '" . $eID . "'");
+					DoQuery("UPDATE " . HC_TblPrefix . "events SET Downloads = Downloads + 1 WHERE PkID = ?", array($eID));
 
 				$link = "http://calendar.live.com/calendar/calendar.aspx?rru=addevent";
 
@@ -202,7 +202,7 @@
 				if(hc_mysql_result($result,0,35) == 0 || hc_mysql_result($result,0,35) == ''){
 					$link .= "&location=" . urlencode(hc_mysql_result($result,0,3) . " " . hc_mysql_result($result,0,4) . " " . hc_mysql_result($result,0,5) . " " . hc_mysql_result($result,0,6) . " " . hc_mysql_result($result,0,37) . " " . hc_mysql_result($result,0,7));
 				} else {
-					$result = doQuery("SELECT * FROM " . HC_TblPrefix . "locations WHERE PkID = '" . cIn(hc_mysql_result($result,0,35)) . "'");
+					$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "locations WHERE PkID = ?", array(cIn(hc_mysql_result($result,0,35))));
 					$link .= "&location=" . urlencode(hc_mysql_result($result,0,2) . " " . hc_mysql_result($result,0,3) . " " . hc_mysql_result($result,0,4) . " " . hc_mysql_result($result,0,5) . " " . hc_mysql_result($result,0,6) . " " . hc_mysql_result($result,0,7));
 				}
 				

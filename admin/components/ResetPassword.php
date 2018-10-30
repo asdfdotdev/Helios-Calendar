@@ -20,7 +20,7 @@
 	$valid = ($hc_cfg[91] == 1) ? validPassword($pass1) : true;
 	$target = (!$valid) ? 'Location: ' . AdminRoot . '/index.php?lp=2&k='.$b.'&lmsg=6' : 'Location: ' . AdminRoot . '/';
 	
-	$result = doQuery("SELECT PkID, Email, LoginCnt, Passwrd FROM " . HC_TblPrefix . "admin WHERE PCKey = '" . $b . "'");
+	$result = DoQuery("SELECT PkID, Email, LoginCnt, Passwrd FROM " . HC_TblPrefix . "admin WHERE PCKey = ?", array($b));
 	if(hasRows($result) && $valid){
 		if(md5(hc_mysql_result($result,0,0).hc_mysql_result($result,0,1).hc_mysql_result($result,0,2)) == $a){
 			$target = 'Location: ' . AdminRoot . '/index.php?lp=2&k='.$b.'&lmsg=5';
@@ -28,12 +28,12 @@
 				if(md5(md5($pass1) . hc_mysql_result($result,0,1)) == hc_mysql_result($result,0,3)){
 					$target = 'Location: ' . AdminRoot . '/index.php?lp=2&k='.$b.'&lmsg=6';
 				} else {
-					doQuery("UPDATE " . HC_TblPrefix . "admin SET Passwrd = '" . md5(md5($pass1) . hc_mysql_result($result,0,1)) . "', PCKey = NULL, PAge = '". date("Y-m-d") ."' WHERE PkID = '" . hc_mysql_result($result,0,0) . "'");
+					DoQuery("UPDATE " . HC_TblPrefix . "admin SET Passwrd = ?, PCKey = NULL, PAge = '". date("Y-m-d") ."' WHERE PkID = ?", array(md5(md5($pass1) . hc_mysql_result($result,0,1)), hc_mysql_result($result,0,0)));
 					$target = 'Location: ' . AdminRoot . '/index.php?lmsg=4';
 				}
 			}
 		} else {
-			doQuery("UPDATE " . HC_TblPrefix . "admin SET PCKey = NULL WHERE PkID = '" . hc_mysql_result($result,0,0) . "'");
+			DoQuery("UPDATE " . HC_TblPrefix . "admin SET PCKey = NULL WHERE PkID = ?", array(hc_mysql_result($result,0,0)));
 		}
 	}
 	header($target);

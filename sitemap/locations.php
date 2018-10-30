@@ -11,8 +11,9 @@
 
 	header('Content-type: application/xml; charset="utf-8"');	
 	
-	if(!file_exists(HCPATH.'/cache/sitemap_locations_'.$page)){
-		$result = doQuery("SELECT l.PkID, MAX(e.PublishDate) as eCount
+	if(!file_exists(HCPATH.'/cache/sitemap_locations_'.$page))
+	{
+		$result = DoQuery("SELECT l.PkID, MAX(e.PublishDate) as eCount
 						FROM " . HC_TblPrefix . "locations l
 							LEFT JOIN " . HC_TblPrefix . "events e ON (l.PkID = e.LocID AND e.IsActive = 1 AND e.IsApproved = 1)
 						WHERE l.IsActive = 1 GROUP BY l.PkID 

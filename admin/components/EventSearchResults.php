@@ -51,25 +51,50 @@
 			FROM " . HC_TblPrefix . "events as e
 				INNER JOIN " . HC_TblPrefix . "eventcategories as ec ON (e.PkID = ec.EventID)
 				LEFT JOIN " . HC_TblPrefix . "locations as l ON (e.LocID = l.PkID) ";
+	$params = array();
 	if($series != ''){
-		$query .= "WHERE SeriesID = '".$series."' AND e.IsActive = 1 AND e.IsApproved = 1";
+		$query .= "WHERE SeriesID = ? AND e.IsActive = 1 AND e.IsApproved = 1";
+		$params[] = $series;
 	} else {
 		$query .= "WHERE (StartDate BETWEEN '".date("Y-m-d",$startDate)."' AND '".date("Y-m-d",$endDate)."')
 						AND e.IsActive = 1 AND e.IsApproved = 1 ";
-		$query .= ($keyword != '') ? " AND MATCH(Title,LocationName,Description) AGAINST('".cIn($keyword,0)."' IN BOOLEAN MODE) " : '';
-		$query .= ($location > 0) ? " AND l.PkID = '" . $location  . "'" : '';
-		$query .= ($city != '') ? " AND (l.IsActive = 1 OR l.IsActive is NULL) AND (e.LocationCity = '".$city."' OR l.City = '".$city."')" : '';
-		$query .= ($state != '') ? " AND (e.LocationState = '" . cIn($state) . "' or l.State = '" . cIn($state) . "')" : '';
-		$query .= ($postal != '') ? " AND (e.LocationZip = '" . cIn($postal) . "' or l.Zip = '" . cIn($postal) . "')" : '';
-		$query .= ($catIDs != '') ? " AND (ec.CategoryID In(" . cIn($catIDs) . "))" : '';
+		if ($keyword != '') {
+			$query .= " AND MATCH(Title,LocationName,Description) AGAINST(? IN BOOLEAN MODE) ";
+			$params[] = cIn($keyword,0);
+		}
+		if ($location > 0) {
+			$query .= " AND l.PkID = ?";
+			$params[] = $location;
+		}
+		if ($city != '') {
+			$query .= " AND (l.IsActive = 1 OR l.IsActive is NULL) AND (e.LocationCity = ? OR l.City = ?)";
+			$params[] = $city;
+			$params[] = $city;
+		}
+		if ($state != '') {
+			$query .= " AND (e.LocationState = ? or l.State = ?)";
+			$params[] = cIn($state);
+			$params[] = cIn($state);
+		}
+		if ($postal != '') {
+			$query .= " AND (e.LocationZip = ? or l.Zip = ?)";
+			$params[] = cIn($postal);
+			$params[] = cIn($postal);
+		}
+		if ($catIDs != '') {
+			$query .= " AND (ec.CategoryID In(?))";
+			$params[] = cIn($catIDs);
+		}
 	}
-	if($usrID > 0)
-		$query .= " AND e.OwnerID = '" . $usrID . "'";
+	if($usrID > 0) {
+		$query .= " AND e.OwnerID = ?";
+		$params[] = $usrID;
+	}
 
 	$query .= ($seriesOnly == 1) ? " AND SeriesID != '' GROUP BY e.PkID, e.Title, e.StartDate, e.StartTime, e.EndTime, e.TBD, SeriesID, l.City, l.IsActive " : '';
 	$query .= " ORDER BY e.StartDate, e.TBD, e.StartTime, e.Title";
 	
-	$result = doQuery($query);
+	$result = DoQuery($query, $params);
 	$row_cnt = hc_mysql_num_rows($result);
 	
 	if(hasRows($result)){

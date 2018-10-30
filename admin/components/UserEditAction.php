@@ -33,18 +33,18 @@
 				
 		if($banned == 1){
 			$level = 0;
-			doQuery("UPDATE " . HC_TblPrefix . "events SET OwnerID = 0 WHERE OwnerID = '" . $uID . "'");
+			DoQuery("UPDATE " . HC_TblPrefix . "events SET OwnerID = ? WHERE OwnerID = ?", array(0, $uID));
 		}
 		
-		doQuery("UPDATE " . HC_TblPrefix . "users SET
-					Email = '" . $email . "',
-					Level = '" . $level . "',
-					IsBanned = '" . $banned . "',
-					Location = '" . $location . "',
-					Birthdate = ".(($birthdate != '') ? "'".$birthdate."'":"NULL").",
-					Categories = '" . $cats . "',
-					APIAccess = '" . $api . "'
-				WHERE PkID = '" . $uID . "'");
+		DoQuery("UPDATE " . HC_TblPrefix . "users SET
+					Email = ?,
+					Level = ?,
+					IsBanned = ?,
+					Location = ?,
+					Birthdate = ?,
+					Categories = ?,
+					APIAccess = ?
+				WHERE PkID = ?", array($email, $level,  $banned, $location, (($birthdate != '') ? "'".$birthdate."'":"NULL"), $cats, $api, $uID ));
 		
 		
 		$target = AdminRoot.'/index.php?com=useredit&uID='.$uID.'&msg=1';
@@ -53,16 +53,16 @@
 			$dID = (isset($_GET['dID']) && is_numeric($_GET['dID'])) ? cIn(strip_tags($_GET['dID'])) : 0;
 			$b = (isset($_GET['b']) && is_numeric($_GET['b']) && $_GET['b'] <= 1) ? cIn(strip_tags($_GET['b'])) : 0;
 			
-			doQuery("DELETE FROM " . HC_TblPrefix . "users WHERE PkID = '" . $dID . "'");
-			doQuery("UPDATE " . HC_TblPrefix . "events SET OwnerID = 0 WHERE OwnerID = '" . $dID . "'");
+			DoQuery("DELETE FROM " . HC_TblPrefix . "users WHERE PkID = ?", array($dID));
+			DoQuery("UPDATE " . HC_TblPrefix . "events SET OwnerID = ? WHERE OwnerID = ?", array(0, $dID));
 			
 			$target = AdminRoot.'/index.php?com=user&msg=1'.(($b == 1) ? '&b=1':'');
 		} elseif(isset($_GET['bID'])){
 			$bID = (isset($_GET['bID']) && is_numeric($_GET['bID'])) ? cIn(strip_tags($_GET['bID'])) : 0;
 			$b = (isset($_GET['b']) && is_numeric($_GET['b']) && $_GET['b'] <= 1) ? cIn(strip_tags($_GET['b'])) : 0;
 			
-			doQuery("UPDATE " . HC_TblPrefix . "users SET IsBanned = '" . $b . "' AND Level = 0 WHERE PkID = '" . $bID . "'");
-			doQuery("UPDATE " . HC_TblPrefix . "events SET OwnerID = 0 WHERE OwnerID = '" . $bID . "'");
+			DoQuery("UPDATE " . HC_TblPrefix . "users SET IsBanned = ? AND Level = 0 WHERE PkID = ?", array($b,$bID));
+			DoQuery("UPDATE " . HC_TblPrefix . "events SET OwnerID = ? WHERE OwnerID = ?", array(0, $bID));
 			
 			$msg = ($b == 1) ? 2 : 3;
 			$target = AdminRoot.'/index.php?com=user&msg='.$msg.(($b == 0) ? '&b=1':'');

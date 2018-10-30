@@ -26,12 +26,12 @@
 	spamIt($proof,$challenge,0);
 	
 	$email = isset($_POST['email']) ? cIn($_POST['email']) : '';
-	$result = doQuery("SELECT FirstName, LastName, Email, Passwrd FROM " . HC_TblPrefix . "admin WHERE email = '" . $email ."' AND IsActive = 1");
+	$result = DoQuery("SELECT FirstName, LastName, Email, Passwrd FROM " . HC_TblPrefix . "admin WHERE email = ? AND IsActive = 1", array($email));
 	
 	if(hasRows($result)){
 		$pwKey = md5(date("U").md5(date("U")));
 		
-		doQuery("UPDATE " . HC_TblPrefix . "admin SET PCKey = '" . cIn($pwKey) . "' WHERE Email = '" . $email . "'");
+		DoQuery("UPDATE " . HC_TblPrefix . "admin SET PCKey = ? WHERE Email = ?", array(cIn($pwKey), $email));
 		
 		$subject = CalName . ' ' . $hc_lang_login['LoginSubject'];
 		$message = '<a href="' . AdminRoot . '/index.php?lp=2&k=' . $pwKey . '">'  . AdminRoot . '/index.php?lp=2&k=' . $pwKey . '</a>';

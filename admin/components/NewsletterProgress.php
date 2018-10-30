@@ -31,11 +31,11 @@
 		if($hc_cfg[78] == '' || $hc_cfg[79] = '')
 			stopError($hc_lang_news['Err03']);
 		
-		$result = doQuery("SELECT COUNT(ns.SubscriberID), n.SendCount, n.Status, n.StartDate, n.EndDate, n.Subject
+		$result = DoQuery("SELECT COUNT(ns.SubscriberID), n.SendCount, n.Status, n.StartDate, n.EndDate, n.Subject
 						FROM " . HC_TblPrefix . "newsletters n
 							LEFT JOIN " . HC_TblPrefix . "newssubscribers ns ON (n.PkID = ns.NewsletterID)
-						WHERE n.PkID = '" . $nID . "' AND n.IsActive = 1
-						GROUP BY n.PkID, n.SendCount, n.Status, n.StartDate, n.EndDate, n.Subject");
+						WHERE n.PkID = ? AND n.IsActive = 1
+						GROUP BY n.PkID, n.SendCount, n.Status, n.StartDate, n.EndDate, n.Subject", array($nID));
 		$left = hc_mysql_result($result,0,0);
 		$total = hc_mysql_result($result,0,1);
 		$start = hc_mysql_result($result,0,3);
@@ -57,7 +57,7 @@
 			$newsletter = buildPersonal($newsletter,$start,$end,0,'','','','','');
 			$newsletter = str_replace('<a','<a rel="nofollow"',$newsletter);
 			
-			doQuery("UPDATE " . HC_TblPrefix . "newsletters SET ArchiveContents = '" . cIn($newsletter,0) . "' WHERE PkID = '" . $nID . "'");
+			DoQuery("UPDATE " . HC_TblPrefix . "newsletters SET ArchiveContents = ? WHERE PkID = ?", array(cIn($newsletter,0), $nID));
 
 			echo '<div class="progBar" style="background-image: url(../img/progress/go.png);background-position:-500px 0px;">&nbsp;&nbsp;' . $hc_lang_news['Status0'] . '</div>';
 		} else if($prog < 100){
@@ -66,7 +66,7 @@
 			} else {
 				$newsletterDefault = buildUniversal($nID);
 				
-				$resultS = doQuery("SELECT s.PkID, s.FirstName, s.LastName, s.Email, s.Zip, s.`Format`,
+				$resultS = DoQuery("SELECT s.PkID, s.FirstName, s.LastName, s.Email, s.Zip, s.`Format`,
 								(SELECT GROUP_CONCAT(c.PkID)
 									FROM " . HC_TblPrefix . "subscriberscategories sc
 									LEFT JOIN " . HC_TblPrefix . "categories c ON (c.PkID = sc.CategoryID)
@@ -74,8 +74,8 @@
 								) as Categories
 								FROM " . HC_TblPrefix . "newssubscribers ns
 									LEFT JOIN " . HC_TblPrefix . "subscribers s ON (s.PkID = ns.SubscriberID)
-								WHERE ns.NewsletterID = '" . $nID . "'
-								LIMIT " . $hc_cfg[81]);
+								WHERE ns.NewsletterID = ?
+								LIMIT ?", array($nID, $hc_cfg[81]));
 				if(hasRows($resultS)){
 					include_once(HCPATH.HCINC.'/phpmailer/class.phpmailer.php');
 
@@ -122,7 +122,7 @@
 						$format = cOut($row[5]);
 						$categories = cOut($row[6]);
 						$newsletter = buildPersonal($newsletterDefault,$start,$end,$categories,$fname,$lname,$email,$postal,$format);
-						doQuery("DELETE FROM " . HC_TblPrefix . "newssubscribers WHERE NewsletterID = '" . $nID . "' AND SubscriberID = '" . cIn(strip_tags($row[0])) . "'");
+						DoQuery("DELETE FROM " . HC_TblPrefix . "newssubscribers WHERE NewsletterID = ?", array($nID . "' AND SubscriberID = '" . cIn(strip_tags($row[0]))));
 						
 						$mail->AddAddress($email,trim($fname . ' ' . $lname));
 						$mail->Sender = $hc_cfg[78];
@@ -171,7 +171,7 @@
 			if(file_exists(HCPATH.'/cache/news' . date("ymd") . '_' . $nID . '.txt')){
 				unlink(HCPATH.'/cache/news' . date("ymd") . '_' . $nID . '.txt');
 			}
-			doQuery("UPDATE " . HC_TblPrefix . "newsletters SET Status = 3 WHERE PkID = '" . $nID . "'");
+			DoQuery("UPDATE " . HC_TblPrefix . "newsletters SET Status = ? WHERE PkID = ?", array(3, $nID));
 			echo '
 			<div class="progBar" style="background-image: url(../img/progress/go.png);background-position:'.$position.'px 0px;">&nbsp;&nbsp;100% '.$hc_lang_news['Complete'].'</div>
 			<script language="JavaScript" type="text/JavaScript">
@@ -218,11 +218,15 @@
 					FROM " . HC_TblPrefix . "events e
 						LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (ec.EventID = e.PkID)
 						LEFT JOIN " . HC_TblPrefix . "locations l ON (e.LocID = l.PkID)
-					WHERE e.StartDate BETWEEN '" . cIn($start) . "' AND '" . cIn($end) . "' AND e.IsActive = 1 AND e.IsApproved = 1 ";
-			$query .= ($categories != '') ? " AND ec.CategoryID in (" . $categories . ") " : '';
+					WHERE e.StartDate BETWEEN ? AND ? AND e.IsActive = 1 AND e.IsApproved = 1 ";
+			$params = array(cIn($start), cIn($end));
+			if ($categories != '') {
+				$query .= " AND ec.CategoryID in (?) ";
+				$params[] = $categories;
+			}
 			$query .= "ORDER BY e.StartDate, e.TBD, e.StartTime, e.Title";
 			
-			$resultP = doQuery($query);
+			$resultP = DoQuery($query, $params);
 			if(hasRows($resultP)){
 				$curDate = '';
 				while($row = hc_mysql_fetch_row($resultP)){
@@ -270,10 +274,10 @@
 				unlink($filename);
 			}
 
-			$result = doQuery("SELECT tn.TemplateSource, n.Message, n.IsArchive
+			$result = DoQuery("SELECT tn.TemplateSource, n.Message, n.IsArchive
 							FROM " . HC_TblPrefix . "newsletters n
 								LEFT JOIN " . HC_TblPrefix . "templatesnews tn ON (n.TemplateID = tn.PkID)
-							WHERE n.PkID = '" . $nID . "' AND n.IsActive = 1 AND tn.IsActive = 1");
+							WHERE n.PkID = ? AND n.IsActive = 1 AND tn.IsActive = 1", array($nID));
 			$template = $message = $archive = '';
 			$doArchive = 0;
 			if(hasRows($result)){
@@ -288,24 +292,24 @@
 			$template = str_replace('[message]', $message, $template);
 			
 			if(stristr($template,'[billboard]')){
-				$query = "SELECT PkID, Title, StartDate, StartTime, IsBillboard, SeriesID, TBD, EndTime FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . SYSDATE . "' AND IsBillboard = 1 ORDER BY IsBillboard DESC, StartDate, StartTime, Title LIMIT " . $hc_cfg[12];
-				$template = str_replace('[billboard]', getEventList($query),$template);
+				$query = "SELECT PkID, Title, StartDate, StartTime, IsBillboard, SeriesID, TBD, EndTime FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . SYSDATE . "' AND IsBillboard = 1 ORDER BY IsBillboard DESC, StartDate, StartTime, Title LIMIT ?";
+				$template = str_replace('[billboard]', getEventList($query, array($hc_cfg[12])),$template);
 			}
 			if(stristr($template,'[popular]')){
-				$query = "SELECT PkID, Title, StartDate, StartTime, IsBillboard, SeriesID, TBD, EndTime, (Views / (DATEDIFF('".SYSDATE."', PublishDate)+1)) as Ave FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . SYSDATE . "' ORDER BY Ave DESC, StartDate, StartTime, Title LIMIT " . $hc_cfg[10];
-				$template = str_replace('[popular]', getEventList($query),$template);
+				$query = "SELECT PkID, Title, StartDate, StartTime, IsBillboard, SeriesID, TBD, EndTime, (Views / (DATEDIFF('".SYSDATE."', PublishDate)+1)) as Ave FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . SYSDATE . "' ORDER BY Ave DESC, StartDate, StartTime, Title LIMIT ?";
+				$template = str_replace('[popular]', getEventList($query, array($hc_cfg[10])),$template);
 			}
 			if(stristr($template,'[newest]')){
-				$query = "SELECT PkID, Title, StartDate, StartTime, IsBillboard, SeriesID, TBD, EndTime FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . SYSDATE . "' ORDER BY PublishDate DESC, StartDate LIMIT " . $hc_cfg[66];
-				$template = str_replace('[newest]', getEventList($query),$template);
+				$query = "SELECT PkID, Title, StartDate, StartTime, IsBillboard, SeriesID, TBD, EndTime FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . SYSDATE . "' ORDER BY PublishDate DESC, StartDate LIMIT ?";
+				$template = str_replace('[newest]', getEventList($query,array($hc_cfg[66])),$template);
 			}
 			if(stristr($template,'[updated]')){
-				$query = "SELECT PkID, Title, StartDate, StartTime, IsBillboard, SeriesID, TBD, EndTime FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . SYSDATE . "' ORDER BY LastMod DESC, StartDate LIMIT " . $hc_cfg[66];
-				$template = str_replace('[updated]', getEventList($query),$template);
+				$query = "SELECT PkID, Title, StartDate, StartTime, IsBillboard, SeriesID, TBD, EndTime FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . SYSDATE . "' ORDER BY LastMod DESC, StartDate LIMIT ?";
+				$template = str_replace('[updated]', getEventList($query,array($hc_cfg[66])),$template);
 			}
 			if(stristr($template,'[today]')){
-				$query = "SELECT PkID, Title, StartDate, StartTime, IsBillboard, SeriesID, TBD, EndTime FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate = '" . SYSDATE . "' ORDER BY StartDate, StartTime, Title LIMIT " . $hc_cfg[12];
-				$template = str_replace('[today]', getEventList($query),$template);
+				$query = "SELECT PkID, Title, StartDate, StartTime, IsBillboard, SeriesID, TBD, EndTime FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate = '" . SYSDATE . "' ORDER BY StartDate, StartTime, Title LIMIT ?";
+				$template = str_replace('[today]', getEventList($query,array($hc_cfg[12])),$template);
 			}
 			if(stristr($template,'[twitter]')){
 				$template = str_replace('[twitter]','<a href="http://twitter.com/share?url=' . urlencode($archive) . '" target="_blank"><img src="' . CalRoot . '/newsletter/images/twitter.png" style="border:0px;" /></a>',$template);
@@ -327,12 +331,12 @@
 				$template = ($doArchive == 1) ? str_replace('[archive]','<a href="' . $archive . '" target="_blank">' . $hc_lang_news['ArchiveLinkTxt'] . '</a>',$template) : str_replace('[archive]','',$template);
 			}
 			if(stristr($template,'[event-count]')){
-				$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . cIn(SYSDATE) . "'");
+				$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "events WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . cIn(SYSDATE) . "'");
 				$eCnt = (hasRows($result)) ? number_format(hc_mysql_result($result,0,0),0,'.',',') : 0;
 				$template = str_replace('[event-count]',$eCnt,$template);
 			}
 			if(stristr($template,'[location-count]')){
-				$result = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "locations WHERE IsActive = 1");
+				$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "locations WHERE IsActive = 1");
 				$lCnt = (hasRows($result)) ? number_format(hc_mysql_result($result,0,0),0,'.',',') : 0;
 				$template = str_replace('[location-count]',$lCnt,$template);
 			}
@@ -371,13 +375,13 @@
 	 * @param string $qry Columns: PkID, Title, StartDate, StartTime, IsBillboard, SeriesID, TBD, EndTime
 	 * @return string
 	 */
-	function getEventList($qry){
+	function getEventList($qry, $params){
 		global $hc_lang_news, $hc_cfg;
 		
 		$replace = $curDate = '';
 		$hide = array();
 		$cnt = 0;
-		$result = doQuery($qry);
+		$result = DoQuery($qry, $params);
 		$str = '<ul style="list-style:none;padding:0px;">';
 		while($row = hc_mysql_fetch_row($result)){
 			if($row[5] == '' || !in_array($row[5], $hide)){

@@ -54,24 +54,29 @@
 				$csvContent = explode($termChar,$val);
 				if(count($csvContent) > 1){
 					if(str_replace($enclChar, "",$csvContent[0]) != "EventTitle"){
+						$params = array();
 						$newEvent = "INSERT INTO " . HC_TblPrefix . "events(Title,Description,Cost,StartDate,StartTime,EndTime,TBD,LocID,LocationName,LocationAddress,LocationAddress2,LocationCity,LocationState,LocationZip,LocCountry,ContactName,ContactEmail,ContactPhone,ContactURL,IsBillboard,SeriesID,PublishDate,IsApproved,LastMod) VALUES(";
 						foreach($csvContent as $content){
-							if($content != '')
-								$newEvent .= "'" . cIn(str_replace($enclChar, "",str_replace("\\","&#92;",$content))) . "',";
+							if($content != '') {
+								$newEvent .= "?,";
+								$params[] = cIn(str_replace($enclChar, "",str_replace("\\","&#92;",$content)));
+							}
 							else
 								$newEvent .= "NULL,";
 							
 						}
-						$newEvent .= "'" . cIn($publishDate). "',1,'" . cIn($publishDate). "');";
+						$newEvent .= "?,1,?);";
+						$params[] = cIn($publishDate);
+						$params[] = cIn($publishDate);
+
+						DoQuery($newEvent, $params);
 						
-						doQuery($newEvent);
-						
-						$result = doQuery("SELECT LAST_INSERT_ID()");
+						$result = DoQuery("SELECT LAST_INSERT_ID()");
 						$newPkID = hc_mysql_result($result,0,0);
 						if(isset($_POST['catID'])){
 							$catID = $_POST['catID'];
 							foreach ($catID as $val){
-								doQuery("INSERT INTO " . HC_TblPrefix . "eventcategories(EventID, CategoryID) VALUES('" . cIn($newPkID) . "', '" . cIn($val) . "')");
+								DoQuery("INSERT INTO " . HC_TblPrefix . "eventcategories(EventID, CategoryID) VALUES(?,?)", array(cIn($newPkID), cIn($val)));
 							}
 						}
 					}
@@ -174,18 +179,18 @@
 					$query = "	INSERT INTO " . HC_TblPrefix . "events(Title, LocationName, Description,
 											StartDate, StartTime, TBD, EndTime, IsActive, IsApproved,
 											SeriesID, PublishDate, ContactURL, LastMod)
-								VALUES('" . substr(cIn($title),0,150) . "', '" . substr(cIn($location),0,50) . "', '" . cIn($description) . "',
-										'" . cIn($eventDate) . "', '" . cIn($startTime) . "', '" . cIn($tbd) . "', '" . cIn($endTime) . "',
-										'1', '1', '" . cIn($seriesID) . "', '" . cIn($publishDate) . "', '" . cIn($url) . "', '" . cIn($publishDate). "');";
-					doQuery($query);
+								VALUES(?,?,?,?,?,?,?,'1','1',?,?,?,?);";
+					$params = array(substr(cIn($title),0,150), substr(cIn($location),0,50), cIn($description), cIn($eventDate), cIn($startTime), cIn($tbd), cIn($endTime), cIn($seriesID), cIn($publishDate), cIn($url), cIn($publishDate));
+
+					DoQuery($query, $params);
 					
-					$result = doQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "events");
+					$result = DoQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "events");
 					$newPkID = hc_mysql_result($result,0,0);
 					
 					if(isset($_POST['catID'])){
 						$catID = $_POST['catID'];
 						foreach ($catID as $valCat){
-							doQuery("INSERT INTO " . HC_TblPrefix . "eventcategories(EventID, CategoryID) VALUES('" . cIn($newPkID) . "', '" . cIn($valCat) . "')");
+							DoQuery("INSERT INTO " . HC_TblPrefix . "eventcategories(EventID, CategoryID) VALUES(?,?)", array(cIn($newPkID), cIn($valCat)));
 						}
 					}
 				}

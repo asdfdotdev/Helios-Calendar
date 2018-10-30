@@ -33,10 +33,10 @@
 	<form name="frmUserEdit" id="frmUserEdit" method="post" action="'.AdminRoot.'/components/MailSubEditAction.php" onsubmit="return validate();">';
 	set_form_token();
 	
-	$result = doQuery("SELECT s.*, a.FirstName, a.LastName, a.Email
+	$result = DoQuery("SELECT s.*, a.FirstName, a.LastName, a.Email
 					FROM " . HC_TblPrefix . "subscribers s
 						LEFT JOIN " . HC_TblPrefix . "admin a ON (s.AddedBy = a.PkID)
-					WHERE s.PkID = '" . $uID . "' AND s.IsConfirm = 1");
+					WHERE s.PkID = ? AND s.IsConfirm = 1", array($uID));
 	if(hasRows($result)){
 		appInstructions(0, "Manage_Subscribers", $hc_lang_news['TitleEditR'], $hc_lang_news['InstructEditR']);
 		$firstname = hc_mysql_result($result,0,1);
@@ -133,10 +133,10 @@
 		
 	$columns = 3;
 	$cnt = 1;
-	$result = doQuery("SELECT mg.PkID, mg.Name, sg.GroupID
+	$result = DoQuery("SELECT mg.PkID, mg.Name, sg.GroupID
 					FROM " . HC_TblPrefix . "mailgroups mg
-						LEFT JOIN " . HC_TblPrefix . "subscribersgroups sg ON (mg.PkID = sg.GroupID AND sg.UserID = '" . $uID . "')
-					WHERE mg.IsActive = 1 && mg.PkID > 1 ORDER BY Name");
+						LEFT JOIN " . HC_TblPrefix . "subscribersgroups sg ON (mg.PkID = sg.GroupID AND sg.UserID = ?)
+					WHERE mg.IsActive = 1 && mg.PkID > 1 ORDER BY Name", array($uID));
 	while($row = hc_mysql_fetch_row($result)){
 		if($cnt > ceil(hc_mysql_num_rows($result) / $columns)){
 			echo '
@@ -155,12 +155,13 @@
 		'.$hc_lang_news['EventAbout'].'
 		<label>'.$hc_lang_news['Categories'].'</label>';
 		
-	$query = ($uID > 0) ?
-			"SELECT c.PkID, c.CategoryName, c.ParentID, c.CategoryName as Sort, uc.UserID as Selected
+	$query = NULL;
+	if ($uID > 0) {
+		$query = "SELECT c.PkID, c.CategoryName, c.ParentID, c.CategoryName as Sort, uc.UserID as Selected
 			FROM " . HC_TblPrefix . "categories c
 				LEFT JOIN " . HC_TblPrefix . "categories c2 ON (c.PkID = c2.PkID)
 				LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (c.PkID = ec.CategoryID)
-				LEFT JOIN " . HC_TblPrefix . "subscriberscategories uc ON (uc.CategoryID = c.PkID AND uc.UserID = '" . cIn($uID) . "')
+				LEFT JOIN " . HC_TblPrefix . "subscriberscategories uc ON (uc.CategoryID = c.PkID AND uc.UserID = ?)
 			WHERE c.ParentID = 0 AND c.IsActive = 1
 			GROUP BY c.PkID, c.CategoryName, c.ParentID, uc.UserID
 			UNION
@@ -168,12 +169,14 @@
 			FROM " . HC_TblPrefix . "categories c
 				LEFT JOIN " . HC_TblPrefix . "categories c2 ON (c.ParentID = c2.PkID)
 				LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (c.PkID = ec.CategoryID)
-				LEFT JOIN " . HC_TblPrefix . "subscriberscategories uc ON (uc.CategoryID = c.PkID AND uc.UserID = '" . cIn($uID) . "')
+				LEFT JOIN " . HC_TblPrefix . "subscriberscategories uc ON (uc.CategoryID = c.PkID AND uc.UserID = ?)
 			WHERE c.ParentID > 0 AND c.IsActive = 1
 			GROUP BY c.PkID, c.CategoryName, c.ParentID, c2.CategoryName, uc.UserID
-			ORDER BY Sort, ParentID, CategoryName" : NULL;
+			ORDER BY Sort, ParentID, CategoryName";
+		$params = array(cIn($uID),cIn($uID));
+	}
 	
-	getCategories('frmUserEdit', 3, $query);
+	getCategories('frmUserEdit', 3, $query, 1, $params);
 	
 	echo '
 	</fieldset>

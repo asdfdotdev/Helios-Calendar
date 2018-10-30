@@ -172,31 +172,29 @@
 	}
 	
 	foreach($dates as $eventDate){
-		doQuery("INSERT INTO " . HC_TblPrefix . "events(Title, LocationName, LocationAddress, LocationAddress2, LocationCity, LocationState, LocationZip, Description,
+		DoQuery("INSERT INTO " . HC_TblPrefix . "events(Title, LocationName, LocationAddress, LocationAddress2, LocationCity, LocationState, LocationZip, Description,
 						StartDate, StartTime, TBD, EndTime, ContactName,ContactEmail, ContactPhone, ContactURL, IsActive, IsApproved,
 						IsBillboard, SeriesID, PublishDate, LocID, Cost, LocCountry, LastMod, Image, IsFeature, HideDays)
-				VALUES('".$eventTitle."', '".$locName."','".$locAddress."','".$locAddress2."','".$locCity."','".$locState."','".$locZip."','".cIn($eventDesc,0) . "',
-						'".$eventDate."',".$startTime.",'".$tbd."',".$endTime.",'".$contactName."','".$contactEmail."','".$contactPhone."','".$contactURL."',
-						'1','".$eventStatus."','".$eventBillboard."',".$seriesID.",".$publishDate.",
-						'".$locID."','".$cost."','".$locCountry."','" . SYSDATE . ' ' . SYSTIME . "', '".$imageURL."', '".$featured."', '".$hide."')");
+				VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", array(
+					$eventTitle, $locName, $locAddress, $locAddress2, $locCity, $locState, $locZip, cIn($eventDesc,0), $eventDate, $startTime, $tbd, $endTime, $contactName, $contactEmail, $contactPhone, $contactURL, '1', $eventStatus, $eventBillboard, $seriesID, $publishDate, $locID, $cost, $locCountry, SYSDATE . ' ' . SYSTIME, $imageURL, $featured, $hide));
 
-		$result = doQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "events");
+		$result = DoQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "events");
 		$newPkID = hc_mysql_result($result,0,0);
 		$eID = ($eID == 0) ? $newPkID : $eID;
 		foreach($catID as $val){
-			doQuery("INSERT INTO " . HC_TblPrefix . "eventcategories(EventID, CategoryID) VALUES('" . cIn($newPkID) . "', '" . cIn($val) . "')");
+			DoQuery("INSERT INTO " . HC_TblPrefix . "eventcategories(EventID, CategoryID) VALUES(?,?)", array(cIn($newPkID), cIn($val)));
 		}
 		
 		if($rsvp_type == 1 && $newPkID > 0)
-			doQuery("INSERT INTO " . HC_TblPrefix . "eventrsvps(Type,EventID,OpenDate,CloseDate,Space,RegOption,Notices)
-					VALUES('".$rsvp_type."','".$newPkID."','".$rsvp_open."','".$rsvp_close."','".$rsvp_space."','".$rsvp_disp."','".$rsvp_notice."')");
+			DoQuery("INSERT INTO " . HC_TblPrefix . "eventrsvps(Type,EventID,OpenDate,CloseDate,Space,RegOption,Notices)
+					VALUES(?,?,?,?,?,?,?)", array($rsvp_type, $newPkID, $rsvp_open, $rsvp_close, $rsvp_space, $rsvp_disp, $rsvp_notice));
 		
 		if(isset($_POST['doFacebook']) && isset($_POST['facebookEvent'])){
 			$fbID = '';
 			$fbLink = CalRoot . "/index.php?eID=" . $newPkID;
 			$fbEventID = $newPkID;
 			if(!isset($name) || $name == ''){
-				$resultL = doQuery("SELECT Name, Address, Address2, City, State, Zip, Country FROM " . HC_TblPrefix . "locations WHERE PkID = '" . cIn($locID) . "'");
+				$resultL = DoQuery("SELECT Name, Address, Address2, City, State, Zip, Country FROM " . HC_TblPrefix . "locations WHERE PkID = ?", array(cIn($locID)));
 				$name = (hasRows($resultL)) ? hc_mysql_result($resultL,0,0) : $locName;
 				$add = (hasRows($resultL)) ? hc_mysql_result($resultL,0,1) : $locAddress;
 				$add2 = (hasRows($resultL)) ? hc_mysql_result($resultL,0,2) : $locAddress2;
@@ -209,16 +207,16 @@
 			include(HCPATH.HCINC.'/api/facebook/EventEdit.php');
 
 			if($fbID != '')
-				doQuery("INSERT INTO " . HC_TblPrefix . "eventnetwork(EventID,NetworkID,NetworkType,IsActive)
-						VALUES('" . $newPkID . "','" . cIn($fbID) . "',5,1);");
+				DoQuery("INSERT INTO " . HC_TblPrefix . "eventnetwork(EventID,NetworkID,NetworkType,IsActive)
+						VALUES(?,?,5,1);", array($newPkID, cIn($fbID)));
 		}
 		if(isset($_POST['doEventbrite'])){
 			$ebID = '';
 			include(HCPATH.HCINC.'/api/eventbrite/EventEdit.php');
 			
 			if($ebID != ''){
-				doQuery("INSERT INTO " . HC_TblPrefix . "eventnetwork(EventID,NetworkID,NetworkType,IsActive)
-						VALUES('" . $newPkID . "','" . cIn($ebID) . "',2,1);");
+				DoQuery("INSERT INTO " . HC_TblPrefix . "eventnetwork(EventID,NetworkID,NetworkType,IsActive)
+						VALUES(?,?,2,1);", array($newPkID, cIn($ebID)));
 				
 				include(HCPATH.HCINC.'/api/eventbrite/TicketEdit.php');
 				
@@ -230,7 +228,7 @@
 	if($follow_up > 0){
 		$entityID = ($seriesID != 'NULL') ? str_replace('\'','',$seriesID) : $eID;
 		$entityType = ($seriesID != 'NULL') ? 2 : 1;
-		doQuery("INSERT INTO " . HC_TblPrefix . "followup(EntityID, EntityType, Note) VALUES('".$entityID."','".$entityType."','".$fnote."')");
+		DoQuery("INSERT INTO " . HC_TblPrefix . "followup(EntityID, EntityType, Note) VALUES(?,?,?)", array($entityID, $entityType, $fnote));
 	}
 	if(isset($_POST['doBitly'])){
 		$shortLink = CalRoot . "/index.php?eID=" . $eID;
@@ -240,7 +238,7 @@
 		$shortLink = CalRoot . "/index.php?eID=" . $eID;
 		require(HCPATH.HCINC.'/api/bitly/ShortenURL.php');
 		
-		$result = doQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(46,47,111,112)");
+		$result = DoQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(46,47,111,112)");
 		if(hasRows($result)){
 			$oauth_token = hc_mysql_result($result,0,0);
 			$oauth_secret = hc_mysql_result($result,1,0);
@@ -257,8 +255,8 @@
 			require_once(HCPATH.HCINC.'/api/twitter/PostTweet.php');
 
 			if($tweetID != '')
-				doQuery("INSERT INTO " . HC_TblPrefix . "eventnetwork(EventID,NetworkID,NetworkType,IsActive)
-						VALUES('" . $newPkID . "','" . cIn($tweetID) . "',3,1);");
+				DoQuery("INSERT INTO " . HC_TblPrefix . "eventnetwork(EventID,NetworkID,NetworkType,IsActive)
+						VALUES(?,?,3,1);", array($newPkID, cIn($tweetID));
 		}
 	}
 	if(isset($_POST['doFacebook']) && isset($_POST['facebookStatus'])){
@@ -269,8 +267,8 @@
 		include(HCPATH.HCINC.'/api/facebook/StatusPost.php');
 
 		if($fbStatusID != '')
-			doQuery("INSERT INTO " . HC_TblPrefix . "eventnetwork(EventID,NetworkID,NetworkType,IsActive)
-					VALUES('" . $newPkID . "','" . cIn($fbStatusID) . "',4,1);");
+			DoQuery("INSERT INTO " . HC_TblPrefix . "eventnetwork(EventID,NetworkID,NetworkType,IsActive)
+					VALUES(?,?,4,1)", array($newPkID, cIn($fbStatusID)));
 	}
 	
 	clearCache();

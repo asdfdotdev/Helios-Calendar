@@ -17,7 +17,7 @@
 	
 	appInstructions(0, "Reports", $hc_lang_reports['TitleFollow'], $hc_lang_reports['InstructFollow']);
 	
-	$result = doQuery("SELECT e.PkID, e.Title, f.Note, f.EntityType, f.PkID
+	$result = DoQuery("SELECT e.PkID, e.Title, f.Note, f.EntityType, f.PkID
 					FROM " . HC_TblPrefix . "followup f
 						LEFT JOIN " . HC_TblPrefix . "events e ON (f.EntityID = e.PkID AND f.EntityType = 1 AND e.IsActive = 1)
 					WHERE f.EntityType = 1 AND e.IsActive = 1

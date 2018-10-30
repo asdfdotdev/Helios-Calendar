@@ -12,7 +12,7 @@
 	
 	if(!isset($_POST['uID'])){
 		try {
-			$result = doQuery("SELECT SettingValue, VERSION() FROM " . HC_TblPrefix."settings WHERE PkID = 49");
+			$result = DoQuery("SELECT SettingValue, VERSION() FROM " . HC_TblPrefix."settings WHERE PkID = 49");
 			if(hc_mysql_result($result,0,0) != ''){
 				$_SESSION['hc_mysql_version'] = hc_mysql_result($result,0,1);
 				$db_ver = hc_mysql_result($result,0,0);
@@ -197,7 +197,7 @@
 
 
 			//	All Upgrades
-				doQuery("UPDATE `" . HC_TblPrefix . "settings` SET `SettingValue` = '" . $curVersion . "' WHERE PkID = '49'");
+				DoQuery("UPDATE `" . HC_TblPrefix . "settings` SET `SettingValue` = ? WHERE PkID = '49'", array($curVersion));
 				echo '
 			</fieldset>
 

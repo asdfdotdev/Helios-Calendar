@@ -105,7 +105,7 @@
 		try {
 			$dbc = hc_mysql_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-			$result = doQuery("SELECT COUNT(*) FROM ".HC_TblPrefix."settings");
+			$result = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "settings");
 		
 			if($result && hc_mysql_result($result,0,0) > 0)
 				   return false;

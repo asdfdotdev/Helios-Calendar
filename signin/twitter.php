@@ -16,7 +16,7 @@
 	$callback_url = CalRoot.'/signin/twitter.php';
 	$consumer_key = $consumer_secret = '';
 	
-	$result = doQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(111,112)");
+	$result = DoQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(111,112)");
 	if(hasRows($result)){
 		$consumer_key = hc_mysql_result($result,0,0);
 		$consumer_secret = hc_mysql_result($result,1,0);
@@ -35,7 +35,7 @@
 			include(HCPATH.HCINC.'/api/twitter/AccessToken.php');
 
 			if(isset($authUser) && isset($authUserID) && isset($authToken) && isset($authSecret) && $authUser.$authUserID.$authToken.$authSecret != ''){
-				$result = doQuery("SELECT PkID, Email, Birthdate FROM " . HC_TblPrefix . "users WHERE NetworkType = '1' AND NetworkID = '" . cIn($authUserID) . "'");
+				$result = DoQuery("SELECT PkID, Email, Birthdate FROM " . HC_TblPrefix . "users WHERE NetworkType = '1' AND NetworkID = ?", array(cIn($authUserID)));
 				
 				if(!hasRows($result)){
 					$local_id = user_register_new(1,$authUser,$authUserID);

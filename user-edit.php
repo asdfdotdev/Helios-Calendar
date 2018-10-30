@@ -13,7 +13,7 @@
 	$target = CalRoot;
 	$uID = (isset($_POST['uID']) && is_numeric($_POST['uID'])) ? cIn(strip_tags($_POST['uID'])) : 0;
 	
-	$result = doQuery("SELECT PkID FROM " . HC_TblPrefix . "users WHERE PkID = '".$uID."'");
+	$result = DoQuery("SELECT PkID FROM " . HC_TblPrefix . "users WHERE PkID = ?", array($uID));
 	
 	if(!user_check_status() || !hasRows($result)){
 		session_destroy();
@@ -23,9 +23,17 @@
 		$birthdate = (isset($_POST['birthdate'])) ? cIn(dateToMySQL(htmlentities(strip_tags($_POST['birthdate'])),$hc_cfg[24])) : '';
 			$birthdate = (strtotime($birthdate) <= strtotime('-13 years')) ? $birthdate : '';
 		$location = (isset($_POST['user_loc'])) ? cIn(htmlentities(strip_tags($_POST['user_loc']))) : '';
-		$api_key = (isset($_POST['regen_apik'])) ? ", APIKey = '" . cIn(md5(sha1($email.$birthdate.$location.(rand()*date("U"))))) . "' " : '';
 		
-		doQuery("UPDATE " . HC_TblPrefix . "users SET Email = '".$email."', Birthdate = '".$birthdate."', Location = '".$location."'$api_key WHERE PkID = '".$uID."'");
+		$params = array($email, $birthdate, $location, $uID);
+
+		$api_key = '';
+		if (isset($_POST['regen_apik']))
+		{
+			$api_key = ", APIKey = ? ";
+			$params[] = cIn(md5(sha1($email.$birthdate.$location.(rand()*date("U")))));
+		}
+		
+		DoQuery("UPDATE " . HC_TblPrefix . "users SET Email = '?, Birthdate = ?, Location = ? $api_key WHERE PkID = ?", $params);
 
 		if($email != '' && $birthdate != ''){
 			if(isset($_SESSION['new_user']))

@@ -29,20 +29,24 @@
 		
 		switch($sID){
 			case 0:
-				$query .= $gQuery." ORDER BY e.StartDate, e.TBD ASC, e.StartTime, e.Title LIMIT " . $hc_cfg[60];
+				$query .= $gQuery." ORDER BY e.StartDate, e.TBD ASC, e.StartTime, e.Title LIMIT ?";
+				$para = $hc_cfg[60];
 				break;
 			case 1:
-				$query .= $gQuery." ORDER BY e.PublishDate DESC, e.StartDate LIMIT " . $hc_cfg[60];
+				$query .= $gQuery." ORDER BY e.PublishDate DESC, e.StartDate LIMIT ?";
+				$para = $hc_cfg[60];
 				break;
 			case 2:
-				$query .= $gQuery." ORDER BY e.Views DESC, e.StartDate LIMIT " . $hc_cfg[60];
+				$query .= $gQuery." ORDER BY e.Views DESC, e.StartDate LIMIT ?";
+				$para = $hc_cfg[60];
 				break;
 			case 3:
-				$query .= " AND e.IsBillboard = 1 ".$gQuery." ORDER BY e.StartDate, e.TBD ASC, e.StartTime, e.Title LIMIT " . $hc_cfg[60];
+				$query .= " AND e.IsBillboard = 1 ".$gQuery." ORDER BY e.StartDate, e.TBD ASC, e.StartTime, e.Title LIMIT ?";
+				$para = $hc_cfg[60];
 				break;
 		}
 		
-		$result = doQuery($query);
+		$result = DoQuery($query, array($para));
 		if(hasRows($result)){
 			$x = 1;
 			fwrite($fp, 'var hc_events = {');

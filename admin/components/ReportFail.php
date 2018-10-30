@@ -17,7 +17,7 @@
 	
 	appInstructions(0, "Reports", $hc_lang_reports['TitleFail'], $hc_lang_reports['InstructFail']);
 	
-	$result = doQuery("SELECT a.PkID, a.FirstName, a.LastName, a.Email, alh.IP, alh.`Client`, alh.LoginTime, alh.PkID
+	$result = DoQuery("SELECT a.PkID, a.FirstName, a.LastName, a.Email, alh.IP, alh.`Client`, alh.LoginTime, alh.PkID
 					FROM " . HC_TblPrefix . "adminloginhistory alh
 						LEFT JOIN " . HC_TblPrefix . "admin a ON (a.PkID = alh.AdminID)
 					WHERE alh.IsFail = 1 AND a.SuperAdmin = 0

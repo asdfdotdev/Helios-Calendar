@@ -21,16 +21,16 @@
 		$name = (isset($_POST['catName'])) ? cIn($_POST['catName']) : '';
 		$parentID = (isset($_POST['parentID']) && is_numeric($_POST['parentID'])) ? cIn($_POST['parentID']) : 0;
 		
-		$result = doQuery("SELECT * FROM " . HC_TblPrefix . "categories WHERE PkID = '" . $cID . "'");
+		$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "categories WHERE PkID = ?", array($cID));
 		if(hasRows($result)){
 			if(hc_mysql_result($result,0,2) == 0 && $parentID != 0)
-				doQuery("UPDATE " . HC_TblPrefix . "categories SET ParentID = 0 WHERE ParentID = '" . $cID . "'");
+				DoQuery("UPDATE " . HC_TblPrefix . "categories SET ParentID = ? WHERE ParentID = ?", array(0, $cID));
 			
-			doQuery("UPDATE " . HC_TblPrefix . "categories SET CategoryName = '" . $name . "', ParentID = '" . $parentID . "' WHERE PkID = '" . $cID . "'");
+			DoQuery("UPDATE " . HC_TblPrefix . "categories SET CategoryName = ?, ParentID = ? WHERE PkID = ?", array($name, $parentID, $cID));
 			$msg = 1;
 		} else {
-			doQuery("INSERT INTO " . HC_TblPrefix . "categories(CategoryName, ParentID, IsActive) VALUES('" . $name . "', '" . $parentID . "', 1)");
-			$result = doQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "categories");
+			DoQuery("INSERT INTO " . HC_TblPrefix . "categories(CategoryName, ParentID, IsActive) VALUES(?, ?, 1)", array($name, $parentID));
+			$result = DoQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "categories");
 			$cID = hc_mysql_result($result,0,0);
 			$msg = 2;
 		}
@@ -38,9 +38,9 @@
 		header('Location: ' . AdminRoot . '/index.php?com=categorymanage&msg=' . $msg . '&cID=' . $cID);
 	} else {
 		$dID = (isset($_GET['dID']) && is_numeric($_GET['dID'])) ? cIn($_GET['dID']) : 0;
-		doQuery("UPDATE " . HC_TblPrefix . "categories SET ParentID = 0 WHERE ParentID = '" . $dID . "'");
-		doQuery("UPDATE " . HC_TblPrefix . "categories SET IsActive = 0 WHERE PkID = '" . $dID . "'");
-		doQuery("DELETE FROM " . HC_TblPrefix . "eventcategories WHERE CategoryID = '" . $dID . "'");
+		DoQuery("UPDATE " . HC_TblPrefix . "categories SET ParentID = 0 WHERE ParentID = ?", array($dID));
+		DoQuery("UPDATE " . HC_TblPrefix . "categories SET IsActive = ? WHERE PkID = ?", array(0, $dID));
+		DoQuery("DELETE FROM " . HC_TblPrefix . "eventcategories WHERE CategoryID = ?", array($dID));
 		
 		header('Location: ' . AdminRoot . '/index.php?com=categorymanage&msg=3');
 	}

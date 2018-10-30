@@ -21,8 +21,7 @@
 	
 	appInstructions(0, "Manage_Users", $hc_lang_user['TitleEdit'], $hc_lang_user['InstructEdit']);
 	
-	$result = doQuery("SELECT u.*,(SELECT COUNT(PkID) FROM " . HC_TblPrefix . "events e WHERE e.OwnerID = u.PkID AND e.IsActive = 1) as EventCnt
-					FROM " . HC_TblPrefix . "users u WHERE PkID = '" . $uID . "'");
+	$result = DoQuery("SELECT u.*,(SELECT COUNT(PkID) FROM " . HC_TblPrefix . "events e WHERE e.OwnerID = u.PkID AND e.IsActive = 1) as EventCnt FROM " . HC_TblPrefix . "users u WHERE PkID = ?", array($uID));
 	
 	if(!hasRows($result)){
 		echo '<p>'.$hc_lang_user['NoUserEdit'].'</p>';
@@ -107,16 +106,16 @@
 		</span>':'').'
 	</fieldset>';
 		
-		$resultE = doQuery("SELECT PkID, Title, StartDate, SeriesID, IsBillboard
+		$resultE = DoQuery("SELECT PkID, Title, StartDate, SeriesID, IsBillboard
 						FROM " . HC_TblPrefix . "events
-						WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . cIn(SYSDATE) . "' AND SeriesID IS NULL AND OwnerID = '".$uID."'
+						WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . cIn(SYSDATE) . "' AND SeriesID IS NULL AND OwnerID = ?
 						UNION
 						SELECT SeriesID, Title, MIN(StartDate), SeriesID, IsBillboard
 						FROM " . HC_TblPrefix . "events
-						WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . cIn(SYSDATE) . "' AND (SeriesID IS NOT NULL AND SeriesID != '') AND OwnerID = '".$uID."'
+						WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . cIn(SYSDATE) . "' AND (SeriesID IS NOT NULL AND SeriesID != '') AND OwnerID = ?
 						GROUP BY SeriesID, Title, IsBillboard
 						ORDER BY StartDate, SeriesID DESC
-						LIMIT 150");
+						LIMIT 150", array($uID, $uID));
 		if(hasRows($resultE)){
 			echo '
 	<fieldset>
@@ -187,20 +186,23 @@
 		<a href="javascript:;" onclick="calx.select(document.getElementById(\'birthdate\'),\'cal1\',\''.$hc_cfg[51].'\');return false;" id="cal1" class="ds calendar" tabindex="-1"></a>
 		<label>'.$hc_lang_user['Categories'].'</label>';
 		
-		$query = ($cat_limited != '') ? "
-					SELECT c.PkID, c.CategoryName, c.ParentID, c.CategoryName as Sort, IF(c.PkID IN (".cIn($cat_limited)."),1,NULL) as Selected
+		$query = NULL; $params = array();
+		if ($cat_limited != '') {
+			$query = "SELECT c.PkID, c.CategoryName, c.ParentID, c.CategoryName as Sort, IF(c.PkID IN (?),1,NULL) as Selected
 					FROM " . HC_TblPrefix . "categories c 
 						LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (c.PkID = ec.CategoryID)
 					WHERE c.ParentID = 0 AND c.IsActive = 1
 					GROUP BY c.PkID, c.CategoryName, c.ParentID
-					UNION SELECT c.PkID, c.CategoryName, c.ParentID, c2.CategoryName as Sort, IF(c.PkID IN (".cIn($cat_limited)."),1,NULL) as Selected
+					UNION SELECT c.PkID, c.CategoryName, c.ParentID, c2.CategoryName as Sort, IF(c.PkID IN (?),1,NULL) as Selected
 					FROM " . HC_TblPrefix . "categories c 
 						LEFT JOIN " . HC_TblPrefix . "categories c2 ON (c.ParentID = c2.PkID) 
 						LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (c.PkID = ec.CategoryID) 
 					WHERE c.ParentID > 0 AND c.IsActive = 1
 					GROUP BY c.PkID, c.CategoryName, c.ParentID, c2.CategoryName
-					ORDER BY Sort, ParentID, CategoryName" : NULL;
-		getCategories('frmUserEdit', 3, $query,1);
+					ORDER BY Sort, ParentID, CategoryName";
+			$params = array(cIn($cat_limited), cIn($cat_limited));
+		}
+		getCategories('frmUserEdit', 3, $query, 1, $params);
 		
 		echo '
 	</fieldset>

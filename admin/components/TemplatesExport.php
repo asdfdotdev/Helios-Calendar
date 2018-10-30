@@ -23,7 +23,7 @@
 	
 	appInstructions(0, "Export_Templates", $hc_lang_tools['TitleExpTemp'], $hc_lang_tools['InstructExpTemp']);
 	
-	$result = doQuery("SELECT * FROM " . HC_TblPrefix  . "templates WHERE TypeID = 1 AND IsActive = 1 ORDER BY Name");
+	$result = DoQuery("SELECT * FROM " . HC_TblPrefix  . "templates WHERE TypeID = 1 AND IsActive = 1 ORDER BY Name");
 	if(hasRows($result)){
 		echo '
 		<a href="'.AdminRoot.'/index.php?com=templateedit" class="add"><img src="'.AdminRoot.'/img/icons/add.png" width="16" height="16" alt="" />' . $hc_lang_tools['AddT'] . '</a>

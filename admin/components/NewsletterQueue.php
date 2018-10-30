@@ -14,14 +14,15 @@
 	$resDiff = 6;
 	$resLimit = (isset($_GET['a']) && is_numeric($_GET['a']) && abs($_GET['a']) <= 100 && $_GET['a'] % 25 == 0) ? cIn(abs($_GET['a'])) : 25;
 	$resOffset = (isset($_GET['p']) && is_numeric($_GET['p'])) ? cIn(abs($_GET['p'])) : 0;
-	$term = $save = $queryS = '';
+	$term = $save = $queryS = ''; $params = array();
 	if(isset($_GET['s']) && $_GET['s'] != ''){
 		$term = cIn(cleanQuotes(strip_tags($_GET['s'])));
 		$save = '&s='.$term;
-		$queryS = " AND MATCH(Subject,Message) AGAINST('" . str_replace("'", "\"", $term) . "' IN BOOLEAN MODE)";
+		$queryS = " AND MATCH(Subject,Message) AGAINST(? IN BOOLEAN MODE)";
+		$params = array(str_replace("'", "\"", $term));
 	}
 	
-	$resultC = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix  . "newsletters n WHERE n.IsActive = 1 $queryT $queryS");
+	$resultC = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix  . "newsletters n WHERE n.IsActive = 1 $queryT $queryS", $params);
 	$pages = ceil(hc_mysql_result($resultC,0,0)/$resLimit);
 	$resOffset = ($pages <= $resOffset && $pages > 0) ? $pages - 1 : $resOffset;
 	
@@ -89,14 +90,14 @@
 			'.(($term != '') ? '<label>&nbsp;</label><span class="output"><a href="'.AdminRoot.'/index.php?com=newsqueue&p=0&a='.$resLimit.'&t='.$type.'">'.$hc_lang_news['AllNewsLink'].'</a></span>' : '').'
 		</fieldset>';
 	
-	$result = doQuery("SELECT n.PkID, n.SentDate, n.Subject, n.SendCount, n.`Status`, n.IsArchive, n.SendingAdminID,
+	$result = DoQuery("SELECT n.PkID, n.SentDate, n.Subject, n.SendCount, n.`Status`, n.IsArchive, n.SendingAdminID,
 					(SELECT COUNT(ns.SubscriberID)
 						FROM " . HC_TblPrefix . "newssubscribers ns
 						WHERE ns.NewsletterID = n.PkID) as ToGo
 					FROM " . HC_TblPrefix . "newsletters n
 					WHERE n.IsActive = 1 $queryT $queryS
 					ORDER BY n.Status, n.SentDate DESC, PkID DESC
-					LIMIT " . $resLimit . " OFFSET " . ($resOffset * $resLimit));
+					LIMIT ? OFFSET ?", array($resLimit, ($resOffset * $resLimit)));
 	if(hasRows($result)){
 		echo '
 		<ul class="data">

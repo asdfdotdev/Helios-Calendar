@@ -17,12 +17,12 @@
 	
 	$target = AdminRoot.'/index.php';
 	$eID = (isset($_GET['eID']) && is_numeric($_GET['eID'])) ? cIn(strip_tags($_GET['eID'])) : 0;
-	$result = doQuery("SELECT e.Title, e.StartDate, e.StartTime, e.TBD, e.ContactName, e.ContactEmail, er.Space, COUNT(r.PkID) as SpacesTaken
+	$result = DoQuery("SELECT e.Title, e.StartDate, e.StartTime, e.TBD, e.ContactName, e.ContactEmail, er.Space, COUNT(r.PkID) as SpacesTaken
 					FROM " . HC_TblPrefix . "events e
 						LEFT JOIN " . HC_TblPrefix . "eventrsvps er ON (e.PkID = er.EventID)
 						LEFT JOIN " . HC_TblPrefix . "registrants r ON (e.PkID = r.EventID)
-					WHERE e.PkID = '" . $eID . "' AND r.IsActive = 1
-					GROUP BY e.Title, e.StartDate, e.StartTime, e.TBD, e.ContactName, e.ContactEmail, er.Space");
+					WHERE e.PkID = ? AND r.IsActive = 1
+					GROUP BY e.Title, e.StartDate, e.StartTime, e.TBD, e.ContactName, e.ContactEmail, er.Space", array($eID));
 	
 	if(hasRows($result)){
 		$eName = hc_mysql_result($result,0,4);

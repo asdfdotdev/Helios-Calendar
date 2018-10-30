@@ -17,7 +17,7 @@
 	$helpDoc = "Adding_Locations";
 	$helpText = $hc_lang_locations['InstructAdd'];
 	
-	$result = doQuery("SELECT l.*, f.EntityID, f.Note FROM " . HC_TblPrefix . "locations l LEFT JOIN " . HC_TblPrefix . "followup f ON (l.PkID = f.EntityID AND f.EntityType = 3) WHERE l.PkID = '" . $lID . "' AND l.IsActive = 1");
+	$result = DoQuery("SELECT l.*, f.EntityID, f.Note FROM " . HC_TblPrefix . "locations l LEFT JOIN " . HC_TblPrefix . "followup f ON (l.PkID = f.EntityID AND f.EntityType = 3) WHERE l.PkID = ? AND l.IsActive = 1", array($lID));
 	if(hasRows($result)){
 		$hc_Side[] = array(CalRoot . '/index.php?com=location&amp;lID=' . $lID,'card.png',$hc_lang_locations['LinkProfile'],1);
 		$whereAmI = $hc_lang_locations['Edit'];
@@ -138,13 +138,13 @@
 		'.(($website != 'http://' && $website != '') ? '<span class="frm_ctrls"><a href="'.$website.'" target="_blank"><img src="'.AdminRoot.'/img/icons/website.png" width="16" height="16" alt="" /></a></span>':'').'
 	</fieldset>';
 	
-	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "settings WHERE PkID IN(5,6,46,47,57,58);");
+	$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "settings WHERE PkID IN(5,6,46,47,57,58);");
 	$goEventbrite = (hc_mysql_result($result,0,1) != '' && hc_mysql_result($result,1,1) != '') ? 1 : 0;
 	$goTwitter = (hc_mysql_result($result,2,1) != '' && hc_mysql_result($result,3,1) != '') ? 1 : 0;
 	$goBitly = (hc_mysql_result($result,4,1) && hc_mysql_result($result,5,1)) ? 1 : 0;
 	$ebID = $tweetLnks = '';
 	$tweets = array();
-	$resultD = doQuery("SELECT * FROM " . HC_TblPrefix . "locationnetwork WHERE LocationID = '" . $lID . "'");
+	$resultD = DoQuery("SELECT * FROM " . HC_TblPrefix . "locationnetwork WHERE LocationID = ?", array($lID));
 	if(hasRows($resultD)){
 		while($row = hc_mysql_fetch_row($resultD)){
 			switch($row[2]){

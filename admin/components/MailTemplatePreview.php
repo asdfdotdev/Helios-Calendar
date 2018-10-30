@@ -11,6 +11,6 @@
 	
 	$pID = (isset($_GET['pID']) && is_numeric($_GET['pID'])) ? cIn(strip_tags($_GET['pID'])) : 0;
 
-	$result = doQuery("SELECT TemplateSource FROM " . HC_TblPrefix . "templatesnews WHERE PkID = '" . $pID . "'");
+	$result = DoQuery("SELECT TemplateSource FROM " . HC_TblPrefix . "templatesnews WHERE PkID = ?", array($pID));
 	echo (hasRows($result)) ? cOut(hc_mysql_result($result,0,0)) : $hc_lang_news['InvalidTemplate'];
 ?>

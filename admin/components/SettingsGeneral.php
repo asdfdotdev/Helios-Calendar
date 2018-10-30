@@ -20,7 +20,7 @@
 	
 	appInstructions(0, "Preferences", $hc_lang_settings['TitleSettings'], $hc_lang_settings['InstructSettings']);
 	
-	$result = doQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings
+	$result = DoQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings
 					WHERE PkID IN (1,2,3,4,8,9,10,11,12,13,14,15,21,22,23,24,26,28,29,30,31,32,33,34,35,40,44,48,
 								53,54,60,65,66,67,68,70,71,72,73,74,75,76,77,78,79,80,81,82,87,88,89,90,91,92,93,
 								106,107,108,109,126)

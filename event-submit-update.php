@@ -30,7 +30,7 @@
 	$dates = array();
 	$eventDate = isset($_POST['eventDate']) ? dateToMySQL(cIn($_POST['eventDate']), $hc_cfg[24]) : '';
 	$appStatus = (user_check_status() && $_SESSION['UserLevel'] == 2) ? 1 : 2;
-	$pubDate = ($appStatus == 1) ? "'".SYSDATE.' '.SYSTIME."'" : 'NULL';
+	$pubDate = ($appStatus == 1) ? SYSDATE.' '.SYSTIME : 'NULL';
 	$filter = array('/onclick=["\'][^"\']+["\']/i','/ondblclick=["\'][^"\']+["\']/i','/onkeydown=["\'][^"\']+["\']/i','/onkeypress=["\'][^"\']+["\']/i','/onkeyup=["\'][^"\']+["\']/i','/onmousedown=["\'][^"\']+["\']/i','/onmousemove=["\'][^"\']+["\']/i','/onmouseout=["\'][^"\']+["\']/i','/onmouseover=["\'][^"\']+["\']/i','/onmouseup=["\'][^"\']+["\']/i','/onmousemove=["\'][^"\']+["\']/i','/onfocus=["\'][^"\']+["\']/i','/onblur=["\'][^"\']+["\']/i');
 	$eID = $tbd = $stop = 0;
 	$subName = isset($_POST['submitName']) ? htmlspecialchars(strip_tags($_POST['submitName'])) : NULL;
@@ -87,66 +87,70 @@
 					$endTimeHour = ($_POST['endTimeAMPM'] == 'PM') ? ($_POST['endTimeHour'] < 12 ? $_POST['endTimeHour'] + 12 : $_POST['endTimeHour']) : ($_POST['endTimeHour'] == 12 ? 0 : $_POST['endTimeHour']);
 				}
 			}
-			$startTime = "'" . cIn($startTimeHour) . ":" . cIn($_POST['startTimeMins']) . ":00'";
-			$endTime = (!isset($_POST['ignoreendtime'])) ? "'" . cIn($endTimeHour) . ":" . cIn($_POST['endTimeMins']) . ":00'" : 'NULL';
+			$startTime = cIn($startTimeHour) . ":" . cIn($_POST['startTimeMins']) . ":00";
+			$endTime = (!isset($_POST['ignoreendtime'])) ? cIn($endTimeHour) . ":" . cIn($_POST['endTimeMins']) . ":00" : 'NULL';
 		} else {
 			$startTime = $endTime = 'NULL';
 			$tbd = ($_POST['specialtime'] == 'allday') ? 1 : 2;
 		}
 
 		$query = "UPDATE " . HC_TblPrefix . "events
-					SET Title = '" . cIn($eventTitle) . "',
-					LocationName = '" . cIn($locName) . "',
-					LocationAddress = '" . cIn($locAddress) . "',
-					LocationAddress2 = '" . cIn($locAddress2) . "',
-					LocationCity = '" . cIn($locCity) . "',
-					LocationState = '" . cIn($locState) . "',
-					LocationZip = '" . cIn($locZip) . "',
-					Description = '" . cIn($eventDesc,0) . "',
-					StartTime = " . $startTime . ",
-					TBD = '" . cIn($tbd) . "',
-					EndTime = " . $endTime . ",
-					ContactName = '" . cIn($contactName) . "',
-					ContactEmail = '" . cIn($contactEmail) . "',
-					ContactPhone = '" . cIn($contactPhone) . "',
-					IsApproved = '" . cIn($appStatus) . "',
-					ContactURL = '" . cIn($contactURL) . "',
-					LocID = '" . cIn($locID) . "',
-					Cost = '" . cIn($cost) . "',
-					LocCountry = '" . cIn($locCountry) . "',
-					LastMod = ".$pubDate.",
-					Message = '" . cIn($adminMessage) . "'";
+					SET Title = ?,
+					LocationName = ?,
+					LocationAddress = ?,
+					LocationAddress2 = ?,
+					LocationCity = ?,
+					LocationState = ?,
+					LocationZip = ?,
+					Description = ?,
+					StartTime = ?,
+					TBD = ?,
+					EndTime = ?,
+					ContactName = ?,
+					ContactEmail = ?,
+					ContactPhone = ?,
+					IsApproved = ?,
+					ContactURL = ?,
+					LocID = ?,
+					Cost = ?,
+					LocCountry = ?,
+					LastMod = ?,
+					Message = ?";
+		$params = array(cIn($eventTitle), cIn($locName), cIn($locAddress), cIn($locAddress2), cIn($locCity), cIn($locState), cIn($locZip), cIn($eventDesc,0), $startTime, cIn($tbd), $endTime, cIn($contactName), cIn($contactEmail), cIn($contactPhone), cIn($appStatus), cIn($contactURL), cIn($locID), cIn($cost), cIn($locCountry) , $pubDate, cIn($adminMessage) );
 		
 		if(!isset($_POST['editString']) || $_POST['editString'] == ''){
 			$msgID = 1;
-			$query .= ", StartDate = '" . cIn($eventDate) . "' WHERE PkID = '" . $eID . "' ";
+			$query .= ", StartDate = ? WHERE PkID = ? ";
+			$params[] = cIn($eventDate);
+			$params[] = $eID;
 			$eventIDs = array($eID);
 			$hdrStr = AdminRoot . "/index.php?com=eventedit&eID=" . $eID  . "&msg=" . $msgID;
 		} else {
 			$msgID = 2;
-			$query = $query . " WHERE PkID IN (" . cIn(strip_tags($_POST['editString'])) . ")";
+			$query = $query . " WHERE PkID IN (?)";
+			$params[] = cIn(strip_tags($_POST['editString']));
 			$eventIDs = array_filter(explode(',',$_POST['editString']),'is_numeric');
 			$eID = cIn($eventIDs[0]);
 		}
 		
-		doQuery($query);
+		DoQuery($query, $params);
 		$stop = count($eventIDs);
 		$i = 0;
 		while($i < $stop){
 			$doID = cIn($eventIDs[$i]);
 			
 			if(isset($_POST['catID']) && is_array($_POST['catID'])){
-				doQuery("DELETE FROM " . HC_TblPrefix . "eventcategories WHERE EventID = '".$doID."'");
+				DoQuery("DELETE FROM " . HC_TblPrefix . "eventcategories WHERE EventID = ?", array($doID));
 				
 				foreach ($_POST['catID'] as $val){
 					if(is_numeric($val) && $val > 0)
-						doQuery("INSERT INTO " . HC_TblPrefix . "eventcategories(EventID, CategoryID) VALUES('".$doID."', '".cIn($val)."')");
+						DoQuery("INSERT INTO " . HC_TblPrefix . "eventcategories(EventID, CategoryID) VALUES(?,?)", array($doID, cIn($val)));
 				}
 			}
 			if($rsvp_type == 1 && is_numeric($doID) && $doID > 0){
-				doQuery("DELETE FROM " . HC_TblPrefix . "eventrsvps WHERE EventID = '".$doID."'");
-				doQuery("INSERT INTO " . HC_TblPrefix . "eventrsvps(Type,EventID,OpenDate,CloseDate,Space,RegOption,Notices)
-						VALUES('".$rsvp_type."','".$doID."','".$rsvp_open."','".$rsvp_close."','".$rsvp_space."','".$rsvp_disp."','".$rsvp_notice."')");
+				DoQuery("DELETE FROM " . HC_TblPrefix . "eventrsvps WHERE EventID = ?", array($doID));
+				DoQuery("INSERT INTO " . HC_TblPrefix . "eventrsvps(Type,EventID,OpenDate,CloseDate,Space,RegOption,Notices)
+						VALUES(?,?,?,?,?,?,?)", array($rsvp_type, $doID, $rsvp_open, $rsvp_close, $rsvp_space, $rsvp_disp, $rsvp_notice));
 			}
 			++$i;
 		}

@@ -10,11 +10,12 @@
 	$resDiff = 6;
 	$resLimit = (isset($_GET['a']) && is_numeric($_GET['a']) && abs($_GET['a']) <= 100 && $_GET['a'] % 25 == 0) ? cIn(abs($_GET['a'])) : 25;
 	$resOffset = (isset($_GET['p']) && is_numeric($_GET['p'])) ? cIn(abs($_GET['p'])) : 0;
-	$term = $save = $queryS = '';
+	$term = $save = $queryS = ''; $params = array();
 	if(isset($_GET['s']) && $_GET['s'] != ''){
 		$term = cIn(cleanQuotes(strip_tags($_GET['s'])));
 		$save = '&s='.$term;
-		$queryS = " AND Name LIKE('%".$term."%')";
+		$queryS = " AND Name LIKE(?)";
+		$params[] = '%'.$term.'%'; 
 	}
 
 	$hc_Side[] = array(CalRoot . '/index.php?com=location','map.png',$hc_lang_locations['LinkMap'],1);
@@ -34,7 +35,7 @@
 	}
 	
 	appInstructions(0, "Editing_Locations", $hc_lang_locations['TitleBrowse'], $hc_lang_locations['InstructBrowse']);
-	$resultC = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "locations WHERE IsActive = 1 $queryS");
+	$resultC = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix . "locations WHERE IsActive = 1 $queryS", $params);
 	$pages = ceil(hc_mysql_result($resultC,0,0)/$resLimit);
 	if($pages <= $resOffset && $pages > 0){$resOffset = ($pages - 1);}
 	
@@ -78,7 +79,7 @@
 			'.(($term != '') ? '<label>&nbsp;</label><span class="output"><a href="'.AdminRoot.'/index.php?com=location&p=0&a='.$resLimit.'">'.$hc_lang_locations['AllLink'].'</a></span>' : '').'
 		</fieldset>';
 	
-	$result = doQuery("SELECT PkID, Name, IsPublic FROM " . HC_TblPrefix  . "locations WHERE IsActive = 1 $queryS ORDER BY IsPublic, Name LIMIT " . $resLimit . " OFFSET " . ($resOffset * $resLimit));
+	$result = DoQuery("SELECT PkID, Name, IsPublic FROM " . HC_TblPrefix  . "locations WHERE IsActive = 1 $queryS ORDER BY IsPublic, Name LIMIT ? OFFSET ?" , array($resLimit, ($resOffset * $resLimit)));
 	if(hasRows($result)){
 		echo '
 		<ul class="data">

@@ -12,16 +12,19 @@
 		go_home();
 	
 	$lQuery = $cQuery = $catIDs = $cityNames = '';
+	$lparams = array(); $cparams = array();
 	$tzRSS = str_replace(':','',HCTZ);
 	
 	if(isset($_GET['l'])){
 		$catIDs = array_filter(explode(',',$_GET['l']),'is_numeric');
 		$cats = (count($catIDs) > 0) ? cIn(implode(',',$catIDs)) : '0';
-		$lQuery = " AND c.PkID IN (".$cats.")";
+		$lQuery = " AND c.PkID IN (?)";
+		$lparams = array($cats);
 	}
 	if(isset($_GET['c'])){
 		$cityNames = array_map('cIn',array_map('strip_tags',explode(',',$_GET['c'])));
-		$cQuery = " AND (e.LocationCity IN ('".implode("','",$cityNames)."') OR l.City IN ('".implode("','",$cityNames)."'))";
+		$cQuery = " AND (e.LocationCity IN (?) OR l.City IN (?)";
+		$cparams = array(implode("','",$cityNames), implode("','",$cityNames));
 	}
 	
 	$query = "SELECT DISTINCT e.PkID, e.Title, e.Description, e.StartDate, e.StartTime, e.SeriesID
@@ -32,8 +35,12 @@
 			WHERE e.IsActive = 1 AND
 				e.IsApproved = 1 AND e.StartDate >= '" . cIn(SYSDATE) . "' AND c.IsActive = 1
 				".$lQuery.$cQuery;
-	$query .= ($hc_cfg[33] == 0) ? " AND SeriesID IS NULL UNION " . $query . " AND SeriesID IS NOT NULL GROUP BY e.PkID, e.Title, e.Description, e.StartDate, e.StartTime, e.SeriesID" : '';
-	$result = doQuery($query . " ORDER BY StartDate, StartTime LIMIT ".$hc_cfg[2]);
+	if ($hc_cfg[33] == 0)
+	{
+		$query .= " AND SeriesID IS NULL UNION " . $query . " AND SeriesID IS NOT NULL GROUP BY e.PkID, e.Title, e.Description, e.StartDate, e.StartTime, e.SeriesID";
+	}
+	
+	$result = DoQuery($query . " ORDER BY StartDate, StartTime LIMIT ?", array_merge($lparams, $cparams, array($hc_cfg[2])));
 	
 	header('Content-Type:application/rss+xml; charset=' . $hc_lang_config['CharSet']);
 	echo '<?xml version="1.0" encoding="'.$hc_lang_config['CharSet'].'"?>

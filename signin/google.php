@@ -17,7 +17,7 @@
 	$client_id = $client_secret = '';
 	$_SESSION['Google_State'] = (!isset($_SESSION['Google_State'])) ? md5(mt_rand().date("U")) : $_SESSION['Google_State'];
 	
-	$result = doQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(124,125)");
+	$result = DoQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(124,125)");
 	if(hasRows($result)){
 		$client_id = hc_mysql_result($result,0,0);
 		$client_secret = hc_mysql_result($result,1,0);
@@ -64,7 +64,7 @@
 					$user = json_decode(file_get_contents('https://www.googleapis.com/oauth2/v1/userinfo?access_token='.$response->access_token));
 				
 				if(isset($user->id)){
-					$result = doQuery("SELECT PkID, Email, Birthdate FROM " . HC_TblPrefix . "users WHERE NetworkType = '3' AND NetworkID = '" . cIn($user->id) . "'");
+					$result = DoQuery("SELECT PkID, Email, Birthdate FROM " . HC_TblPrefix . "users WHERE NetworkType = '3' AND NetworkID = ?", array(cIn($user->id)));
 					$user_name = (isset($user->name)) ? $user->name : '';
 					
 					if(!hasRows($result)){

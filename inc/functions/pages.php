@@ -27,7 +27,7 @@
 		global $hc_cfg;
 		
 		$pin_icon = ($pin_icon == '') ? CalRoot.'/img/pins/pushpin.png' : $pin_icon;
-		$result = doQuery("SELECT PkID, Lat, Lon FROM " . HC_TblPrefix . "locations WHERE IsActive = 1 AND Lat != '' AND Lon != '' ORDER BY LastMod DESC LIMIT 1");
+		$result = DoQuery("SELECT PkID, Lat, Lon FROM " . HC_TblPrefix . "locations WHERE IsActive = 1 AND Lat != '' AND Lon != '' ORDER BY LastMod DESC LIMIT 1");
 		
 		if(hasRows($result))
 			get_map_js(hc_mysql_result($result,0,1), hc_mysql_result($result,0,2), 1, $pin_icon, 1, CalRoot.'/index.php?com=location&lID='.hc_mysql_result($result,0,0));
@@ -55,9 +55,20 @@
 			
 			$cnt = 1;
 			$dateFormat = ($dateFormat == '') ? $hc_cfg[24] : $dateFormat;
-			$uQuery = ($updated == 0) ? " AND DATEDIFF('".SYSDATE."',e.PublishDate) <= ".$hc_cfg[99] : '';
+			
+			// start building params for query
+			$params = array();
 
-			$result = doQuery("SELECT DISTINCT e.PkID, e.Title, e.StartDate, e.StartTime, e.TBD, e.LastMod, DATEDIFF('".SYSDATE."',e.PublishDate) as Age, e.SeriesID
+			$uQuery = '';
+			if ($updated == 0) { 
+				$uQuery = " AND DATEDIFF('".SYSDATE."',e.PublishDate) <= ?";
+				// uQuery appears twice
+				$params[] = $hc_cfg[99];
+				$params[] = $hc_cfg[99];
+			}
+			$params[] = $size;
+
+			$result = DoQuery("SELECT DISTINCT e.PkID, e.Title, e.StartDate, e.StartTime, e.TBD, e.LastMod, DATEDIFF('".SYSDATE."',e.PublishDate) as Age, e.SeriesID
 							FROM " . HC_TblPrefix . "events e
 								LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (ec.EventID = e.PkID)
 							WHERE e.StartDate >= '".SYSDATE."' AND e.IsActive = 1 AND e.IsApproved = 1 AND SeriesID IS NULL".$uQuery."
@@ -69,7 +80,7 @@
 							WHERE e2.StartDate IS NULL AND e.StartDate >= '".SYSDATE."' AND e.IsActive = 1 AND e.IsApproved = 1 AND e.SeriesID IS NOT NULL".$uQuery."
 							GROUP BY e.SeriesID,e.PkID,e.Title,e.StartDate,e.StartTime,e.EndTime,e.TBD, e.LastMod, e.PublishDate
 							ORDER BY LastMod DESC
-							LIMIT " . $size);
+							LIMIT ?", $params);
 			if(!hasRows($result)){
 				echo '
 			<ul class="events"><li>' . $hc_lang_pages['NoEvents'] . '</li></ul>';
@@ -115,11 +126,11 @@
 			$fp = fopen(HCPATH.'/cache/digest_'.SYSDATE.'_l', 'w');
 			
 			$cnt = 1;
-			$result = doQuery("SELECT DISTINCT PkID, Name, Address, Address2, City, State, Zip, Country, LastMod
+			$result = DoQuery("SELECT DISTINCT PkID, Name, Address, Address2, City, State, Zip, Country, LastMod
 							FROM " . HC_TblPrefix . "locations
 							WHERE IsActive = 1
 							ORDER BY LastMod DESC
-							LIMIT " . $size);
+							LIMIT ?", array($size));
 			if(!hasRows($result)){
 				echo '
 			<ul class="locations"><li>' . $hc_lang_pages['NoLocations'] . '</li></ul>';
@@ -155,7 +166,7 @@
 			ob_start();
 			$fp = fopen(HCPATH.'/cache/digest_'.SYSDATE.'_n', 'w');
 			
-			$result = doQuery("SELECT PkID, Subject, SentDate FROM " . HC_TblPrefix . "newsletters WHERE Status > 0 AND IsArchive = 1 AND IsActive = 1 AND ArchiveContents != '' ORDER BY SentDate DESC LIMIT " . $size);
+			$result = DoQuery("SELECT PkID, Subject, SentDate FROM " . HC_TblPrefix . "newsletters WHERE Status > 0 AND IsArchive = 1 AND IsActive = 1 AND ArchiveContents != '' ORDER BY SentDate DESC LIMIT ?", array($size));
 			if(!hasRows($result)){
 				echo '
 			<ul class="newsletters"><li>' . $hc_lang_pages['NoNewsletters'] . '</li></ul>';

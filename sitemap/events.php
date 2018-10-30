@@ -12,7 +12,7 @@
 	header('Content-type: application/xml; charset="utf-8"');
 	
 	if(!file_exists(HCPATH.'/cache/sitemap_events_'.$page)){		
-		$result = doQuery("SELECT PkID, PublishDate 
+		$result = DoQuery("SELECT PkID, PublishDate 
 						FROM " . HC_TblPrefix . "events 
 						WHERE IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . cIn(SYSDATE) . "'
 						ORDER BY StartDate

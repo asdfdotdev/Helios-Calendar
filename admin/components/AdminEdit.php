@@ -19,14 +19,14 @@
 	}
 	
 	$aID = (isset($_GET['aID']) && is_numeric($_GET['aID'])) ? cIn($_GET['aID']) : 0;
-	$result = doQuery("SELECT a.PkID, a.FirstName, a.LastName, a.Email, a.LoginCnt, a.LastLogin, a.PAge,
+	$result = DoQuery("SELECT a.PkID, a.FirstName, a.LastName, a.Email, a.LoginCnt, a.LastLogin, a.PAge,
 					ap.EventEdit, ap.EventPending, ap.EventCategory, ap.UserEdit, ap.AdminEdit, ap.Newsletter, ap.Settings, ap.Tools, ap.Reports, ap.Locations, ap.Pages,
-					(SELECT GROUP_CONCAT(TypeID) FROM " . HC_TblPrefix . "adminnotices an WHERE an.AdminID = '" . $aID ."') as Notices,
-					(SELECT COUNT(*) FROM " . HC_TblPrefix . "adminloginhistory WHERE AdminID = '" . $aID . "' AND LoginTime > subdate(NOW(), INTERVAL 24 HOUR) AND IsFail = 1) as Fails
+					(SELECT GROUP_CONCAT(TypeID) FROM " . HC_TblPrefix . "adminnotices an WHERE an.AdminID = ?) as Notices,
+					(SELECT COUNT(*) FROM " . HC_TblPrefix . "adminloginhistory WHERE AdminID = ? AND LoginTime > subdate(NOW(), INTERVAL 24 HOUR) AND IsFail = 1) as Fails
 					FROM " . HC_TblPrefix . "admin a
 						LEFT JOIN " . HC_TblPrefix . "adminpermissions ap ON (a.PkID = ap.AdminID)
-					WHERE a.PkID = '" . $aID . "' AND a.IsActive = 1 AND ap.IsActive = 1 AND a.SuperAdmin = 0
-					ORDER BY LastName, FirstName");
+					WHERE a.PkID = ? AND a.IsActive = 1 AND ap.IsActive = 1 AND a.SuperAdmin = 0
+					ORDER BY LastName, FirstName", array($aID, $aID, $aID));
 	$oldEmail = $firstname = $lastname = $email = $login_history = $active = '';
 	$editEvent = $eventPending = $eventCategory = $userEdit = $adminEdit = $newsletter = $settings = $tools = $reports = $locEdit = $pages = 0;
 	$notices = array();
@@ -55,7 +55,7 @@
 		$fails = hc_mysql_result($result,0,19);
 		$active = ($_SESSION['AdminPkID'] == $aID) ? ' disabled="disabled"' : '';
 		
-		$resultH = doQuery("SELECT * FROM " . HC_TblPrefix . "adminloginhistory WHERE AdminID = '" . $aID . "' ORDER BY LoginTime DESC LIMIT 100");
+		$resultH = DoQuery("SELECT * FROM " . HC_TblPrefix . "adminloginhistory WHERE AdminID = ? ORDER BY LoginTime DESC LIMIT 100", array($aID));
 		if(hasRows($resultH)){
 			$login_history .= '
 		<ul class="data">';

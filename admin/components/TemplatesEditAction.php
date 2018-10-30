@@ -29,34 +29,33 @@
 		$dateFormat = isset($_POST['dateFormat']) ? cIn($_POST['dateFormat']) : '';
 		$cleanup = isset($_POST['cleanup']) ? cIn($_POST['cleanup']) : '';
 		
-		$result = doQuery("SELECT * FROM " . HC_TblPrefix . "templates WHERE PkID = '" . $tID . "' AND IsActive = 1");
+		$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "templates WHERE PkID = ? AND IsActive = 1", array($tID));
 		if(hasRows($result)){
 			$msgID = 1;
-			doQuery("UPDATE " . HC_TblPrefix . "templates
-						SET Name = '" . $name . "',
-							Content = '" . $content . "',
-							Header = '" . $header . "',
-							Footer = '" . $footer . "',
-							Extension = '" . $ext . "',
-							TypeID = '" . $typeID . "',
-							GroupBy = '" . $groupBy . "',
-							SortBy = '" . $sortBy . "',
-							CleanUp = '" . $cleanup . "',
-							DateFormat = '" . $dateFormat . "'
-						WHERE PkID = '" . $tID . "'");
+			DoQuery("UPDATE " . HC_TblPrefix . "templates
+						SET Name = ?,
+							Content = ?,
+							Header = ?,
+							Footer = '?,
+							Extension = ?,
+							TypeID = ?,
+							GroupBy = ?,
+							SortBy = ?,
+							CleanUp = ?,
+							DateFormat = ?
+						WHERE PkID = ?", array($name, $content, $header, $footer, $ext, $typeID, $groupBy, $sortBy, $cleanup, $dateFormat, $tID));
 		} else {
 			$msgID = 2;
-			doQuery("INSERT INTO " . HC_TblPrefix . "templates(Name, Content, Header, Footer, Extension, TypeID, GroupBy, SortBy, DateFormat, CleanUp, IsActive)
-					VALUES(	'" . $name . "','" . $content . "','" . $header . "','" . $footer . "','" . $ext . "',
-							'" . $typeID . "','" . $groupBy . "','" . $sortBy . "','" . $dateFormat . "','" . $cleanup . "',1)");
-			$result = doQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "locations");
+			DoQuery("INSERT INTO " . HC_TblPrefix . "templates(Name, Content, Header, Footer, Extension, TypeID, GroupBy, SortBy, DateFormat, CleanUp, IsActive)
+					VALUES(?,?,?,?,?,?,?,?,?,?,1)", array($name,$content,$header,$footer,$ext,$typeID,$groupBy,$sortBy,$dateFormat,$cleanup));
+			$result = DoQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "locations");
 			$lID = (hasRows($result)) ? hc_mysql_result($result,0,0) : 0;
 		}
 	} else {
 		$msgID = 3;
 		$dID = (isset($_GET['dID']) && is_numeric($_GET['dID'])) ? cIn(strip_tags($_GET['dID'])) : 0;
-		doQuery("UPDATE " . HC_TblPrefix . "templates SET IsActive = 0 WHERE PkID = '" . $dID . "'");
-		doQuery("UPDATE " . HC_TblPrefix . "events SET LocationName = 'Unknown', LocID = 0 WHERE LocID = '" . $dID . "'");
+		DoQuery("UPDATE " . HC_TblPrefix . "templates SET IsActive = ? WHERE PkID = ?", array(0, $dID));
+		DoQuery("UPDATE " . HC_TblPrefix . "events SET LocationName = 'Unknown', LocID = 0 WHERE LocID = ?", array($dID));
 	}
 	
 	header('Location: ' . AdminRoot . '/index.php?com=exporttmplts&msg=' . $msgID);

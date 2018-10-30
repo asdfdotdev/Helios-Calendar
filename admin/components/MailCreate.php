@@ -15,7 +15,7 @@
 	$startDate = strftime($hc_cfg[24],strtotime(SYSDATE));
 	$endDate = strftime($hc_cfg[24], strtotime(SYSDATE)+($hc_cfg[53]*86400));
 
-	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "mailers WHERE PkID = '" . $mID . "' AND IsActive = 1");
+	$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "mailers WHERE PkID = ? AND IsActive = 1", array($mID));
 	if(hasRows($result)){
 		$title = cOut(hc_mysql_result($result,0,1));
 		$subject = cOut(hc_mysql_result($result,0,2));
@@ -55,14 +55,14 @@
 		<a href="javascript:;" onclick="calx.select(document.getElementById(\'endDate\'),\'cal2\',\''.$hc_cfg[51].'\');return false;" id="cal2" class="ds calendar" tabindex="-1"></a>
 		<label>'.$hc_lang_news['SendGroups'].'</label>';
 	
-	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "mailgroups WHERE IsActive = 1");
+	$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "mailgroups WHERE IsActive = 1");
 	if(hasRows($result)){
-		$result = doQuery("SELECT mg.*, m.PkID as Selected
+		$result = DoQuery("SELECT mg.*, m.PkID as Selected
 						 FROM " . HC_TblPrefix . "mailgroups mg
-							 LEFT JOIN " . HC_TblPrefix . "mailersgroups mgs ON (mgs.GroupID = mg.PkID AND mgs.MailerID = '" . $mID . "')
+							 LEFT JOIN " . HC_TblPrefix . "mailersgroups mgs ON (mgs.GroupID = mg.PkID AND mgs.MailerID = ?)
 							 LEFT JOIN " . HC_TblPrefix . "mailers m ON (mgs.MailerID = m.PkID and m.IsActive = 1)
 						 WHERE mg.IsActive = 1
-						 Group By mg.PkID, mg.Name, mg.Description, mg.IsPublic, mg.IsActive, m.PkID");
+						 Group By mg.PkID, mg.Name, mg.Description, mg.IsPublic, mg.IsActive, m.PkID", array($mID));
 		$cnt = 1;
 		echo '<div class="catCol">';
 		while($row = hc_mysql_fetch_row($result)){
@@ -86,7 +86,7 @@
 	echo '
 		<label>'.$hc_lang_news['Template'].'</label>';
 
-		$result = doQuery("SELECT * FROM " . HC_TblPrefix . "templatesnews WHERE IsActive = 1 ORDER BY TemplateName");
+		$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "templatesnews WHERE IsActive = 1 ORDER BY TemplateName");
 		if(hasRows($result)){
 			echo '<select name="templateID" id="templateID">';
 			while($row = hc_mysql_fetch_row($result)){

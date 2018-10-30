@@ -31,9 +31,9 @@
 	$tID = (isset($_POST['tID']) && is_numeric($_POST['tID'])) ? cIn(strip_tags($_POST['tID'])) : 0;
 
 	if($tID == 0)
-		$result = doQuery("SELECT Title, StartDate, StartTime, TBD FROM " . HC_TblPrefix . "events WHERE PkID = '" . $eID . "'");
+		$result = DoQuery("SELECT Title, StartDate, StartTime, TBD FROM " . HC_TblPrefix . "events WHERE PkID = ?", array($eID));
 	else
-		$result = doQuery("SELECT Name, Address, Address2, City, State, Zip, Country FROM " . HC_TblPrefix . "locations WHERE PkID = '" . $eID . "'");
+		$result = DoQuery("SELECT Name, Address, Address2, City, State, Zip, Country FROM " . HC_TblPrefix . "locations WHERE PkID = ?", array($eID));
 	
 	if(hasRows($result) && $myName != '' && $myEmail != '' && $friendName != '' && $friendEmail != ''){
 		$message = '<p>' . cOut($sendMsg) . '</p>';
@@ -63,10 +63,9 @@
 		
 		reMail($friendName,$friendEmail,$subject,$message,$myName,$myEmail);
 		
-		doQuery("INSERT INTO " . HC_TblPrefix . "sendtofriend(MyName, MyEmail, RecipientName, RecipientEmail, Message, EntityID, IPAddress, SendDate, TypeID)
-				Values('" . $myName . "', '" . $myEmail . "', '" . $friendName . "', '" . $friendEmail . "', '" . cleanSpecialChars(str_replace('<br>','\n',$message)) . "', '" . $eID . "',
-				'" . cIn(strip_tags($_SERVER["REMOTE_ADDR"])) . "', '" . date("Y-m-d") . "', '" . $tID . "')");
-		doQuery("UPDATE " . HC_TblPrefix . "events SET EmailToFriend = EmailToFriend + 1 WHERE PkID = '" . $eID . "'");
+		DoQuery("INSERT INTO " . HC_TblPrefix . "sendtofriend(MyName, MyEmail, RecipientName, RecipientEmail, Message, EntityID, IPAddress, SendDate, TypeID)
+				Values(?,?,?,?,?,?,?,?,?)", array($myName, $myEmail, $friendName, $friendEmail, cleanSpecialChars(str_replace('<br>','\n',$message)), $eID, cIn(strip_tags($_SERVER["REMOTE_ADDR"])), date("Y-m-d"), $tID));
+		DoQuery("UPDATE " . HC_TblPrefix . "events SET EmailToFriend = EmailToFriend + 1 WHERE PkID = ?", array($eID));
 		
 		header("Location: " . CalRoot . $where . $eID . "&msg=1");
 	} else {

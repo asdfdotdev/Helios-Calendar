@@ -6,7 +6,7 @@
 	if(!defined('hcAdmin')){header("HTTP/1.1 403 No Direct Access");exit();}
 	
 	$errorMsg = '';
-	$result = doQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(117,118,120,123)");
+	$result = DoQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(117,118,120,123)");
 	if(!hasRows($result)){
 		$apiFail = true;
 		$errorMsg = 'Facebook API Settings Unavailable.';

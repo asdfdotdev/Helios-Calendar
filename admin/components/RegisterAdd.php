@@ -22,7 +22,7 @@
 		}
 	}
 
-	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "registrants WHERE PkID = '" . $rID . "'");
+	$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "registrants WHERE PkID = ?", array($rID));
 	if(hasRows($result)){
 		$instTitle = $hc_lang_register['TitleRegisterE'];
 		$instText = $hc_lang_register['InstructRegisterE'];

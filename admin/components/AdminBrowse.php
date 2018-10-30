@@ -26,7 +26,7 @@
 	
 	appInstructions(0, "Editing_Admin_Users", $hc_lang_admin['TitleBrowseA'], $hc_lang_admin['InstructBrowseA']);
 	
-	$result = doQuery("SELECT PkID, FirstName, LastName, Email, LastLogin FROM " . HC_TblPrefix."admin WHERE IsActive = 1 AND SuperAdmin = 0 ORDER BY LastName, FirstName");
+	$result = DoQuery("SELECT PkID, FirstName, LastName, Email, LastLogin FROM " . HC_TblPrefix."admin WHERE IsActive = 1 AND SuperAdmin = 0 ORDER BY LastName, FirstName");
 	if(hasRows($result)){
 		echo '
 		<ul class="data">

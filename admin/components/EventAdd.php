@@ -31,11 +31,11 @@
 		$docLink = 'Recycling_Events';
 		$hlpTitle = 'TitleRecycle';
 		$hlpDesc = 'InstructRecycle';
-		$result = doQuery("SELECT e.*, l.PkID, l.Name, l.Address, l.Address2, l.City, l.State, l.Zip, l.Country, er.*
+		$result = DoQuery("SELECT e.*, l.PkID, l.Name, l.Address, l.Address2, l.City, l.State, l.Zip, l.Country, er.*
 						FROM " . HC_TblPrefix . "events e
 							LEFT JOIN " . HC_TblPrefix . "locations l ON (e.LocID = l.PkID)
 							LEFT JOIN " . HC_TblPrefix . "eventrsvps er ON (er.EventID = e.PkID)
-						WHERE e.PkID = '" . $eID . "' AND e.IsActive = 1");
+						WHERE e.PkID = ? AND e.IsActive = 1", array($eID));
 		if(hasRows($result)){
 			$eventStatus = cOut(hc_mysql_result($result,0,17));
 			$eventTitle = cOut(hc_mysql_result($result,0,1));
@@ -282,20 +282,24 @@
 		<span class="output">'.$hc_lang_event['Days'].'</span>
 		<label>'.$hc_lang_event['Categories'].'</label>';
 	
-	$query = ($eID > 0) ? "SELECT c.PkID, c.CategoryName, c.ParentID, c.CategoryName as Sort, ec.EventID as Selected
+	$query = NULL; $params = array();
+	if ($eID > 0) {
+		$query = "SELECT c.PkID, c.CategoryName, c.ParentID, c.CategoryName as Sort, ec.EventID as Selected
 			FROM " . HC_TblPrefix . "categories c
-				LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (c.PkID = ec.CategoryID AND ec.EventID = " . cIn($eID) . ")
+				LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (c.PkID = ec.CategoryID AND ec.EventID = ?)
 			WHERE c.ParentID = 0 AND c.IsActive = 1
 			GROUP BY c.PkID, c.CategoryName, c.ParentID, ec.EventID
 			UNION
 			SELECT c.PkID, c.CategoryName, c.ParentID, c2.CategoryName as Sort, ec.EventID as Selected
 			FROM " . HC_TblPrefix . "categories c
 				LEFT JOIN " . HC_TblPrefix . "categories c2 ON (c.ParentID = c2.PkID)
-				LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (c.PkID = ec.CategoryID AND ec.EventID = " . cIn($eID) . ")
+				LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (c.PkID = ec.CategoryID AND ec.EventID = ?)
 			WHERE c.ParentID > 0 AND c.IsActive = 1
 			GROUP BY c.PkID, c.CategoryName, c.ParentID, c2.CategoryName, ec.EventID
-			ORDER BY Sort, ParentID, CategoryName" : NULL;
-	getCategories('frmEventAdd',3,$query,1);
+			ORDER BY Sort, ParentID, CategoryName";
+		$params = array(cIn($eID),cIn($eID));
+	}
+	getCategories('frmEventAdd',3,$query,1,$params);
 	
 	echo '
 	</fieldset>
@@ -361,7 +365,7 @@
 		<input name="contactURL" id="contactURL" type="url" maxlength="100" size="40" value="'.$contactURL.'" />
 	</fieldset>';
 			
-	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "settings WHERE PkID IN(5,6,46,47,57,58,120,123)");
+	$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "settings WHERE PkID IN(5,6,46,47,57,58,120,123)");
 	$goEventbrite = (hc_mysql_result($result,0,1) != '' && hc_mysql_result($result,1,1) != '') ? 1 : 0;
 	$goTwitter = (hc_mysql_result($result,2,1) != '' && hc_mysql_result($result,3,1) != '') ? 1 : 0;
 	$goBitly = (hc_mysql_result($result,4,1) != '' && hc_mysql_result($result,5,1) != '') ? 1 : 0;

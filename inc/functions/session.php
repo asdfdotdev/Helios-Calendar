@@ -47,8 +47,18 @@
 	if(!isset($_SESSION['hc_traill']))
 		$_SESSION['hc_traill'] = array();
 	
-	$favQ1 = (isset($_SESSION['hc_favCat']) && $_SESSION['hc_favCat'] != '') ? " AND ec.CategoryID in (" . $_SESSION['hc_favCat'] . ") " : "";
-	$favQ2 = (isset($_SESSION['hc_favCity']) && $_SESSION['hc_favCity'] != '') ? " AND (e.LocationCity IN ('".implode("','",array_map('cIn',$_SESSION['hc_favCity']))."') OR l.City IN ('".implode("','",array_map('cIn',$_SESSION['hc_favCity']))."'))" : '';
+	$favQ1 = ""; $favP1 = array();
+	if (isset($_SESSION['hc_favCat']) && $_SESSION['hc_favCat'] != '') { 
+		$favQ1 = " AND ec.CategoryID in (?) ";
+		$favP1 = array($_SESSION['hc_favCat']);
+	}
+	$favQ2 = ""; $favP2 = array();
+	if (isset($_SESSION['hc_favCity']) && $_SESSION['hc_favCity'] != '') {
+		$favQ2 = " AND (e.LocationCity IN (?) OR l.City IN (?))";
+		$favP2 = array(
+			"'".implode("','",array_map('cIn',$_SESSION['hc_favCity']))."'",
+			"'".implode("','",array_map('cIn',$_SESSION['hc_favCity']))."'");
+	}
 	
 	$hc_captchas = explode(",", cOut($hc_cfg[32]));
 	$hc_time['input'] = cOut($hc_cfg[31]) == 12 ? 12 : 23;

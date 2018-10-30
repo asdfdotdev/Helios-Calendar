@@ -19,7 +19,7 @@
 			return 0;
 		
 		array_push($_SESSION['hc_trail'], $eID);
-		doQuery("UPDATE " . HC_TblPrefix . "events SET Views = Views + 1 WHERE PkID = '" . cIn($eID) . "'");
+		DoQuery("UPDATE " . HC_TblPrefix . "events SET Views = Views + 1 WHERE PkID = ?", array(cIn($eID)));
 	}
 	/**
 	 * Retrieve active ids/dates for event series.
@@ -35,7 +35,7 @@
 		
 		$format = ($format == '') ? $hc_cfg[14] : $format;
 		$limit = ($list > 0) ? " LIMIT ".cIn($list) : '';
-		$result = doQuery("SELECT PkID, StartDate FROM " . HC_TblPrefix . "events WHERE SeriesID = '" . cIn($series) . "' AND IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . cIn(SYSDATE) . "' ORDER BY StartDate".$limit);
+		$result = DoQuery("SELECT PkID, StartDate FROM " . HC_TblPrefix . "events WHERE SeriesID = ? AND IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . cIn(SYSDATE) . "' ORDER BY StartDate ?", array(cIn($series), $limit));
 		
 		if(!hasRows($result))
 			return 0;
@@ -79,11 +79,11 @@
 	 * @return void
 	 */
 	function event_categories($event){
-		$result = doQuery("SELECT c.PkID, c.CategoryName
+		$result = DoQuery("SELECT c.PkID, c.CategoryName
 						FROM " . HC_TblPrefix . "eventcategories ec
 							LEFT JOIN " . HC_TblPrefix . "categories c ON (ec.CategoryID = c.PkID)
-						WHERE c.IsActive = 1 AND ec.EventID = '" . cIn($event) . "'
-						ORDER BY c.CategoryName");
+						WHERE c.IsActive = 1 AND ec.EventID = ?
+						ORDER BY c.CategoryName", array(cIn($event)));
 		if(!hasRows($result))
 			return 0;
 		
@@ -105,7 +105,7 @@
 	function event_fetch(){
 		global $eID, $hc_cfg, $hc_lang_event, $title, $desc, $expire;
 		
-		$result = doQuery("	SELECT e.PkID, e.Title, e.Description, e.StartDate, e.StartTime, e.EndTime, e.TBD, e.ContactName, e.ContactEmail, e.ContactURL, e.ContactPhone, 
+		$result = DoQuery("SELECT e.PkID, e.Title, e.Description, e.StartDate, e.StartTime, e.EndTime, e.TBD, e.ContactName, e.ContactEmail, e.ContactURL, e.ContactPhone, 
 							e.LocID, e.SeriesID, e.Cost, e.LocationName, e.LocationAddress, e.LocationAddress2, e.LocationCity, e.LocationState, e.LocationZip, e.LocCountry, 
 							e.ShortURL, e.LastMod, e.Image, e.IsFeature, e.HideDays, l.Name, l.Address, l.Address2, l.City, l.State, l.Zip, l.Country, l.URL, l.Phone, l.Email,
 							l.Lat, l.Lon, en.NetworkID, er.Type,
@@ -122,12 +122,12 @@
 							LEFT JOIN " . HC_TblPrefix . "eventrsvps er ON (e.PkID = er.EventID)
 						WHERE
 						    e.IsActive = 1 AND e.IsApproved = 1
-							   AND e.PkID = '".$eID."'
+							   AND e.PkID = ?
 						GROUP BY e.PkID , e.Title , e.Description , e.StartDate , e.StartTime , e.EndTime , e.TBD , e.ContactName , e.ContactEmail , e.ContactURL , 
 						e.ContactPhone , e.LocID , e.SeriesID , e.Cost , e.LocationName , e.LocationAddress , e.LocationAddress2 , e.LocationCity , e.LocationState ,
 						e.LocationZip , e.LocCountry , e.ShortURL , e.LastMod , e.Image , e.IsFeature , e.HideDays , l.Name , l.Address , l.Address2 , l.City , l.State , 
 						l.Zip , l.Country , l.URL , l.Phone , l.Email , l.Lat , l.Lon , er.Type , er.OpenDate , er.CloseDate , er.Space , er.RegOption , en.NetworkID, e2.PkID
-						LIMIT 1");
+						LIMIT 1", array($eID));
 		
 		$rsvp_opts = (hc_mysql_result($result,0,"RSVPOpts") != '') ? explode('|',hc_mysql_result($result,0,"RSVPOpts")) : array_fill(0,5,NULL);
 		
@@ -241,10 +241,11 @@
 	function event_browse_valid($sort_featured = 1, $nav_function = 'event_browse_nav'){
 		global $lID, $hc_cfg, $hc_lang_event, $favQ1, $favQ2, $resultEB, $myNav;
 		
-		$location = $lQuery = '';
+		$location = $lQuery = ''; unset($lParam);
 		if($lID > 0){
 			$location = '&amp;lID=' . $lID;
-			$lQuery = " AND e.LocID = '" . $lID . "'";
+			$lQuery = " AND e.LocID = ?";
+			$lParam = $lID;
 		}
 		
 		if(isset($_GET['m']) || $_SESSION['BrowseType'] == 2){
@@ -268,17 +269,26 @@
 			go_home();
 		} else {
 			$myNav = call_user_func($nav_function,$startDate,$endDate,$window,$location);
-			
-			$resultEB = doQuery("SELECT DISTINCT e.PkID, e.Title, e.StartDate, e.StartTime, e.EndTime, e.TBD, e.Image, e.IsFeature, e.HideDays, 
+
+			// this query's params, then lQuery $favQ1 $favQ2 
+			$params = array(date("Y-m-d", $sqlStart), date("Y-m-d", $sqlEnd));
+			// lQuery?
+			if (isset($lParam)) { $params[] = $lParam; }
+			// favQ1
+			$params = array_merge($params, $favP1);
+			// favQ2
+			$params = array_merge($params, $favP2);
+
+			$resultEB = DoQuery("SELECT DISTINCT e.PkID, e.Title, e.StartDate, e.StartTime, e.EndTime, e.TBD, e.Image, e.IsFeature, e.HideDays, 
 								e.LocID, e.LocationName, e.LocationCity, e.LocationState, e.LocCountry,
 								l.Name, l.City, l.State, l.Country, e.Cost, e.SeriesID
 							FROM " . HC_TblPrefix . "events e
 								LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (ec.EventID = e.PkID)
 								LEFT JOIN " . HC_TblPrefix . "locations l ON (e.LocID = l.PkID)
-							WHERE e.StartDate BETWEEN '" . date("Y-m-d", $sqlStart) . "' AND '" . date("Y-m-d", $sqlEnd) . "'"
+							WHERE e.StartDate BETWEEN ? AND ?"
 							.$lQuery.$favQ1.$favQ2." AND e.IsActive = 1 AND e.IsApproved = 1
 							GROUP BY e.PkID, e.Title, e.StartDate, e.StartTime, e.EndTime, e.TBD, e.Image, e.IsFeature, e.HideDays, e.LocID, e.LocationName, e.LocationCity, e.LocationState, e.LocCountry, l.Name, l.City, l.State, l.Country, e.Cost, e.SeriesID
-							ORDER BY e.StartDate, ".($sort_featured == 1 ? "e.IsFeature DESC, ":"")."e.TBD, e.StartTime, e.Title");
+							ORDER BY e.StartDate, ".($sort_featured == 1 ? "e.IsFeature DESC, ":"")."e.TBD, e.StartTime, e.Title", $params);
 		}
 		
 	}
@@ -484,12 +494,12 @@
 		global $hc_lang_event, $title, $desc;
 		
 		$sID = (isset($_GET['sID'])) ? cIn(strip_tags($_GET['sID'])) : 0;
-		$result = doQuery("SELECT DISTINCT e.PkID, e.Title, e.StartDate, e.StartTime, e.EndTime, e.TBD, e.Description,
+		$result = DoQuery("SELECT DISTINCT e.PkID, e.Title, e.StartDate, e.StartTime, e.EndTime, e.TBD, e.Description,
 						e.LocID, l.Name, l.Lat, l.Lon, e.SeriesID
 						FROM " . HC_TblPrefix . "events e
 							LEFT JOIN " . HC_TblPrefix . "locations l ON (e.LocID = l.PkID)
-						WHERE e.SeriesID = '".$sID."' AND e.IsActive = 1 AND e.IsApproved = 1".($type == 0 ? " AND e.StartDate >= '" . cIn(SYSDATE) . "'" : "")."
-						ORDER BY e.Title, e.StartDate, e.TBD, e.StartTime");
+						WHERE e.SeriesID = ? AND e.IsActive = 1 AND e.IsApproved = 1".($type == 0 ? " AND e.StartDate >= '" . cIn(SYSDATE) . "'" : "")."
+						ORDER BY e.Title, e.StartDate, e.TBD, e.StartTime", array($sID));
 		
 		$title = trim(cOut($hc_lang_event['SeriesTitle'].' '.hc_mysql_result($result,0,1)));
 		$desc = cOut(hc_mysql_result($result,0,6));
@@ -627,7 +637,7 @@
 	function notice_public_event($subName,$subEmail,$adminMessage,$locID,$locName,$locAddress,$locAddress2,$locCity,$locState,$locCountry,$locZip,$eventTitle,$eventDesc,$eventDates,$occurs){
 		global $hc_cfg, $hc_lang_config, $hc_lang_submit;
 		
-		$resultE = doQuery("SELECT a.FirstName, a.LastName, a.Email
+		$resultE = DoQuery("SELECT a.FirstName, a.LastName, a.Email
 						FROM " . HC_TblPrefix . "adminnotices n
 							LEFT JOIN " . HC_TblPrefix . "admin a ON (n.AdminID = a.PkID)
 						WHERE a.IsActive = 1 AND n.IsActive = 1 AND n.TypeID = 0");
@@ -654,7 +664,7 @@
 				$message .= $locName . ', ';
 				$message .= str_replace('<br />', ' ', strip_tags(buildAddress($locAddress,$locAddress2,$locCity,$locState,$locZip,$locCountry,$hc_lang_config['AddressType']),'<br>'));
 			} else {
-				$result = doQuery("SELECT Name, Address, Address2, City, State, Country, Zip FROM " . HC_TblPrefix . "locations WHERE PkID = '" . cIn($locID) . "'");
+				$result = DoQuery("SELECT Name, Address, Address2, City, State, Country, Zip FROM " . HC_TblPrefix . "locations WHERE PkID = ?", array(cIn($locID)));
 				$message .= hc_mysql_result($result,0,0) . ', ';
 				$message .= str_replace('<br />', ' ', strip_tags(buildAddress(hc_mysql_result($result,0,1),hc_mysql_result($result,0,2),hc_mysql_result($result,0,3),hc_mysql_result($result,0,4),hc_mysql_result($result,0,5),hc_mysql_result($result,0,6),$hc_lang_config['AddressType']),'<br>'));
 			}

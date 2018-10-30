@@ -20,13 +20,13 @@
 		
 		include(dirname(__FILE__).'/tzs.php');
 		$tzSelect = date("O") + (($hc_cfg[35] - date("I")) * 100);
-		$result = doQuery("SELECT e.PkID, e.Title, e.Description, e.StartDate, e.StartTime, e.EndTime, e.TBD, e.ContactName, e.ContactEmail, e.ContactURL, e.ContactPhone, er.Type, 
+		$result = DoQuery("SELECT e.PkID, e.Title, e.Description, e.StartDate, e.StartTime, e.EndTime, e.TBD, e.ContactName, e.ContactEmail, e.ContactURL, e.ContactPhone, er.Type, 
 							er.Space, e.LocID, e.SeriesID, e.Cost, e.LocationName, e.LocationAddress, e.LocationAddress2, e.LocationCity, e.LocationState, 
 							e.LocationZip, e.LocCountry, e.ShortURL, l.Name, l.Address, l.Address2, l.City, l.State, l.Zip, l.Country, l.URL, l.Phone, l.Email, l.Lat, l.Lon
 						FROM " . HC_TblPrefix . "events e
 							LEFT JOIN " . HC_TblPrefix . "locations l ON (e.LocID = l.PkID)
 							LEFT JOIN " . HC_TblPrefix . "eventrsvps er ON (e.PkID = er.EventID)
-						WHERE e.IsActive = 1 AND e.IsApproved = 1 AND e.StartDate >= '" . cIn(SYSDATE) . "' LIMIT ".$hc_cfg[88]);
+						WHERE e.IsActive = 1 AND e.IsApproved = 1 AND e.StartDate >= '" . cIn(SYSDATE) . "' LIMIT ?", array($hc_cfg[88]));
 		ob_start();
 		$fp = fopen(HCPATH.'/cache/ical'.SYSDATE, 'w');
 		fwrite($fp, "<?php\n//\tHelios iCalendar Cache - Delete this file when upgrading.?>\n");

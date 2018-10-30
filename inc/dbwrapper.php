@@ -101,20 +101,88 @@
 
 	/**
 	 * Wrapper for doQuery() with custom error handling.
-	 * @since 2.0.0
+	 * introducing parameterised queries to Helios. Rather than
+	 * passing full query strings replace unsafe params with ?
+	 * in the query string and pass the params in the $params array
+	 * @since 4.0.0
 	 * @version 4.0.0
 	 * @param string $query query string to pass to MySQL server
+	 * @param array $params (optional) to pass as parameters
 	 * @return resource MySQL result set
 	 */
-	function doQuery($query)
+	function DoQuery($query, $params = array())
 	{
 		global $dbc;
-		$result = mysqli_query($dbc, $query);
-		
-		if(!$result){
-			handleError(hc_mysql_errno(), hc_mysql_error());
-		}//end if
-		return $result;
+		$statement = mysqli_prepare($dbc, $query) or handleError(hc_mysql_errno(), hc_mysql_error());
+
+		// Get the string of data types
+		$types = hc_gettypes($params);
+
+		// How many params were we actually expecting?
+		$expect = substr_count($query, '?');
+
+		if ($expect <> sizeof($params))
+		{
+			die("Expecting $expect params but received " . sizeof($params) . " for query $query");
+		}
+
+		if (strlen($types) > 0)
+		{
+		    # make the references
+		    $bind_arguments = [];
+
+		    // Param one for call is the types of params (there may be none?)
+		    $bind_arguments[] = $types;
+		    foreach ($params as $pkey => $pvalue)
+		    {
+		    	// Cannot allow undefined params ie NULL in some
+		    	// fields but empty string is OK. Fudge all such things?
+		        $bind_arguments[] = &$params[$pkey]; # bind to array ref
+		    }
+
+		    # Bind
+		    call_user_func_array(array($statement, 'bind_param'), $bind_arguments);
+		}
+	    
+	    // Execute    
+	    $statement->execute() or handleError(hc_mysql_errno(), "Query $query failed: " . hc_mysql_error());
+
+	    // Get result(s)
+	    $result = $statement->get_result(); # get results
+
+	    // Destroy now un-needed statement?
+	    $statement->close();
+
+	    return $result;
+	}
+
+	/**
+	 * Auto-Determines the likely 'types' of the passed
+	 * paramters for a query. Note order of determination
+	 * was selected (quite) carefully.
+	 * @since 4.0.0
+	 * @version 4.0.0
+	 * @param string $query query string to pass to MySQL server
+	 * @param array $params (optional) to pass as parameters
+	 * @return resource MySQL result set
+	 */
+	function hc_gettypes($params = array())
+	{
+		$types = '';
+		if (sizeof($params)>0) {                        
+			foreach($params as $param) {        
+			    if(is_int($param)) {
+			        $types .= 'i';              //integer
+			    } elseif (is_float($param)) {
+			        $types .= 'd';              //double
+			    } elseif (is_string($param)) {
+			        $types .= 's';              //string
+			    } else {
+			        $types .= 'b';              //blob and unknown
+			    }
+			}
+		}
+		return $types;
 	}
 
 	/**

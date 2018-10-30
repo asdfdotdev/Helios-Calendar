@@ -50,7 +50,7 @@
 		25 => array('tag'=>'[category_unique]', 'field'=>'31'),
 		26 => array('tag'=>'[desc_notags]', 'field'=>'1'));
 	
-	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "templates WHERE IsActive = 1 AND PkID = '" . $tID . "'");
+	$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "templates WHERE IsActive = 1 AND PkID = ?", array($tID));
 	if(hasRows($result)){
 		$content = hc_mysql_result($result,0,2);
 		$header = hc_mysql_result($result,0,3);
@@ -73,15 +73,16 @@
 		$query .= ($groupBy == 0 || $groupBy == 3) ? ', c.CategoryName ':', NULL';
 		$query .=	" FROM " . HC_TblPrefix . "events e
 						LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (e.PkID = ec.EventID)
-						LEFT JOIN " . HC_TblPrefix . "categories c ON (c.PkID = ec.CategoryID  AND c.PkID IN (" . $catIDWhere . "))
+						LEFT JOIN " . HC_TblPrefix . "categories c ON (c.PkID = ec.CategoryID  AND c.PkID IN (?))
 						LEFT JOIN " . HC_TblPrefix . "locations l ON (e.LocID = l.PkID)
 						LEFT JOIN " . HC_TblPrefix . "eventrsvps er ON (e.PkID = er.EventID)
 					WHERE e.IsActive = 1 AND e.IsApproved = 1 AND
-						(e.StartDate BETWEEN '" . dateToMySQL($_POST['startDate'], $hc_cfg[24]) . "' AND '" . dateToMySQL($_POST['endDate'], $hc_cfg[24]) . "')
+						(e.StartDate BETWEEN ? AND ?)
 						AND c.IsActive = 1 AND e.Title IS NOT NULL
 					GROUP BY e.Title, e.Description, e.StartTime, e.EndTime, e.Cost, e.IsBillboard, e.ContactName, e.ContactEmail, e.ContactPhone, e.ContactURL, 
 							er.Space, e.LocID, e.LocationName, e.LocationAddress, e.LocationAddress2, e.LocationCity, e.LocationState, e.LocationZip, e.LocCountry, 
 							l.Name, l.Address, l.Address2, l.City, l.State, l.Zip, l.Country, l.URL";
+		$params = array($catIDWhere, dateToMySQL($_POST['startDate'], $hc_cfg[24]), dateToMySQL($_POST['endDate'], $hc_cfg[24]));
 		switch($groupBy){
 			case 0:
 				$query .= ", e.PkID, e.StartDate, c.CategoryName";
@@ -106,7 +107,7 @@
 				break;
 		}
 		
-		$resultE = doQuery($query);
+		$resultE = DoQuery($query, $params);
 		if(hasRows($resultE)){
 			$export = buildIt($header,NULL);
 			while($row = hc_mysql_fetch_row($resultE)){

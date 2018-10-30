@@ -17,7 +17,7 @@
 	
 	appInstructions(0, "Themes_Settings", $hc_lang_settings['TitleTheme'], $hc_lang_settings['InstructTheme']);
 	
-	$result = doQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN (83,84,86) ORDER BY PkID");
+	$result = DoQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN (83,84,86) ORDER BY PkID");
 	$fullsite = cOut(hc_mysql_result($result,0,0));
 	$mobile = cOut(hc_mysql_result($result,1,0));
 	$agents = cOut(hc_mysql_result($result,2,0));

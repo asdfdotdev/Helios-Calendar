@@ -131,9 +131,9 @@
 				break;
 			case 'series':
 				$sID = (isset($_GET['sID'])) ? cIn(strip_tags($_GET['sID'])) : '';
-				$result = doQuery("SELECT DISTINCT Title FROM " . HC_TblPrefix . "events
-						WHERE SeriesID = '".$sID."' AND IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . SYSDATE . "'
-						ORDER BY StartDate");
+				$result = DoQuery("SELECT DISTINCT Title FROM " . HC_TblPrefix . "events
+						WHERE SeriesID = ? AND IsActive = 1 AND IsApproved = 1 AND StartDate >= '" . SYSDATE . "'
+						ORDER BY StartDate", array($sID));
 				if(hasRows($result)){
 					define('HCCanURL',CalRoot.'/index.php?com=series&sID='.$sID);
 					$crmbAdd[HCCanURL] = $hc_lang_core['Series'].' '.hc_mysql_result($result,0,0);}
@@ -153,14 +153,14 @@
 				break;
 			case 'send':
 				if($lID > 0){
-					$result = doQuery("SELECT Name, Address, Address2, City, State, Zip, Country FROM " . HC_TblPrefix . "locations WHERE PkID = '" . $lID . "'");
+					$result = DoQuery("SELECT Name, Address, Address2, City, State, Zip, Country FROM " . HC_TblPrefix . "locations WHERE PkID = ?", array($lID));
 					if(hasRows($result)){
 						define('HCCanURL',CalRoot.'/index.php?com='.HCCOM.'&amp;lID='.$lID);
 						$crmbAdd[CalRoot.'/index.php?com=location'] = $hc_lang_core['location'];
 						$crmbAdd[CalRoot.'/index.php?com=location&amp;lID='.$lID] = hc_mysql_result($result,0,0);
 						$crmbAdd[HCCanURL] = $hc_lang_core[HCCOM];}
 				} elseif($eID > 0) {
-					$result = doQuery("SELECT Title, StartDate, StartTime, TBD FROM " . HC_TblPrefix . "events WHERE PkID = '" . $eID . "'".(($hc_cfg[126] == 0) ? " AND StartDate >= '" . SYSDATE . "'" : ""));
+					$result = DoQuery("SELECT Title, StartDate, StartTime, TBD FROM " . HC_TblPrefix . "events WHERE PkID = ?".(($hc_cfg[126] == 0) ? " AND StartDate >= '" . SYSDATE . "'" : ""), array($eID));
 					if(hasRows($result)){
 						define('HCCanURL',CalRoot.'/index.php?com='.HCCOM.'&amp;eID='.$eID);
 						$crmbAdd[CalRoot.'/index.php?eID='.$eID] = hc_mysql_result($result,0,0);
@@ -172,16 +172,16 @@
 				load_theme_page('form.php');
 				break;
 			case 'rsvp':
-				$result = doQuery("SELECT e.Title,e.StartDate,e.StartTime,e.TBD,e.ContactName,e.ContactEmail,e.SeriesID,er.OpenDate,er.CloseDate,er.RegOption,
+				$result = DoQuery("SELECT e.Title,e.StartDate,e.StartTime,e.TBD,e.ContactName,e.ContactEmail,e.SeriesID,er.OpenDate,er.CloseDate,er.RegOption,
 									MIN(e2.StartDate),MAX(e2.StartDate),MIN(e2.PkID)
 								FROM " . HC_TblPrefix . "events e
 									LEFT JOIN " . HC_TblPrefix . "events e2 ON (e.SeriesID = e2.SeriesID)
 									LEFT JOIN " . HC_TblPrefix . "eventrsvps er ON (e.PkID = er.EventID)
 								WHERE
-									e.PkID = '" . $eID . "'
+									e.PkID = ?
 								GROUP BY e.Title,e.StartDate,e.StartTime,e.TBD,e.ContactName,e.ContactEmail,e.SeriesID,er.OpenDate,er.CloseDate, er.RegOption
 								ORDER BY StartDate
-								LIMIT 1");
+								LIMIT 1", array($eID));
 				
 				if($eID > 0 && hasRows($result)){
 					define('HCCanURL',CalRoot.'/index.php?com=rsvp&amp;eID='.$eID);
@@ -241,7 +241,7 @@
 					load_theme_page('event.php');
 				} else {
 					if($lID > 0){
-						$result = doQuery("SELECT Name FROM " . HC_TblPrefix . "locations WHERE PkID = '" . $lID . "'");
+						$result = DoQuery("SELECT Name FROM " . HC_TblPrefix . "locations WHERE PkID = ?", array($lID));
 						if(hasRows($result))
 							$crmbAdd['NULL'] = $hc_lang_core['LocCal'].' '.hc_mysql_result($result,0,0);
 					}

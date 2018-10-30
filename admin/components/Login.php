@@ -12,7 +12,7 @@
 	$link = '<a href="'.AdminRoot.'/index.php" rel="nofollow" class="footer">'.$hc_lang_login['SignIn'].'</a>';
 
 	if($lp == 2 && $k != '')
-		$result = doQuery("SELECT PkID, Email, LoginCnt FROM " . HC_TblPrefix . "admin WHERE PCKey = '" . $k . "' AND PCKey IS NOT NULL");
+		$result = DoQuery("SELECT PkID, Email, LoginCnt FROM " . HC_TblPrefix . "admin WHERE PCKey = ? AND PCKey IS NOT NULL", array($k));
 	
 		echo '
 	<div id="login">

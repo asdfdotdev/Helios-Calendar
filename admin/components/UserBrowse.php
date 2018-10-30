@@ -12,14 +12,15 @@
 	$resDiff = 6;
 	$resLimit = (isset($_GET['a']) && is_numeric($_GET['a']) && abs($_GET['a']) <= 100 && $_GET['a'] % 25 == 0) ? cIn(abs($_GET['a'])) : 25;
 	$resOffset = (isset($_GET['p']) && is_numeric($_GET['p'])) ? cIn(abs($_GET['p'])) : 0;
-	$term = $save = $queryS = '';
+	$term = $save = $queryS = ''; $paramS = array();;
 	if(isset($_GET['s']) && $_GET['s'] != ''){
 		$term = cIn(cleanQuotes(strip_tags($_GET['s'])));
 		$save = '&s='.$term;
-		$queryS = " AND (NetworkName LIKE('%".$term."%') OR Email LIKE('%".$term."%'))";
+		$queryS = " AND (NetworkName LIKE(?) OR Email LIKE(?))";
+		$paramS = array('%' . $term '%','%' . $term '%');
 	}
 	
-	$resultC = doQuery("SELECT COUNT(*) FROM " . HC_TblPrefix  . "users WHERE IsBanned = '". cIn($ban) . "' $queryS");
+	$resultC = DoQuery("SELECT COUNT(*) FROM " . HC_TblPrefix  . "users WHERE IsBanned = ? $queryS", array_merge(array(cIn($ban)), $paramS));
 	$pages = ceil(hc_mysql_result($resultC,0,0)/$resLimit);
 	$resOffset = ($pages <= $resOffset && $pages > 0) ? $pages - 1 : $resOffset;
 	
@@ -88,10 +89,10 @@
 			'.(($term != '') ? '<label>&nbsp;</label><span class="output"><a href="'.AdminRoot.'/index.php?com=user&p=0&a='.$resLimit.'">'.$hc_lang_user['AllUsersLink'].'</a></span>' : '').'
 		</fieldset>';
 
-	$result = doQuery("SELECT PkID, NetworkType, NetworkName, NetworkID, Email, SignIns, LastSignIn, LastIP, Level, IsBanned,
+	$result = DoQuery("SELECT PkID, NetworkType, NetworkName, NetworkID, Email, SignIns, LastSignIn, LastIP, Level, IsBanned,
 						(SELECT COUNT(PkID) FROM " . HC_TblPrefix . "events e WHERE e.OwnerID = u.PkID AND e.IsActive = 1) as Events
 					FROM " . HC_TblPrefix  . "users u
-					WHERE IsBanned = '". cIn($ban) . "' $queryS ORDER BY NetworkName LIMIT " . $resLimit . " OFFSET " . ($resOffset * $resLimit));
+					WHERE IsBanned = ? $queryS ORDER BY NetworkName LIMIT ? OFFSET ?", array_merge(array_merge(array(cIn($ban)), $paramS), array($resLimit, ($resOffset * $resLimit)));
 	if(hasRows($result)){
 		echo '
 		<ul class="data">

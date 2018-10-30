@@ -38,13 +38,13 @@
 	if(!isset($_GET['sID']) && !isset($_GET['eID'])){
 		appInstructions(0, "Pending_Events", $hc_lang_event['TitlePendingA'], $hc_lang_event['InstructPendingA']);
 		
-		$resultI = doQuery("SELECT e.PkID, e.Title, e.StartDate, e.SeriesID, e.SubmittedAt, e.SubmittedByName, e.SubmittedByEmail, e.OwnerID, u.NetworkName, u.Email
+		$resultI = DoQuery("SELECT e.PkID, e.Title, e.StartDate, e.SeriesID, e.SubmittedAt, e.SubmittedByName, e.SubmittedByEmail, e.OwnerID, u.NetworkName, u.Email
 						FROM " . HC_TblPrefix . "events e
 							LEFT JOIN " . HC_TblPrefix . "users u ON (e.OwnerID = u.PkID)
 						WHERE e.SeriesID IS NULL AND e.IsActive = 1 AND e.IsApproved = 2
 						ORDER BY SubmittedAt DESC, StartDate, Title");
 		
-		$resultS = doQuery("SELECT e.PkID, e.Title, e.StartDate, e.SeriesID, e.SubmittedAt, e.SubmittedByName, e.SubmittedByEmail, e.OwnerID, u.NetworkName, u.Email
+		$resultS = DoQuery("SELECT e.PkID, e.Title, e.StartDate, e.SeriesID, e.SubmittedAt, e.SubmittedByName, e.SubmittedByEmail, e.OwnerID, u.NetworkName, u.Email
 						FROM " . HC_TblPrefix . "events e
 							LEFT JOIN " . HC_TblPrefix . "users u ON (e.OwnerID = u.PkID)
 						WHERE e.SeriesID IS NOT NULL AND e.IsActive = 1 AND e.IsApproved = 2
@@ -179,16 +179,15 @@
 		$startTimeAMPM = date("A",strtotime(SYSDATE.' '.SYSTIME));
 		$endTimeAMPM = date("A",strtotime(SYSDATE.' '.SYSTIME.' +1 hour'));
 		$qWhere = " WHERE e.PkID = 0";
-		
+		$params = array();
 		if(isset($_GET['eID']) && is_numeric($_GET['eID'])){
 			$editSingle = true;
 			$eID = cIn($_GET['eID']);
-			$qWhere = " WHERE e.PkID = '" . $eID . "' AND e.IsActive = 1 AND e.IsApproved = 2";
+			$qWhere = " WHERE e.PkID = ? AND e.IsActive = 1 AND e.IsApproved = 2";
 			$fID = $eID;			
 		} elseif(isset($_GET['sID'])){
 			$series = cIn(strip_tags($_GET['sID']));
-			$resultS = doQuery("SELECT GROUP_CONCAT(DISTINCT PkID ORDER BY PkID SEPARATOR ','), GROUP_CONCAT(StartDate ORDER BY StartDate SEPARATOR ',')
-							FROM " . HC_TblPrefix . "events WHERE SeriesID = '".$series."'");
+			$resultS = DoQuery("SELECT GROUP_CONCAT(DISTINCT PkID ORDER BY PkID SEPARATOR ','), GROUP_CONCAT(StartDate ORDER BY StartDate SEPARATOR ',') FROM " . HC_TblPrefix . "events WHERE SeriesID = ?", array($series));
 			$events = (hasRows($result)) ? explode(',',hc_mysql_result($resultS,0,0)) : array();
 			$events = array_filter($events,'is_numeric');
 			$editString = implode(',',$events);
@@ -198,7 +197,7 @@
 				$dateString .= ($cnt % 8 == 0) ? stampToDate($val, $hc_cfg[24]).'<br />' : stampToDate($val, $hc_cfg[24]).', ';
 				++$cnt;
 			}
-			$qWhere = " WHERE e.SeriesID = '" . $series . "' ORDER BY e.PkID";
+			$qWhere = " WHERE e.SeriesID = ? ORDER BY e.PkID";
 			$fID = $series;
 		}
 		
@@ -206,10 +205,10 @@
 				FROM " . HC_TblPrefix . "events e
 					LEFT JOIN " . HC_TblPrefix . "locations l ON (e.LocID = l.PkID)
 					LEFT JOIN " . HC_TblPrefix . "eventrsvps er ON (er.EventID = e.PkID)
-					LEFT JOIN " . HC_TblPrefix . "followup f ON (f.EntityID = '" . $fID . "' AND (f.EntityType = 1 OR f.EntityType = 2))
+					LEFT JOIN " . HC_TblPrefix . "followup f ON (f.EntityID = ? AND (f.EntityType = 1 OR f.EntityType = 2))
 					LEFT JOIN " . HC_TblPrefix . "users u ON (e.OwnerID = u.PkID)";
 		
-		$result = doQuery($query.$qWhere);
+		$result = DoQuery($query.$qWhere, array($fID, $fID));
 		if(!hasRows($result)){
 			echo '<p>'.$hc_lang_event['ApproveWarning'].'</p>';
 		} else {
@@ -255,9 +254,9 @@
 			$bitLabel = $hc_lang_event['BitlyLabel'];
 			$bitNotice = $hc_lang_event['BitlyNotice'];
 			if($rsvp_type == 1){
-				$resultR = doQuery("SELECT COUNT(r.EventID) as RegCnt 
+				$resultR = DoQuery("SELECT COUNT(r.EventID) as RegCnt 
 									FROM " . HC_TblPrefix . "registrants r
-								WHERE r.EventID = '" . cIn($eID) . "' AND r.IsActive = 1");
+								WHERE r.EventID = ? AND r.IsActive = 1", array(cIn($eID)));
 				$rsvp_taken = (hasRows($resultR)) ? hc_mysql_result($resultR,0,0) : 0;
 			}
 			if(strpos($shortURL,'http://') !== false){
@@ -449,20 +448,24 @@
 				<span class="output">'.$hc_lang_event['Days'].'</span>
 				<label>'.$hc_lang_event['Categories'].'</label>';
 
-			$query = ($eID > 0) ? "SELECT c.PkID, c.CategoryName, c.ParentID, c.CategoryName as Sort, ec.EventID as Selected
+			$query = NULL; $params = array();
+			if ($eID > 0) {
+				$query = "SELECT c.PkID, c.CategoryName, c.ParentID, c.CategoryName as Sort, ec.EventID as Selected
 					FROM " . HC_TblPrefix . "categories c
-						LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (c.PkID = ec.CategoryID AND ec.EventID = " . cIn($eID) . ")
+						LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (c.PkID = ec.CategoryID AND ec.EventID = ?)
 					WHERE c.ParentID = 0 AND c.IsActive = 1
 					GROUP BY c.PkID, c.CategoryName, c.ParentID, ec.EventID
 					UNION
 					SELECT c.PkID, c.CategoryName, c.ParentID, c2.CategoryName as Sort, ec.EventID as Selected
 					FROM " . HC_TblPrefix . "categories c
 						LEFT JOIN " . HC_TblPrefix . "categories c2 ON (c.ParentID = c2.PkID)
-						LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (c.PkID = ec.CategoryID AND ec.EventID = " . cIn($eID) . ")
+						LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (c.PkID = ec.CategoryID AND ec.EventID = ?)
 					WHERE c.ParentID > 0 AND c.IsActive = 1
 					GROUP BY c.PkID, c.CategoryName, c.ParentID, c2.CategoryName, ec.EventID
-					ORDER BY Sort, ParentID, CategoryName" : NULL;
-			getCategories('frmEventApprove',3,$query,1);
+					ORDER BY Sort, ParentID, CategoryName";
+				$params = array(cIn($eID),cIn($eID));
+			}
+			getCategories('frmEventApprove',3,$query,1,$params);
 
 			echo '
 			</fieldset>
@@ -532,7 +535,7 @@
 				<input name="contactURL" id="contactURL" type="url" maxlength="100" size="40" value="'.$contactURL.'" />
 			</fieldset>';
 			
-			$result = doQuery("SELECT * FROM " . HC_TblPrefix . "settings WHERE PkID IN(5,6,46,47,57,58,120,123)");
+			$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "settings WHERE PkID IN(5,6,46,47,57,58,120,123)");
 			$goEventbrite = (hc_mysql_result($result,0,1) != '' && hc_mysql_result($result,1,1) != '') ? 1 : 0;
 			$goTwitter = (hc_mysql_result($result,2,1) != '' && hc_mysql_result($result,3,1) != '') ? 1 : 0;
 			$goBitly = (hc_mysql_result($result,4,1) && hc_mysql_result($result,5,1)) ? 1 : 0;
@@ -543,7 +546,7 @@
 			$ebID = $tweetLnks = $fbID = $fbStatLnks = '';
 			$tweets = $statuses = array();
 			
-			$resultD = doQuery("SELECT * FROM " . HC_TblPrefix . "eventnetwork WHERE EventID = '" . cIn($eID) . "'");
+			$resultD = DoQuery("SELECT * FROM " . HC_TblPrefix . "eventnetwork WHERE EventID = ?", array(cIn($eID)));
 			if(hasRows($resultD)){
 				while($row = hc_mysql_fetch_row($resultD)){
 					switch($row[2]){

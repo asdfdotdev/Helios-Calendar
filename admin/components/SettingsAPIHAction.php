@@ -20,19 +20,19 @@
 	$api_news_size = (isset($_POST['news_size']) && is_numeric($_POST['news_size'])) ? cIn($_POST['news_size']) : '25';
 	
 	if($api_on != ''){
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $api_on . "' WHERE PkID = 127");
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($api_on, 127));
 		
 		if($api_on == 1){
-			doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $api_cache . "' WHERE PkID = 128");
-			doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $api_event_size . "' WHERE PkID = 129");
-			doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $api_news_size . "' WHERE PkID = 132");
+			DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($api_cache, 128));
+			DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($api_event_size, 129));
+			DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($api_news_size, 132));
 			
 			if($api_cache == 2){
 				$api_user_limit = (isset($_POST['apc_size']) && is_numeric($_POST['apc_size'])) ? cIn($_POST['apc_size']) : '25';
 				$api_user_time = (isset($_POST['apc_time']) && is_numeric($_POST['apc_time'])) ? cIn($_POST['apc_time']) : '60';
 				
-				doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $api_user_limit . "' WHERE PkID = 130");
-				doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $api_user_time . "' WHERE PkID = 131");
+				DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($api_user_limit, 130));
+				DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($api_user_time, 131));
 			}
 		}
 		

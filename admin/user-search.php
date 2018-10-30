@@ -17,13 +17,13 @@
 	$resOffset = (isset($_GET['o']) && is_numeric($_GET['o'])) ? cIn(strip_tags($_GET['o'])) : 0;
 	
 	if($q != ''){
-		$result = doQuery("SELECT PkID, NetworkType, NetworkName, NetworkID, Email, SignIns, LastSignIn, LastIP, Level, IsBanned,
+		$result = DoQuery("SELECT PkID, NetworkType, NetworkName, NetworkID, Email, SignIns, LastSignIn, LastIP, Level, IsBanned,
 							(SELECT COUNT(PkID) FROM " . HC_TblPrefix . "events e WHERE e.OwnerID = u.PkID AND e.IsActive = 1 AND e.IsApproved = 1) as Events
 						FROM " . HC_TblPrefix  . "users u
-						WHERE (NetworkName LIKE('%".$q."%') OR Email LIKE('%".$q."%'))
+						WHERE (NetworkName LIKE ? OR Email LIKE ?)
 						ORDER BY NetworkName 
-						LIMIT " . $resLimit . " OFFSET " . ($resOffset * $resLimit));
-		$resultP = doQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "users WHERE (NetworkName LIKE('%".$q."%') OR Email LIKE('%".$q."%'))");
+						LIMIT ? OFFSET ?", array('%'.$q.'%', '%'.$q.'%', $resLimit, ($resOffset * $resLimit)));
+		$resultP = DoQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "users WHERE (NetworkName LIKE ? OR Email LIKE ?", array('%'.$q.'%','%'.$q.'%'));
 	}
 	
 	if(isset($result) && hasRows($result)){

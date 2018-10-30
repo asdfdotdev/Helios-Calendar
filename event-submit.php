@@ -104,7 +104,7 @@
 		}
 
 		if(isset($_POST['recurCheck'])){
-			$seriesID = "'" . DecHex(microtime() * 9999999) . DecHex(microtime() * 5555555) . DecHex(microtime() * 1111111) . "'";
+			$seriesID = DecHex(microtime() * 9999999) . DecHex(microtime() * 5555555) . DecHex(microtime() * 1111111);
 			$dateE = explode('-',$eventDate);
 			$curDate = $eventDate;
 			if(isset($dateE[2]))
@@ -219,26 +219,23 @@
 						ContactEmail, ContactPhone, ContactURL, IsActive, IsApproved,
 						IsBillboard, SubmittedByName, SubmittedByEmail, SubmittedAt, SeriesID,
 						Message, LocID, Cost, LocCountry, OwnerID, PublishDate, LastMod)
-					VALUES(	'" . cIn($eventTitle) . "', '" . cIn($locName) . "', '" . cIn($locAddress) . "', '" . cIn($locAddress2) . "',
-							'" . cIn($locCity) . "', '" . cIn($locState) . "', '" . cIn($locZip) . "', '" . cIn($eventDesc,0) . "',
-							'" . cIn($eventDate) . "', " . $startTime . ", '" . cIn($tbd) . "', " . $endTime . ",
-							'" . cIn($contactName) . "', '" . cIn($contactEmail) . "', '" . cIn($contactPhone) . "', '" . cIn($contactURL) . "',
-							'1', '" . $appStatus . "', '0', '" . cIn($subName) . "', '" . cIn($subEmail) . "', '".SYSDATE." ".SYSTIME."' , " . $seriesID . ",
-							'" . $adminMessage . "','" . cIn($locID) . "', '" . cIn($cost) . "', '" . cIn($locCountry) . "', '" . cIn($subID) . "',
-							" . $pubDate . ", " . $pubDate . ");";
-			doQuery($query);
-			$result = doQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "events");
+					VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+			$params = array(cIn($eventTitle), cIn($locName), cIn($locAddress), cIn($locAddress2), cIn($locCity), cIn($locState), cIn($locZip), cIn($eventDesc, 0), cIn($eventDate), $startTime, cIn($tbd), $endTime, cIn($contactName), cIn($contactEmail), cIn($contactPhone), cIn($contactURL), 1, $appStatus, '0', cIn($subName), cIn($subEmail), SYSDATE . " " . SYSTIME, $seriesID, $adminMessage, cIn($locID), cIn($cost), cIn($locCountry), cIn($subID), $pubDate, $pubDate);
+			
+			DoQuery($query, $params);
+
+			$result = DoQuery("SELECT LAST_INSERT_ID() FROM " . HC_TblPrefix . "events");
 			$newPkID = hc_mysql_result($result,0,0);
 
 			if(isset($_POST['catID']) && is_array($_POST['catID'])){
 				foreach ($_POST['catID'] as $val){
 					if(is_numeric($val) && $val > 0)
-						doQuery("INSERT INTO " . HC_TblPrefix . "eventcategories(EventID, CategoryID) VALUES('" . cIn($newPkID) . "', '" . cIn($val) . "')");
+						DoQuery("INSERT INTO " . HC_TblPrefix . "eventcategories(EventID, CategoryID) VALUES(?,?)", array(cIn($newPkID), cIn($val)));
 				}
 			}
 			if($rsvp_type == 1 && $newPkID > 0){
-				doQuery("INSERT INTO " . HC_TblPrefix . "eventrsvps(Type,EventID,OpenDate,CloseDate,Space,RegOption,Notices)
-						VALUES('".$rsvp_type."','".$newPkID."','".$rsvp_open."','".$rsvp_close."','".$rsvp_space."','".$rsvp_disp."','".$rsvp_notice."')");
+				DoQuery("INSERT INTO " . HC_TblPrefix . "eventrsvps(Type,EventID,OpenDate,CloseDate,Space,RegOption,Notices)
+						VALUES(?,?,?,?,?,?,?)", array($rsvp_type, $newPkID, $rsvp_open, $rsvp_close, $rsvp_space, $rsvp_disp, $rsvp_notice));
 			}
 		}
 

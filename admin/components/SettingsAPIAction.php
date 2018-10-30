@@ -59,42 +59,42 @@
 		$quickLinks = implode(',',array_filter($_POST['quickLinkID'],'is_numeric'));
 	}
 	if($emapZoom != ''){
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $eventbriteAPI . "' WHERE PkID = 5");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $eventbriteUser . "' WHERE PkID = 6");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $emapZoom . "' WHERE PkID = 27");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $locBrowse . "' WHERE PkID = 45");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $quickLinks . "' WHERE PkID = 50");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $mapLibrary . "' WHERE PkID = 55");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $useComments . "' WHERE PkID = 56");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $bitlyUser . "' WHERE PkID = 57");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $bitlyAPI . "' WHERE PkID = 58");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $tweetHash . "' WHERE PkID = 59");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $twtrComKey . "' WHERE PkID = 111");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $twtrComSec . "' WHERE PkID = 112");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $twtrSignIn . "' WHERE PkID = 113");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $fbSignIn . "' WHERE PkID = 114");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $googSignIn . "' WHERE PkID = 115");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $fbAppID . "' WHERE PkID = 117");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $fbAppSec . "' WHERE PkID = 118");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $fbActiveT . "' WHERE PkID = 120");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $fbActiveI . "' WHERE PkID = 123");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $googID . "' WHERE PkID = 124");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $googSec . "' WHERE PkID = 125");
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($eventbriteAPI, 5));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($eventbriteUser, 6));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($emapZoom, 27));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($locBrowse, 45));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($quickLinks, 50));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($mapLibrary, 55));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($useComments, 56));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($bitlyUser, 57));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($bitlyAPI, 58));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($tweetHash, 59));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($twtrComKey, 111));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($twtrComSec, 112));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($twtrSignIn, 113));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($fbSignIn, 114));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($googSignIn, 115));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($fbAppID, 117));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($fbAppSec, 118));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($fbActiveT, 120));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($fbActiveI, 123));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($googID, 124));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($googSec, 125));
 		
 		if($eventbriteAPI != '' && $eventbriteUser != ''){
 			if($eventbriteOrgID != '')
-				doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $eventbriteOrgID . "' WHERE PkID = 62");
+				DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($eventbriteOrgID, 62));
 			
-			doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $eventbritePaypal . "' WHERE PkID = 103");
-			doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $eventbriteGoogleID . "' WHERE PkID = 104");
-			doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $eventbriteGoogleKey . "' WHERE PkID = 105");
+			DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($eventbritePaypal, 103));
+			DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($eventbriteGoogleID, 104));
+			DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($eventbriteGoogleKey, 105));
 		}
 		if($mapLibrary == 1){
 			$googMapURL = isset($_POST['googMapURL']) ? cIn($_POST['googMapURL']) : '';
 			$googMapVer = isset($_POST['googMapVer']) ? cIn($_POST['googMapVer']) : '';
 
-			doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $googMapURL . "' WHERE PkID = 52");
-			doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $googMapVer . "' WHERE PkID = 61");
+			DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($googMapURL, 52));
+			DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($googMapVer, 61));
 			
 		} else if($mapLibrary == 2){
 			$mapLayer = (isset($_POST['mapLayer']) && is_numeric($_POST['mapLayer'])) ? cIn($_POST['mapLayer']) : '';
@@ -102,29 +102,29 @@
 			switch($mapLayer){
 				case 2:
 					$bingAPI = isset($_POST['bingAPI']) ? cIn($_POST['bingAPI']) : '';
-					doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $bingAPI . "' WHERE PkID = 96");
+					DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($bingAPI, 96));
 					break;
 				case 3:
 					$yahooAPI = isset($_POST['yahooAPI']) ? cIn($_POST['yahooAPI']) : '';
-					doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $yahooAPI . "' WHERE PkID = 95");
+					DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($yahooAPI, 95));
 					break;
 			}
-			doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $mapLayer . "' WHERE PkID = 94");
+			DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($mapLayer, 94));
 		}
 		switch($useComments){
 			case 1:
 				$disqusName = isset($_POST['disqusName']) ? cIn($_POST['disqusName']) : '';
-				doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $disqusName . "' WHERE PkID = 25");
+				DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($disqusName, 25));
 				break;
 			case 2:
 				$fbcPosts = (isset($_POST['fbcPosts']) && is_numeric($_POST['fbcPosts'])) ? cIn($_POST['fbcPosts']) : '';
 				$fbcWidth = (isset($_POST['fbcWidth']) && is_numeric($_POST['fbcWidth'])) ? cIn($_POST['fbcWidth']) : '';
-				doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $fbcPosts . "' WHERE PkID = 100");
-				doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $fbcWidth . "' WHERE PkID = 101");
+				DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($fbcPosts, 100));
+				DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($fbcWidth, 101));
 				break;
 			case 3:
 				$livefyreID = isset($_POST['livefyreID']) ? cIn($_POST['livefyreID']) : '';
-				doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $livefyreID . "' WHERE PkID = 102");
+				DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($livefyreID, 102));
 				break;
 		}
 		if($locBrowse == 1){
@@ -132,15 +132,15 @@
 			$lmapLat = $_POST['lmapLat'];
 			$lmapLon = $_POST['lmapLon'];
 			$mapSyndication = $_POST['mapSyndication'];
-			doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $lmapZoom . "' WHERE PkID = 41");
-			doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $lmapLat . "' WHERE PkID = 42");
-			doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $lmapLon . "' WHERE PkID = 43");
-			doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $mapSyndication . "' WHERE PkID = 69");
+			DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($lmapZoom, 41));
+			DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($lmapLat, 42));
+			DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($lmapLon, 43));
+			DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($mapSyndication, 69));
 		}
 		if(isset($_POST['twtrRevoke']) || $twtrRevoke == true)
-			doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = NULL WHERE PkID IN (46,47,63,64)");
+			DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = NULL WHERE PkID IN (46,47,63,64)");
 		if(isset($_POST['fbRevoke']) || $fbRevoke == true)
-			doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = NULL WHERE PkID IN (119,120,121,122,123)");
+			DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = NULL WHERE PkID IN (119,120,121,122,123)");
 		
 		clearCache();
 		

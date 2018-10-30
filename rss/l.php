@@ -13,18 +13,19 @@
 	
 	$lID = (isset($_GET['lID']) && is_numeric($_GET['lID'])) ? cIn(strip_tags($_GET['lID'])) : -1;
 	$tzRSS = str_replace(':','',HCTZ);
-	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "locations WHERE PkID = '" . $lID . "' AND IsActive = 1");
+	$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "locations WHERE PkID = ? AND IsActive = 1", array($lID));
 	$locName = (hasRows($result)) ? hc_mysql_result($result,0,1) : '';
 	$feedName = $locName.' : '.$hc_lang_rss['Location'];
 	$query = "SELECT e.PkID, e.Title, e.Description, e.StartDate, e.StartTime, e.SeriesID
 				FROM " . HC_TblPrefix . "events e
 					LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (e.PkID = ec.EventID)
 					LEFT JOIN " . HC_TblPrefix . "categories c ON (ec.CategoryID = c.PkID)
-				WHERE e.IsActive = 1 AND e.IsApproved = 1 AND e.StartDate >= '" . cIn(SYSDATE) . "' AND e.LocID = '" . $lID . "' AND
+				WHERE e.IsActive = 1 AND e.IsApproved = 1 AND e.StartDate >= '" . cIn(SYSDATE) . "' AND e.LocID = ? AND
 					c.IsActive = 1
 				GROUP BY e.PkID, e.Title, e.Description, e.StartDate, e.StartTime, e.SeriesID
 				ORDER BY e.StartDate, e.StartTime
-				LIMIT ".$hc_cfg[2];
+				LIMIT ?";
+	$params = array($lID, $hc_cfg[2])
 	
 	header('Content-Type:application/rss+xml; charset=' . $hc_lang_config['CharSet']);
 	echo '<?xml version="1.0" encoding="'.$hc_lang_config['CharSet'].'"?>
@@ -37,7 +38,7 @@
 	<docs>'.CalRoot.'&#47;index.php&#63;com=tools</docs>
 	<description>'.cleanXMLChars($hc_lang_rss['Upcoming']).'</description>';
 	
-	$result = doQuery($query);
+	$result = DoQuery($query, $params);
 	if(hasRows($result)){
 		echo '
 	<title>'.cleanXMLChars($feedName.' - '.CalName).'</title>';

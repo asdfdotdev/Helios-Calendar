@@ -17,7 +17,7 @@
 	$target = AdminRoot . '/index.php?com=reportfail';
 	
 	if($dID > 0){
-		doQuery("DELETE FROM " . HC_TblPrefix . "adminloginhistory WHERE PkID = '" . $dID . "'");
+		DoQuery("DELETE FROM " . HC_TblPrefix . "adminloginhistory WHERE PkID = ?", array($dID));
 		$target = AdminRoot . '/index.php?com=reportfail&msg=1';
 	}
 	

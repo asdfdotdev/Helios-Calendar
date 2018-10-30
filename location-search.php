@@ -20,19 +20,21 @@
 	if($locName != ''){
 		if($eo == 0){
 			$pQuery = ($po == 0) ? '' : ' AND IsPublic = 1';
-			$result = doQuery("SELECT PkID, Name, Address, Address2, City, State, Zip, Country, Lat, Lon
+			$result = DoQuery("SELECT PkID, Name, Address, Address2, City, State, Zip, Country, Lat, Lon
 							FROM " . HC_TblPrefix . "locations
-							WHERE NAME LIKE('%" . $locName . "%')" . $pQuery . " AND IsActive = 1
-							ORDER BY Name LIMIT " . $resLimit . " OFFSET " . ($resOffset * $resLimit));
-			$resultP = doQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "locations WHERE NAME LIKE('%" . cIn($locName) . "%')" . $pQuery . " AND IsActive = 1");
+							WHERE NAME LIKE ?" . $pQuery . " AND IsActive = 1
+							ORDER BY Name LIMIT ? OFFSET ?", array('%' . $locName . '%',  $resLimit, ($resOffset * $resLimit)));
+
+			$resultP = DoQuery("SELECT COUNT(PkID) FROM " . HC_TblPrefix . "locations WHERE NAME LIKE ?" . $pQuery . " AND IsActive = 1", array('%' . cIn($locName) . '%'));
 		} else {
-			$result = doQuery("SELECT DISTINCT(l.PkID), l.Name, l.Address, l.Address2, l.City, l.State, l.Zip, l.Country, l.Lat, l.Lon
+			$result = DoQuery("SELECT DISTINCT(l.PkID), l.Name, l.Address, l.Address2, l.City, l.State, l.Zip, l.Country, l.Lat, l.Lon
 							FROM " . HC_TblPrefix . "locations l
 								LEFT JOIN " . HC_TblPrefix . "events e ON (e.LocID = l.PkID)
-							WHERE l.NAME LIKE('%" . $locName . "%') AND l.IsActive = 1
+							WHERE l.NAME LIKE ? AND l.IsActive = 1
 								AND e.IsActive = 1 AND e.IsApproved = 1 AND e.StartDate >= '" . date("Y-m-d") . "'
-							ORDER BY Name LIMIT " . $resLimit . " OFFSET " . ($resOffset * $resLimit));
-			$resultP = doQuery("SELECT COUNT(DISTINCT(l.PkID)) FROM " . HC_TblPrefix . "locations l LEFT JOIN " . HC_TblPrefix . "events e ON (e.LocID = l.PkID) WHERE NAME LIKE('%" . $locName . "%') AND l.IsPublic = 1 AND l.IsActive = 1 AND e.IsActive = 1 AND e.IsApproved = 1 AND e.StartDate >= '" . date("Y-m-d") . "'");
+							ORDER BY Name LIMIT ? OFFSET ?", array('%' . $locName . '%', $resLimit, ($resOffset * $resLimit)));
+
+			$resultP = DoQuery("SELECT COUNT(DISTINCT(l.PkID)) FROM " . HC_TblPrefix . "locations l LEFT JOIN " . HC_TblPrefix . "events e ON (e.LocID = l.PkID) WHERE NAME LIKE ? AND l.IsPublic = 1 AND l.IsActive = 1 AND e.IsActive = 1 AND e.IsApproved = 1 AND e.StartDate >= '" . date("Y-m-d") . "'", array('%' . $locName . '%'));
 		}
 	}
 	if(isset($result) && hasRows($result)){

@@ -54,12 +54,12 @@
 		
 		
 		
-		$result = doQuery("SELECT PkID, Name, IsPublic, 
+		$result = DoQuery("SELECT PkID, Name, IsPublic, 
 							(SELECT COUNT(PkID) FROM " . HC_TblPrefix. "events e WHERE e.StartDate >= '" . SYSDATE . "' AND e.LocID = l.PkID) AS EventCnt
 						FROM " . HC_TblPrefix . "locations l
 						WHERE IsActive = 1 AND
-							(MATCH(Name,Address,Address2) AGAINST('".cIn($locName,0)."' IN BOOLEAN MODE) OR NAME LIKE('%" . cIn($locName) . "%'))
-						ORDER BY IsPublic, Name");
+							(MATCH(Name,Address,Address2) AGAINST(? IN BOOLEAN MODE) OR NAME LIKE(?))
+						ORDER BY IsPublic, Name", array(cIn($locName,0),"%" . cIn($locName) . "%"));
 		
 		if(!hasRows($result) || $locName == '' || !check_form_token($token)){
 			echo '

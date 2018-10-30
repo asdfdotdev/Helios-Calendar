@@ -15,7 +15,7 @@
 	$callback_url = AdminRoot.'/auth/twitter.php';
 	$consumer_key = $consumer_secret = '';
 		
-	$result = doQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(111,112)");
+	$result = DoQuery("SELECT SettingValue FROM " . HC_TblPrefix . "settings WHERE PkID IN(111,112)");
 	if(hasRows($result)){
 		$consumer_key = hc_mysql_result($result,0,0);
 		$consumer_secret = hc_mysql_result($result,1,0);
@@ -31,10 +31,10 @@
 			if(!isset($authUser) || !isset($authUserID) || !isset($authToken) || !isset($authSecret) || $authUser.$authUserID.$authToken.$authSecret == ''){
 				$target = AdminRoot . '/index.php?com=apiset&msg=3';
 			} else {
-				doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $authUser . "' WHERE PkID = 63");
-				doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $authUserID . "' WHERE PkID = 64");
-				doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $authToken . "' WHERE PkID = 46");
-				doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $authSecret . "' WHERE PkID = 47");
+				DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($authUser, 63));
+				DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($authUserID, 64));
+				DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($authToken, 46));
+				DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($authSecret, 47));
 
 				$target = AdminRoot . '/index.php?com=apiset&msg=2';
 			}

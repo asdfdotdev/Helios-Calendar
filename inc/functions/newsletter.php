@@ -108,7 +108,7 @@
 		echo $nav.'
 		<header>' . stampToDate($start, $header) . '</header>';
 		
-		$result = doQuery("SELECT PkID, Subject, SentDate FROM " . HC_TblPrefix . "newsletters WHERE Status > 0 AND IsArchive = 1 AND IsActive = 1 AND ArchiveContents != '' AND SentDate Between '" . $start . "' AND '" . $end . "' ORDER BY SentDate");
+		$result = DoQuery("SELECT PkID, Subject, SentDate FROM " . HC_TblPrefix . "newsletters WHERE Status > 0 AND IsArchive = 1 AND IsActive = 1 AND ArchiveContents != '' AND SentDate Between ? AND ? ORDER BY SentDate", array($start, $end));
 		if(!hasRows($result)){
 			echo '
 		<ul>

@@ -16,7 +16,7 @@
 	
 	$lID = (isset($_GET['lID']) && is_numeric($_GET['lID'])) ? cIn($_GET['lID']) : 0;
 	
-	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "locations WHERE PkID = '" . $lID . "'");
+	$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "locations WHERE PkID = ?", array($lID));
 	if(hasRows($result)){
 		$locName = hc_mysql_result($result,0,1);
 		$location = hc_mysql_result($result,0,1) . " - " . hc_mysql_result($result,0,2) . " " . hc_mysql_result($result,0,3) . ", " . hc_mysql_result($result,0,4) . ", " . hc_mysql_result($result,0,5) . " " . hc_mysql_result($result,0,6) . " " . hc_mysql_result($result,0,7);
@@ -33,7 +33,7 @@
 			$tzOffset = (strlen($tzOffset) < 4) ? '+0' . $tzOffset : '+' . $tzOffset;
 		}
 
-		$result = doQuery("SELECT * FROM " . HC_TblPrefix . "events WHERE LocID = '" . $lID . "' AND StartDate >= '" . date("Y-m-d", mktime(0,0,0,date("m"),date("d"),date("Y"))) . "' ORDER BY StartDate, StartTime");
+		$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "events WHERE LocID = ? AND StartDate >= '" . date("Y-m-d", mktime(0,0,0,date("m"),date("d"),date("Y"))) . "' ORDER BY StartDate, StartTime", array($lID));
 		$descFooter = "\\n______________________________\\nCalendar Feed Powered by Helios Calendar";
 
 		header('Content-type: text/Calendar');

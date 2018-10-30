@@ -30,10 +30,10 @@
 		$stop = (is_numeric($do)) ? 0 : 1;
 
 		if($stop == 0){
-			$result = doQuery("SELECT PkID FROM " . HC_TblPrefix . "subscribers WHERE email = '" . $email . "' && IsConfirm = 1");
+			$result = DoQuery("SELECT PkID FROM " . HC_TblPrefix . "subscribers WHERE email = ? && IsConfirm = 1", array($email));
 			if(hasRows($result)){
-				doQuery("UPDATE " . HC_TblPrefix . "subscribers SET GUID = MD5(CONCAT(rand(UNIX_TIMESTAMP()) * (RAND()*1000000),'" . $email . "')) WHERE email = '" . $email . "'");
-				$result = doQuery("SELECT FirstName, LastName, GUID FROM " . HC_TblPrefix . "subscribers WHERE email = '" . $email . "'");
+				DoQuery("UPDATE " . HC_TblPrefix . "subscribers SET GUID = MD5(CONCAT(rand(UNIX_TIMESTAMP()) * (RAND()*1000000),?)) WHERE email = ?", array($email, $email));
+				$result = DoQuery("SELECT FirstName, LastName, GUID FROM " . HC_TblPrefix . "subscribers WHERE email = ?", array($email));
 				$GUID = (hasRows($result)) ?  hc_mysql_result($result,0,2) : '';
 				if($GUID != ''){
 					$link = ($do == 0) ? CalRoot . '/index.php?com=signup&u=' . $GUID : CalRoot . '/index.php?com=signup&d=' . $GUID;
@@ -52,13 +52,13 @@
 		header('Location: ' . CalRoot . $target);
 	} else {
 		$dID = cIn(strip_tags($_POST['dID']));
-		$result = doQuery("SELECT PkID FROM " . HC_TblPrefix . "subscribers WHERE GUID = '" . $dID . "'");
+		$result = DoQuery("SELECT PkID FROM " . HC_TblPrefix . "subscribers WHERE GUID = ?", array($dID));
 		if(hasRows($result)){
 			$dID = hc_mysql_result($result,0,0);
-			doQuery("DELETE FROM " . HC_TblPrefix . "subscribersgroups WHERE UserID = '" . $dID . "'");
-			doQuery("DELETE FROM " . HC_TblPrefix . "subscriberscategories WHERE UserID = '" . $dID . "'");
-			doQuery("DELETE FROM " . HC_TblPrefix . "subscribers WHERE PkID = '" . $dID . "'");
-			doQuery("DELETE FROM " . HC_TblPrefix . "newssubscribers WHERE SubscriberID = '" . $dID . "'");
+			DoQuery("DELETE FROM " . HC_TblPrefix . "subscribersgroups WHERE UserID = ?", array($dID));
+			DoQuery("DELETE FROM " . HC_TblPrefix . "subscriberscategories WHERE UserID = ?", array($dID));
+			DoQuery("DELETE FROM " . HC_TblPrefix . "subscribers WHERE PkID = ?", array($dID));
+			DoQuery("DELETE FROM " . HC_TblPrefix . "newssubscribers WHERE SubscriberID = ?", array($dID));
 		}
 		
 		header('Location: ' . CalRoot . '/index.php?com=signup&t=4');

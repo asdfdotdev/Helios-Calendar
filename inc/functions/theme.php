@@ -98,9 +98,8 @@
 		
 		require_once(HCLANG.'/public/filter.php');
 		
-		$cQuery = (isset($_SESSION['hc_favCat'])) ? " AND c.PkID IN (".cIn($_SESSION['hc_favCat']).") " : '';
-		
-		$result = doQuery("SELECT c.PkID, c.CategoryName, c.ParentID, c.CategoryName as Sort, c2.PkID as Selected
+		$cQuery = (isset($_SESSION['hc_favCat'])) ? " AND c.PkID IN (?) " : '';
+		$query = "SELECT c.PkID, c.CategoryName, c.ParentID, c.CategoryName as Sort, c2.PkID as Selected
 						FROM " . HC_TblPrefix . "categories c 
 							LEFT JOIN " . HC_TblPrefix . "categories c2 ON (c.PkID = c2.PkID ".$cQuery.")
 							LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (c.PkID = ec.CategoryID)
@@ -114,7 +113,15 @@
 							LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (c.PkID = ec.CategoryID)
 						WHERE c.ParentID > 0 AND c.IsActive = 1
 						GROUP BY c.PkID, c.CategoryName, c.ParentID, c2.CategoryName, c3.PkID
-						ORDER BY Sort, ParentID, CategoryName");
+						ORDER BY Sort, ParentID, CategoryName";
+		if ($cQuery == '')
+		{
+			$result = DoQuery($query);
+		}
+		else
+		{
+			$result = DoQuery($query, array(cIn($_SESSION['hc_favCat']),cIn($_SESSION['hc_favCat'])));
+		}
 		if(!hasRows($result))
 			return 0;
 		
@@ -154,7 +161,7 @@
 	 * @return void
 	 */
 	function mini_cal_month($date = ''){
-		global $lID, $favQ1, $favQ2, $hc_cfg, $hc_lang_config;
+		global $lID, $hc_cfg, $hc_lang_config;
 		
 		$year = HCYEAR;
 		$month = HCMONTH;
@@ -170,7 +177,7 @@
 			$stopDay = date("t", mktime(0,0,0,$month,1,$year));
 			$locSaver = $lQuery = $opts = $dow = '';
 			$events = array();
-			$result = doQuery("SELECT DISTINCT e.StartDate
+			$result = DoQuery("SELECT DISTINCT e.StartDate
 							FROM " . HC_TblPrefix . "events e
 								LEFT JOIN " . HC_TblPrefix . "eventcategories ec ON (ec.EventID = e.PkID)
 								LEFT JOIN " . HC_TblPrefix . "locations l ON (e.LocID = l.PkID)
@@ -383,6 +390,7 @@
 	function event_list($type = 0,$eTime = 0){
 		global $hc_cfg, $hc_lang_event;
 		
+		$params = array();
 		$bQuery = $uQuery = '';
 		switch($type){
 			case 0:
@@ -390,19 +398,22 @@
 				$noList = $hc_lang_event['NoBillboard'];
 				$sQuery = 'e.PkID, e.Title, e.StartDate, e.StartTime, e.IsBillboard, e.SeriesID, e.TBD, e.EndTime';
 				$bQuery = ($hc_cfg[13] == 0) ? ' AND e.IsBillboard = 1 ' : '';
-				$oQuery = ' ORDER BY IsBillboard DESC, StartDate, StartTime, Title LIMIT '.$hc_cfg[12];
+				$oQuery = ' ORDER BY IsBillboard DESC, StartDate, StartTime, Title LIMIT ?';
+				$params[] = $hc_cfg[12];
 				break;
 			case 1:
 				$cf = 'list'.SYSDATE.'_1';
 				$noList = $hc_lang_event['NoPopular'];
 				$sQuery = 'e.PkID, e.Title, e.StartDate, e.StartTime, e.IsBillboard, e.SeriesID, e.TBD, e.EndTime, (e.Views / (DATEDIFF(\''.SYSDATE.'\', e.PublishDate)+1)) as Ave';
-				$oQuery = ' ORDER BY AVE DESC, StartDate LIMIT '.$hc_cfg[10];
+				$oQuery = ' ORDER BY AVE DESC, StartDate LIMIT ?';
+				$params[] = $hc_cfg[10];
 				break;
 			case 2:
 				$cf = 'list'.SYSDATE.'_2';
 				$noList = $hc_lang_event['NoNewest'];
 				$sQuery = 'e.PkID, e.Title, e.StartDate, e.StartTime, e.IsBillboard, e.SeriesID, e.TBD, e.EndTime, e.PublishDate';
-				$oQuery = ' ORDER BY PublishDate DESC, StartDate LIMIT '.$hc_cfg[66];
+				$oQuery = ' ORDER BY PublishDate DESC, StartDate LIMIT ?';
+				$params[] = $hc_cfg[66];
 				break;
 			default:
 				return 0;
@@ -423,7 +434,7 @@
 					GROUP BY e.SeriesID, e.PkID, e.Title, e.StartDate, e.StartTime, e.EndTime, e.TBD, e.IsBillboard, e.Views, e.PublishDate" : '';
 			$curDate = $cnt = 0;
 			$showHeader = ($type == 0) ? 0 : 1;
-			$result = doQuery("SELECT ".$sQuery." FROM " . HC_TblPrefix . "events e WHERE e.IsActive = 1 AND e.IsApproved = 1 AND e.StartDate >= '" . cIn(SYSDATE) . "'".$bQuery.$uQuery.$oQuery);
+			$result = DoQuery("SELECT ".$sQuery." FROM " . HC_TblPrefix . "events e WHERE e.IsActive = 1 AND e.IsApproved = 1 AND e.StartDate >= '" . cIn(SYSDATE) . "'".$bQuery.$uQuery.$oQuery, $params);
 			
 			if(!hasRows($result)){
 				echo $noList;

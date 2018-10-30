@@ -16,11 +16,11 @@
 	
 	appInstructions(1, "Merging_Locations", $hc_lang_locations['TitleMerge'], $hc_lang_locations['InstructMerge3']);
 	
-	$result = doQuery("SELECT PkID, Name, IsPublic, 
+	$result = DoQuery("SELECT PkID, Name, IsPublic, 
 						(SELECT COUNT(PkID) FROM " . HC_TblPrefix. "events e WHERE e.StartDate >= '" . cIn(SYSDATE) . "' AND e.LocID = l.PkID) AS EventCnt
 					FROM " . HC_TblPrefix . "locations l
-					WHERE IsActive = 1 AND PkID IN (" . $locIDs . ")
-					ORDER BY IsPublic, Name");
+					WHERE IsActive = 1 AND PkID IN (?)
+					ORDER BY IsPublic, Name", array($locIDs));
 	if(hasRows($result) && check_form_token($token)){
 		echo '
 		<form name="frmMergeLocation" id="frmMergeLocation" method="post" action="'.AdminRoot.'/components/LocationMergeAction.php" onsubmit="return validate();">';

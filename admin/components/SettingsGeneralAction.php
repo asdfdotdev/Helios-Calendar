@@ -97,79 +97,79 @@
 	}
 	
 	if($mailPassChg != '' && $mailPassChg == $mailPassCon && $mailAuth == 1){
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . base64_encode($mailPassChg) . "' WHERE PkID = 76");
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array(base64_encode($mailPassChg), 76));
 	} elseif($mailPassChg != $mailPassCon && $mailAuth == 1){
 		$msgID = 2;
 	} else if($mailAuth == 0){
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '' WHERE PkID = 76");
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '' WHERE PkID = 76");
 	}
 	
 	if($allowsubmit != ''){
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $allowsubmit . "' WHERE PkID = 1");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $defaultApprove . "' WHERE PkID = 3");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $defaultDecline . "' WHERE PkID = 4");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $driving . "' WHERE PkID = 8");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $weather . "' WHERE PkID = 9");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $mostPopular . "' WHERE PkID = 10");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $browsePast . "' WHERE PkID = 11");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $maxShow . "' WHERE PkID = 12;");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $fillMax . "' WHERE PkID = 13;");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $dateFormat . "' WHERE PkID = 14;");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $showTime . "' WHERE PkID = 15;");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $state . "' WHERE PkID = 21");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $calStartDay . "' WHERE PkID = 22");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $timeFormat . "' WHERE PkID = 23");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $popDateFormat . "' WHERE PkID = 24");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $passAge . "' WHERE PkID = 26");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $langType . "' WHERE PkID = 28");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $WYSIWYG . "' WHERE PkID = 30");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $timeInput . "' WHERE PkID = 31");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $capIDs . "' WHERE PkID = 32");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $series . "' WHERE PkID = 33");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $browseType . "' WHERE PkID = 34");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $offsetTimezone . "' WHERE PkID = 35");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $stats . "' WHERE PkID = 44");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $float . "' WHERE PkID = 48");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $dateValid . "' WHERE PkID = 51");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . ($searchWindow - 1) . "' WHERE PkID = 53");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $pubNews . "' WHERE PkID = 54");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $jssMax . "' WHERE PkID = 60");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $capType . "' WHERE PkID = 65");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $maxNew . "' WHERE PkID = 66");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $reCapPub . "' WHERE PkID = 67");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $reCapPriv . "' WHERE PkID = 68");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $locSelect . "' WHERE PkID = 70");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $mailMethod . "' WHERE PkID = 71");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $mailHost . "' WHERE PkID = 72");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $mailPort . "' WHERE PkID = 73");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $mailSecure . "' WHERE PkID = 74");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $mailUser . "' WHERE PkID = 75");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $mailAuth . "' WHERE PkID = 77");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $mailAddress . "' WHERE PkID = 78");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $mailName . "' WHERE PkID = 79");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $loginTries . "' WHERE PkID = 80");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $batchSize . "' WHERE PkID = 81");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $batchDelay . "' WHERE PkID = 82");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $reCapStyle . "' WHERE PkID = 90");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $passStr . "' WHERE PkID = 91");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $mc_select . "' WHERE PkID = 92");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $mc_dow . "' WHERE PkID = 93");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $rssStatus . "' WHERE PkID = 106");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $iCalStatus . "' WHERE PkID = 108");
-		doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $sendPast . "' WHERE PkID = 126");
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($allowsubmit, 1));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($defaultApprove, 3));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($defaultDecline, 4));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($driving, 8));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($weather, 9));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($mostPopular, 10));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($browsePast, 11));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($maxShow, 12));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($fillMax, 13));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($dateFormat, 14));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($showTime, 15));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($state, 21));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($calStartDay, 22));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($timeFormat, 23));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($popDateFormat, 24));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($passAge, 26));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($langType, 28));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($WYSIWYG, 30));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($timeInput, 31));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($capIDs, 32));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($series, 33));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($browseType, 34));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($offsetTimezone, 35));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($stats, 44));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($float, 48));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($dateValid, 51));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array(($searchWindow - 1), 53));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($pubNews, 54));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($jssMax, 60));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($capType, 65));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($maxNew, 66));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($reCapPub, 67));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($reCapPriv, 68));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($locSelect, 70));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($mailMethod, 71));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($mailHost, 72));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($mailPort, 73));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($mailSecure, 74));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($mailUser, 75));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($mailAuth, 77));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($mailAddress, 78));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($mailName, 79));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($loginTries, 80));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($batchSize, 81));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($batchDelay, 82));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($reCapStyle, 90));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($passStr, 91));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($mc_select, 92));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($mc_dow, 93));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($rssStatus, 106));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($iCalStatus, 108));
+		DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($sendPast, 126));
 
 		if($allowsubmit == 1){
-			doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . cIn($pubCat) . "' WHERE PkID = 29");
-			doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . cIn($subLimit) . "' WHERE PkID = 40");
+			DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array(cIn($pubCat), 29));
+			DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array(cIn($subLimit), 40));
 		}
 		if($rssStatus == 1){
-			doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $maxDisplay . "' WHERE PkID = 2");
-			doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $rssTrunc . "' WHERE PkID = 107");
+			DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($maxDisplay, 2));
+			DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($rssTrunc, 107));
 		}
 		if($iCalStatus == 1){
-			doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $iCalMax . "' WHERE PkID = 88");
-			doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $iCalRef . "' WHERE PkID = 89");
-			doQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = '" . $iCalTrunc . "' WHERE PkID = 109");
+			DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($iCalMax, 88));
+			DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($iCalRef, 89));
+			DoQuery("UPDATE " . HC_TblPrefix . "settings SET SettingValue = ? WHERE PkID = ?", array($iCalTrunc, 109));
 		}
 		clearCache();
 

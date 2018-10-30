@@ -52,7 +52,7 @@
 
 		try {
 			$dbc = hc_mysql_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-			$result = doQuery("SELECT VERSION();");
+			$result = DoQuery("SELECT VERSION();");
 			if(hc_mysql_result($result,0,0) != '')
 				$hc_mysql_ver = $_SESSION['hc_mysql_version'] = hc_mysql_result($result,0,0);
 			if(!hc_mysql_abort(hc_mysql_result($result,0,0))){
@@ -113,7 +113,7 @@
 		try {
 			$dbc = hc_mysql_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 			
-			$result = doQuery("SELECT NOW();");
+			$result = DoQuery("SELECT NOW();");
 			if(hc_mysql_result($result,0,0) != ''){
 				$hc_mysql_stamp= hc_mysql_result($result,0,0);
 				$mys_class = 'ok';

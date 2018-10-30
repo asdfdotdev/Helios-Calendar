@@ -5,7 +5,7 @@
  */
 	if(!defined('hcAdmin')){header("HTTP/1.1 403 No Direct Access");exit();}
 	
-	$result = doQuery("SELECT * FROM " . HC_TblPrefix . "adminpermissions WHERE AdminID = '" . cIn($_SESSION['AdminPkID']) . "' and IsActive = 1");
+	$result = DoQuery("SELECT * FROM " . HC_TblPrefix . "adminpermissions WHERE AdminID = ? and IsActive = 1", array(cIn($_SESSION['AdminPkID'])));
 	if(hasRows($result)){
 		$adminEventEdit = hc_mysql_result($result,0,"EventEdit");
 		$adminEventPending = hc_mysql_result($result,0,"EventPending");

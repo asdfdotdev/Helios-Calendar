@@ -8,13 +8,13 @@
 	include(HCLANG.'/admin/newsletter.php');
 
 	$rID = (isset($_GET['rID']) && is_numeric($_GET['rID'])) ? cIn($_GET['rID']) : 0;
-	$result = doQuery("SELECT n.PkID, n.Subject, n.StartDate, n.EndDate, n.TemplateID, n.SentDate, n.MailerID, n.IsArchive, n.Message, 
+	$result = DoQuery("SELECT n.PkID, n.Subject, n.StartDate, n.EndDate, n.TemplateID, n.SentDate, n.MailerID, n.IsArchive, n.Message, 
 						tn.TemplateName, a.FirstName, a.LastName, a.Email, n.SendCount, n.Views, n.ArchViews
 					FROM " . HC_TblPrefix . "mailers m
 					LEFT JOIN " . HC_TblPrefix . "newsletters n ON (m.PkID = n.MailerID)
 					LEFT JOIN " . HC_TblPrefix . "templatesnews tn ON (n.TemplateID = tn.PkID AND tn.IsActive = 1)
 					LEFT JOIN " . HC_TblPrefix . "admin a ON (n.SendingAdminID = a.PkID)
-					WHERE n.PkID = '" . $rID . "' AND n.IsActive = 1");
+					WHERE n.PkID = ? AND n.IsActive = 1", array($rID));
 	if(hasRows($result)){
 		if(hc_mysql_result($result,0,7) == 1)
 			$hc_Side[] = array(CalRoot . '/newsletter/index.php?n=' . md5($rID),'iconEmailOpen.png',$hc_lang_news['ViewArchive1'],1);
