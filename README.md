@@ -4,7 +4,7 @@ The Helios Calendar project was a continuation of the commercial version of Heli
 
 ## About this repo
 
-This archived repository contains branches for every release of Helios Calendar. All old release contain bugs, some include known security issues that were fixed in subsequent releases.
+This archived repository contains branches for every release of Helios Calendar. All old releases contain bugs, some include known security issues that were fixed in subsequent releases.
 
 ## Documentation
 
